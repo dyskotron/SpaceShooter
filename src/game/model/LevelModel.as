@@ -80,7 +80,7 @@ package game.model
             //GENERATE BONUSES
             for (i = 0; i < 30; i++)
             {
-                _levelEvents.push(new SpawnBonusEvent(i * _levelLength / 30, new BonusVO(getRandBonusID(), 10, 10), getRandX(), -GameModel.OUTER_BOUNDS));
+                _levelEvents.push(new SpawnBonusEvent(i * _levelLength / 30, new BonusVO(getRandBonusID(), 30, 30), getRandX(), -GameModel.OUTER_BOUNDS));
             }
 
             //GENERATE OBSTACLES

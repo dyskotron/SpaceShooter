@@ -36,7 +36,7 @@ package game.model
             _speedX = aSpeedX;
             _speedY = aSpeedY;
 
-            _bounds = new Rectangle(_x, _y, _gameObjectVO.width, _gameObjectVO.height)
+            _bounds = new Rectangle(_x - _gameObjectVO.width / 2, _y - _gameObjectVO.height / 2, _gameObjectVO.width, _gameObjectVO.height)
         }
 
         public function get x(): Number
@@ -71,8 +71,8 @@ package game.model
 
         public function update(aDeltaTime: int): void
         {
-            _bounds.x = _x;
-            _bounds.y = _y;
+            _bounds.x = _x - _bounds.width / 2;
+            _bounds.y = _y - _bounds.height / 2;
         }
 
         public function destroy(): void
