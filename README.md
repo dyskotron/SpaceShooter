@@ -30,7 +30,7 @@ Next Steps
 
 I haven’t implemented all stuff i wanted so ill just briefly describe what are my tought and ideas what could be added or done better.
 
-1)Performance security wise
+1)Performance / security wise
 * I would definitely consider pooling gameObjets and its views, at least ones that are created and destroyed often like bullets for example.
 * I would inline more stuffin main update functions, nicely organized object oriented code, break down to objects and method is nicely readible and easier to manage, but calling Method is expensive and in nested loops happening in each frame, it can make a difference. I would also implement and test [Inline] meta tags introduced in ASC 2.0
 * As Game is whole on client side and there is no server which could check correct game state and if data going to leaderboards are correct, it would make sense to protect crucial data in memory which can be easily changed outside of game, That can be done by implemetning clas which would store value twice, once as normal variable and secondly as some hash of that value, when game vould try to get this variable it would check if these values match, and react accordingly if not(stop sending leaderboards data, ban user etc) Its not laserproof but it helps again basic hacking.
@@ -45,3 +45,6 @@ I haven’t implemented all stuff i wanted so ill just briefly describe what are
 * Enemies should implement finite state machine which would make them smarter changing their behaviour and allowing easier creating of different type of enemies
 * More types of all game objects to add more variety, not just enemies but obstacles, weapons, bonuses and oter stuff would be nice
 * Other features i prepared but did not implemented as showing on screen messages based on events in game, adding more game events like waiting until whole screen will be cleared before continuing in level, definiteley Boss on end of the level, and don’t let me even start about things out side of core game loop:)
+
+4)Known bugs
+* there is sometimes weird behavior of collisions, and i think its not just about not exact rectangular bounds collision check, i would start with adding debug view layer which i could enable in debug mode, and see what is happening in “physics” layer, and i would also check if everything in Models update method is update correctly and there is not something wrong happening in nested loops
