@@ -46,7 +46,7 @@ package game.model.gameObject
 
         //stats shown on gui
         private var _state: uint;
-        private var _lives: uint = 3;
+        private var _lives: int = 3;
         private var _score: Number = 0;
         private var _weaponPower: uint = 1;
 
@@ -172,7 +172,7 @@ package game.model.gameObject
 
         private function die(): void
         {
-            _lives--;
+            _lives = Math.max(--_lives, 0);
             _weaponPower = Math.max(Math.floor(_weaponPower / 2), WEAPON_MIN);
 
             if (_lives > 0)
