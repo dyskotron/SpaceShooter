@@ -29,6 +29,9 @@ package game.controller
         private var previousFrameTime: int;
         private var deltaTime: int;
 
+        /**
+         * Class which controls core game loop, it dispatches physics and view update signals
+         */
         public function GameLoopDispatcher()
         {
 
