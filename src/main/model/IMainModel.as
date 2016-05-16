@@ -8,6 +8,6 @@ package main.model
 
         function getPlayerName(aPlayerID: uint): String;
 
-        function setPlayerName(aPlayerID: uint, aName: String): String;
+        function setPlayerName(aPlayerID: uint, aName: String): void;
     }
 }

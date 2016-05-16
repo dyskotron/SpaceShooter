@@ -1,6 +1,9 @@
 package main.model
 {
+    import flash.net.SharedObject;
     import flash.utils.Dictionary;
+
+    import game.model.GameModel;
 
     import org.robotlegs.mvcs.Actor;
 
@@ -9,6 +12,7 @@ package main.model
 
         private var _numPLayers: uint;
         private var _playerNames: Dictionary;
+        private var _playerNamesSO: SharedObject;
 
         /**
          * Model for storing main view properties and settings
@@ -16,6 +20,15 @@ package main.model
         public function MainModel()
         {
             _playerNames = new Dictionary();
+            _playerNamesSO = SharedObject.getLocal("playerNames");
+
+            if (_playerNamesSO.size > 0)
+            {
+                for (var i: int = 0; i < GameModel.MAX_PLAYERS; i++)
+                {
+                    _playerNames[i] = _playerNamesSO.data[i];
+                }
+            }
         }
 
         public function get numPlayers(): uint
@@ -33,9 +46,12 @@ package main.model
             return _playerNames[aPlayerID];
         }
 
-        public function setPlayerName(aPlayerID: uint, aName: String): String
+        public function setPlayerName(aPlayerID: uint, aName: String): void
         {
-            return _playerNames[aPlayerID] = aName;
+            _playerNamesSO.data[aPlayerID] = aName;
+            _playerNamesSO.flush();
+
+            _playerNames[aPlayerID] = aName;
         }
 
 
