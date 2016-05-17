@@ -295,7 +295,7 @@ package game.model
                     {
                         playerGO = _players[iC];
 
-                        if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.intersects(enemyBulletGO.bounds))
+                        if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.contains(enemyBulletGO.x, enemyBulletGO.y))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                             //decrease hp
@@ -332,9 +332,8 @@ package game.model
                     //enemy collisions
                     for (iC = 0; iC < _enemies.length; iC++)
                     {
-
                         enemyGO = _enemies[iC];
-                        if (enemyGO.bounds.intersects(playerBulletGO.bounds))
+                        if (enemyGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                             //decrease hp
@@ -362,7 +361,7 @@ package game.model
                     for (iC = 0; iC < _obstacles.length; iC++)
                     {
                         obstacleGO = _obstacles[iC];
-                        if (obstacleGO.bounds.intersects(playerBulletGO.bounds))
+                        if (obstacleGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                             //decrease hp

@@ -10,7 +10,7 @@ package game.view.gameObjectViews
             super(texture);
 
             scale = 0.5;
-            pivotX = height / 5;
+            pivotY = 0;
         }
     }
 }
