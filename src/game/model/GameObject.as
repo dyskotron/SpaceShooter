@@ -79,5 +79,10 @@ package game.model
         {
 
         }
+
+        public function get gameObjectVO(): GameObjectVO
+        {
+            return _gameObjectVO;
+        }
     }
 }

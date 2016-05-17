@@ -136,6 +136,11 @@ package game.view
             aGameModel.gameObjectHitSignal.add(gameObjectHitHandler);
 
             Mouse.hide();
+
+            CONFIG::debug {
+                addChild(new DebugGameView());
+                Mouse.show();
+            }
         }
 
         public function showResults(): void

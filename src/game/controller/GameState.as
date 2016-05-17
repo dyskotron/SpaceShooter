@@ -19,6 +19,8 @@ package game.controller
     import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.def.ObstacleDefs;
     import game.model.gameObject.def.PlayerShipDefs;
+    import game.view.DebugGameMediator;
+    import game.view.DebugGameView;
     import game.view.GameMediator;
     import game.view.GameView;
     import game.view.GuiMediator;
@@ -88,6 +90,10 @@ package game.controller
             mediatorMap.mapView(GuiView, GuiMediator);
             mediatorMap.mapView(ResultsView, ResultsMediator);
 
+            CONFIG::debug {
+                mediatorMap.mapView(DebugGameView, DebugGameMediator);
+            }
+
             //change scene
             sceneReadySignal.add(handleSceneReady);
             switchSceneSignal.dispatch(new SwitchSceneVO(SceneID.GAME));
@@ -122,6 +128,10 @@ package game.controller
             mediatorMap.unmapView(GameView);
             mediatorMap.unmapView(GuiView);
             mediatorMap.unmapView(ResultsView);
+
+            CONFIG::debug {
+                mediatorMap.unmapView(DebugGameView);
+            }
 
             Mouse.show();
 
