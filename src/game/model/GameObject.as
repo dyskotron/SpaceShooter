@@ -6,7 +6,7 @@ package game.model
 
     public class GameObject
     {
-        protected var _gameObjectVO: GameObjectVO;
+        private var _gameObjectVO: GameObjectVO;
 
         protected var _x: Number = 0;
         protected var _y: Number = 0;
@@ -37,6 +37,11 @@ package game.model
             _speedY = aSpeedY;
 
             _bounds = new Rectangle(_x - _gameObjectVO.width / 2, _y - _gameObjectVO.height / 2, _gameObjectVO.width, _gameObjectVO.height)
+        }
+
+        public function get gameObjectVO(): GameObjectVO
+        {
+            return _gameObjectVO;
         }
 
         public function get x(): Number
@@ -78,11 +83,6 @@ package game.model
         public function destroy(): void
         {
 
-        }
-
-        public function get gameObjectVO(): GameObjectVO
-        {
-            return _gameObjectVO;
         }
     }
 }

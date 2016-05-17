@@ -5,11 +5,14 @@ package game.model.gameObject
     public class ObstacleGO extends HittableGO
     {
         private var _speedRotation: Number;
+        private var _obstacleVO: ObstacleVO;
 
         public function ObstacleGO(aObstacleVO: ObstacleVO, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0, aSpeedRotation: Number = 0)
         {
-            _speedRotation = aSpeedRotation;
             super(aObstacleVO, aX, aY, aSpeedX, aSpeedY);
+
+            _speedRotation = aSpeedRotation;
+            _obstacleVO = aObstacleVO;
         }
 
         override public function update(aDeltaTime: int): void
@@ -23,7 +26,7 @@ package game.model.gameObject
 
         public function get obstacleVO(): ObstacleVO
         {
-            return ObstacleVO(_gameObjectVO);
+            return _obstacleVO;
         }
     }
 }

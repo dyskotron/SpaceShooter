@@ -4,14 +4,18 @@ package game.model.gameObject
 
     public class BonusGO extends SimpleMovingGO
     {
-        public function BonusGO(abonusVO: BonusVO, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0)
+        private var _bonusVO: BonusVO;
+
+        public function BonusGO(aBonusVO: BonusVO, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0)
         {
-            super(abonusVO, aX, aY, aSpeedX, aSpeedY);
+            super(aBonusVO, aX, aY, aSpeedX, aSpeedY);
+
+            _bonusVO = aBonusVO;
         }
 
         public function get bonusVO(): BonusVO
         {
-            return BonusVO(_gameObjectVO);
+            return _bonusVO;
         }
     }
 }

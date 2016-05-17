@@ -39,6 +39,7 @@ package game.model.gameObject
         public var controlY: Number = 0;
 
         private var _playerID: uint;
+        private var _playerShipVO: PlayerShipVO;
         private var _shootTimer: Timer;
         private var _statsUpdateSignal: Signal;
         private var _changeStateSignal: Signal;
@@ -50,11 +51,13 @@ package game.model.gameObject
         private var _score: Number = 0;
         private var _weaponPower: uint = 1;
 
+
         public function PlayerShipGO(aPLayerID: uint, aPlayerShipVO: PlayerShipVO): void
         {
             super(aPlayerShipVO, 0, 0, 0, 0);
 
             _playerID = aPLayerID;
+            _playerShipVO = aPlayerShipVO;
             _shootTimer = new Timer(100);
             _shootTimer.addEventListener(TimerEvent.TIMER, shoot, false, 0, true);
             _statsUpdateSignal = new Signal();
@@ -64,7 +67,7 @@ package game.model.gameObject
 
         public function get playerShipVO(): PlayerShipVO
         {
-            return PlayerShipVO(_gameObjectVO);
+            return _playerShipVO;
         }
 
         public function get playerID(): uint

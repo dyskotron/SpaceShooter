@@ -13,6 +13,7 @@ package game.model.gameObject
         private var _isShooting: Boolean;
         protected var _nextShotTime: Number = 0;
         private var _shootInterval: uint = 200;
+        private var _shootingVO: ShootingVO;
 
         /**
          * Base class for all game objects which are able to shoot
@@ -26,8 +27,14 @@ package game.model.gameObject
         {
             super(aShootingVO, aX, aY, aSpeedX, aSpeedY);
 
+            _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
             _shootInterval = aShootingVO.shootInterval;
+        }
+
+        public function get shootingVO(): ShootingVO
+        {
+            return _shootingVO;
         }
 
         public function get shootSignal(): Signal

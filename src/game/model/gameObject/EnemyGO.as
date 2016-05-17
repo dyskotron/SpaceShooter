@@ -26,19 +26,22 @@ package game.model.gameObject
          */
         public var controlX: Number = 0;
         public var controlY: Number = 0;
+        private var _enemyVO: EnemyVO;
 
         public function EnemyGO(aEnemyVO: EnemyVO, aX: Number, aY: Number, aPlayerGO: PlayerShipGO): void
         {
             super(aEnemyVO, aX, aY, 0, 0);
 
+            _enemyVO = aEnemyVO;
             controlX = aPlayerGO.x;
             controlY = aPlayerGO.y;
+
             startShoot();
         }
 
         public function get enemyVO(): EnemyVO
         {
-            return EnemyVO(_gameObjectVO);
+            return _enemyVO;
         }
 
         override public function update(aDeltaTime: int): void

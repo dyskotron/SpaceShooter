@@ -6,16 +6,19 @@ package game.model.gameObject
     public class HittableGO extends GameObject
     {
         private var _hp: int;
+        private var _hittableVO: HittableVO;
 
         public function HittableGO(aHittableVO: HittableVO, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0)
         {
-            _hp = aHittableVO.initialHP;
             super(aHittableVO, aX, aY, aSpeedX, aSpeedY);
+
+            _hp = aHittableVO.initialHP;
+            _hittableVO = aHittableVO;
         }
 
-        public function hit(aDamage: Number): void
+        public function get hittableVO(): HittableVO
         {
-            _hp -= aDamage;
+            return _hittableVO;
         }
 
         public function get hp(): int
@@ -23,16 +26,19 @@ package game.model.gameObject
             return _hp;
         }
 
+        public function hit(aDamage: Number): void
+        {
+            _hp -= aDamage;
+        }
+
         public function setFullHealth(): void
         {
-            _hp = HittableVO(_gameObjectVO).initialHP;
+            _hp = HittableVO(gameObjectVO).initialHP;
         }
 
         public function addHitPoints(aValue: uint): void
         {
-            _hp = Math.min(_hp + aValue, HittableVO(_gameObjectVO).initialHP);
+            _hp = Math.min(_hp + aValue, _hittableVO.initialHP);
         }
-
-
     }
 }
