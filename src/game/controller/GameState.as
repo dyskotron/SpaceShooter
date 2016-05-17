@@ -9,8 +9,8 @@ package game.controller
     import game.controller.playerControl.TouchController;
     import game.model.GameModel;
     import game.model.IGameModel;
-    import game.model.ILevelModel;
-    import game.model.LevelModel;
+    import game.model.ILevelProvider;
+    import game.model.SerialLevelGenerator;
     import game.model.gameObject.def.BulletDefs;
     import game.model.gameObject.def.EnemyDefs;
     import game.model.gameObject.def.IBulletDefs;
@@ -77,7 +77,7 @@ package game.controller
 
             injector.mapSingleton(TouchController);
             injector.mapSingleton(KeyController);
-            injector.mapSingletonOf(ILevelModel, LevelModel);
+            injector.mapSingletonOf(ILevelProvider, SerialLevelGenerator);
 
             //game model
             gameModel = new GameModel();
@@ -120,7 +120,7 @@ package game.controller
 
             injector.unmap(TouchController);
             injector.unmap(KeyController);
-            injector.unmap(ILevelModel);
+            injector.unmap(ILevelProvider);
 
             injector.unmap(IGameModel);
 

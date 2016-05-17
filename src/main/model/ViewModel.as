@@ -6,9 +6,13 @@ package main.model
 
     public class ViewModel extends Actor implements IViewModel
     {
+        private static const SPAWN_BOUNDS: Number = 0.1;
+
         private var _stageWidth: Number;
         private var _stageHeight: Number;
         private var _stage: Stage;
+
+        private var _spawnBounds: Number;
 
         /**
          * Model for storing main view properties and settings
@@ -43,11 +47,17 @@ package main.model
             return _stageHeight;
         }
 
+        public function get spawnBounds(): Number
+        {
+            return _spawnBounds;
+        }
+
         public function init(aStage: Stage): void
         {
             _stageWidth = aStage.stageWidth;
             _stageHeight = aStage.stageHeight;
             _stage = aStage;
+            _spawnBounds = aStage.stageWidth * SPAWN_BOUNDS;
         }
     }
 }

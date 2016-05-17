@@ -5,10 +5,9 @@ package game.model.levelModel
         public static const ID_SPAWN_ENEMY: uint = 0;
         public static const ID_SPAWN_BONUS: uint = 1;
         public static const ID_SPAWN_OBSTACLE: uint = 2;
-        public static const ID_PAUSE: uint = 3;
+        public static const ID_WAIT_FOR_CLEAR: uint = 3;
         public static const ID_END: uint = 4;
-        public static const ID_PLAYER_MESSAGE: uint = 5;
-        public static const ID_LEVEL_MESSAGE: uint = 6;
+        public static const ID_MESSAGE: uint = 5;
 
 
         private var _id: uint;

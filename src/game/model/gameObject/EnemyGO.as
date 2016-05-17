@@ -69,7 +69,7 @@ package game.model.gameObject
         override protected function shoot(): void
         {
             var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
-            var bulletVO: BulletVO = new BulletVO(BulletType.LASER, 10, 4, 10);
+            var bulletVO: BulletVO = new BulletVO(BulletType.LASER, 15, 4, 10);
 
             bullets.push(new BulletGO(-1, bulletVO, x + 8, y, 0, 0.6));
             bullets.push(new BulletGO(-1, bulletVO, x - 8, y, 0, 0.6));

@@ -20,7 +20,6 @@ package
 
         /**
          * TODO / IDEAS:
-         * - split level model to model & generator
          * - add msg / alerts - player based or level based
          * - count size of GameObjects in *Defs from xml, not textures
          * - main app states could be better connected to its own views - always switching scene as last thing in transition in
@@ -39,7 +38,7 @@ package
         public function SpaceShooter()
         {
             stage.align = StageAlign.TOP;
-            stage.scaleMode = StageScaleMode.NO_SCALE;
+            stage.scaleMode = StageScaleMode.SHOW_ALL;
 
             this.loaderInfo.addEventListener(Event.COMPLETE, completeHandler);
 

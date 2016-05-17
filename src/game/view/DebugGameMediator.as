@@ -4,9 +4,9 @@ package game.view
     import game.controller.ViewUpdateSignal;
     import game.model.IGameModel;
 
-    import main.view.SceneViewMediator;
+    import org.robotlegs.mvcs.StarlingMediator;
 
-    public class DebugGameMediator extends SceneViewMediator
+    public class DebugGameMediator extends StarlingMediator
     {
         [Inject]
         public var gameModel: IGameModel;

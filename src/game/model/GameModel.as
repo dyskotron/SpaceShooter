@@ -62,10 +62,12 @@ package game.model
         public var mainModel: IMainModel;
 
         [Inject]
-        public var levelModel: ILevelModel;
+        public var levelProvider: ILevelProvider;
 
         [Inject]
         public var highScoreService: IHighScoreService;
+
+        private var _levelModel: ILevelModel;
 
         private var _playerBullets: Vector.<BulletGO>;
         private var _enemyBullets: Vector.<BulletGO>;
@@ -212,11 +214,12 @@ package game.model
             touchController.actionSwitchSignal.add(actionSwitchHandler);
             keyController.actionSwitchSignal.add(actionSwitchHandler);
 
-            levelModel.levelEventSignal.add(levelEventHandler);
+            _levelModel = levelProvider.getLevel(0);
+            _levelModel.levelEventSignal.add(levelEventHandler);
 
             _state = STATE_MOVING;
 
-            levelModel.init();
+
         }
 
         public function destroy(): void
@@ -262,9 +265,15 @@ package game.model
             var obstacleGO: ObstacleGO;
 
             //UPDATE LEVEL
-            if (_state == STATE_MOVING)
+            switch (_state)
             {
-                levelModel.progress(aDeltaTime);
+                case STATE_MOVING:
+                    _levelModel.progress(aDeltaTime);
+                    break;
+                case STATE_WAIT_FOR_CLEAR:
+                    if (_enemies.length + _obstacles.length == 0)
+                        _state = STATE_MOVING;
+                    break;
             }
 
             //UPDATE ENEMIES
@@ -515,12 +524,11 @@ package game.model
                     _obstacleSpawnedSignal.dispatch(obstacle);
                     break;
 
-                case LevelEvent.ID_PAUSE:
-                    trace("_MO_", this, "pause until screen cleared");
+                case LevelEvent.ID_WAIT_FOR_CLEAR:
+                    _state = STATE_WAIT_FOR_CLEAR;
                     break;
 
                 case LevelEvent.ID_END:
-                    trace("_MO_", this, "end of level");
                     endGame(true);
                     break;
             }

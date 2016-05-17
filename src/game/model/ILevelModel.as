@@ -6,8 +6,6 @@ package game.model
     {
         function get levelEventSignal(): Signal;
 
-        function init(): void;
-
         function progress(aDeltaTime: int): void;
     }
 }

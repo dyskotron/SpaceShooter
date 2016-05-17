@@ -14,6 +14,8 @@ package main.model
 
         function get stageHeight(): Number;
 
+        function get spawnBounds(): Number
+
         function init(aStage: Stage): void;
     }
 }
