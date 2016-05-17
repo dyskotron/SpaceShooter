@@ -124,7 +124,6 @@ package game.view
                 var guiView: GuiView = new GuiView(i, aViewModel.stageWidth / 2, 40);
                 _guiLayer.addChild(guiView);
                 guiView.x = i * aViewModel.stageWidth / 2;
-                guiView.y = aViewModel.stageHeight - guiView.height;
                 _guiViews.push(guiView);
             }
 

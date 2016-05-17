@@ -22,10 +22,9 @@ package
          * TODO / IDEAS:
          * - split level model to model & generator
          * - add msg / alerts - player based or level based
-         * - wrong collision bug
          * - count size of GameObjects in *Defs from xml, not textures
          * - main app states could be better connected to its own views - always switching scene as last thing in transition in
-         * and waiting when it is ready
+         * and waiting when it is ready  + anim in/out for scenes + ViewScene mediator should call destroy on views instead of MainView
          * - consider testing if dispatching one signal with vector of shots or dispatching signals for individual shots is faster
          *
          * NEXT STEPS:
