@@ -32,14 +32,10 @@ I haven’t implemented all stuff i wanted so ill just briefly describe what are
 * Size for GameObject’s bounds is taken from texture, as simple fast solution it works, and it does not affect performance that much as this is done before game starts, but nicer way of doing this would be taking values directly from sprite sheet’s XML.
 
 ###Architecture
-* Splitting LevelModel, to just Level model and class responsible for creating it, it can be mostly random generated like its now, or there could be even some Level editor, exporting json or binary data(for smaller size, with cost of no human redability, which can be fixed easily by creating some viewer for data i it)
-* Adding Class which would represent weapon, it would definitely make sens to move firing logic to separate class, which would make couple of things easier, type of guns, more slots for guns of different types for a ship etc.
+* Adding Class which would represent weapon, it would definitely make sense to move firing logic to separate class, which would make couple of things easier, type of guns, more slots for guns of different types for a ship etc.
 
 ###From Game design point of view - making game more fun to play
 * Collisions - collisions are really simple rectangular bounds check, there should be pixel perfect collision based on GameObject’s BitmapData as this is really CPU expensive, it should be placed inside of existing check,not instead, to avoid doing this for all objects in every game loop.
 * Enemies should implement finite state machine which would make them smarter changing their behaviour and allowing easier creating of different type of enemies
 * More types of all game objects to add more variety, not just enemies but obstacles, weapons, bonuses and oter stuff would be nice
 * Other features i prepared but did not implemented as showing on screen messages based on events in game, adding more game events like waiting until whole screen will be cleared before continuing in level, definiteley Boss on end of the level, and don’t let me even start about things out side of core game loop:)
-
-###Known bugs
-* there is sometimes weird behavior of collisions, and i think its not just about not exact rectangular bounds collision check, i would start with adding debug view layer which i could enable in debug mode, and see what is happening in “physics” layer, and i would also check if everything in Models update method is update correctly and there is not something wrong happening in nested loops

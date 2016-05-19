@@ -21,7 +21,7 @@ package highScores.model
 
         public function FloxService()
         {
-            Flox.init("CxMB90Cjm7HGbnQI", "MFxnMZD3B3iLEZ0L", "0.9");
+
         }
 
         public function saveScore(aPlayerName: String, aScore: Number): void

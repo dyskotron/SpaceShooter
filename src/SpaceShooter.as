@@ -2,6 +2,8 @@ package
 {
 
 
+    import com.gamua.flox.Flox;
+
     import flash.display.Sprite;
     import flash.display.StageAlign;
     import flash.display.StageScaleMode;
@@ -37,6 +39,8 @@ package
 
         public function SpaceShooter()
         {
+            Flox.init("CxMB90Cjm7HGbnQI", "MFxnMZD3B3iLEZ0L", CONFIG::version);
+
             stage.align = StageAlign.TOP;
             stage.scaleMode = StageScaleMode.SHOW_ALL;
 

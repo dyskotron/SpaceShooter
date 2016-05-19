@@ -13,7 +13,7 @@
         </dependencies>
         <compiler-options>
           <map>
-            <entry key="compiler.define" value="CONFIG::debug&#9;true" />
+            <entry key="compiler.define" value="CONFIG::debug&#9;true&#10;CONFIG::version&#9;&quot;0.2.0d&quot;" />
           </map>
           <option name="additionalOptions" value="-swf-version=21" />
         </compiler-options>
@@ -70,7 +70,7 @@
         <compiler-options>
           <map>
             <entry key="compiler.debug.swf" value="false" />
-            <entry key="compiler.define" value="CONFIG::debug&#9;false" />
+            <entry key="compiler.define" value="CONFIG::debug&#9;false&#10;CONFIG::version&#9;&quot;0.2.0&quot;" />
           </map>
           <option name="additionalOptions" value="-swf-version=21" />
         </compiler-options>
