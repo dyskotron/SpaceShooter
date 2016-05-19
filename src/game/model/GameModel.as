@@ -246,6 +246,8 @@ package game.model
                     highScoreService.saveScore(mainModel.getPlayerName(i), _players[i].score);
                 _players[i].endShoot();
             }
+
+            //_state = STATE_ENDED;
         }
 
         //region --------------------------------- SIGNAL HANDLERS ---------------------------------
