@@ -11,6 +11,7 @@ package game.model
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.constants.PlayerShipType;
+    import game.model.gameObject.enemy.ITarget;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -504,7 +505,8 @@ package game.model
                 case LevelEvent.ID_SPAWN_ENEMY:
                     var enemyEvent: SpawnEnemyEvent = SpawnEnemyEvent(aLevelEvent);
                     var enemyVO: EnemyVO = enemyEvent.aEnemyVO;
-                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.x, enemyEvent.y, _players[0]);
+                    var target: ITarget = enemyEvent.target ? enemyEvent.target : getRandomPlayer();
+                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.x, enemyEvent.y, target);
                     enemy.shootSignal.add(enemyShootHandler);
                     _enemies.push(enemy);
                     _enemySpawnedSignal.dispatch(enemy);
@@ -534,6 +536,11 @@ package game.model
                     endGame(true);
                     break;
             }
+        }
+
+        private function getRandomPlayer(): PlayerShipGO
+        {
+            return _players[Math.floor(Math.random() * _players.length)];
         }
 
         private function playerShootHandler(aBullets: Vector.<BulletGO>): void

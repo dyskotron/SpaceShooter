@@ -5,6 +5,7 @@ package game.model
     import game.model.gameObject.constants.ObstacleType;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
+    import game.model.gameObject.enemy.Target;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -20,6 +21,7 @@ package game.model
     public class SerialLevelGenerator extends Actor implements ILevelProvider
     {
         private static const RANDOM: int = -1;
+        private static const RANDOM_EACH: int = -2;
 
         private static const MAX_HP_PER_ROW: int = 400;
 
@@ -45,6 +47,7 @@ package game.model
         private var _levelEvents: Vector.<LevelEvent>;
         private var _currentDistance: uint = 0;
         private var _levelEnded: Boolean;
+        private var screenCenter: Target;
 
         /**
          * Generates LevelModel
@@ -74,13 +77,18 @@ package game.model
 
         private function createLevel(): void
         {
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addDelay(3000);
+            screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
 
+            addFightersRows(1500, RANDOM_EACH, RANDOM, 1200);
+
+            return;
+
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            //addDelay(3000);
 
             addBonus();
             addBonus();
@@ -153,7 +161,7 @@ package game.model
             //addBoss
         }
 
-        private function addFightersRow(aTotalHP: int = 300, aFighterType: int = RANDOM, aDelayAfter: int = 1000): void
+        private function addFightersRow(aTotalHP: int = 300, aFighterType: int = RANDOM, aDestinationY: int = 0, aDelayAfter: int = 1000): void
         {
             if (_levelEnded)
                 throw new Error(LEVEL_END_ERROR);
@@ -161,8 +169,12 @@ package game.model
             if (aFighterType == RANDOM)
                 aFighterType = getRandFighterID();
 
+            if (aDestinationY == 0)
+                aDestinationY = viewModel.gameHeight / 5 * 4;
+
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aFighterType);
             var aCount: int = Math.floor(aTotalHP / enemyVO.initialHP);
+            var target: Target = new Target(0, aDestinationY);
             var xGap: Number;
             var x: Number;
 
@@ -170,26 +182,28 @@ package game.model
             {
                 xGap = (viewModel.gameWidth - 2 * viewModel.spawnBounds) / aCount;
                 x = viewModel.spawnBounds + xGap / 2 + i * xGap;
-                _levelEvents.push(new SpawnEnemyEvent(_currentDistance, enemyVO, x, -GameModel.OUTER_BOUNDS));
+                _levelEvents.push(new SpawnEnemyEvent(enemyVO, target, _currentDistance, x, -GameModel.OUTER_BOUNDS));
             }
 
             addDelay(aDelayAfter);
         }
 
-        private function addFightersRows(aTotalHP: int = 1000, aFighterType: int = RANDOM, aRowCount: int = RANDOM, aRowDistance: int = RANDOM, aDelayAfter: int = 1000): void
+        private function addFightersRows(aTotalHP: int = 1000, aFighterType: int = RANDOM, aRowCount: int = RANDOM, aRowsDelay: int = 600, aDelayAfter: int = 1000): void
         {
             if (_levelEnded)
                 throw new Error(LEVEL_END_ERROR);
 
             if (aFighterType == RANDOM)
                 aFighterType = getRandFighterID();
+            else if (aFighterType == RANDOM_EACH)
+                aFighterType = RANDOM;
 
             if (aRowCount == RANDOM)
             {
                 aRowCount = getRandInt(2, 5);
 
                 if (aTotalHP / aRowCount > MAX_HP_PER_ROW)
-                    aRowCount = Math.ceil(aTotalHP / MAX_HP_PER_ROW)
+                    aRowCount = Math.ceil(aTotalHP / MAX_HP_PER_ROW);
 
             }
 
@@ -197,7 +211,7 @@ package game.model
 
             for (var i: int = 0; i < aRowCount; i++)
             {
-                addFightersRow(aTotalHP, aFighterType, 600);
+                addFightersRow(aTotalHP, aFighterType, (viewModel.gameHeight * 0.8) / (aRowCount + 1) * (aRowCount - i), 600);
             }
 
             addDelay(aDelayAfter);

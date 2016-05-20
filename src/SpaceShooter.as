@@ -29,10 +29,10 @@ package
          * - consider testing if dispatching one signal with vector of shots or dispatching signals for individual shots is faster
          *
          * NEXT STEPS:
-         * - pooling
-         * - pixel perfect collision or more rectangles for one gameObject which would be closer gameObject's shape
-         * - parsing definition of game objects and levels from json(or better binary) which could be created in level designer
          * - fsm for smarter enemies
+         * - pooling
+         * - better collision
+         * - parsing definition of game objects and levels from json(or better binary) which could be created in level designer
          * - mem values protection
          */
         private var _starling: Starling;
@@ -47,7 +47,9 @@ package
             this.loaderInfo.addEventListener(Event.COMPLETE, completeHandler);
 
             CONFIG::debug {
-                addChild(new Stats());
+                var stats: Stats = new Stats();
+                addChild(stats);
+                stats.x = stage.stageWidth - stats.width;
             }
         }
 

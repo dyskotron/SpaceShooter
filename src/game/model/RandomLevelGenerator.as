@@ -5,6 +5,8 @@ package game.model
     import game.model.gameObject.constants.ObstacleType;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
+    import game.model.gameObject.enemy.ITarget;
+    import game.model.gameObject.enemy.Target;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -39,6 +41,7 @@ package game.model
         private var randomBonusID: Vector.<uint>;
         private var randomObstacleID: Vector.<uint>;
 
+        private var screenCenter: ITarget;
 
         /**
          * Generates LevelModel
@@ -46,6 +49,7 @@ package game.model
         public function RandomLevelGenerator()
         {
             initRadomValues();
+            screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
         }
 
         public function getLevel(aDiffulcity: uint = 0): LevelModel
@@ -118,7 +122,7 @@ package game.model
                 xGap = (viewModel.gameWidth - 2 * SPAWN_BOUNDS) / aCount;
                 x = SPAWN_BOUNDS + xGap / 2 + i * xGap;
                 y = -GameModel.OUTER_BOUNDS;
-                aLevelEvents.push(new SpawnEnemyEvent(distance, enemyVO, x, y));
+                aLevelEvents.push(new SpawnEnemyEvent(enemyVO, screenCenter, distance, x, y));
             }
         }
 
@@ -149,7 +153,7 @@ package game.model
                     xGap = (viewModel.gameWidth - 2 * SPAWN_BOUNDS) / aCount;
                     x = SPAWN_BOUNDS + xGap / 2 + i * xGap;
                     y = -GameModel.OUTER_BOUNDS;
-                    aLevelEvents.push(new SpawnEnemyEvent(distance + LevelModel.SPEED / 3 * iRow, enemyVO, x, y));
+                    aLevelEvents.push(new SpawnEnemyEvent(enemyVO, screenCenter, distance + LevelModel.SPEED / 3 * iRow, x, y));
                 }
             }
         }

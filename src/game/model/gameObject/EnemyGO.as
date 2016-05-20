@@ -10,6 +10,9 @@ package game.model.gameObject
     import flash.utils.getTimer;
 
     import game.model.gameObject.constants.BulletType;
+    import game.model.gameObject.enemy.EnemyFSMx;
+    import game.model.gameObject.enemy.ITarget;
+    import game.model.gameObject.enemy.state.GetToYposState;
     import game.model.gameObject.vo.BulletVO;
     import game.model.gameObject.vo.EnemyVO;
 
@@ -19,22 +22,18 @@ package game.model.gameObject
         public static const MAX_SPEED: Number = 200;
         public static const MIN_SPEED: Number = 100;
 
-        /**
-         * Coordinates where player ship is heading to.
-         * it stores mouse position for mouse controller
-         * or emulates "keyboard position" translated from keys pressed for keyboard controller
-         */
-        public var controlX: Number = 0;
-        public var controlY: Number = 0;
         private var _enemyVO: EnemyVO;
 
-        public function EnemyGO(aEnemyVO: EnemyVO, aX: Number, aY: Number, aPlayerGO: PlayerShipGO): void
+        private var _fsm: EnemyFSMx;
+
+        public function EnemyGO(aEnemyVO: EnemyVO, aX: Number, aY: Number, aTarget: ITarget): void
         {
             super(aEnemyVO, aX, aY, 0, 0);
 
             _enemyVO = aEnemyVO;
-            controlX = aPlayerGO.x;
-            controlY = aPlayerGO.y;
+
+            _fsm = new EnemyFSMx(this, aTarget);
+            _fsm.pushState(new GetToYposState());
 
             startShoot();
         }
@@ -44,12 +43,19 @@ package game.model.gameObject
             return _enemyVO;
         }
 
+        public function get maxSpeed(): Number
+        {
+            return MAX_SPEED;
+        }
+
+        public function get minSpeed(): Number
+        {
+            return MIN_SPEED;
+        }
+
         override public function update(aDeltaTime: int): void
         {
-            //_x += Math.min((controlX - _x), MAX_SPEED * aDeltaTime / 1000);
-            //_y += MathUtil.clamp((controlY - _y), MIN_SPEED * aDeltaTime / 1000, MAX_SPEED * aDeltaTime / 1000);
-
-            _y += MAX_SPEED * aDeltaTime / 1000;
+            _fsm.curentState.update(this, aDeltaTime);
 
             super.update(aDeltaTime);
         }
@@ -64,7 +70,6 @@ package game.model.gameObject
         {
 
         }
-
 
         override protected function shoot(): void
         {
