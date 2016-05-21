@@ -506,7 +506,7 @@ package game.model
                     var enemyEvent: SpawnEnemyEvent = SpawnEnemyEvent(aLevelEvent);
                     var enemyVO: EnemyVO = enemyEvent.aEnemyVO;
                     var target: ITarget = enemyEvent.target ? enemyEvent.target : getRandomPlayer();
-                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.x, enemyEvent.y, target);
+                    var enemy: EnemyGO = new EnemyGO(enemyVO, null, enemyEvent.x, enemyEvent.y, target);
                     enemy.shootSignal.add(enemyShootHandler);
                     _enemies.push(enemy);
                     _enemySpawnedSignal.dispatch(enemy);

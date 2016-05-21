@@ -11,7 +11,9 @@ package game.model.gameObject
 
     import game.model.gameObject.constants.BulletType;
     import game.model.gameObject.enemy.EnemyFSMx;
+    import game.model.gameObject.enemy.IEnemyState;
     import game.model.gameObject.enemy.ITarget;
+    import game.model.gameObject.enemy.state.GetToPosState;
     import game.model.gameObject.enemy.state.GetToYposState;
     import game.model.gameObject.vo.BulletVO;
     import game.model.gameObject.vo.EnemyVO;
@@ -24,16 +26,20 @@ package game.model.gameObject
 
         private var _enemyVO: EnemyVO;
 
+
         private var _fsm: EnemyFSMx;
 
-        public function EnemyGO(aEnemyVO: EnemyVO, aX: Number, aY: Number, aTarget: ITarget): void
+        public function EnemyGO(aEnemyVO: EnemyVO, aStates: Vector.<IEnemyState>, aX: Number, aY: Number, aTarget: ITarget): void
         {
             super(aEnemyVO, aX, aY, 0, 0);
 
             _enemyVO = aEnemyVO;
 
-            _fsm = new EnemyFSMx(this, aTarget);
-            _fsm.pushState(new GetToYposState());
+            aStates = new Vector.<IEnemyState>();
+            aStates.push(new GetToYposState());
+            aStates.push(new GetToPosState());
+
+            _fsm = new EnemyFSMx(aStates, this, aTarget);
 
             startShoot();
         }
@@ -55,6 +61,7 @@ package game.model.gameObject
 
         override public function update(aDeltaTime: int): void
         {
+            _fsm.update(this, aDeltaTime);
             _fsm.curentState.update(this, aDeltaTime);
 
             super.update(aDeltaTime);

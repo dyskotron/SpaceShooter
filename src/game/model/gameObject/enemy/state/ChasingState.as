@@ -13,12 +13,12 @@ package game.model.gameObject.enemy.state
         {
         }
 
-        public function start(aEnemyGO: EnemyGO, aTarget: ITarget)
+        public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
             _target = aTarget;
         }
 
-        public function update(aEnemyGO: EnemyGO, aDeltaTime: int)
+        public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
             var maxDelta: Number = aEnemyGO.maxSpeed * aDeltaTime / 1000;
             aEnemyGO.speedX = MathUtil.clamp((_target.x - aEnemyGO.x), -maxDelta, maxDelta);
@@ -26,7 +26,9 @@ package game.model.gameObject.enemy.state
 
             aEnemyGO.x += aEnemyGO.speedX;
             aEnemyGO.y += aEnemyGO.speedY;
-            aEnemyGO.rotation = Math.atan2(aEnemyGO.speedX, aEnemyGO.speedY);
+            aEnemyGO.rotation = Math.atan2(-aEnemyGO.speedX, aEnemyGO.speedY);
+
+            return EnemyFSMx.ACTION_NONE;
         }
     }
 }

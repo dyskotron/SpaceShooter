@@ -4,8 +4,8 @@ package game.model.gameObject.enemy
 
     public interface IEnemyState
     {
-        function start(aEnemyGO: EnemyGO,aTarget: ITarget);
+        function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
 
-        function update(aEnemyGO: EnemyGO, aDeltaTime: int);
+        function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
     }
 }

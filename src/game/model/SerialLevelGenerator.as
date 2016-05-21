@@ -79,9 +79,17 @@ package game.model
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
 
-            addFightersRows(1500, RANDOM_EACH, RANDOM, 1200);
+            //addFightersRows(1500, RANDOM_EACH, RANDOM, 1200);
+            //return;
 
-            return;
+            addFightersRow(50, RANDOM, 0, 200);
+            addFightersRow(50, RANDOM, 0, 200);
+            addFightersRow(50, RANDOM, 0, 200);
+            addFightersRow(50, RANDOM, 0, 200);
+            addFightersRow(50, RANDOM, 0, 200);
+            addFightersRow(50, RANDOM, 0, 200);
+            addFightersRow(50, RANDOM, 0, 200);
+            addFightersRow(50, RANDOM, 0, 200);
 
             addBonus();
             addBonus();
@@ -94,6 +102,13 @@ package game.model
             addBonus();
             addBonus();
             addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addFightersRows(1500, RANDOM_EACH, RANDOM, 1200);
             addFightersRow(100);
             addFightersRow(100);
             addFightersRow(100);
@@ -174,7 +189,7 @@ package game.model
 
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aFighterType);
             var aCount: int = Math.floor(aTotalHP / enemyVO.initialHP);
-            var target: Target = new Target(0, aDestinationY);
+            var target: Target = new Target(viewModel.gameWidth / 2, aDestinationY);
             var xGap: Number;
             var x: Number;
 
@@ -211,7 +226,7 @@ package game.model
 
             for (var i: int = 0; i < aRowCount; i++)
             {
-                addFightersRow(aTotalHP, aFighterType, (viewModel.gameHeight * 0.8) / (aRowCount + 1) * (aRowCount - i), 600);
+                addFightersRow(aTotalHP, aFighterType, (viewModel.gameHeight * 0.8) / (aRowCount + 1) * (aRowCount - i), aRowsDelay);
             }
 
             addDelay(aDelayAfter);
