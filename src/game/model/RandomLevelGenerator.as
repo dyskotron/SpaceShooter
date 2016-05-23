@@ -5,8 +5,8 @@ package game.model
     import game.model.gameObject.constants.ObstacleType;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
-    import game.model.gameObject.enemy.ITarget;
-    import game.model.gameObject.enemy.Target;
+    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.fsm.Target;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;

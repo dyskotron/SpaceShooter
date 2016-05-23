@@ -5,7 +5,7 @@ package game.model
     import game.model.gameObject.constants.ObstacleType;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
-    import game.model.gameObject.enemy.Target;
+    import game.model.gameObject.fsm.Target;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -40,7 +40,9 @@ package game.model
         //rand helper vars
         private var randomDistIncrements: Vector.<int>;
         private var randomEnemyCount: Vector.<uint>;
-        private var randomEnemyID: Vector.<uint>;
+        private var randomFighterID: Vector.<uint>;
+        private var randomKamikazeID: Vector.<uint>;
+        private var randomWobblerID: Vector.<uint>;
         private var randomBonusID: Vector.<uint>;
         private var randomObstacleID: Vector.<uint>;
 
@@ -57,7 +59,7 @@ package game.model
             initRadomValues();
         }
 
-        public function getLevel(aDiffulcity: uint = 0): LevelModel
+        public function getLevel(aDiffulcity: uint = 0): ILevelModel
         {
             _levelEvents = new Vector.<LevelEvent>();
             _currentDistance = 0;
@@ -72,24 +74,28 @@ package game.model
             if (!_levelEnded)
                 throw new Error(LEVEL_NO_END_ERROR);
 
-            return new LevelModel(_levelEvents);
+            return new LoopedLevelModel(_levelEvents);
         }
 
         private function createLevel(): void
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
 
-            //addFightersRows(1500, RANDOM_EACH, RANDOM, 1200);
-            //return;
+            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 11);
+            addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 4);
+            return;
+
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15, viewModel.gameWidth / 20);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 2, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 2, viewModel.gameWidth / 15, viewModel.gameWidth / 20);
+            return;
+
 
             addFightersRow(50, RANDOM, 0, 200);
-            addFightersRow(50, RANDOM, 0, 200);
-            addFightersRow(50, RANDOM, 0, 200);
-            addFightersRow(50, RANDOM, 0, 200);
-            addFightersRow(50, RANDOM, 0, 200);
-            addFightersRow(50, RANDOM, 0, 200);
-            addFightersRow(50, RANDOM, 0, 200);
-            addFightersRow(50, RANDOM, 0, 200);
+            addFightersRow(150, RANDOM, 0, 200);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 2, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 2, viewModel.gameWidth / 15, viewModel.gameWidth / 20);
 
             addBonus();
             addBonus();
@@ -109,6 +115,11 @@ package game.model
             addBonus();
             addBonus();
             addFightersRows(1500, RANDOM_EACH, RANDOM, 1200);
+            addWAitForClear();
+
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15, viewModel.gameWidth / 20);
+
             addFightersRow(100);
             addFightersRow(100);
             addFightersRow(100);
@@ -154,6 +165,10 @@ package game.model
             addFightersRows(1500);
             addWAitForClear();
             addMeteorsRain(6000);
+            addWAitForClear();
+
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15, viewModel.gameWidth / 15);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 15);
 
             addBonus();
             addBonus();
@@ -174,6 +189,87 @@ package game.model
             //add random meteors - start, end, total hp
 
             //addBoss
+        }
+
+
+        private function addWobbleGroup(aWobbleType: int = RANDOM, aCount: uint = 1, aX: Number = 0, aDistanceX: Number = 0, aDelayAfter: int = 1000): void
+        {
+            for (var i: int = 0; i < aCount; i++)
+            {
+                addWobble(aWobbleType, aX + i * aDistanceX, 350);
+            }
+
+            addDelay(aDelayAfter);
+        }
+
+        private function addWobble(aWobbleType: int = RANDOM, aX: Number = 0, aDelayAfter: int = 1000): void
+        {
+            if (_levelEnded)
+                throw new Error(LEVEL_END_ERROR);
+
+            if (aWobbleType == RANDOM)
+                aWobbleType = getRandWobblerID();
+
+            if (aX == 0)
+                aX = viewModel.gameWidth / 2;
+
+            var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aWobbleType);
+
+            _levelEvents.push(new SpawnEnemyEvent(enemyVO, null, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
+
+            addDelay(aDelayAfter);
+        }
+
+
+        //TODO pass destinationY to behavior somehow(where it start kamikaze-ing)
+        private function addKamikazeGroup(aKamikazeType: int = RANDOM, aCount: uint = 1, aX: Number = 0, aDistanceX: Number = 0, aDelayAfter: int = 1000): void
+        {
+            for (var i: int = 0; i < aCount; i++)
+            {
+                addKamikaze(aKamikazeType, aX + i * aDistanceX, 0, 100);
+            }
+
+            addDelay(aDelayAfter);
+        }
+
+        private function addKamikaze(aKamikazeType: int = RANDOM, aX: Number = 0, aDestinationY: int = 0, aDelayAfter: int = 1000): void
+        {
+            if (_levelEnded)
+                throw new Error(LEVEL_END_ERROR);
+
+            if (aKamikazeType == RANDOM)
+                aKamikazeType = getRandKamikazeID();
+
+            if (aX == 0)
+                aX = viewModel.gameWidth / 2;
+
+            var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aKamikazeType);
+
+            _levelEvents.push(new SpawnEnemyEvent(enemyVO, null, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
+
+            addDelay(aDelayAfter);
+        }
+
+        private function addFighter(aFighterType: int = RANDOM, aX: Number = 0, aDestinationY: int = 0, aDelayAfter: int = 1000): void
+        {
+            if (_levelEnded)
+                throw new Error(LEVEL_END_ERROR);
+
+            if (aFighterType == RANDOM)
+                aFighterType = getRandFighterID();
+
+            if (aDestinationY == 0)
+                aDestinationY = viewModel.gameHeight / 5 * 4;
+
+            if (aX == 0)
+                aX = viewModel.gameWidth / 2;
+
+            var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aFighterType);
+            var target: Target = new Target(viewModel.gameWidth / 2, aDestinationY);
+
+            _levelEvents.push(new SpawnEnemyEvent(enemyVO, target, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
+
+            addDelay(aDelayAfter);
         }
 
         private function addFightersRow(aTotalHP: int = 300, aFighterType: int = RANDOM, aDestinationY: int = 0, aDelayAfter: int = 1000): void
@@ -307,11 +403,21 @@ package game.model
             randomEnemyCount.push(18);
 
             //enemy type ID
-            randomEnemyID = new Vector.<uint>();
-            randomEnemyID.push(EnemyType.FIGHTER_1);
-            randomEnemyID.push(EnemyType.FIGHTER_2);
-            randomEnemyID.push(EnemyType.FIGHTER_3);
-            randomEnemyID.push(EnemyType.FIGHTER_4);
+            randomFighterID = new Vector.<uint>();
+            randomFighterID.push(EnemyType.FIGHTER_1);
+            randomFighterID.push(EnemyType.FIGHTER_2);
+            randomFighterID.push(EnemyType.FIGHTER_3);
+            randomFighterID.push(EnemyType.FIGHTER_4);
+
+            //enemy type ID
+            randomKamikazeID = new Vector.<uint>();
+            randomKamikazeID.push(EnemyType.KAMIKAZE_1);
+            randomKamikazeID.push(EnemyType.KAMIKAZE_2);
+
+            //enemy type ID
+            randomWobblerID = new Vector.<uint>();
+            randomWobblerID.push(EnemyType.WOBBLY_1);
+            randomWobblerID.push(EnemyType.WOBBLY_2);
 
             //bonus type ID
             randomBonusID = new Vector.<uint>();
@@ -352,7 +458,17 @@ package game.model
 
         private function getRandFighterID(): int
         {
-            return randomEnemyID[int(Math.random() * (randomEnemyID.length - 1))];
+            return randomFighterID[int(Math.random() * (randomFighterID.length - 1))];
+        }
+
+        private function getRandKamikazeID(): int
+        {
+            return randomKamikazeID[int(Math.random() * (randomKamikazeID.length - 1))];
+        }
+
+        private function getRandWobblerID(): int
+        {
+            return randomWobblerID[int(Math.random() * (randomWobblerID.length - 1))];
         }
 
         private function getRandBonusID(): int

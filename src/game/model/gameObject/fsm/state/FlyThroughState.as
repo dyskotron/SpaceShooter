@@ -1,7 +1,7 @@
-package game.model.gameObject.enemy.state
+package game.model.gameObject.fsm.state
 {
     import game.model.gameObject.EnemyGO;
-    import game.model.gameObject.enemy.*;
+    import game.model.gameObject.fsm.*;
 
     public class FlyThroughState implements IEnemyState
     {
@@ -18,7 +18,7 @@ package game.model.gameObject.enemy.state
         {
             aEnemyGO.y += aEnemyGO.maxSpeed * aDeltaTime / 1000;
 
-            return EnemyFSMx.ACTION_NONE;
+            return GameObjectFSM.ACTION_NONE;
         }
     }
 }

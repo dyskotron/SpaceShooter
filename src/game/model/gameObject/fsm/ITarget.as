@@ -1,4 +1,4 @@
-package game.model.gameObject.enemy
+package game.model.gameObject.fsm
 {
     public interface ITarget
     {

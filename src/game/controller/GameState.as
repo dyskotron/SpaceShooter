@@ -11,8 +11,10 @@ package game.controller
     import game.model.IGameModel;
     import game.model.ILevelProvider;
     import game.model.SerialLevelGenerator;
+    import game.model.gameObject.def.BehaviorDefs;
     import game.model.gameObject.def.BulletDefs;
     import game.model.gameObject.def.EnemyDefs;
+    import game.model.gameObject.def.IBehaviorDefs;
     import game.model.gameObject.def.IBulletDefs;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
@@ -72,6 +74,7 @@ package game.controller
             injector.mapSingletonOf(IEnemyDefs, EnemyDefs);
             injector.mapSingletonOf(IPlayerShipDefs, PlayerShipDefs);
             injector.mapSingletonOf(IObstacleDefs, ObstacleDefs);
+            injector.mapSingletonOf(IBehaviorDefs, BehaviorDefs);
 
             injector.mapSingleton(TextureProvider);
 

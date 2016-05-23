@@ -1,6 +1,6 @@
 package game.model.levelModel
 {
-    import game.model.gameObject.enemy.ITarget;
+    import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.EnemyVO;
 
     public class SpawnEnemyEvent extends SpawnLevelEvent

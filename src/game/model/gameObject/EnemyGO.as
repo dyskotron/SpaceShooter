@@ -10,11 +10,9 @@ package game.model.gameObject
     import flash.utils.getTimer;
 
     import game.model.gameObject.constants.BulletType;
-    import game.model.gameObject.enemy.EnemyFSMx;
-    import game.model.gameObject.enemy.IEnemyState;
-    import game.model.gameObject.enemy.ITarget;
-    import game.model.gameObject.enemy.state.GetToPosState;
-    import game.model.gameObject.enemy.state.GetToYposState;
+    import game.model.gameObject.fsm.GameObjectFSM;
+    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.BulletVO;
     import game.model.gameObject.vo.EnemyVO;
 
@@ -27,21 +25,18 @@ package game.model.gameObject
         private var _enemyVO: EnemyVO;
 
 
-        private var _fsm: EnemyFSMx;
+        private var _fsm: GameObjectFSM;
 
-        public function EnemyGO(aEnemyVO: EnemyVO, aStates: Vector.<IEnemyState>, aX: Number, aY: Number, aTarget: ITarget): void
+        public function EnemyGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aX: Number, aY: Number, aTarget: ITarget): void
         {
             super(aEnemyVO, aX, aY, 0, 0);
 
             _enemyVO = aEnemyVO;
 
-            aStates = new Vector.<IEnemyState>();
-            aStates.push(new GetToYposState());
-            aStates.push(new GetToPosState());
+            _fsm = new GameObjectFSM(aBehaviorVO.states, this, aTarget);
 
-            _fsm = new EnemyFSMx(aStates, this, aTarget);
-
-            startShoot();
+            if (aEnemyVO.bulletType != BulletType.NONE)
+                startShoot();
         }
 
         public function get enemyVO(): EnemyVO

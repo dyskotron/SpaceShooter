@@ -1,4 +1,4 @@
-package game.model.gameObject.enemy
+package game.model.gameObject.fsm
 {
     public class Target implements ITarget
     {
@@ -19,6 +19,11 @@ package game.model.gameObject.enemy
         public function get y(): Number
         {
             return _y;
+        }
+
+        public function toString(): String
+        {
+            return "x: " + _x + " y: " + _y;
         }
     }
 }

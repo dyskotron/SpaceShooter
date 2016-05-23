@@ -2,7 +2,7 @@ package game.model
 {
     import flash.geom.Rectangle;
 
-    import game.model.gameObject.enemy.ITarget;
+    import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.GameObjectVO;
 
     public class GameObject implements ITarget
