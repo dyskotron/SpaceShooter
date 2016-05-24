@@ -3,9 +3,12 @@ package game.model
     import game.model.gameObject.constants.BonusType;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.constants.ObstacleType;
+    import game.model.gameObject.def.BehaviorFactory;
+    import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
     import game.model.gameObject.fsm.Target;
+    import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -30,6 +33,9 @@ package game.model
 
         [Inject]
         public var viewModel: IViewModel;
+
+        [Inject]
+        public var behaviorDefs: IBehaviorFactory;
 
         [Inject]
         public var enemyDefs: IEnemyDefs;
@@ -74,35 +80,25 @@ package game.model
             if (!_levelEnded)
                 throw new Error(LEVEL_NO_END_ERROR);
 
-            return new LoopedLevelModel(_levelEvents);
+            //return new LoopedLevelModel(_levelEvents);
+            return new LevelModel(_levelEvents);
         }
 
         private function createLevel(): void
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
+            /*
+             addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 11);
+             addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 4);
+             return;
 
-            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 11);
-            addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 4);
-            return;
+             addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20, viewModel.gameHeight / 5);
+             addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15, viewModel.gameWidth / 20, viewModel.gameHeight / 5);
+             addKamikazeGroup(EnemyType.KAMIKAZE_2, 2, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20, viewModel.gameHeight / 5);
+             addKamikazeGroup(EnemyType.KAMIKAZE_2, 2, viewModel.gameWidth / 15, viewModel.gameWidth / 20, viewModel.gameHeight / 5);
+             return;
+             */
 
-            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20);
-            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15, viewModel.gameWidth / 20);
-            addKamikazeGroup(EnemyType.KAMIKAZE_2, 2, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20);
-            addKamikazeGroup(EnemyType.KAMIKAZE_2, 2, viewModel.gameWidth / 15, viewModel.gameWidth / 20);
-            return;
-
-
-            addFightersRow(50, RANDOM, 0, 200);
-            addFightersRow(150, RANDOM, 0, 200);
-            addKamikazeGroup(EnemyType.KAMIKAZE_1, 2, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20);
-            addKamikazeGroup(EnemyType.KAMIKAZE_1, 2, viewModel.gameWidth / 15, viewModel.gameWidth / 20);
-
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            //addDelay(3000);
 
             addBonus();
             addBonus();
@@ -111,25 +107,39 @@ package game.model
             addBonus();
             addBonus();
             addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addFightersRows(1500, RANDOM_EACH, RANDOM, 1200);
+            addDelay(3000);
+
+            addFightersRows(600, RANDOM_EACH, RANDOM, 1200);
             addWAitForClear();
 
-            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20);
-            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15, viewModel.gameWidth / 20);
+            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 11);
+            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 4);
+            addWAitForClear();
 
-            addFightersRow(100);
-            addFightersRow(100);
-            addFightersRow(100);
-            addFightersRow(150);
-            addFightersRow(150);
-            addFightersRow(150);
-            addFightersRow(200);
-            addFightersRow(200);
-            addDelay(5000);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 2, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20, viewModel.gameHeight / 5);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 2, viewModel.gameWidth / 15, viewModel.gameWidth / 20, viewModel.gameHeight / 5);
 
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addFightersRows(1200, RANDOM_EACH, RANDOM, 1200);
+            addWAitForClear();
+
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20, viewModel.gameHeight / 4);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15, viewModel.gameWidth / 20, viewModel.gameHeight / 4);
+
+            addFightersRows(1400, RANDOM_EACH, RANDOM, 1200);
+            addWAitForClear();
+
+            addBonus();
+            addBonus();
             addBonus();
             addBonus();
             addBonus();
@@ -137,51 +147,79 @@ package game.model
             addMeteorsRain(3000);
             addWAitForClear();
 
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addFightersRow(250);
-            addFightersRow(250);
-            addFightersRow(300);
-            addFightersRow(400);
-            addFightersRow(500);
-            addWAitForClear();
-
-            addFightersRows(1000);
+            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 11);
+            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 4);
             addWAitForClear();
 
             addBonus();
             addBonus();
             addBonus();
             addBonus();
-            addFightersRows(1200);
+            addBonus();
+            addBonus();
+            addFightersRows(1600, RANDOM, RANDOM, 1200);
+            addWAitForClear();
+
+            addFightersRows(1800);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20, viewModel.gameHeight / 3);
+            addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15, viewModel.gameWidth / 20, viewModel.gameHeight / 3);
             addWAitForClear();
 
             addBonus();
             addBonus();
             addBonus();
             addBonus();
-            addFightersRows(1500);
+            addBonus();
+            addFightersRows(2000);
+            addWAitForClear();
+
+            addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 11);
+            addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 4);
+            addWAitForClear();
+
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addBonus();
+            addFightersRows(2200);
             addWAitForClear();
             addMeteorsRain(6000);
             addWAitForClear();
 
-            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15, viewModel.gameWidth / 15);
-            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 15);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15, viewModel.gameWidth / 15, viewModel.gameHeight / 2);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 15, viewModel.gameHeight / 2);
 
             addBonus();
             addBonus();
             addBonus();
             addBonus();
+            addBonus();
+            addBonus();
             addFightersRows(2000);
+            addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 11);
+            addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 4);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15, viewModel.gameWidth / 15, viewModel.gameHeight / 3 * 2);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 15, viewModel.gameHeight / 3 * 2);
             addWAitForClear();
 
             addBonus();
             addBonus();
             addBonus();
             addBonus();
-            addFightersRows(2000);
+            addBonus();
+            addBonus();
+            addFightersRows(2500);
+            addWAitForClear();
+
+
+            addFightersRows(2500);
+            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 9);
+            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 6);
+            addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 11);
+            addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 4);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15, viewModel.gameWidth / 15, viewModel.gameHeight / 3 * 2);
+            addKamikazeGroup(EnemyType.KAMIKAZE_2, 3, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 15, viewModel.gameHeight / 3 * 2);
             addWAitForClear();
 
 
@@ -214,19 +252,20 @@ package game.model
                 aX = viewModel.gameWidth / 2;
 
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aWobbleType);
+            var behavior: BehaviorVO = behaviorDefs.getBehaviorVO(BehaviorFactory.WOBBLE);
 
-            _levelEvents.push(new SpawnEnemyEvent(enemyVO, null, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
+            _levelEvents.push(new SpawnEnemyEvent(enemyVO, behavior, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
 
             addDelay(aDelayAfter);
         }
 
 
-        //TODO pass destinationY to behavior somehow(where it start kamikaze-ing)
-        private function addKamikazeGroup(aKamikazeType: int = RANDOM, aCount: uint = 1, aX: Number = 0, aDistanceX: Number = 0, aDelayAfter: int = 1000): void
+        private function addKamikazeGroup(aKamikazeType: int = RANDOM, aCount: uint = 1, aX: Number = 0, aDistanceX: Number = 0, aDestinationY: int = 0, aDelayAfter: int = 1000): void
         {
+            trace("_MO_", this, "addKamikazeGroup", aDestinationY);
             for (var i: int = 0; i < aCount; i++)
             {
-                addKamikaze(aKamikazeType, aX + i * aDistanceX, 0, 100);
+                addKamikaze(aKamikazeType, aX + i * aDistanceX, aDestinationY, 100);
             }
 
             addDelay(aDelayAfter);
@@ -244,8 +283,12 @@ package game.model
                 aX = viewModel.gameWidth / 2;
 
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aKamikazeType);
+            trace("_MO_", this, "addKamikaze", aDestinationY);
 
-            _levelEvents.push(new SpawnEnemyEvent(enemyVO, null, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
+            var behaviorID: uint = aKamikazeType == EnemyType.KAMIKAZE_1 ? BehaviorFactory.KAMIKAZE_STARIGHT : BehaviorFactory.KAMIKAZE_CHASE;
+            var behavior: BehaviorVO = behaviorDefs.getBehaviorVO(behaviorID, new Target(0, aDestinationY));
+
+            _levelEvents.push(new SpawnEnemyEvent(enemyVO, behavior, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
 
             addDelay(aDelayAfter);
         }
@@ -265,9 +308,9 @@ package game.model
                 aX = viewModel.gameWidth / 2;
 
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aFighterType);
-            var target: Target = new Target(viewModel.gameWidth / 2, aDestinationY);
+            var behavior: BehaviorVO = behaviorDefs.getBehaviorVO(BehaviorFactory.GET_TO_Y, new Target(viewModel.gameWidth / 2, aDestinationY));
 
-            _levelEvents.push(new SpawnEnemyEvent(enemyVO, target, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
+            _levelEvents.push(new SpawnEnemyEvent(enemyVO, behavior, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
 
             addDelay(aDelayAfter);
         }
@@ -286,6 +329,8 @@ package game.model
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aFighterType);
             var aCount: int = Math.floor(aTotalHP / enemyVO.initialHP);
             var target: Target = new Target(viewModel.gameWidth / 2, aDestinationY);
+            var behavior: BehaviorVO = behaviorDefs.getBehaviorVO(BehaviorFactory.GET_TO_Y, target);
+
             var xGap: Number;
             var x: Number;
 
@@ -293,7 +338,7 @@ package game.model
             {
                 xGap = (viewModel.gameWidth - 2 * viewModel.spawnBounds) / aCount;
                 x = viewModel.spawnBounds + xGap / 2 + i * xGap;
-                _levelEvents.push(new SpawnEnemyEvent(enemyVO, target, _currentDistance, x, -GameModel.OUTER_BOUNDS));
+                _levelEvents.push(new SpawnEnemyEvent(enemyVO, behavior, _currentDistance, x, -GameModel.OUTER_BOUNDS));
             }
 
             addDelay(aDelayAfter);
@@ -372,8 +417,9 @@ package game.model
 
         private function addWAitForClear(): void
         {
-            addDelay(1000);
-            _levelEvents.push(new LevelEvent(LevelEvent.ID_WAIT_FOR_CLEAR, _currentDistance + LevelModel.SPEED));
+            addDelay(500);
+            _levelEvents.push(new LevelEvent(LevelEvent.ID_WAIT_FOR_CLEAR, _currentDistance));
+            addDelay(500);
         }
 
         private static function sortLevelEvents(alevelEventA: LevelEvent, aLevelEventB: LevelEvent): Number

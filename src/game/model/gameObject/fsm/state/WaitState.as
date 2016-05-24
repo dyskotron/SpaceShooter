@@ -6,6 +6,7 @@ package game.model.gameObject.fsm.state
     public class WaitState implements IEnemyState
     {
         private var _delay: int;
+        private var _currentDelay: int;
 
         public function WaitState(aDelay: int)
         {
@@ -15,13 +16,14 @@ package game.model.gameObject.fsm.state
         public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
             aEnemyGO.speedY = aEnemyGO.speedX = 0;
+            _currentDelay = _delay;
         }
 
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
-            _delay -= aDeltaTime;
+            _currentDelay -= aDeltaTime;
 
-            if (_delay <= 0)
+            if (_currentDelay <= 0)
             {
                 return GameObjectFSM.ACTION_NEXT;
             }

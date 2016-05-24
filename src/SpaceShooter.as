@@ -22,6 +22,9 @@ package
 
         /**
          * TODO / IDEAS:
+         * - check all sides for erasing enemies not just bottom
+         * - move enemy speed to EnemyVO
+         * - change target inputs in level generator to normalized 0 - 1 (+ size of all game objects later?)
          * - add msg / alerts - player based or level based
          * - count size of GameObjects in *Defs from xml, not textures
          * - main app states could be better connected to its own views - always switching scene as last thing in transition in
@@ -29,7 +32,6 @@ package
          * - consider testing if dispatching one signal with vector of shots or dispatching signals for individual shots is faster
          *
          * NEXT STEPS:
-         * - fsm for smarter enemies
          * - pooling
          * - better collision
          * - parsing definition of game objects and levels from json(or better binary) which could be created in level designer

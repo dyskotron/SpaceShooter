@@ -1,18 +1,18 @@
 package game.model.levelModel
 {
-    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.EnemyVO;
 
     public class SpawnEnemyEvent extends SpawnLevelEvent
     {
+        private var _behaviorVO: BehaviorVO;
         private var _aEnemyVO: EnemyVO;
-        private var _target: ITarget;
 
 
-        public function SpawnEnemyEvent(aEnemyVO: EnemyVO, aTarget: ITarget, aDistance: Number, aX: Number, aY: Number)
+        public function SpawnEnemyEvent(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aDistance: Number, aX: Number, aY: Number)
         {
             _aEnemyVO = aEnemyVO;
-            _target = aTarget;
+            _behaviorVO = aBehaviorVO;
 
             super(LevelEvent.ID_SPAWN_ENEMY, aDistance, aX, aY);
         }
@@ -22,9 +22,9 @@ package game.model.levelModel
             return _aEnemyVO;
         }
 
-        public function get target(): ITarget
+        public function get behaviorVO(): BehaviorVO
         {
-            return _target;
+            return _behaviorVO;
         }
     }
 }

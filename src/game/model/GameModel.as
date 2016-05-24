@@ -11,9 +11,7 @@ package game.model
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.constants.PlayerShipType;
-    import game.model.gameObject.def.IBehaviorDefs;
-    import game.model.gameObject.fsm.ITarget;
-    import game.model.gameObject.vo.BehaviorVO;
+    import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -65,7 +63,7 @@ package game.model
         public var mainModel: IMainModel;
 
         [Inject]
-        public var behaviorDefs: IBehaviorDefs;
+        public var behaviorDefs: IBehaviorFactory;
 
         [Inject]
         public var levelProvider: ILevelProvider;
@@ -95,7 +93,7 @@ package game.model
 
         private var _state: uint;
         private var _finishedLevel: Boolean = false;
-        private var _immortal: Boolean = true;
+        private var _immortal: Boolean = false;
 
 
         /**
@@ -516,9 +514,7 @@ package game.model
                 case LevelEvent.ID_SPAWN_ENEMY:
                     var enemyEvent: SpawnEnemyEvent = SpawnEnemyEvent(aLevelEvent);
                     var enemyVO: EnemyVO = enemyEvent.aEnemyVO;
-                    var target: ITarget = enemyEvent.target ? enemyEvent.target : getRandomPlayer();
-                    var behaviorVO:BehaviorVO = behaviorDefs.getBehaviorVO(enemyVO.behaviorID)
-                    var enemy: EnemyGO = new EnemyGO(enemyVO, behaviorVO, enemyEvent.x, enemyEvent.y, target);
+                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, enemyEvent.x, enemyEvent.y, getRandomPlayer());
                     enemy.shootSignal.add(enemyShootHandler);
                     _enemies.push(enemy);
                     _enemySpawnedSignal.dispatch(enemy);

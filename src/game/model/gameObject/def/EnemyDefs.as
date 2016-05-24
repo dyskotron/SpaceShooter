@@ -14,7 +14,7 @@ package game.model.gameObject.def
     {
         private var _enemyDefByID: Vector.<EnemyVO>;
 
-        public function EnemyDefs(aTextureProvider: TextureProvider, aBehaviourDefs: IBehaviorDefs)
+        public function EnemyDefs(aTextureProvider: TextureProvider, aBehaviourDefs: IBehaviorFactory)
         {
             _enemyDefByID = new Vector.<EnemyVO>;
 
@@ -35,7 +35,7 @@ package game.model.gameObject.def
             width = texture.width * 0.6;
             height = texture.height * 0.6;
             hp = 30;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, BehaviorDefs.GET_TO_Y, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_2;
             bulletType = BulletType.LASER;
@@ -43,7 +43,7 @@ package game.model.gameObject.def
             width = texture.width * 0.65;
             height = texture.height * 0.65;
             hp = 50;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, BehaviorDefs.GET_TO_Y, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_3;
             bulletType = BulletType.LASER;
@@ -51,7 +51,7 @@ package game.model.gameObject.def
             width = texture.width * 0.7;
             height = texture.height * 0.7;
             hp = 80;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, BehaviorDefs.GET_TO_Y, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_4;
             bulletType = BulletType.LASER;
@@ -59,7 +59,7 @@ package game.model.gameObject.def
             width = texture.width * 0.75;
             height = texture.height * 0.75;
             hp = 100;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, BehaviorDefs.GET_TO_Y, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
 
 
             //KAMIKAZE
@@ -71,7 +71,7 @@ package game.model.gameObject.def
             width = texture.width * 0.4;
             height = texture.height * 0.4;
             hp = 40;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, BehaviorDefs.KAMIKAZE_STARIGHT, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.KAMIKAZE_2;
             bulletType = BulletType.NONE;
@@ -79,7 +79,7 @@ package game.model.gameObject.def
             width = texture.width * 0.5;
             height = texture.height * 0.5;
             hp = 60;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, BehaviorDefs.KAMIKAZE_CHASE, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
 
             //WOBBLY
             aTextureProvider.getEnemyTexture(EnemyType.WOBBLY_1);
@@ -90,7 +90,7 @@ package game.model.gameObject.def
             width = texture.width * 0.6;
             height = texture.height * 0.6;
             hp = 40;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, BehaviorDefs.WOBBLE, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.WOBBLY_2;
             bulletType = BulletType.NONE;
@@ -98,7 +98,7 @@ package game.model.gameObject.def
             width = texture.width * 0.7;
             height = texture.height * 0.7;
             hp = 60;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, BehaviorDefs.WOBBLE, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
 
         }
 
