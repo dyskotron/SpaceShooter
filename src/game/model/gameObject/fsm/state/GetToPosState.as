@@ -19,7 +19,7 @@ package game.model.gameObject.fsm.state
 
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
-            var maxDelta: Number = aEnemyGO.maxSpeed * aDeltaTime / 1000;
+            var maxDelta: Number = aEnemyGO.enemyVO.speed * aDeltaTime / 1000;
             var speedX: Number = _target.x - aEnemyGO.x;
             var speedY: Number = _target.y - aEnemyGO.y;
             var distance: Number = Math.sqrt(speedX * speedX + speedY * speedY);

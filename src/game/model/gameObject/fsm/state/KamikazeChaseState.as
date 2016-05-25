@@ -18,8 +18,8 @@ package game.model.gameObject.fsm.state
             var distY: Number = aTarget.y - aEnemyGO.y;
             var dist: Number = Math.sqrt(distX * distX + distY * distY);
 
-            aEnemyGO.speedX = distX / dist * aEnemyGO.maxSpeed * SPEEDING_RATIO;
-            aEnemyGO.speedY = distY / dist * aEnemyGO.maxSpeed * SPEEDING_RATIO;
+            aEnemyGO.speedX = distX / dist * aEnemyGO.enemyVO.speed * SPEEDING_RATIO;
+            aEnemyGO.speedY = distY / dist * aEnemyGO.enemyVO.speed * SPEEDING_RATIO;
             aEnemyGO.rotation = Math.atan2(-aEnemyGO.speedX, aEnemyGO.speedY);
         }
 

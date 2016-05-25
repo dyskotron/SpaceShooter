@@ -13,12 +13,12 @@ package game.model.gameObject.fsm.state
 
         public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
-            _speed = aEnemyGO.maxSpeed * 1.5;
+            _speed = aEnemyGO.enemyVO.speed * 1.5;
         }
 
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
-            _speed += aEnemyGO.maxSpeed * 0.1;
+            _speed += aEnemyGO.enemyVO.speed * 0.1;
             aEnemyGO.y += _speed * aDeltaTime / 1000;
 
             return GameObjectFSM.ACTION_NONE;

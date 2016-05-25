@@ -17,13 +17,13 @@ package game.model.gameObject.fsm.state
         public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
             _target ||= aTarget;
-            aEnemyGO.speedX = aEnemyGO.maxSpeed;
+            aEnemyGO.speedX = aEnemyGO.enemyVO.speed;
             aEnemyGO.speedY = 0;
         }
 
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
-            var maxDelta: Number = aEnemyGO.maxSpeed * aDeltaTime / 1000;
+            var maxDelta: Number = aEnemyGO.enemyVO.speed * aDeltaTime / 1000;
             var delta: Number = MathUtil.clamp(_target.x - aEnemyGO.x, -maxDelta, maxDelta);
             aEnemyGO.x += delta;
 

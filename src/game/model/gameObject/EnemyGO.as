@@ -18,12 +18,7 @@ package game.model.gameObject
 
     public class EnemyGO extends ShootingGO
     {
-        //px / s
-        public static const MAX_SPEED: Number = 200;
-        public static const MIN_SPEED: Number = 100;
-
         private var _enemyVO: EnemyVO;
-
 
         private var _fsm: GameObjectFSM;
 
@@ -42,16 +37,6 @@ package game.model.gameObject
         public function get enemyVO(): EnemyVO
         {
             return _enemyVO;
-        }
-
-        public function get maxSpeed(): Number
-        {
-            return MAX_SPEED;
-        }
-
-        public function get minSpeed(): Number
-        {
-            return MIN_SPEED;
         }
 
         override public function update(aDeltaTime: int): void

@@ -22,8 +22,7 @@ package
 
         /**
          * TODO / IDEAS:
-         * - check all sides for erasing enemies not just bottom
-         * - move enemy speed to EnemyVO
+         * - all loops in game model end->start
          * - change target inputs in level generator to normalized 0 - 1 (+ size of all game objects later?)
          * - add msg / alerts - player based or level based
          * - count size of GameObjects in *Defs from xml, not textures

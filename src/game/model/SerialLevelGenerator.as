@@ -250,7 +250,6 @@ package game.model
 
         private function addKamikazeGroup(aKamikazeType: int = RANDOM, aCount: uint = 1, aX: Number = 0, aDistanceX: Number = 0, aDestinationY: int = 0, aDelayAfter: int = 1000): void
         {
-            trace("_MO_", this, "addKamikazeGroup", aDestinationY);
             for (var i: int = 0; i < aCount; i++)
             {
                 addKamikaze(aKamikazeType, aX + i * aDistanceX, aDestinationY, 100);
@@ -271,8 +270,6 @@ package game.model
                 aX = viewModel.gameWidth / 2;
 
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aKamikazeType);
-            trace("_MO_", this, "addKamikaze", aDestinationY);
-
             var behaviorID: uint = aKamikazeType == EnemyType.KAMIKAZE_1 ? BehaviorFactory.KAMIKAZE_STARIGHT : BehaviorFactory.KAMIKAZE_CHASE;
             var behavior: BehaviorVO = behaviorDefs.getBehaviorVO(behaviorID, new Target(0, aDestinationY));
 

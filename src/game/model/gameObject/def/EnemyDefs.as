@@ -20,6 +20,7 @@ package game.model.gameObject.def
 
             var enemyType: uint;
             var texture: Texture;
+            var speed: uint;
             var bulletType: uint;
             var shootInterval: int;
             var hp: int;
@@ -30,12 +31,13 @@ package game.model.gameObject.def
             texture = aTextureProvider.getEnemyTexture(EnemyType.FIGHTER_1);
 
             enemyType = EnemyType.FIGHTER_1;
+            speed = 200;
             bulletType = BulletType.LASER;
             shootInterval = 4000;
             width = texture.width * 0.6;
             height = texture.height * 0.6;
             hp = 30;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_2;
             bulletType = BulletType.LASER;
@@ -43,7 +45,7 @@ package game.model.gameObject.def
             width = texture.width * 0.65;
             height = texture.height * 0.65;
             hp = 50;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_3;
             bulletType = BulletType.LASER;
@@ -51,7 +53,7 @@ package game.model.gameObject.def
             width = texture.width * 0.7;
             height = texture.height * 0.7;
             hp = 80;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_4;
             bulletType = BulletType.LASER;
@@ -59,19 +61,20 @@ package game.model.gameObject.def
             width = texture.width * 0.75;
             height = texture.height * 0.75;
             hp = 100;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, bulletType, shootInterval, hp, width, height);
 
 
             //KAMIKAZE
             aTextureProvider.getEnemyTexture(EnemyType.KAMIKAZE_1);
 
             enemyType = EnemyType.KAMIKAZE_1;
+            speed = 200;
             bulletType = BulletType.NONE;
             shootInterval = 0;
             width = texture.width * 0.4;
             height = texture.height * 0.4;
             hp = 40;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.KAMIKAZE_2;
             bulletType = BulletType.NONE;
@@ -79,18 +82,19 @@ package game.model.gameObject.def
             width = texture.width * 0.5;
             height = texture.height * 0.5;
             hp = 60;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, bulletType, shootInterval, hp, width, height);
 
             //WOBBLY
             aTextureProvider.getEnemyTexture(EnemyType.WOBBLY_1);
 
             enemyType = EnemyType.WOBBLY_1;
+            speed = 250;
             bulletType = BulletType.NONE;
             shootInterval = 0;
             width = texture.width * 0.6;
             height = texture.height * 0.6;
             hp = 40;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, bulletType, shootInterval, hp, width, height);
 
             enemyType = EnemyType.WOBBLY_2;
             bulletType = BulletType.NONE;
@@ -98,7 +102,7 @@ package game.model.gameObject.def
             width = texture.width * 0.7;
             height = texture.height * 0.7;
             hp = 60;
-            _enemyDefByID[enemyType] = new EnemyVO(enemyType, bulletType, shootInterval, hp, width, height);
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, bulletType, shootInterval, hp, width, height);
 
         }
 

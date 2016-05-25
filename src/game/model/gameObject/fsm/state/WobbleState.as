@@ -21,7 +21,7 @@ package game.model.gameObject.fsm.state
             _startX = aEnemyGO.x;
             _target = aTarget;
 
-            aEnemyGO.speedY = aEnemyGO.maxSpeed;
+            aEnemyGO.speedY = aEnemyGO.enemyVO.speed;
         }
 
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
@@ -29,7 +29,7 @@ package game.model.gameObject.fsm.state
             aEnemyGO.y += aEnemyGO.speedY * aDeltaTime / 1000;
 
             var oldX: Number = aEnemyGO.x;
-            aEnemyGO.x = _startX + Math.sin((_startTime - getTimer()) / 500) * aEnemyGO.maxSpeed / 2;
+            aEnemyGO.x = _startX + Math.sin((_startTime - getTimer()) / 500) * aEnemyGO.enemyVO.speed / 2;
 
             aEnemyGO.speedX = (oldX - aEnemyGO.x) / (aDeltaTime / 1000);
 

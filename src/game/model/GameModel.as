@@ -95,12 +95,12 @@ package game.model
 
         private var _state: uint;
         private var _finishedLevel: Boolean = false;
-        private var _immortal: Boolean = true;
+        private var _immortal: Boolean = false;
         private var _removeBounds: Rectangle;
 
 
         /**
-         * Main model of the Game, it stores and updates all game objects, and dispatches according signal if something changes
+         * Main model of the Game, it stores and updates all game objects, and dispatches according signals if something changes
          */
         public function GameModel()
         {
