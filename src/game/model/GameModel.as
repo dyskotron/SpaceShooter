@@ -1,5 +1,7 @@
 package game.model
 {
+    import flash.geom.Rectangle;
+
     import game.controller.GameEndSignal;
     import game.controller.PhysicsUpdateSignal;
     import game.controller.playerControl.KeyController;
@@ -93,7 +95,8 @@ package game.model
 
         private var _state: uint;
         private var _finishedLevel: Boolean = false;
-        private var _immortal: Boolean = false;
+        private var _immortal: Boolean = true;
+        private var _removeBounds: Rectangle;
 
 
         /**
@@ -201,6 +204,8 @@ package game.model
             _bonuses = new Vector.<BonusGO>();
             _obstacles = new Vector.<ObstacleGO>();
 
+            _removeBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
+
             var player: PlayerShipGO;
             for (var i: int = 0; i < _numPLayers; i++)
             {
@@ -287,8 +292,7 @@ package game.model
                 enemyGO = _enemies[i];
                 enemyGO.update(aDeltaTime);
 
-                //TODO: rectangle contains instead
-                if (_enemies[i].y > viewModel.stageHeight + OUTER_BOUNDS)
+                if (!_removeBounds.contains(_enemies[i].x, _enemies[i].y))
                 {
                     _enemies.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(enemyGO);

@@ -87,18 +87,6 @@ package game.model
         private function createLevel(): void
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
-            /*
-             addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 11);
-             addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 4);
-             return;
-
-             addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20, viewModel.gameHeight / 5);
-             addKamikazeGroup(EnemyType.KAMIKAZE_1, 4, viewModel.gameWidth / 15, viewModel.gameWidth / 20, viewModel.gameHeight / 5);
-             addKamikazeGroup(EnemyType.KAMIKAZE_2, 2, viewModel.gameWidth / 15 * 14, -viewModel.gameWidth / 20, viewModel.gameHeight / 5);
-             addKamikazeGroup(EnemyType.KAMIKAZE_2, 2, viewModel.gameWidth / 15, viewModel.gameWidth / 20, viewModel.gameHeight / 5);
-             return;
-             */
-
 
             addBonus();
             addBonus();
@@ -329,13 +317,13 @@ package game.model
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aFighterType);
             var aCount: int = Math.floor(aTotalHP / enemyVO.initialHP);
             var target: Target = new Target(viewModel.gameWidth / 2, aDestinationY);
-            var behavior: BehaviorVO = behaviorDefs.getBehaviorVO(BehaviorFactory.GET_TO_Y, target);
-
+            var behavior: BehaviorVO;
             var xGap: Number;
             var x: Number;
 
             for (var i: int = 0; i < aCount; i++)
             {
+                behavior = behaviorDefs.getBehaviorVO(BehaviorFactory.GET_TO_Y, target);
                 xGap = (viewModel.gameWidth - 2 * viewModel.spawnBounds) / aCount;
                 x = viewModel.spawnBounds + xGap / 2 + i * xGap;
                 _levelEvents.push(new SpawnEnemyEvent(enemyVO, behavior, _currentDistance, x, -GameModel.OUTER_BOUNDS));

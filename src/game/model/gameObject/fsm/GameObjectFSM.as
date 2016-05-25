@@ -36,7 +36,6 @@ package game.model.gameObject.fsm
         private function startState(): void
         {
             _curentState = _states[_stateIndex];
-            trace("_MO_", this, _stateIndex, _curentState);
             _curentState.start(_enemyGO, _target);
         }
 
