@@ -287,7 +287,7 @@ package game.model
             }
 
             //UPDATE ENEMIES
-            for (i = 0; i < _enemies.length; i++)
+            for (i = _enemies.length - 1; i >= 0; i--)
             {
                 enemyGO = _enemies[i];
                 enemyGO.update(aDeltaTime);
@@ -300,7 +300,7 @@ package game.model
             }
 
             //UPDATE ENEMY BULLETS
-            for (i = 0; i < _enemyBullets.length; i++)
+            for (i = _enemyBullets.length - 1; i >= 0; i--)
             {
                 enemyBulletGO = _enemyBullets[i];
                 enemyBulletGO.update(aDeltaTime);
@@ -311,7 +311,7 @@ package game.model
                     if (!_immortal)
                     {
                         //check for collisions
-                        for (iC = 0; iC < _players.length; iC++)
+                        for (iC = _players.length - 1; iC >= 0; iC--)
                         {
                             playerGO = _players[iC];
 
@@ -324,7 +324,6 @@ package game.model
 
                                 //remove bullet & stop checking other players
                                 _enemyBullets.splice(i, 1);
-                                i--;
                                 _gameObjectRemovedSignal.dispatch(enemyBulletGO);
                                 break;
                             }
@@ -335,14 +334,13 @@ package game.model
                 {
                     //remove bullet
                     _enemyBullets.splice(i, 1);
-                    i--;
                     _gameObjectRemovedSignal.dispatch(enemyBulletGO);
                 }
             }
 
 
             //UPDATE PLAYER BULLETS
-            bulletLoop: for (i = 0; i < _playerBullets.length; i++)
+            bulletLoop: for (i = _playerBullets.length - 1; i >= 0; i--)
             {
                 playerBulletGO = _playerBullets[i];
                 playerBulletGO.update(aDeltaTime);
@@ -351,7 +349,7 @@ package game.model
                 if (playerBulletGO.y > -OUTER_BOUNDS)
                 {
                     //enemy collisions
-                    for (iC = 0; iC < _enemies.length; iC++)
+                    for (iC = _enemies.length - 1; iC >= 0; iC--)
                     {
                         enemyGO = _enemies[iC];
                         if (enemyGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
@@ -365,21 +363,19 @@ package game.model
                             if (enemyGO.hp <= 0)
                             {
                                 _enemies.splice(iC, 1);
-                                iC--;
                                 _gameObjectRemovedSignal.dispatch(enemyGO);
                                 _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
                             }
 
                             //remove bullet & stop checking rest of enemies vector
                             _playerBullets.splice(i, 1);
-                            i--;
                             _gameObjectRemovedSignal.dispatch(playerBulletGO);
                             continue bulletLoop;
                         }
                     }
 
                     //obstacle collisions
-                    for (iC = 0; iC < _obstacles.length; iC++)
+                    for (iC = _obstacles.length - 1; iC >= 0; iC--)
                     {
                         obstacleGO = _obstacles[iC];
                         if (obstacleGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
@@ -393,14 +389,12 @@ package game.model
                             if (obstacleGO.hp <= 0)
                             {
                                 _obstacles.splice(iC, 1);
-                                iC--;
                                 _gameObjectRemovedSignal.dispatch(obstacleGO);
                                 _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
                             }
 
                             //remove bullet & stop checking rest of obstacles vector
                             _playerBullets.splice(i, 1);
-                            i--;
                             _gameObjectRemovedSignal.dispatch(playerBulletGO);
                             continue bulletLoop;
                         }
@@ -410,13 +404,12 @@ package game.model
                 {
                     //remove bullet
                     _playerBullets.splice(i, 1);
-                    i--;
                     _gameObjectRemovedSignal.dispatch(playerBulletGO);
                 }
             }
 
             //UPDATE BONUSES
-            for (i = 0; i < _bonuses.length; i++)
+            for (i = _bonuses.length - 1; i >= 0; i--)
             {
                 bonusGO = _bonuses[i];
                 bonusGO.update(aDeltaTime);
@@ -430,7 +423,7 @@ package game.model
             }
 
             //UPDATE OBSTACLES
-            for (i = 0; i < _obstacles.length; i++)
+            for (i = _obstacles.length - 1; i >= 0; i--)
             {
                 obstacleGO = _obstacles[i];
                 obstacleGO.update(aDeltaTime);
@@ -454,7 +447,7 @@ package game.model
                     if (playerGO.state == PlayerShipGO.STATE_ALIVE)
                     {
                         //bonus collisions
-                        for (iC = 0; iC < _bonuses.length; iC++)
+                        for (iC = _bonuses.length - 1; iC >= 0; iC--)
                         {
                             bonusGO = _bonuses[iC];
                             if (bonusGO.bounds.intersects(playerGO.bounds))
@@ -464,7 +457,6 @@ package game.model
                                 playerGO.getBonus(bonusGO.bonusVO.typeID);
 
                                 _bonuses.splice(iC, 1);
-                                iC--;
                                 _gameObjectRemovedSignal.dispatch(bonusGO);
                             }
                         }
@@ -472,7 +464,7 @@ package game.model
                         if (!_immortal)
                         {
                             //enemy collisions
-                            for (iC = 0; iC < _enemies.length; iC++)
+                            for (iC = _enemies.length - 1; iC >= 0; iC--)
                             {
                                 enemyGO = _enemies[iC];
                                 if (enemyGO.bounds.intersects(playerGO.bounds))
@@ -483,14 +475,13 @@ package game.model
                                     _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
 
                                     _enemies.splice(iC, 1);
-                                    iC--;
                                     _gameObjectRemovedSignal.dispatch(enemyGO);
                                 }
                             }
 
 
                             //obstacle collisions
-                            for (iC = 0; iC < _obstacles.length; iC++)
+                            for (iC = _obstacles.length - 1; iC >= 0; iC--)
                             {
                                 obstacleGO = _obstacles[iC];
                                 if (obstacleGO.bounds.intersects(playerGO.bounds))
@@ -501,7 +492,6 @@ package game.model
                                     _gameObjectHitSignal.dispatch(playerGO, obstacleGO.obstacleVO.initialHP);
 
                                     _obstacles.splice(iC, 1);
-                                    iC--;
                                     _gameObjectRemovedSignal.dispatch(obstacleGO);
                                 }
                             }
