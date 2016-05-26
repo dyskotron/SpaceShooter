@@ -1,5 +1,7 @@
 package game.model
 {
+    import flash.geom.Rectangle;
+
     import game.controller.GameEndSignal;
     import game.controller.PhysicsUpdateSignal;
     import game.controller.playerControl.KeyController;
@@ -11,6 +13,7 @@ package game.model
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.constants.PlayerShipType;
+    import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -62,6 +65,9 @@ package game.model
         public var mainModel: IMainModel;
 
         [Inject]
+        public var behaviorDefs: IBehaviorFactory;
+
+        [Inject]
         public var levelProvider: ILevelProvider;
 
         [Inject]
@@ -89,10 +95,12 @@ package game.model
 
         private var _state: uint;
         private var _finishedLevel: Boolean = false;
+        private var _immortal: Boolean = false;
+        private var _removeBounds: Rectangle;
 
 
         /**
-         * Main model of the Game, it stores and updates all game objects, and dispatches according signal if something changes
+         * Main model of the Game, it stores and updates all game objects, and dispatches according signals if something changes
          */
         public function GameModel()
         {
@@ -196,6 +204,8 @@ package game.model
             _bonuses = new Vector.<BonusGO>();
             _obstacles = new Vector.<ObstacleGO>();
 
+            _removeBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
+
             var player: PlayerShipGO;
             for (var i: int = 0; i < _numPLayers; i++)
             {
@@ -218,8 +228,6 @@ package game.model
             _levelModel.levelEventSignal.add(levelEventHandler);
 
             _state = STATE_MOVING;
-
-
         }
 
         public function destroy(): void
@@ -247,7 +255,7 @@ package game.model
                 _players[i].endShoot();
             }
 
-            //_state = STATE_ENDED;
+            _state = STATE_ENDED;
         }
 
         //region --------------------------------- SIGNAL HANDLERS ---------------------------------
@@ -284,8 +292,7 @@ package game.model
                 enemyGO = _enemies[i];
                 enemyGO.update(aDeltaTime);
 
-                //TODO: rectangle contains instead
-                if (_enemies[i].y > viewModel.stageHeight + OUTER_BOUNDS)
+                if (!_removeBounds.contains(_enemies[i].x, _enemies[i].y))
                 {
                     _enemies.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(enemyGO);
@@ -301,23 +308,26 @@ package game.model
                 //if bullet fits in bounds
                 if (enemyBulletGO.y < viewModel.gameHeight + OUTER_BOUNDS)
                 {
-                    //check for collisions
-                    for (iC = 0; iC < _players.length; iC++)
+                    if (!_immortal)
                     {
-                        playerGO = _players[iC];
-
-                        if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.contains(enemyBulletGO.x, enemyBulletGO.y))
+                        //check for collisions
+                        for (iC = 0; iC < _players.length; iC++)
                         {
-                            //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-                            //decrease hp
-                            playerGO.hit(enemyBulletGO.bulletVO.damage);
-                            _gameObjectHitSignal.dispatch(playerGO, 0);
+                            playerGO = _players[iC];
 
-                            //remove bullet & stop checking other players
-                            _enemyBullets.splice(i, 1);
-                            i--;
-                            _gameObjectRemovedSignal.dispatch(enemyBulletGO);
-                            break;
+                            if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.contains(enemyBulletGO.x, enemyBulletGO.y))
+                            {
+                                //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
+                                //decrease hp
+                                playerGO.hit(enemyBulletGO.bulletVO.damage);
+                                _gameObjectHitSignal.dispatch(playerGO, 0);
+
+                                //remove bullet & stop checking other players
+                                _enemyBullets.splice(i, 1);
+                                i--;
+                                _gameObjectRemovedSignal.dispatch(enemyBulletGO);
+                                break;
+                            }
                         }
                     }
                 }
@@ -443,23 +453,6 @@ package game.model
 
                     if (playerGO.state == PlayerShipGO.STATE_ALIVE)
                     {
-                        //enemy collisions
-                        for (iC = 0; iC < _enemies.length; iC++)
-                        {
-                            enemyGO = _enemies[iC];
-                            if (enemyGO.bounds.intersects(playerGO.bounds))
-                            {
-                                //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-                                //decrease player hp
-                                playerGO.hit(enemyGO.enemyVO.initialHP);
-                                _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
-
-                                _enemies.splice(iC, 1);
-                                iC--;
-                                _gameObjectRemovedSignal.dispatch(enemyGO);
-                            }
-                        }
-
                         //bonus collisions
                         for (iC = 0; iC < _bonuses.length; iC++)
                         {
@@ -476,20 +469,41 @@ package game.model
                             }
                         }
 
-                        //obstacle collisions
-                        for (iC = 0; iC < _obstacles.length; iC++)
+                        if (!_immortal)
                         {
-                            obstacleGO = _obstacles[iC];
-                            if (obstacleGO.bounds.intersects(playerGO.bounds))
+                            //enemy collisions
+                            for (iC = 0; iC < _enemies.length; iC++)
                             {
-                                //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-                                //decrease player hp
-                                playerGO.hit(obstacleGO.obstacleVO.initialHP);
-                                _gameObjectHitSignal.dispatch(playerGO, obstacleGO.obstacleVO.initialHP);
+                                enemyGO = _enemies[iC];
+                                if (enemyGO.bounds.intersects(playerGO.bounds))
+                                {
+                                    //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
+                                    //decrease player hp
+                                    playerGO.hit(enemyGO.enemyVO.initialHP);
+                                    _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
 
-                                _obstacles.splice(iC, 1);
-                                iC--;
-                                _gameObjectRemovedSignal.dispatch(obstacleGO);
+                                    _enemies.splice(iC, 1);
+                                    iC--;
+                                    _gameObjectRemovedSignal.dispatch(enemyGO);
+                                }
+                            }
+
+
+                            //obstacle collisions
+                            for (iC = 0; iC < _obstacles.length; iC++)
+                            {
+                                obstacleGO = _obstacles[iC];
+                                if (obstacleGO.bounds.intersects(playerGO.bounds))
+                                {
+                                    //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
+                                    //decrease player hp
+                                    playerGO.hit(obstacleGO.obstacleVO.initialHP);
+                                    _gameObjectHitSignal.dispatch(playerGO, obstacleGO.obstacleVO.initialHP);
+
+                                    _obstacles.splice(iC, 1);
+                                    iC--;
+                                    _gameObjectRemovedSignal.dispatch(obstacleGO);
+                                }
                             }
                         }
                     }
@@ -504,7 +518,7 @@ package game.model
                 case LevelEvent.ID_SPAWN_ENEMY:
                     var enemyEvent: SpawnEnemyEvent = SpawnEnemyEvent(aLevelEvent);
                     var enemyVO: EnemyVO = enemyEvent.aEnemyVO;
-                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.x, enemyEvent.y, _players[0]);
+                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, enemyEvent.x, enemyEvent.y, getRandomPlayer());
                     enemy.shootSignal.add(enemyShootHandler);
                     _enemies.push(enemy);
                     _enemySpawnedSignal.dispatch(enemy);
@@ -534,6 +548,11 @@ package game.model
                     endGame(true);
                     break;
             }
+        }
+
+        private function getRandomPlayer(): PlayerShipGO
+        {
+            return _players[Math.floor(Math.random() * _players.length)];
         }
 
         private function playerShootHandler(aBullets: Vector.<BulletGO>): void

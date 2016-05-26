@@ -123,18 +123,18 @@ package game.model.gameObject
 
         public function init(aX: Number, aY: Number): void
         {
-            _x = controlX = aX;
-            _y = controlY = aY;
+            x = controlX = aX;
+            y = controlY = aY;
             _state = STATE_ALIVE;
         }
 
         override public function update(aDeltaTime: int): void
         {
-            _speedX = (controlX - _x) * MOVE_EASING;
-            _speedY = (controlY - _y) * MOVE_EASING;
+            speedX = (controlX - x) * MOVE_EASING;
+            speedY = (controlY - y) * MOVE_EASING;
 
-            _x += _speedX;
-            _y += _speedY;
+            x += speedX;
+            y += speedY;
 
             super.update(aDeltaTime);
         }

@@ -46,6 +46,12 @@ package common.model
             _enemyTexture[EnemyType.FIGHTER_3] = "enemyGreen1";
             _enemyTexture[EnemyType.FIGHTER_4] = "enemyRed1";
 
+            _enemyTexture[EnemyType.KAMIKAZE_1] = "enemyBlue5";
+            _enemyTexture[EnemyType.KAMIKAZE_2] = "enemyRed5";
+
+            _enemyTexture[EnemyType.WOBBLY_1] = "enemyGreen4";
+            _enemyTexture[EnemyType.WOBBLY_2] = "enemyRed4";
+
             _bonusTexture = new Vector.<String>(3);
             _bonusTexture[BonusType.BONUS_HEALTH] = "pill_red";
             _bonusTexture[BonusType.BONUS_LIFE] = "powerupRed_shield";

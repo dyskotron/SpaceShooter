@@ -2,21 +2,20 @@ package game.model
 {
     import flash.geom.Rectangle;
 
+    import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.GameObjectVO;
 
-    public class GameObject
+    public class GameObject implements ITarget
     {
-        private var _gameObjectVO: GameObjectVO;
-
-        protected var _x: Number = 0;
-        protected var _y: Number = 0;
-
-        protected var _speedX: Number = 0;
-        protected var _speedY: Number = 0;
-
-        protected var _rotation: Number = 0;
-
         private var _bounds: Rectangle;
+
+        private var _rotation: Number = 0;
+        private var _x: Number = 0;
+        private var _y: Number = 0;
+        private var _speedX: Number = 0;
+        private var _speedY: Number = 0;
+
+        private var _gameObjectVO: GameObjectVO;
 
         /**
          * base class representing all game objects e.g. player ships enemies bullets etc
@@ -39,14 +38,16 @@ package game.model
             _bounds = new Rectangle(_x - _gameObjectVO.width / 2, _y - _gameObjectVO.height / 2, _gameObjectVO.width, _gameObjectVO.height)
         }
 
-        public function get gameObjectVO(): GameObjectVO
-        {
-            return _gameObjectVO;
-        }
+        //region ========================================= SETTERS & GETTERS  ==========================================
 
         public function get x(): Number
         {
             return _x;
+        }
+
+        public function set x(value: Number): void
+        {
+            _x = value;
         }
 
         public function get y(): Number
@@ -54,9 +55,19 @@ package game.model
             return _y;
         }
 
+        public function set y(value: Number): void
+        {
+            _y = value;
+        }
+
         public function get speedX(): Number
         {
             return _speedX;
+        }
+
+        public function set speedX(value: Number): void
+        {
+            _speedX = value;
         }
 
         public function get speedY(): Number
@@ -64,15 +75,32 @@ package game.model
             return _speedY;
         }
 
+        public function set speedY(value: Number): void
+        {
+            _speedY = value;
+        }
+
         public function get rotation(): Number
         {
             return _rotation;
+        }
+
+        public function set rotation(value: Number): void
+        {
+            _rotation = value;
+        }
+
+        public function get gameObjectVO(): GameObjectVO
+        {
+            return _gameObjectVO;
         }
 
         public function get bounds(): Rectangle
         {
             return _bounds;
         }
+
+        //endregion
 
         public function update(aDeltaTime: int): void
         {

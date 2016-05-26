@@ -22,6 +22,8 @@ package
 
         /**
          * TODO / IDEAS:
+         * - all loops in game model end->start
+         * - change target inputs in level generator to normalized 0 - 1 (+ size of all game objects later?)
          * - add msg / alerts - player based or level based
          * - count size of GameObjects in *Defs from xml, not textures
          * - main app states could be better connected to its own views - always switching scene as last thing in transition in
@@ -30,9 +32,8 @@ package
          *
          * NEXT STEPS:
          * - pooling
-         * - pixel perfect collision or more rectangles for one gameObject which would be closer gameObject's shape
+         * - better collision
          * - parsing definition of game objects and levels from json(or better binary) which could be created in level designer
-         * - fsm for smarter enemies
          * - mem values protection
          */
         private var _starling: Starling;
@@ -47,7 +48,9 @@ package
             this.loaderInfo.addEventListener(Event.COMPLETE, completeHandler);
 
             CONFIG::debug {
-                addChild(new Stats());
+                var stats: Stats = new Stats();
+                addChild(stats);
+                stats.x = stage.stageWidth - stats.width;
             }
         }
 

@@ -27,7 +27,7 @@ package game.model.gameObject
 
         override public function update(aDeltaTime: int): void
         {
-            _rotation = Math.atan2(_speedX, -_speedY);
+            rotation = Math.atan2(speedX, -speedY);
 
             super.update(aDeltaTime);
         }

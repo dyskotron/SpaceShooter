@@ -10,33 +10,28 @@ package game.model.gameObject
     import flash.utils.getTimer;
 
     import game.model.gameObject.constants.BulletType;
+    import game.model.gameObject.fsm.GameObjectFSM;
+    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.BulletVO;
     import game.model.gameObject.vo.EnemyVO;
 
     public class EnemyGO extends ShootingGO
     {
-        //px / s
-        public static const MAX_SPEED: Number = 200;
-        public static const MIN_SPEED: Number = 100;
-
-        /**
-         * Coordinates where player ship is heading to.
-         * it stores mouse position for mouse controller
-         * or emulates "keyboard position" translated from keys pressed for keyboard controller
-         */
-        public var controlX: Number = 0;
-        public var controlY: Number = 0;
         private var _enemyVO: EnemyVO;
 
-        public function EnemyGO(aEnemyVO: EnemyVO, aX: Number, aY: Number, aPlayerGO: PlayerShipGO): void
+        private var _fsm: GameObjectFSM;
+
+        public function EnemyGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aX: Number, aY: Number, aTarget: ITarget): void
         {
             super(aEnemyVO, aX, aY, 0, 0);
 
             _enemyVO = aEnemyVO;
-            controlX = aPlayerGO.x;
-            controlY = aPlayerGO.y;
 
-            startShoot();
+            _fsm = new GameObjectFSM(aBehaviorVO.states, this, aTarget);
+
+            if (aEnemyVO.bulletType != BulletType.NONE)
+                startShoot();
         }
 
         public function get enemyVO(): EnemyVO
@@ -46,10 +41,8 @@ package game.model.gameObject
 
         override public function update(aDeltaTime: int): void
         {
-            //_x += Math.min((controlX - _x), MAX_SPEED * aDeltaTime / 1000);
-            //_y += MathUtil.clamp((controlY - _y), MIN_SPEED * aDeltaTime / 1000, MAX_SPEED * aDeltaTime / 1000);
-
-            _y += MAX_SPEED * aDeltaTime / 1000;
+            _fsm.update(this, aDeltaTime);
+            _fsm.curentState.update(this, aDeltaTime);
 
             super.update(aDeltaTime);
         }
@@ -64,7 +57,6 @@ package game.model.gameObject
         {
 
         }
-
 
         override protected function shoot(): void
         {
