@@ -7,14 +7,15 @@
  */
 package game.model.gameObject
 {
-    import flash.utils.getTimer;
-
     import game.model.gameObject.constants.BulletType;
     import game.model.gameObject.fsm.GameObjectFSM;
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.BehaviorVO;
-    import game.model.gameObject.vo.BulletVO;
     import game.model.gameObject.vo.EnemyVO;
+    import game.model.weapon.EnemyWeapon;
+    import game.model.weapon.Weapon;
+
+    import org.osflash.signals.Signal;
 
     public class EnemyGO extends ShootingGO
     {
@@ -47,27 +48,14 @@ package game.model.gameObject
             super.update(aDeltaTime);
         }
 
-        override public function startShoot(): void
-        {
-            super.startShoot();
-            _nextShotTime = getTimer() + shootInterval * 3 * Math.random();
-        }
-
         override public function destroy(): void
         {
 
         }
 
-        override protected function shoot(): void
+        override protected function createWeapon(aShootSignal: Signal, aShootInterval: int, aX: Number = 0, aY: Number = 0): Weapon
         {
-            var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
-            var bulletVO: BulletVO = new BulletVO(BulletType.LASER, 15, 4, 10);
-
-            bullets.push(new BulletGO(-1, bulletVO, x + 8, y, 0, 0.6));
-            bullets.push(new BulletGO(-1, bulletVO, x - 8, y, 0, 0.6));
-
-            shootSignal.dispatch(bullets);
-            super.shoot();
+            return new EnemyWeapon(aShootSignal, aShootInterval, aX, aY);
         }
 
     }

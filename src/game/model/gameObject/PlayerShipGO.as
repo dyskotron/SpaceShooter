@@ -9,13 +9,10 @@ package game.model.gameObject
 {
     import com.greensock.TweenLite;
 
-    import flash.events.TimerEvent;
-    import flash.utils.Timer;
-
     import game.model.gameObject.constants.BonusType;
-    import game.model.gameObject.constants.BulletType;
-    import game.model.gameObject.vo.BulletVO;
     import game.model.gameObject.vo.PlayerShipVO;
+    import game.model.weapon.PlayerWeapon;
+    import game.model.weapon.Weapon;
 
     import org.osflash.signals.Signal;
 
@@ -26,8 +23,6 @@ package game.model.gameObject
         public static const STATE_ALIVE: uint = 2;
         public static const STATE_SPAWNING: uint = 3;
 
-        public static const WEAPON_MIN: uint = 1;
-        public static const WEAPON_MAX: uint = 10;
         public static const MOVE_EASING: Number = 0.2;
 
         /**
@@ -40,7 +35,6 @@ package game.model.gameObject
 
         private var _playerID: uint;
         private var _playerShipVO: PlayerShipVO;
-        private var _shootTimer: Timer;
         private var _statsUpdateSignal: Signal;
         private var _changeStateSignal: Signal;
         private var _playerDiedSignal: Signal;
@@ -49,8 +43,6 @@ package game.model.gameObject
         private var _state: uint;
         private var _lives: int = 3;
         private var _score: Number = 0;
-        private var _weaponPower: uint = 1;
-
 
         public function PlayerShipGO(aPLayerID: uint, aPlayerShipVO: PlayerShipVO): void
         {
@@ -58,8 +50,6 @@ package game.model.gameObject
 
             _playerID = aPLayerID;
             _playerShipVO = aPlayerShipVO;
-            _shootTimer = new Timer(100);
-            _shootTimer.addEventListener(TimerEvent.TIMER, shoot, false, 0, true);
             _statsUpdateSignal = new Signal();
             _changeStateSignal = new Signal(PlayerShipGO);
             _playerDiedSignal = new Signal(uint);
@@ -85,16 +75,6 @@ package game.model.gameObject
             return _lives;
         }
 
-        public function get weaponPower(): uint
-        {
-            if (_weaponPower == 10)
-                return 7;
-            else if (_weaponPower > 6)
-                return 6;
-
-            return _weaponPower;
-        }
-
         public function get score(): Number
         {
             return _score;
@@ -104,6 +84,11 @@ package game.model.gameObject
         {
             _score = value;
             _statsUpdateSignal.dispatch();
+        }
+
+        public function get weaponPower(): uint
+        {
+            return PlayerWeapon(_weapon).displayedPower;
         }
 
         public function get statsUpdateSignal(): Signal
@@ -119,6 +104,12 @@ package game.model.gameObject
         public function get playerDiedSignal(): Signal
         {
             return _playerDiedSignal;
+        }
+
+        override public function startShoot(): void
+        {
+            if (state == STATE_ALIVE)
+                super.startShoot();
         }
 
         public function init(aX: Number, aY: Number): void
@@ -159,7 +150,7 @@ package game.model.gameObject
                     _lives++;
                     break;
                 case BonusType.BONUS_WEAPON:
-                    _weaponPower = Math.min(++_weaponPower, WEAPON_MAX);
+                    PlayerWeapon(_weapon).addPower();
                     break;
             }
 
@@ -168,15 +159,18 @@ package game.model.gameObject
 
         override public function destroy(): void
         {
-            _shootTimer.stop();
-            _shootTimer.removeEventListener(TimerEvent.TIMER, shoot);
-            _shootTimer = null;
+
+        }
+
+        override protected function createWeapon(aShootSignal: Signal, aShootInterval: int, aX: Number = 0, aY: Number = 0): Weapon
+        {
+            return new PlayerWeapon(aShootSignal, aShootInterval, aX, aY);
         }
 
         private function die(): void
         {
             _lives = Math.max(--_lives, 0);
-            _weaponPower = Math.max(Math.floor(_weaponPower / 2), WEAPON_MIN);
+            PlayerWeapon(_weapon).onDeath();
 
             if (_lives > 0)
             {
@@ -210,78 +204,6 @@ package game.model.gameObject
         private function dispatchDied(): void
         {
             _playerDiedSignal.dispatch(_playerID)
-        }
-
-        override protected function shoot(): void
-        {
-            if (_state != STATE_ALIVE)
-                return;
-
-            var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
-            var bulletVO: BulletVO = new BulletVO(BulletType.LASER, 10, 4, 10);
-
-            switch (_weaponPower)
-            {
-                case 1:
-                    bullets.push(new BulletGO(_playerID, bulletVO, x, y - 40, 0, -0.6));
-                    break;
-                case 2:
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 3, y - 40, 0, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 3, y - 40, 0, -0.6));
-                    break;
-                case 3:
-                    bullets.push(new BulletGO(_playerID, bulletVO, x, y - 40, 0, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 45, y - 25, -0.1, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 45, y - 25, 0.1, -0.6));
-                    break;
-
-                case 4:
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 3, y - 40, 0, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 3, y - 40, 0, -0.6));
-
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 45, y - 25, -0.1, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 45, y - 25, 0.1, -0.6));
-                    break;
-
-                case 5:
-                    bullets.push(new BulletGO(_playerID, bulletVO, x, y - 40, 0, -0.6));
-
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 47, y - 25, -0.1, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 53, y - 25, -0.1, -0.6));
-
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 47, y - 25, 0.1, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 53, y - 25, 0.1, -0.6));
-                    break;
-
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 3, y - 40, 0, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 3, y - 40, 0, -0.6));
-
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 47, y - 25, -0.1, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 53, y - 25, -0.1, -0.6));
-
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 47, y - 25, 0.1, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 53, y - 25, 0.1, -0.6));
-                    break;
-
-                case 10:
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 9, y - 40, 0, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 3, y - 40, 0, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 3, y - 40, 0, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 9, y - 40, 0, -0.6));
-
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 47, y - 25, -0.1, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x - 53, y - 25, -0.1, -0.6));
-
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 47, y - 25, 0.1, -0.6));
-                    bullets.push(new BulletGO(_playerID, bulletVO, x + 53, y - 25, 0.1, -0.6));
-            }
-
-            shootSignal.dispatch(bullets);
-            super.shoot();
         }
     }
 }
