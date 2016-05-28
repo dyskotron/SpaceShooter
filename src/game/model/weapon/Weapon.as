@@ -2,6 +2,8 @@ package game.model.weapon
 {
     import flash.utils.getTimer;
 
+    import game.model.gameObject.BulletGO;
+
     import org.osflash.signals.Signal;
 
     public class Weapon
@@ -9,7 +11,7 @@ package game.model.weapon
         public static const WEAPON_MIN: uint = 1;
         public static const WEAPON_MAX: uint = 10;
 
-        protected var _shootInterval: uint = 200;
+        protected var _weaponVO: WeaponVO;
         protected var _nextShotTime: Number = 0;
         protected var _shootSignal: Signal;
         protected var _ownerID: uint;
@@ -19,10 +21,10 @@ package game.model.weapon
         private var _y: Number = 0;
 
 
-        public function Weapon(aShootSignal: Signal, aShootInterval: int, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
+        public function Weapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
         {
             _shootSignal = aShootSignal;
-            _shootInterval = aShootInterval;
+            _weaponVO = aWeaponVO;
             _ownerID = aOwnerID;
             _x = aX;
             _y = aY;
@@ -47,9 +49,20 @@ package game.model.weapon
 
         protected function shoot(aX: Number, aY: Number): void
         {
-
             //TODO: USE DELTA TIME instead of get timer
-            _nextShotTime = getTimer() + _shootInterval;
+            _nextShotTime = getTimer() + _weaponVO.shootInterval;
+
+            var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
+
+            var spawnPoint: BulletSpawnVO;
+            for (var i: int = 0; i < _weaponVO.spawnPoints.length; i++)
+            {
+                spawnPoint = _weaponVO.spawnPoints[i];
+                bullets.push(new BulletGO(_ownerID, _weaponVO.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
+
+            }
+
+            _shootSignal.dispatch(bullets);
         }
 
     }

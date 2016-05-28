@@ -12,6 +12,7 @@ package game.model
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.constants.BulletType;
     import game.model.gameObject.constants.PlayerShipType;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.vo.BonusVO;
@@ -22,6 +23,9 @@ package game.model
     import game.model.levelModel.SpawnBonusEvent;
     import game.model.levelModel.SpawnEnemyEvent;
     import game.model.levelModel.SpawnObstacleEvent;
+    import game.model.weapon.IWeaponDefs;
+    import game.model.weapon.WeaponID;
+    import game.model.weapon.WeaponVO;
 
     import highScores.model.IHighScoreService;
 
@@ -65,7 +69,10 @@ package game.model
         public var mainModel: IMainModel;
 
         [Inject]
-        public var behaviorDefs: IBehaviorFactory;
+        public var behaviorFactory: IBehaviorFactory;
+
+        [Inject]
+        public var weaponDef: IWeaponDefs;
 
         [Inject]
         public var levelProvider: ILevelProvider;
@@ -207,9 +214,11 @@ package game.model
             _removeBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
             var player: PlayerShipGO;
+            var weaponVO: WeaponVO;
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, 150, 99, 75));
+                weaponVO = weaponDef.getWeaponVO(WeaponID.PLAYER_WEAPON, 200, BulletType.LASER);
+                player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, weaponVO, 150, 99, 75));
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
                 player.playerDiedSignal.add(playerDiedHandler);

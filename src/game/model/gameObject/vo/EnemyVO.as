@@ -1,13 +1,15 @@
 package game.model.gameObject.vo
 {
+    import game.model.weapon.WeaponVO;
+
     public class EnemyVO extends ShootingVO
     {
         private var _speed: uint;
 
-        public function EnemyVO(aTypeID: uint, aSpeed: uint, aBulletType: uint, aBulletInterval: int, aInitialHP: Number, aWidth: Number, aHeight: Number)
+        public function EnemyVO(aTypeID: uint, aSpeed: uint, aWeaponVO: WeaponVO, aInitialHP: Number, aWidth: Number, aHeight: Number)
         {
             _speed = aSpeed;
-            super(aTypeID, aInitialHP, aBulletType, aBulletInterval, aWidth, aHeight);
+            super(aTypeID, aWeaponVO, aInitialHP, aWidth, aHeight);
         }
 
         public function get speed(): uint

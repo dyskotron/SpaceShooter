@@ -2,25 +2,21 @@ package game.model.weapon
 {
     import flash.utils.getTimer;
 
-    import game.model.gameObject.BulletGO;
-    import game.model.gameObject.constants.BulletType;
-    import game.model.gameObject.vo.BulletVO;
-
     import org.osflash.signals.Signal;
 
     public class EnemyWeapon extends Weapon
     {
-        public function EnemyWeapon(aShootSignal: Signal, aShootInterval: int, aX: Number = 0, aY: Number = 0)
+        public function EnemyWeapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aX: Number = 0, aY: Number = 0)
         {
-            super(aShootSignal, aShootInterval, aX, aY);
+            super(aShootSignal, aWeaponVO, aX, aY);
         }
 
         override public function startShoot(): void
         {
             super.startShoot();
-            _nextShotTime = getTimer() + _shootInterval * 3 * Math.random();
+            _nextShotTime = getTimer() + _weaponVO.shootInterval * 3 * Math.random();
         }
-
+        /*
         override protected function shoot(aX: Number, aY: Number): void
         {
             var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
@@ -32,6 +28,6 @@ package game.model.weapon
             _shootSignal.dispatch(bullets);
 
             super.shoot(aX, aY);
-        }
+        }   */
     }
 }

@@ -13,6 +13,7 @@ package game.model.gameObject
     import game.model.gameObject.vo.PlayerShipVO;
     import game.model.weapon.PlayerWeapon;
     import game.model.weapon.Weapon;
+    import game.model.weapon.WeaponVO;
 
     import org.osflash.signals.Signal;
 
@@ -162,9 +163,9 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aShootInterval: int, aX: Number = 0, aY: Number = 0): Weapon
+        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aX: Number = 0, aY: Number = 0): Weapon
         {
-            return new PlayerWeapon(aShootSignal, aShootInterval, aX, aY);
+            return new PlayerWeapon(aShootSignal, aWeaponVO, aX, aY);
         }
 
         private function die(): void

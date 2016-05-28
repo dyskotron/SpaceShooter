@@ -2,6 +2,7 @@ package game.model.gameObject
 {
     import game.model.gameObject.vo.ShootingVO;
     import game.model.weapon.Weapon;
+    import game.model.weapon.WeaponVO;
 
     import org.osflash.signals.Signal;
 
@@ -27,7 +28,7 @@ package game.model.gameObject
 
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
-            _weapon = createWeapon(_shootSignal, _shootingVO.shootInterval);
+            _weapon = createWeapon(_shootSignal, _shootingVO.weaponVO);
         }
 
         public function get shootSignal(): Signal
@@ -55,12 +56,12 @@ package game.model.gameObject
         /**
          * Abstract weapon factory method
          * @param aShootSignal
-         * @param aShootInterval
+         * @param aWeaponVO
          * @param aX
          * @param aY
          * @return
          */
-        protected function createWeapon(aShootSignal: Signal, aShootInterval: int, aX: Number = 0, aY: Number = 0): Weapon
+        protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aX: Number = 0, aY: Number = 0): Weapon
         {
             return null;
         }

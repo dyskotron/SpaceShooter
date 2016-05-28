@@ -1,25 +1,20 @@
 package game.model.gameObject.vo
 {
+    import game.model.weapon.WeaponVO;
+
     public class ShootingVO extends HittableVO
     {
-        private var _shootInterval: int;
-        private var _bulletType: int;
+        private var _weaponVO: WeaponVO;
 
-        public function ShootingVO(aTypeID: uint, aInitialHP: int, aBulletType: uint, aShootInterval: int, aWidth: Number, aHeight: Number)
+        public function ShootingVO(aTypeID: uint, aWeaponVO: WeaponVO, aInitialHP: int, aWidth: Number, aHeight: Number)
         {
-            _shootInterval = aShootInterval;
-            _bulletType = aBulletType;
+            _weaponVO = aWeaponVO;
             super(aTypeID, aInitialHP, aWidth, aHeight);
         }
 
-        public function get shootInterval(): int
+        public function get weaponVO(): WeaponVO
         {
-            return _shootInterval;
-        }
-
-        public function get bulletType(): int
-        {
-            return _bulletType;
+            return _weaponVO;
         }
     }
 }

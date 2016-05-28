@@ -7,13 +7,13 @@
  */
 package game.model.gameObject
 {
-    import game.model.gameObject.constants.BulletType;
     import game.model.gameObject.fsm.GameObjectFSM;
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.weapon.EnemyWeapon;
     import game.model.weapon.Weapon;
+    import game.model.weapon.WeaponVO;
 
     import org.osflash.signals.Signal;
 
@@ -31,7 +31,7 @@ package game.model.gameObject
 
             _fsm = new GameObjectFSM(aBehaviorVO.states, this, aTarget);
 
-            if (aEnemyVO.bulletType != BulletType.NONE)
+            if (aEnemyVO.weaponVO)
                 startShoot();
         }
 
@@ -53,9 +53,9 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aShootInterval: int, aX: Number = 0, aY: Number = 0): Weapon
+        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aX: Number = 0, aY: Number = 0): Weapon
         {
-            return new EnemyWeapon(aShootSignal, aShootInterval, aX, aY);
+            return new EnemyWeapon(aShootSignal, aWeaponVO, aX, aY);
         }
 
     }
