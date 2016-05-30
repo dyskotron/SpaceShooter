@@ -12,7 +12,7 @@ package game.model
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
-    import game.model.gameObject.constants.BulletType;
+    import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.constants.PlayerShipType;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.vo.BonusVO;
@@ -24,8 +24,8 @@ package game.model
     import game.model.levelModel.SpawnEnemyEvent;
     import game.model.levelModel.SpawnObstacleEvent;
     import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.WeaponID;
     import game.model.weapon.WeaponModel;
+    import game.model.weapon.enums.PlayerWeaponID;
 
     import highScores.model.IHighScoreService;
 
@@ -217,7 +217,7 @@ package game.model
             var weaponVO: WeaponModel;
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                weaponVO = weaponDef.getWeaponVO(WeaponID.PLAYER_WEAPON, 200, BulletType.LASER);
+                weaponVO = weaponDef.getPlayerWeaponVO(PlayerWeaponID.PLASMA);
                 player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, weaponVO, 150, 99, 75));
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
@@ -463,7 +463,7 @@ package game.model
                             {
                                 //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                                 //give player a bonus
-                                playerGO.getBonus(bonusGO.bonusVO.typeID);
+                                playerGO.getBonus(bonusGO.bonusVO.bulletID);
 
                                 _bonuses.splice(iC, 1);
                                 _gameObjectRemovedSignal.dispatch(bonusGO);
@@ -597,6 +597,28 @@ package game.model
             {
                 case PlayerActionID.SHOOT:
                     aValue ? playerGO.startShoot() : playerGO.endShoot();
+                    break;
+
+                case PlayerActionID.POWER_UP:
+                    if (aValue)
+                        playerGO.getBonus(BonusTypeID.BONUS_WEAPON);
+                    break;
+
+                case PlayerActionID.POWER_DOWN:
+                    if (aValue)
+                        playerGO.powerDown();
+                    break;
+                case PlayerActionID.WEAPON_LASER:
+                    if (aValue)
+                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.LASER));
+                    break;
+                case PlayerActionID.WEAPON_PLASMA:
+                    if (aValue)
+                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.PLASMA));
+                    break;
+                case PlayerActionID.WEAPON_ELECTRIC:
+                    if (aValue)
+                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.ELECTRIC));
                     break;
             }
         }

@@ -2,12 +2,12 @@ package game.model.gameObject.def
 {
     import common.model.TextureProvider;
 
-    import game.model.gameObject.constants.BulletType;
+    import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.WeaponID;
     import game.model.weapon.WeaponModel;
+    import game.model.weapon.enums.EnemyWeaponID;
 
     import org.robotlegs.mvcs.Actor;
 
@@ -34,28 +34,28 @@ package game.model.gameObject.def
 
             enemyType = EnemyType.FIGHTER_1;
             speed = 200;
-            weaponVO = aWeaponDefs.getWeaponVO(WeaponID.ENEMY_WEAPON, 4000, BulletType.LASER);
+            weaponVO = aWeaponDefs.getEnemyWeaponVO(EnemyWeaponID.LASER, 4000, BulletID.LASER);
             width = texture.width * 0.6;
             height = texture.height * 0.6;
             hp = 30;
             _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weaponVO, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_2;
-            weaponVO = aWeaponDefs.getWeaponVO(WeaponID.ENEMY_WEAPON, 3000, BulletType.LASER);
+            weaponVO = aWeaponDefs.getEnemyWeaponVO(EnemyWeaponID.LASER, 3000, BulletID.LASER);
             width = texture.width * 0.65;
             height = texture.height * 0.65;
             hp = 50;
             _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weaponVO, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_3;
-            weaponVO = aWeaponDefs.getWeaponVO(WeaponID.ENEMY_WEAPON, 2000, BulletType.LASER);
+            weaponVO = aWeaponDefs.getEnemyWeaponVO(EnemyWeaponID.LASER, 2000, BulletID.LASER);
             width = texture.width * 0.7;
             height = texture.height * 0.7;
             hp = 80;
             _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weaponVO, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_4;
-            weaponVO = aWeaponDefs.getWeaponVO(WeaponID.ENEMY_WEAPON, 1200, BulletType.LASER);
+            weaponVO = aWeaponDefs.getEnemyWeaponVO(EnemyWeaponID.LASER, 1200, BulletID.LASER);
             width = texture.width * 0.75;
             height = texture.height * 0.75;
             hp = 100;

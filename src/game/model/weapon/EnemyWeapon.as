@@ -14,7 +14,7 @@ package game.model.weapon
         override public function startShoot(): void
         {
             super.startShoot();
-            _nextShotTime = getTimer() + _weaponModel.shootInterval * 3 * Math.random();
+            _nextShotAfter = getTimer() + _weaponModel.shootInterval * 3 * Math.random();
         }
 
         /*

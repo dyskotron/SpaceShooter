@@ -1,6 +1,6 @@
 package game.model
 {
-    import game.model.gameObject.constants.BonusType;
+    import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.constants.ObstacleType;
     import game.model.gameObject.def.BehaviorFactory;
@@ -452,11 +452,11 @@ package game.model
 
             //bonus type ID
             randomBonusID = new Vector.<uint>();
-            randomBonusID.push(BonusType.BONUS_LIFE);
-            randomBonusID.push(BonusType.BONUS_WEAPON);
-            randomBonusID.push(BonusType.BONUS_WEAPON);
-            randomBonusID.push(BonusType.BONUS_HEALTH);
-            randomBonusID.push(BonusType.BONUS_HEALTH);
+            randomBonusID.push(BonusTypeID.BONUS_LIFE);
+            randomBonusID.push(BonusTypeID.BONUS_WEAPON);
+            randomBonusID.push(BonusTypeID.BONUS_WEAPON);
+            randomBonusID.push(BonusTypeID.BONUS_HEALTH);
+            randomBonusID.push(BonusTypeID.BONUS_HEALTH);
 
             //obstacle type ID
             randomObstacleID = new Vector.<uint>();

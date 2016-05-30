@@ -22,9 +22,10 @@ package
 
         /**
          * TODO / IDEAS:
+         * - move weapon power to weaponmodel(just player)
+         * - check bulletVO defs - could be static / just created once
          * - check if player shoot key pressed and enable shooting automatically after death
          * - unify SomethingType and SomethingID
-         * - all loops in game model end->start
          * - change target inputs in level generator to normalized 0 - 1 (+ size of all game objects later?)
          * - add msg / alerts - player based or level based
          * - count size of GameObjects in *Defs from xml, not textures

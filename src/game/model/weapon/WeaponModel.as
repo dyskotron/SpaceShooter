@@ -1,7 +1,5 @@
 package game.model.weapon
 {
-    import game.model.gameObject.vo.BulletVO;
-
     public class WeaponModel
     {
         /**
@@ -9,19 +7,16 @@ package game.model.weapon
          * bullet type
          * weapon type - sequence / all at once
          */
-
         protected var _spawnPoints: Vector.<BulletSpawnVO>;
 
         private var _weaponType: uint = 0;
         protected var _shootInterval: int;
-        protected var _bulletVO: BulletVO;
 
-        public function WeaponModel(aWeaponType: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>, aBulletVO: BulletVO)
+        public function WeaponModel(aWeaponType: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>)
         {
             _weaponType = aWeaponType;
             _shootInterval = aShootInterval;
             _spawnPoints = aSpawnPoints;
-            _bulletVO = aBulletVO;
         }
 
         public function get weaponType(): uint
@@ -37,11 +32,6 @@ package game.model.weapon
         public function get spawnPoints(): Vector.<BulletSpawnVO>
         {
             return _spawnPoints;
-        }
-
-        public function get bulletVO(): BulletVO
-        {
-            return _bulletVO;
         }
     }
 }

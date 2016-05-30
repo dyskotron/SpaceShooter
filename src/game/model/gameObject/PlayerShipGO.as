@@ -9,7 +9,7 @@ package game.model.gameObject
 {
     import com.greensock.TweenLite;
 
-    import game.model.gameObject.constants.BonusType;
+    import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.vo.PlayerShipVO;
     import game.model.weapon.PlayerWeapon;
     import game.model.weapon.Weapon;
@@ -144,18 +144,34 @@ package game.model.gameObject
         {
             switch (typeID)
             {
-                case BonusType.BONUS_HEALTH:
+                case BonusTypeID.BONUS_HEALTH:
                     addHitPoints(80);
                     break;
-                case BonusType.BONUS_LIFE:
+                case BonusTypeID.BONUS_LIFE:
                     _lives++;
                     break;
-                case BonusType.BONUS_WEAPON:
+                case BonusTypeID.BONUS_WEAPON:
                     PlayerWeapon(_weapon).addPower();
                     break;
             }
 
             _statsUpdateSignal.dispatch();
+        }
+
+        /**
+         * Debug function
+         */
+        public function powerDown(): void
+        {
+            PlayerWeapon(_weapon).onDeath();
+        }
+
+        /**
+         * Debug function
+         */
+        public function switchWeapon(aWeaponModel: WeaponModel): void
+        {
+            _weapon = new PlayerWeapon(shootSignal, aWeaponModel, 0, 0, PlayerWeapon(_weapon).power);
         }
 
         override public function destroy(): void

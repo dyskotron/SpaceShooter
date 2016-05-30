@@ -114,12 +114,42 @@ package game.controller.playerControl
                 return;
 
             _keysDown[aEvent.keyCode] = true;
-
             switch (aEvent.keyCode)
             {
                 case Keyboard.SPACE:
                     _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
                     break;
+
+                case Keyboard.SPACE:
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    break;
+
+                case Keyboard.SPACE:
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    break;
+            }
+
+
+            CONFIG::debug{
+                switch (aEvent.keyCode)
+                {
+                    case Keyboard.Q:
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.POWER_UP, true);
+                        break;
+
+                    case Keyboard.A:
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.POWER_DOWN, true);
+                        break;
+                    case Keyboard.NUMBER_1:
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.WEAPON_ELECTRIC, true);
+                        break;
+                    case Keyboard.NUMBER_2:
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.WEAPON_LASER, true);
+                        break;
+                    case Keyboard.NUMBER_3:
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.WEAPON_PLASMA, true);
+                        break;
+                }
             }
         }
 
