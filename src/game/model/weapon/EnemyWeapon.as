@@ -6,7 +6,7 @@ package game.model.weapon
 
     public class EnemyWeapon extends Weapon
     {
-        public function EnemyWeapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aX: Number = 0, aY: Number = 0)
+        public function EnemyWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0)
         {
             super(aShootSignal, aWeaponVO, aX, aY);
         }
@@ -14,20 +14,21 @@ package game.model.weapon
         override public function startShoot(): void
         {
             super.startShoot();
-            _nextShotTime = getTimer() + _weaponVO.shootInterval * 3 * Math.random();
+            _nextShotTime = getTimer() + _weaponModel.shootInterval * 3 * Math.random();
         }
+
         /*
-        override protected function shoot(aX: Number, aY: Number): void
-        {
-            var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
-            var bulletVO: BulletVO = new BulletVO(BulletType.LASER, 15, 4, 10);
+         override protected function shoot(aX: Number, aY: Number): void
+         {
+         var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
+         var bulletVO: BulletVO = new BulletVO(BulletType.LASER, 15, 4, 10);
 
-            bullets.push(new BulletGO(-1, bulletVO, aX + 8, aY, 0, 0.6));
-            bullets.push(new BulletGO(-1, bulletVO, aX - 8, aY, 0, 0.6));
+         bullets.push(new BulletGO(-1, bulletVO, aX + 8, aY, 0, 0.6));
+         bullets.push(new BulletGO(-1, bulletVO, aX - 8, aY, 0, 0.6));
 
-            _shootSignal.dispatch(bullets);
+         _shootSignal.dispatch(bullets);
 
-            super.shoot(aX, aY);
-        }   */
+         super.shoot(aX, aY);
+         }   */
     }
 }

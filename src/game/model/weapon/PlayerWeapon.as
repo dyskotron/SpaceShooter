@@ -4,9 +4,9 @@ package game.model.weapon
 
     public class PlayerWeapon extends Weapon
     {
-        private var _displayedPower: uint = WEAPON_MIN;
+        private var _power: uint = WEAPON_MIN;
 
-        public function PlayerWeapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aX: Number = 0, aY: Number = 0)
+        public function PlayerWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0)
         {
             super(aShootSignal, aWeaponVO, aX, aY);
         }
@@ -19,23 +19,24 @@ package game.model.weapon
 
         public function addPower(): void
         {
-            _displayedPower = Math.min(++_displayedPower, WEAPON_MAX);
+            _power = Math.min(++_power, WEAPON_MAX);
+            PlayerWeaponModel(_weaponModel).updatePower(_power);
         }
 
         public function onDeath(): void
         {
-            _displayedPower = Math.max(Math.floor(_displayedPower / 2), WEAPON_MIN);
+            _power = Math.max(Math.floor(_power / 2), WEAPON_MIN);
             stopShoot();
         }
 
         public function get displayedPower(): uint
         {
-            if (_displayedPower == 10)
+            if (_power == 10)
                 return 7;
-            else if (_displayedPower > 6)
+            else if (_power > 6)
                 return 6;
 
-            return _displayedPower;
+            return _power;
         }
 
         /*
@@ -108,6 +109,6 @@ package game.model.weapon
 
          super.shoot(aX, aY);
 
-    }  */
-}
+         }  */
+    }
 }

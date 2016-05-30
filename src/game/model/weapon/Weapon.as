@@ -8,10 +8,10 @@ package game.model.weapon
 
     public class Weapon
     {
-        public static const WEAPON_MIN: uint = 1;
-        public static const WEAPON_MAX: uint = 10;
+        public static const WEAPON_MIN: uint = 0;
+        public static const WEAPON_MAX: uint = 9;
 
-        protected var _weaponVO: WeaponVO;
+        protected var _weaponModel: WeaponModel;
         protected var _nextShotTime: Number = 0;
         protected var _shootSignal: Signal;
         protected var _ownerID: uint;
@@ -21,10 +21,10 @@ package game.model.weapon
         private var _y: Number = 0;
 
 
-        public function Weapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
+        public function Weapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
         {
             _shootSignal = aShootSignal;
-            _weaponVO = aWeaponVO;
+            _weaponModel = aWeaponVO;
             _ownerID = aOwnerID;
             _x = aX;
             _y = aY;
@@ -50,15 +50,15 @@ package game.model.weapon
         protected function shoot(aX: Number, aY: Number): void
         {
             //TODO: USE DELTA TIME instead of get timer
-            _nextShotTime = getTimer() + _weaponVO.shootInterval;
+            _nextShotTime = getTimer() + _weaponModel.shootInterval;
 
             var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
 
             var spawnPoint: BulletSpawnVO;
-            for (var i: int = 0; i < _weaponVO.spawnPoints.length; i++)
+            for (var i: int = 0; i < _weaponModel.spawnPoints.length; i++)
             {
-                spawnPoint = _weaponVO.spawnPoints[i];
-                bullets.push(new BulletGO(_ownerID, _weaponVO.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
+                spawnPoint = _weaponModel.spawnPoints[i];
+                bullets.push(new BulletGO(_ownerID, _weaponModel.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
 
             }
 

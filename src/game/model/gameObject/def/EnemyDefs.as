@@ -7,7 +7,7 @@ package game.model.gameObject.def
     import game.model.gameObject.vo.EnemyVO;
     import game.model.weapon.IWeaponDefs;
     import game.model.weapon.WeaponID;
-    import game.model.weapon.WeaponVO;
+    import game.model.weapon.WeaponModel;
 
     import org.robotlegs.mvcs.Actor;
 
@@ -24,7 +24,7 @@ package game.model.gameObject.def
             var enemyType: uint;
             var texture: Texture;
             var speed: uint;
-            var weaponVO: WeaponVO;
+            var weaponVO: WeaponModel;
             var hp: int;
             var width: Number;
             var height: Number;

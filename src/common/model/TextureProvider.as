@@ -94,7 +94,8 @@ package common.model
 
         public function getBulletTexture(): Texture
         {
-            return getTexture("laserBlue01");
+            return getTexture("laserGreen04");
+            //return getTexture("laserRed03");
         }
 
         public function getEnemyTexture(aEnemyID: uint): Texture

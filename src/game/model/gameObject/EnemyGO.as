@@ -13,7 +13,7 @@ package game.model.gameObject
     import game.model.gameObject.vo.EnemyVO;
     import game.model.weapon.EnemyWeapon;
     import game.model.weapon.Weapon;
-    import game.model.weapon.WeaponVO;
+    import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 
@@ -53,7 +53,7 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponVO, aX: Number = 0, aY: Number = 0): Weapon
+        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): Weapon
         {
             return new EnemyWeapon(aShootSignal, aWeaponVO, aX, aY);
         }

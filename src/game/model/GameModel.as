@@ -25,7 +25,7 @@ package game.model
     import game.model.levelModel.SpawnObstacleEvent;
     import game.model.weapon.IWeaponDefs;
     import game.model.weapon.WeaponID;
-    import game.model.weapon.WeaponVO;
+    import game.model.weapon.WeaponModel;
 
     import highScores.model.IHighScoreService;
 
@@ -214,7 +214,7 @@ package game.model
             _removeBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
             var player: PlayerShipGO;
-            var weaponVO: WeaponVO;
+            var weaponVO: WeaponModel;
             for (var i: int = 0; i < _numPLayers; i++)
             {
                 weaponVO = weaponDef.getWeaponVO(WeaponID.PLAYER_WEAPON, 200, BulletType.LASER);
