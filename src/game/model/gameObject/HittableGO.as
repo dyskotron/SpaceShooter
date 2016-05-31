@@ -28,6 +28,7 @@ package game.model.gameObject
 
         public function hit(aDamage: Number): void
         {
+            trace("_MO_", this, aDamage, _hp);
             _hp -= aDamage;
         }
 

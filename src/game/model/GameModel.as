@@ -103,7 +103,7 @@ package game.model
         private var _state: uint;
         private var _finishedLevel: Boolean = false;
         private var _immortal: Boolean = false;
-        private var _removeBounds: Rectangle;
+        private var _gameBounds: Rectangle;
 
 
         /**
@@ -211,7 +211,7 @@ package game.model
             _bonuses = new Vector.<BonusGO>();
             _obstacles = new Vector.<ObstacleGO>();
 
-            _removeBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
+            _gameBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
             var player: PlayerShipGO;
             var weaponVO: WeaponModel;
@@ -283,7 +283,9 @@ package game.model
             var bonusGO: BonusGO;
             var obstacleGO: ObstacleGO;
 
-            //UPDATE LEVEL
+            var removeBullet: Boolean;
+
+            //region UPDATE LEVEL
             switch (_state)
             {
                 case STATE_MOVING:
@@ -294,28 +296,33 @@ package game.model
                         _state = STATE_MOVING;
                     break;
             }
+            //endregion
 
-            //UPDATE ENEMIES
+            //region UPDATE ENEMIES
             for (i = _enemies.length - 1; i >= 0; i--)
             {
                 enemyGO = _enemies[i];
-                enemyGO.update(aDeltaTime);
 
-                if (!_removeBounds.contains(_enemies[i].x, _enemies[i].y))
+                if (_gameBounds.contains(_enemies[i].x, _enemies[i].y))
+                {
+                    enemyGO.update(aDeltaTime);
+                }
+                else
                 {
                     _enemies.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(enemyGO);
                 }
             }
+            //endregion
 
-            //UPDATE ENEMY BULLETS
+            //region UPDATE ENEMY BULLETS
             for (i = _enemyBullets.length - 1; i >= 0; i--)
             {
                 enemyBulletGO = _enemyBullets[i];
                 enemyBulletGO.update(aDeltaTime);
 
-                //if bullet fits in bounds
-                if (enemyBulletGO.y < viewModel.gameHeight + OUTER_BOUNDS)
+                //if bullet is in game area
+                if (_gameBounds.contains(enemyBulletGO.x, enemyBulletGO.y))
                 {
                     if (!_immortal)
                     {
@@ -346,26 +353,27 @@ package game.model
                     _gameObjectRemovedSignal.dispatch(enemyBulletGO);
                 }
             }
+            //endregion
 
-
-            //UPDATE PLAYER BULLETS
+            //region UPDATE PLAYER BULLETS
             bulletLoop: for (i = _playerBullets.length - 1; i >= 0; i--)
             {
                 playerBulletGO = _playerBullets[i];
                 playerBulletGO.update(aDeltaTime);
 
-                //if bullet fits in bounds
-                if (playerBulletGO.y > -OUTER_BOUNDS)
+                //if bullet is in game area
+                if (_gameBounds.contains(playerBulletGO.x, playerBulletGO.y))
                 {
                     //enemy collisions
                     for (iC = _enemies.length - 1; iC >= 0; iC--)
                     {
                         enemyGO = _enemies[iC];
-                        if (enemyGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
+                        removeBullet = false;
+                        if (enemyGO.bounds.contains(playerBulletGO.x, playerBulletGO.y) && playerBulletGO.canHit(enemyGO))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                             //decrease hp
-                            enemyGO.hit(playerBulletGO.bulletVO.damage);
+                            removeBullet = playerBulletGO.hitObject(enemyGO);
                             _gameObjectHitSignal.dispatch(enemyGO, 0);
 
                             //remove enemy if dead
@@ -377,9 +385,12 @@ package game.model
                             }
 
                             //remove bullet & stop checking rest of enemies vector
-                            _playerBullets.splice(i, 1);
-                            _gameObjectRemovedSignal.dispatch(playerBulletGO);
-                            continue bulletLoop;
+                            if (removeBullet)
+                            {
+                                _playerBullets.splice(i, 1);
+                                _gameObjectRemovedSignal.dispatch(playerBulletGO);
+                                continue bulletLoop;
+                            }
                         }
                     }
 
@@ -387,11 +398,13 @@ package game.model
                     for (iC = _obstacles.length - 1; iC >= 0; iC--)
                     {
                         obstacleGO = _obstacles[iC];
+                        removeBullet = false;
+
                         if (obstacleGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                             //decrease hp
-                            obstacleGO.hit(playerBulletGO.bulletVO.damage);
+                            removeBullet = playerBulletGO.hitObject(obstacleGO);
                             _gameObjectHitSignal.dispatch(obstacleGO, 0);
 
                             //remove obstacle if dead
@@ -403,9 +416,12 @@ package game.model
                             }
 
                             //remove bullet & stop checking rest of obstacles vector
-                            _playerBullets.splice(i, 1);
-                            _gameObjectRemovedSignal.dispatch(playerBulletGO);
-                            continue bulletLoop;
+                            if (removeBullet)
+                            {
+                                _playerBullets.splice(i, 1);
+                                _gameObjectRemovedSignal.dispatch(playerBulletGO);
+                                continue bulletLoop;
+                            }
                         }
                     }
                 }
@@ -417,7 +433,9 @@ package game.model
                 }
             }
 
-            //UPDATE BONUSES
+            //endregion
+
+            //region UPDATE BONUSES
             for (i = _bonuses.length - 1; i >= 0; i--)
             {
                 bonusGO = _bonuses[i];
@@ -430,8 +448,9 @@ package game.model
                     _gameObjectRemovedSignal.dispatch(bonusGO);
                 }
             }
+            //endregion
 
-            //UPDATE OBSTACLES
+            //region UPDATE OBSTACLES
             for (i = _obstacles.length - 1; i >= 0; i--)
             {
                 obstacleGO = _obstacles[i];
@@ -444,8 +463,9 @@ package game.model
                     _gameObjectRemovedSignal.dispatch(obstacleGO);
                 }
             }
+            //endregion
 
-            // UPDATE PLAYERS
+            //region UPDATE PLAYERS
             for (i = 0; i < _numPLayers; i++)
             {
                 playerGO = _players[i];
@@ -508,6 +528,7 @@ package game.model
                     }
                 }
             }
+            //endregion
         }
 
         private function levelEventHandler(aLevelEvent: LevelEvent): void

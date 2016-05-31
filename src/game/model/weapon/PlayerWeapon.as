@@ -6,24 +6,24 @@ package game.model.weapon
     {
         public static const MIN_POWER: uint = 0;
 
-        private var _power: uint = MIN_POWER;
+        private var playerWeaponModel: PlayerWeaponModel;
 
         public function PlayerWeapon(aShootSignal: Signal, aWeaponModel: WeaponModel, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
         {
             super(aShootSignal, aWeaponModel, aX, aY);
 
-            _power = _aPower;
-            PlayerWeaponModel(_weaponModel).updatePower(_power);
+            playerWeaponModel = PlayerWeaponModel(_weaponModel);
+            playerWeaponModel.setPower(_aPower);
         }
 
         public function get displayedPower(): uint
         {
-            return _power + 1;
+            return playerWeaponModel.power + 1;
         }
 
         public function get power(): uint
         {
-            return _power;
+            return playerWeaponModel.power;
         }
 
         override public function startShoot(): void
@@ -34,14 +34,12 @@ package game.model.weapon
 
         public function addPower(): void
         {
-            _power = Math.min(++_power, PlayerWeaponModel(_weaponModel).maxPower);
-            PlayerWeaponModel(_weaponModel).updatePower(_power);
+            playerWeaponModel.setPower(playerWeaponModel.power + 1);
         }
 
         public function onDeath(): void
         {
-            _power = Math.max(Math.floor(_power / 2), MIN_POWER);
-            PlayerWeaponModel(_weaponModel).updatePower(_power);
+            playerWeaponModel.setPower(Math.max(Math.floor(playerWeaponModel.power / 2), MIN_POWER));
             stopShoot();
         }
     }

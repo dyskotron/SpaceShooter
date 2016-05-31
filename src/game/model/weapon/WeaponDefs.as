@@ -50,53 +50,42 @@ package game.model.weapon
 
                     bulletY1 = -30;
 
-                    //0
+                    //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, 0, bulletY1, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //1
+                    //2
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //2
+                    //3
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX2, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, 0, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX2, bulletY1, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //3
+                    //4
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, 0, bulletY1, -0.1, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, 0, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, 0, bulletY1, 0.1, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //4
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.1, -0.6));
-                    spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, 0, -0.6));
-                    spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0, -0.6));
-                    spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.1, -0.6));
-                    spawnPointsByPower.push(spawnPoints);
                     //5
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.2, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.1, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.1, -0.6));
-                    spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.2, -0.6));
                     spawnPointsByPower.push(spawnPoints);
                     //6
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.3, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.2, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.1, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.1, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.2, -0.6));
-                    spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.3, -0.6));
                     spawnPointsByPower.push(spawnPoints);
                     //7
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -111,6 +100,17 @@ package game.model.weapon
                     spawnPointsByPower.push(spawnPoints);
                     //8
                     spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.3, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.2, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.1, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, 0, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.1, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.2, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.3, -0.6));
+                    spawnPointsByPower.push(spawnPoints);
+                    //9
+                    spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.5, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.3, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.2, -0.6));
@@ -122,7 +122,7 @@ package game.model.weapon
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.3, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, bulletX1, bulletY1, 0.5, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //9
+                    //10
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.7, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(aBulletType, -bulletX1, bulletY1, -0.5, -0.6));
@@ -155,33 +155,33 @@ package game.model.weapon
                     bulletY2 = -20;
                     bulletY3 = -10;
 
-                    //0
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX1, bulletY1, 0, -0.6));
-                    spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX1, bulletY1, 0, -0.6));
-                    spawnPointsByPower.push(spawnPoints);
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX2, bulletY2, -0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX1, bulletY1, 0, -0.6));
-                    spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX2, bulletY2, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
                     //2
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX2, bulletY2, -0, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX1, bulletY1, 0, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX1, bulletY1, 0, -0.6));
+                    spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX2, bulletY2, 0, -0.6));
+                    spawnPointsByPower.push(spawnPoints);
+                    //3
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX2, bulletY2, -0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, -bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX2, bulletY2, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //3
+                    //4
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, -bulletX2, bulletY2, -0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, -bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, bulletX1, bulletY1, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, bulletX2, bulletY2, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //4
+                    //5
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX3, bulletY3, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX2, bulletY2, -0, -0.6));
@@ -190,7 +190,7 @@ package game.model.weapon
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX2, bulletY2, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX3, bulletY3, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //5
+                    //6
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX3, bulletY3, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, -bulletX2, bulletY2, -0, -0.6));
@@ -199,7 +199,7 @@ package game.model.weapon
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, bulletX2, bulletY2, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX3, bulletY3, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //6
+                    //7
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, -bulletX3, bulletY3, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, -bulletX2, bulletY2, -0, -0.6));
@@ -208,7 +208,7 @@ package game.model.weapon
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, bulletX2, bulletY2, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_1, bulletX3, bulletY3, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //7
+                    //8
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, -bulletX3, bulletY3, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, -bulletX2, bulletY2, -0, -0.6));
@@ -217,7 +217,7 @@ package game.model.weapon
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, bulletX2, bulletY2, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, bulletX3, bulletY3, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //8
+                    //9
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, -bulletX3, bulletY3, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_3, -bulletX2, bulletY2, -0, -0.6));
@@ -226,7 +226,7 @@ package game.model.weapon
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_3, bulletX2, bulletY2, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_2, bulletX3, bulletY3, 0, -0.6));
                     spawnPointsByPower.push(spawnPoints);
-                    //9
+                    //10
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_3, -bulletX3, bulletY3, 0, -0.6));
                     spawnPoints.push(getSpawnVOByPolar(BulletID.PLASMA_3, -bulletX2, bulletY2, -0, -0.6));

@@ -40,6 +40,8 @@ package game.model.gameObject
         private var _changeStateSignal: Signal;
         private var _playerDiedSignal: Signal;
 
+        private var _shouldBeShooting: Boolean;
+
         //stats shown on gui
         private var _state: uint;
         private var _lives: int = 3;
@@ -109,8 +111,16 @@ package game.model.gameObject
 
         override public function startShoot(): void
         {
+            _shouldBeShooting = true;
+
             if (state == STATE_ALIVE)
                 super.startShoot();
+        }
+
+        override public function endShoot(): void
+        {
+            _shouldBeShooting = false;
+            super.endShoot();
         }
 
         public function init(aX: Number, aY: Number): void
@@ -216,6 +226,9 @@ package game.model.gameObject
 
             _changeStateSignal.dispatch(this);
             _statsUpdateSignal.dispatch();
+
+            if (_shouldBeShooting)
+                _weapon.startShoot();
         }
 
         private function dispatchDied(): void

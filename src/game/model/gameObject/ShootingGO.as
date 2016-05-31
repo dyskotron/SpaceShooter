@@ -46,6 +46,7 @@ package game.model.gameObject
         public function startShoot(): void
         {
             _weapon.startShoot();
+
         }
 
         public function endShoot(): void
