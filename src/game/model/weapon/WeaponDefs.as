@@ -16,7 +16,7 @@ package game.model.weapon
 
         }
 
-        public function getPlayerWeaponVO(aWeaponID: uint): WeaponModel
+        public function getPlayerWeaponModel(aWeaponID: uint): WeaponModel
         {
             var spawnPoints: Vector.<BulletSpawnVO> = new Vector.<BulletSpawnVO>();
             var weaponVO: WeaponModel;
@@ -282,7 +282,7 @@ package game.model.weapon
             return weaponVO;
         }
 
-        public function getEnemyWeaponVO(aWeaponID: uint, aShootInterval: uint, bulletType: uint): WeaponModel
+        public function getEnemyWeaponModel(aWeaponID: uint, aShootInterval: uint, bulletType: uint): WeaponModel
         {
             var spawnPoints: Vector.<BulletSpawnVO> = new Vector.<BulletSpawnVO>();
             var weaponVO: WeaponModel;

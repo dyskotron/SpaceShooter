@@ -6,10 +6,10 @@ package game.model.gameObject.vo
     {
         private var _speed: uint;
 
-        public function EnemyVO(aTypeID: uint, aSpeed: uint, aWeaponVO: WeaponModel, aInitialHP: Number, aWidth: Number, aHeight: Number)
+        public function EnemyVO(aTypeID: uint, aSpeed: uint, aWeapons: Vector.<WeaponModel>, aInitialHP: Number, aWidth: Number, aHeight: Number)
         {
             _speed = aSpeed;
-            super(aTypeID, aWeaponVO, aInitialHP, aWidth, aHeight);
+            super(aTypeID, aWeapons, aInitialHP, aWidth, aHeight);
         }
 
         public function get speed(): uint

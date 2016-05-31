@@ -8,10 +8,9 @@ package game.model.gameObject
 
     public class ShootingGO extends HittableGO
     {
-        protected var _weapon: IWeaponComponent;
+        protected var _weapons: Vector.<IWeaponComponent>;
 
         private var _shootSignal: Signal;
-
         private var _shootingVO: ShootingVO;
 
         /**
@@ -28,7 +27,15 @@ package game.model.gameObject
 
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
-            _weapon = createWeapon(_shootSignal, _shootingVO.weaponVO);
+            _weapons = new Vector.<IWeaponComponent>();
+
+            if (_shootingVO.weaponModels)
+            {
+                for (var i: int = 0; i < _shootingVO.weaponModels.length; i++)
+                {
+                    _weapons.push(createWeapon(_shootSignal, _shootingVO.weaponModels[i]));
+                }
+            }
         }
 
         public function get shootSignal(): Signal
@@ -38,20 +45,28 @@ package game.model.gameObject
 
         override public function update(aDeltaTime: int): void
         {
-            _weapon.update(aDeltaTime, x, y);
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                _weapons[i].update(aDeltaTime, x, y);
+            }
 
             super.update(aDeltaTime);
         }
 
         public function startShoot(): void
         {
-            _weapon.startShoot();
-
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                _weapons[i].startShoot();
+            }
         }
 
         public function endShoot(): void
         {
-            _weapon.stopShoot();
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                _weapons[i].stopShoot();
+            }
         }
 
         /**

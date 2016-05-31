@@ -31,8 +31,7 @@ package game.model.gameObject
 
             _fsm = new GameObjectFSM(aBehaviorVO.states, this, aTarget);
 
-            if (aEnemyVO.weaponVO)
-                startShoot();
+            startShoot();
         }
 
         public function get enemyVO(): EnemyVO

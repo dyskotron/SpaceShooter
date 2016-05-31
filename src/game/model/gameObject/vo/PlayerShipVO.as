@@ -7,10 +7,10 @@ package game.model.gameObject.vo
     {
         private var _generatorVO: GeneratorVO;
 
-        public function PlayerShipVO(aTypeID: uint, aWeaponModel: WeaponModel, aGeneratorVO: GeneratorVO, aInitialHP: Number, aWidth: Number, aHeight: Number)
+        public function PlayerShipVO(aTypeID: uint, aWeapons: Vector.<WeaponModel>, aGeneratorVO: GeneratorVO, aInitialHP: Number, aWidth: Number, aHeight: Number)
         {
             _generatorVO = aGeneratorVO;
-            super(aTypeID, aWeaponModel, aInitialHP, aWidth, aHeight);
+            super(aTypeID, aWeapons, aInitialHP, aWidth, aHeight);
         }
 
         public function get generatorVO(): GeneratorVO

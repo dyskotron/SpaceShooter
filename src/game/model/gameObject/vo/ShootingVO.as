@@ -4,17 +4,17 @@ package game.model.gameObject.vo
 
     public class ShootingVO extends HittableVO
     {
-        private var _weaponVO: WeaponModel;
+        private var _weaponModels: Vector.<WeaponModel>;
 
-        public function ShootingVO(aTypeID: uint, aWeaponVO: WeaponModel, aInitialHP: int, aWidth: Number, aHeight: Number)
+        public function ShootingVO(aTypeID: uint, aWeapons: Vector.<WeaponModel>, aInitialHP: int, aWidth: Number, aHeight: Number)
         {
-            _weaponVO = aWeaponVO;
+            _weaponModels = aWeapons;
             super(aTypeID, aInitialHP, aWidth, aHeight);
         }
 
-        public function get weaponVO(): WeaponModel
+        public function get weaponModels(): Vector.<WeaponModel>
         {
-            return _weaponVO;
+            return _weaponModels;
         }
     }
 }

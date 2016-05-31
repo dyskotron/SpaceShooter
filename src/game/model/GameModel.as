@@ -215,14 +215,16 @@ package game.model
             _gameBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
             var player: PlayerShipGO;
-            var weaponModel: WeaponModel;
+            var weaponModels: Vector.<WeaponModel>;
             var generatorVO: GeneratorVO;
 
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                weaponModel = weaponDef.getPlayerWeaponVO(PlayerWeaponID.PLASMA);
+                weaponModels = new Vector.<WeaponModel>();
+                weaponModels.push(weaponDef.getPlayerWeaponModel(PlayerWeaponID.PLASMA));
+                weaponModels.push(weaponDef.getPlayerWeaponModel(PlayerWeaponID.LASER));
                 generatorVO = new GeneratorVO(1000, 300);
-                player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, weaponModel, generatorVO, 150, 99, 75));
+                player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, weaponModels, generatorVO, 150, 99, 75));
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
                 player.playerDiedSignal.add(playerDiedHandler);
@@ -635,15 +637,15 @@ package game.model
                     break;
                 case PlayerActionID.WEAPON_LASER:
                     if (aValue)
-                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.LASER));
+                        playerGO.switchMainWeapon(weaponDef.getPlayerWeaponModel(PlayerWeaponID.LASER));
                     break;
                 case PlayerActionID.WEAPON_PLASMA:
                     if (aValue)
-                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.PLASMA));
+                        playerGO.switchMainWeapon(weaponDef.getPlayerWeaponModel(PlayerWeaponID.PLASMA));
                     break;
                 case PlayerActionID.WEAPON_ELECTRIC:
                     if (aValue)
-                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.ELECTRIC));
+                        playerGO.switchMainWeapon(weaponDef.getPlayerWeaponModel(PlayerWeaponID.ELECTRIC));
                     break;
             }
         }

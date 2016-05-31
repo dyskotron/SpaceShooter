@@ -98,7 +98,7 @@ package game.model.gameObject
 
         public function get weaponPower(): uint
         {
-            return PlayerWeapon(_weapon).displayedPower;
+            return PlayerWeapon(_weapons[0]).displayedPower;
         }
 
         public function get generatorComponent(): IGeneratorComponent
@@ -176,7 +176,7 @@ package game.model.gameObject
                     _lives++;
                     break;
                 case BonusTypeID.BONUS_WEAPON:
-                    PlayerWeapon(_weapon).addPower();
+                    weaponsAddPower();
                     break;
             }
 
@@ -188,15 +188,15 @@ package game.model.gameObject
          */
         public function powerDown(): void
         {
-            PlayerWeapon(_weapon).onDeath();
+            weaponsOnDeath();
         }
 
         /**
          * Debug function
          */
-        public function switchWeapon(aWeaponModel: WeaponModel): void
+        public function switchMainWeapon(aWeaponModel: WeaponModel): void
         {
-            _weapon = new PlayerWeapon(this, shootSignal, aWeaponModel, 0, 0, PlayerWeapon(_weapon).power);
+            _weapons[0] = new PlayerWeapon(this, shootSignal, aWeaponModel, 0, 0, PlayerWeapon(_weapons[0]).power);
         }
 
         override public function destroy(): void
@@ -212,7 +212,7 @@ package game.model.gameObject
         private function die(): void
         {
             _lives = Math.max(--_lives, 0);
-            PlayerWeapon(_weapon).onDeath();
+            weaponsOnDeath();
 
             if (_lives > 0)
             {
@@ -243,12 +243,28 @@ package game.model.gameObject
             _statsUpdateSignal.dispatch();
 
             if (_shouldBeShooting)
-                _weapon.startShoot();
+                startShoot();
         }
 
         private function dispatchDied(): void
         {
             _playerDiedSignal.dispatch(_playerID)
+        }
+
+        private function weaponsOnDeath(): void
+        {
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                PlayerWeapon(_weapons[i]).onDeath();
+            }
+        }
+
+        private function weaponsAddPower(): void
+        {
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                PlayerWeapon(_weapons[i]).addPower();
+            }
         }
     }
 }

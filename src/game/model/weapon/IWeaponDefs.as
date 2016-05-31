@@ -2,8 +2,8 @@ package game.model.weapon
 {
     public interface IWeaponDefs
     {
-        function getPlayerWeaponVO(aWeaponType: uint): WeaponModel;
+        function getPlayerWeaponModel(aWeaponType: uint): WeaponModel;
 
-        function getEnemyWeaponVO(aWeaponID: uint, aShootInterval: uint, bulletType: uint): WeaponModel;
+        function getEnemyWeaponModel(aWeaponID: uint, aShootInterval: uint, bulletType: uint): WeaponModel;
     }
 }
