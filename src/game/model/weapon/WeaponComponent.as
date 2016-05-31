@@ -5,7 +5,7 @@ package game.model.weapon
 
     import org.osflash.signals.Signal;
 
-    public class Weapon
+    public class WeaponComponent implements IWeaponComponent
     {
         protected var _weaponModel: WeaponModel;
         protected var _nextShotAfter: Number = 0;
@@ -20,7 +20,7 @@ package game.model.weapon
         private var _indexIncrement: int = 1;
 
 
-        public function Weapon(aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
+        public function WeaponComponent(aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
         {
             _shootSignal = aShootSignal;
             _weaponModel = aWeaponModel;

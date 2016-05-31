@@ -19,6 +19,7 @@ package game.model
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
     import game.model.gameObject.vo.PlayerShipVO;
+    import game.model.generator.GeneratorVO;
     import game.model.levelModel.LevelEvent;
     import game.model.levelModel.SpawnBonusEvent;
     import game.model.levelModel.SpawnEnemyEvent;
@@ -214,11 +215,14 @@ package game.model
             _gameBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
             var player: PlayerShipGO;
-            var weaponVO: WeaponModel;
+            var weaponModel: WeaponModel;
+            var generatorVO: GeneratorVO;
+
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                weaponVO = weaponDef.getPlayerWeaponVO(PlayerWeaponID.PLASMA);
-                player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, weaponVO, 150, 99, 75));
+                weaponModel = weaponDef.getPlayerWeaponVO(PlayerWeaponID.PLASMA);
+                generatorVO = new GeneratorVO(1000, 300);
+                player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, weaponModel, generatorVO, 150, 99, 75));
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
                 player.playerDiedSignal.add(playerDiedHandler);

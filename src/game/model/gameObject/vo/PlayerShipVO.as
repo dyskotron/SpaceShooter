@@ -1,12 +1,21 @@
 package game.model.gameObject.vo
 {
+    import game.model.generator.GeneratorVO;
     import game.model.weapon.WeaponModel;
 
     public class PlayerShipVO extends ShootingVO
     {
-        public function PlayerShipVO(aTypeID: uint, aWeaponVO: WeaponModel, aInitialHP: Number, aWidth: Number, aHeight: Number)
+        private var _generatorVO: GeneratorVO;
+
+        public function PlayerShipVO(aTypeID: uint, aWeaponModel: WeaponModel, aGeneratorVO: GeneratorVO, aInitialHP: Number, aWidth: Number, aHeight: Number)
         {
-            super(aTypeID, aWeaponVO, aInitialHP, aWidth, aHeight);
+            _generatorVO = aGeneratorVO;
+            super(aTypeID, aWeaponModel, aInitialHP, aWidth, aHeight);
+        }
+
+        public function get generatorVO(): GeneratorVO
+        {
+            return _generatorVO;
         }
     }
 }

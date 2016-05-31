@@ -131,7 +131,7 @@ package game.view
             aGameModel.bulletSpawnedSignal.add(bulletSpawnedHandler);
             aGameModel.obstacleSpawnedSignal.add(obstacleSpawnedHandler);
             aGameModel.bonusSpawnedSignal.add(bonusSpawnedHandler);
-            aGameModel.gameObjectRemovedSignal.add(gameObjectRemovedSignal);
+            aGameModel.gameObjectRemovedSignal.add(gameObjectRemovedHandler);
             aGameModel.gameObjectHitSignal.add(gameObjectHitHandler);
 
             Mouse.hide();
@@ -261,7 +261,7 @@ package game.view
             _gameModel.bulletSpawnedSignal.remove(bulletSpawnedHandler);
             _gameModel.obstacleSpawnedSignal.remove(obstacleSpawnedHandler);
             _gameModel.bonusSpawnedSignal.remove(bonusSpawnedHandler);
-            _gameModel.gameObjectRemovedSignal.remove(gameObjectRemovedSignal);
+            _gameModel.gameObjectRemovedSignal.remove(gameObjectRemovedHandler);
             _gameModel.gameObjectHitSignal.remove(gameObjectHitHandler);
         }
 
@@ -305,7 +305,7 @@ package game.view
             _gameObjectViews[aBonusGO] = bonusView;
         }
 
-        private function gameObjectRemovedSignal(aGameObject: GameObject): void
+        private function gameObjectRemovedHandler(aGameObject: GameObject): void
         {
 
             if (_gameObjectViews[aGameObject])

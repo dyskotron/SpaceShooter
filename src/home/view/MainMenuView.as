@@ -4,6 +4,7 @@ package home.view
     import common.view.MenuView;
 
     import feathers.controls.ButtonGroup;
+    import feathers.controls.Label;
     import feathers.data.ListCollection;
 
     import starling.events.Event;
@@ -35,6 +36,16 @@ package home.view
             _buttonGroup.setSize(WIDTH, HEIGHT);
 
             addChild(_buttonGroup);
+
+
+            var versionLabel: Label = new Label();
+            versionLabel.text = "Version: " + CONFIG::version;
+            versionLabel.validate();
+
+            versionLabel.x = (_buttonGroup.width - versionLabel.width) / 2;
+            versionLabel.y = _buttonGroup.y + _buttonGroup.height + 10;
+
+            addChild(versionLabel);
         }
 
         override public function get width(): Number

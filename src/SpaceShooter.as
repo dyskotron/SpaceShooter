@@ -22,7 +22,7 @@ package
 
         /**
          * TODO / IDEAS:
-         * - multihit for plasma
+         * - disable enemy hits out of screen
          * - check bulletVO defs - could be static / just created once
          * - unify SomethingType and SomethingID
          * - change target inputs in level generator to normalized 0 - 1 (+ do the same for size for all game objects later?)

@@ -1,14 +1,14 @@
 package game.model.gameObject
 {
     import game.model.gameObject.vo.ShootingVO;
-    import game.model.weapon.Weapon;
+    import game.model.weapon.IWeaponComponent;
     import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 
     public class ShootingGO extends HittableGO
     {
-        protected var _weapon: Weapon;
+        protected var _weapon: IWeaponComponent;
 
         private var _shootSignal: Signal;
 
@@ -62,7 +62,7 @@ package game.model.gameObject
          * @param aY
          * @return
          */
-        protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): Weapon
+        protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): IWeaponComponent
         {
             return null;
         }

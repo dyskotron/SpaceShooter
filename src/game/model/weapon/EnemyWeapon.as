@@ -2,7 +2,7 @@ package game.model.weapon
 {
     import org.osflash.signals.Signal;
 
-    public class EnemyWeapon extends Weapon
+    public class EnemyWeapon extends WeaponComponent
     {
         public function EnemyWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0)
         {

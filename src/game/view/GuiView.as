@@ -5,7 +5,6 @@ package game.view
     import feathers.controls.Label;
     import feathers.controls.LayoutGroup;
     import feathers.controls.ProgressBar;
-    import feathers.core.FeathersControl;
     import feathers.layout.HorizontalLayout;
 
     import game.model.gameObject.PlayerShipGO;
@@ -29,6 +28,7 @@ package game.view
         private var _scoreLabel: Label;
         private var _playerID: Number;
         private var _hpDisplay: ProgressBar;
+        private var _energyDisplay: ProgressBar;
         private var _layoutGroup: LayoutGroup;
         private var _livesLabel: Label;
         private var _weaponPowerLabel: Label;
@@ -109,12 +109,22 @@ package game.view
 
             layoutChildren.push(livesContainer);
 
-            //hit points
+            //hit points + energy
+            var hpEnergyContainer: Sprite = new Sprite();
             _hpDisplay = new ProgressBar();
             _hpDisplay.value = _hpDisplay.maximum = aPlayerModel.playerShipVO.initialHP;
             _hpDisplay.width = width / 4;
-            _hpDisplay.height = innerHeight;
-            layoutChildren.push(_hpDisplay);
+            _hpDisplay.height = innerHeight / 2;
+            hpEnergyContainer.addChild(_hpDisplay);
+
+            _energyDisplay = new ProgressBar();
+            _energyDisplay.value = _energyDisplay.maximum = aPlayerModel.generatorComponent.capacity;
+            _energyDisplay.y = innerHeight / 2;
+            _energyDisplay.width = width / 4;
+            _energyDisplay.height = innerHeight / 2;
+            hpEnergyContainer.addChild(_energyDisplay);
+
+            layoutChildren.push(hpEnergyContainer);
 
             //score
             var scoreContainer: Sprite = new Sprite();
@@ -144,10 +154,9 @@ package game.view
             _scoreLabel.text = "score: " + aPlayerModel.score;
         }
 
-        private function addLayoutChild(aChild: FeathersControl): void
+        public function updateEnergyDisplay(aPlayerModel: PlayerShipGO): void
         {
-            _layoutGroup.addChild(aChild);
-
+            _energyDisplay.value = aPlayerModel.generatorComponent.energy;
         }
     }
 }

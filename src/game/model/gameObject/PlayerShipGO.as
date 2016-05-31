@@ -11,13 +11,16 @@ package game.model.gameObject
 
     import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.vo.PlayerShipVO;
+    import game.model.generator.EnergyGenerator;
+    import game.model.generator.IGeneratorComponent;
+    import game.model.generator.IGeneratorGO;
+    import game.model.weapon.IWeaponComponent;
     import game.model.weapon.PlayerWeapon;
-    import game.model.weapon.Weapon;
     import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 
-    public class PlayerShipGO extends ShootingGO
+    public class PlayerShipGO extends ShootingGO implements IGeneratorGO
     {
         public static const STATE_DEAD: uint = 0;
         public static const STATE_WAITING: uint = 1;
@@ -46,18 +49,22 @@ package game.model.gameObject
         private var _state: uint;
         private var _lives: int = 3;
         private var _score: Number = 0;
+        private var _generatorComponent: IGeneratorComponent;
 
         public function PlayerShipGO(aPLayerID: uint, aPlayerShipVO: PlayerShipVO): void
         {
-            super(aPlayerShipVO, 0, 0, 0, 0);
-
             _playerID = aPLayerID;
             _playerShipVO = aPlayerShipVO;
             _statsUpdateSignal = new Signal();
             _changeStateSignal = new Signal(PlayerShipGO);
             _playerDiedSignal = new Signal(uint);
+
+            _generatorComponent = new EnergyGenerator(aPlayerShipVO.generatorVO);
+
+            super(aPlayerShipVO, 0, 0, 0, 0);
         }
 
+        //region ==================== SETTERS & GETTERS ====================
         public function get playerShipVO(): PlayerShipVO
         {
             return _playerShipVO;
@@ -94,6 +101,11 @@ package game.model.gameObject
             return PlayerWeapon(_weapon).displayedPower;
         }
 
+        public function get generatorComponent(): IGeneratorComponent
+        {
+            return _generatorComponent;
+        }
+
         public function get statsUpdateSignal(): Signal
         {
             return _statsUpdateSignal;
@@ -108,6 +120,8 @@ package game.model.gameObject
         {
             return _playerDiedSignal;
         }
+
+        //endregion  ==================== ====================
 
         override public function startShoot(): void
         {
@@ -139,6 +153,7 @@ package game.model.gameObject
             y += speedY;
 
             super.update(aDeltaTime);
+            _generatorComponent.update(aDeltaTime);
         }
 
         override public function hit(aDamage: Number): void
@@ -181,7 +196,7 @@ package game.model.gameObject
          */
         public function switchWeapon(aWeaponModel: WeaponModel): void
         {
-            _weapon = new PlayerWeapon(shootSignal, aWeaponModel, 0, 0, PlayerWeapon(_weapon).power);
+            _weapon = new PlayerWeapon(this, shootSignal, aWeaponModel, 0, 0, PlayerWeapon(_weapon).power);
         }
 
         override public function destroy(): void
@@ -189,9 +204,9 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): Weapon
+        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): IWeaponComponent
         {
-            return new PlayerWeapon(aShootSignal, aWeaponVO, aX, aY);
+            return new PlayerWeapon(this, aShootSignal, aWeaponVO, aX, aY);
         }
 
         private function die(): void
