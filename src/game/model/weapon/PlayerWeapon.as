@@ -12,9 +12,9 @@ package game.model.weapon
         private var playerWeaponModel: PlayerWeaponModel;
         private var _generator: IGeneratorComponent;
 
-        public function PlayerWeapon(aGeneratorGO: IGeneratorGO, aShootSignal: Signal, aWeaponModel: WeaponModel, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
+        public function PlayerWeapon(aGeneratorGO: IGeneratorGO, aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
         {
-            super(aShootSignal, aWeaponModel, aX, aY);
+            super(aShootSignal, aWeaponModel, aOwnerID, aX, aY);
 
             playerWeaponModel = PlayerWeaponModel(_weaponModel);
             playerWeaponModel.setPower(_aPower);

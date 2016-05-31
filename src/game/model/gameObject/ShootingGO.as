@@ -2,7 +2,7 @@ package game.model.gameObject
 {
     import game.model.gameObject.vo.ShootingVO;
     import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.WeaponModel;
+    import game.model.weapon.WeaponSlot;
 
     import org.osflash.signals.Signal;
 
@@ -27,13 +27,16 @@ package game.model.gameObject
 
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
+
+            //init weapons
             _weapons = new Vector.<IWeaponComponent>();
 
-            if (_shootingVO.weaponModels)
+            if (_shootingVO.weaponSlots)
             {
-                for (var i: int = 0; i < _shootingVO.weaponModels.length; i++)
+                for (var i: int = 0; i < _shootingVO.weaponSlots.length; i++)
                 {
-                    _weapons.push(createWeapon(_shootSignal, _shootingVO.weaponModels[i]));
+                    if (_shootingVO.weaponSlots[i].hasWeapon())
+                        _weapons.push(createWeapon(_shootSignal, _shootingVO.weaponSlots[i]));
                 }
             }
         }
@@ -77,7 +80,7 @@ package game.model.gameObject
          * @param aY
          * @return
          */
-        protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): IWeaponComponent
+        protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponSlot): IWeaponComponent
         {
             return null;
         }

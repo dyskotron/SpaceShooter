@@ -17,6 +17,7 @@ package game.model.gameObject
     import game.model.weapon.IWeaponComponent;
     import game.model.weapon.PlayerWeapon;
     import game.model.weapon.WeaponModel;
+    import game.model.weapon.WeaponSlot;
 
     import org.osflash.signals.Signal;
 
@@ -196,7 +197,7 @@ package game.model.gameObject
          */
         public function switchMainWeapon(aWeaponModel: WeaponModel): void
         {
-            _weapons[0] = new PlayerWeapon(this, shootSignal, aWeaponModel, 0, 0, PlayerWeapon(_weapons[0]).power);
+            _weapons[0] = new PlayerWeapon(this, shootSignal, aWeaponModel, _playerID, PlayerWeapon(_weapons[0]).x, PlayerWeapon(_weapons[0]).y, PlayerWeapon(_weapons[0]).power);
         }
 
         override public function destroy(): void
@@ -204,9 +205,10 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): IWeaponComponent
+        override protected function createWeapon(aShootSignal: Signal, aWeaponSlot: WeaponSlot): IWeaponComponent
         {
-            return new PlayerWeapon(this, aShootSignal, aWeaponVO, aX, aY);
+            trace("_MO_", this, "createWeapon", aWeaponSlot.x, aWeaponSlot.y);
+            return new PlayerWeapon(this, aShootSignal, aWeaponSlot.weaponModel, _playerID, aWeaponSlot.x, aWeaponSlot.y);
         }
 
         private function die(): void

@@ -22,6 +22,8 @@ package
 
         /**
          * TODO / IDEAS:
+         * - move vector of weapon slots to weapons model with addWeapon method which will move guns to right slots
+         *
          * - disable enemy hits out of screen
          * - check bulletVO defs - could be static / just created once
          * - unify SomethingType and SomethingID

@@ -25,8 +25,9 @@ package game.model
     import game.model.levelModel.SpawnEnemyEvent;
     import game.model.levelModel.SpawnObstacleEvent;
     import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.WeaponModel;
+    import game.model.weapon.WeaponSlot;
     import game.model.weapon.enums.PlayerWeaponID;
+    import game.model.weapon.enums.WeaponSlotType;
 
     import highScores.model.IHighScoreService;
 
@@ -215,14 +216,14 @@ package game.model
             _gameBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
             var player: PlayerShipGO;
-            var weaponModels: Vector.<WeaponModel>;
+            var weaponModels: Vector.<WeaponSlot>;
             var generatorVO: GeneratorVO;
 
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                weaponModels = new Vector.<WeaponModel>();
-                weaponModels.push(weaponDef.getPlayerWeaponModel(PlayerWeaponID.PLASMA));
-                weaponModels.push(weaponDef.getPlayerWeaponModel(PlayerWeaponID.LASER));
+                weaponModels = new Vector.<WeaponSlot>();
+                weaponModels.push(new WeaponSlot(WeaponSlotType.GUN, 0, 0, weaponDef.getPlayerWeaponModel(PlayerWeaponID.PLASMA)));
+                weaponModels.push(new WeaponSlot(WeaponSlotType.GUN, 0, 60, weaponDef.getPlayerWeaponModel(PlayerWeaponID.LASER)));
                 generatorVO = new GeneratorVO(1000, 300);
                 player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, weaponModels, generatorVO, 150, 99, 75));
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);

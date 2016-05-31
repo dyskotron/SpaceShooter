@@ -4,9 +4,9 @@ package game.model.weapon
 
     public class EnemyWeapon extends WeaponComponent
     {
-        public function EnemyWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0)
+        public function EnemyWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
         {
-            super(aShootSignal, aWeaponVO, aX, aY);
+            super(aShootSignal, aWeaponVO, aOwnerID, aX, aY);
         }
 
         override public function startShoot(): void

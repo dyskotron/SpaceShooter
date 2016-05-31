@@ -27,6 +27,18 @@ package game.model.weapon
             _ownerID = aOwnerID;
             _x = aX;
             _y = aY;
+            trace("_MO_", this, aX, aY);
+            trace("_MO_", this, _x, _y);
+        }
+
+        public function get x(): Number
+        {
+            return _x;
+        }
+
+        public function get y(): Number
+        {
+            return _y;
         }
 
         public function update(aDeltaTime: int, aShipX: Number, aShipY: Number): void

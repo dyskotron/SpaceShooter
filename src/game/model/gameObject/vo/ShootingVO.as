@@ -1,20 +1,20 @@
 package game.model.gameObject.vo
 {
-    import game.model.weapon.WeaponModel;
+    import game.model.weapon.WeaponSlot;
 
     public class ShootingVO extends HittableVO
     {
-        private var _weaponModels: Vector.<WeaponModel>;
+        private var _weaponSlots: Vector.<WeaponSlot>;
 
-        public function ShootingVO(aTypeID: uint, aWeapons: Vector.<WeaponModel>, aInitialHP: int, aWidth: Number, aHeight: Number)
+        public function ShootingVO(aTypeID: uint, aWeapons: Vector.<WeaponSlot>, aInitialHP: int, aWidth: Number, aHeight: Number)
         {
-            _weaponModels = aWeapons;
+            _weaponSlots = aWeapons;
             super(aTypeID, aInitialHP, aWidth, aHeight);
         }
 
-        public function get weaponModels(): Vector.<WeaponModel>
+        public function get weaponSlots(): Vector.<WeaponSlot>
         {
-            return _weaponModels;
+            return _weaponSlots;
         }
     }
 }
