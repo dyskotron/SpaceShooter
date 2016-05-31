@@ -135,11 +135,11 @@ package game.view
             aGameModel.gameObjectHitSignal.add(gameObjectHitHandler);
 
             Mouse.hide();
-
+            /*
             CONFIG::debug {
                 addChild(new DebugGameView());
                 Mouse.show();
-            }
+            } */
         }
 
         public function showResults(): void
@@ -277,7 +277,7 @@ package game.view
 
         private function enemySpawnedHandler(aEnemyGO: EnemyGO): void
         {
-            var enemyView: EnemyShipView = new EnemyShipView(_textureProvider.getEnemyTexture(aEnemyGO.enemyVO.typeID));
+            var enemyView: EnemyShipView = new EnemyShipView(_textureProvider.getEnemyTexture(aEnemyGO.enemyVO.bulletID));
             enemyView.width = aEnemyGO.enemyVO.width;
             enemyView.height = aEnemyGO.enemyVO.height;
             _shipsLayer.addChild(enemyView);
@@ -286,21 +286,21 @@ package game.view
 
         private function bulletSpawnedHandler(aBulletGO: BulletGO): void
         {
-            var bulletView: BulletView = new BulletView(_textureProvider.getBulletTexture());
+            var bulletView: BulletView = new BulletView(_textureProvider.getBulletTexture(aBulletGO.bulletVO.bulletID));
             _miscLayer.addChild(bulletView);
             _gameObjectViews[aBulletGO] = bulletView;
         }
 
         private function obstacleSpawnedHandler(aObstacleGO: ObstacleGO): void
         {
-            var obstacleView: ObstacleView = new ObstacleView(_textureProvider.getObstacleTexture(aObstacleGO.obstacleVO.typeID));
+            var obstacleView: ObstacleView = new ObstacleView(_textureProvider.getObstacleTexture(aObstacleGO.obstacleVO.bulletID));
             _obstacleLayer.addChild(obstacleView);
             _gameObjectViews[aObstacleGO] = obstacleView;
         }
 
         private function bonusSpawnedHandler(aBonusGO: BonusGO): void
         {
-            var bonusView: BonusView = new BonusView(_textureProvider.getBonusTexture(aBonusGO.bonusVO.typeID));
+            var bonusView: BonusView = new BonusView(_textureProvider.getBonusTexture(aBonusGO.bonusVO.bulletID));
             _miscLayer.addChild(bonusView);
             _gameObjectViews[aBonusGO] = bonusView;
         }

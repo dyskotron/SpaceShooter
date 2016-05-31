@@ -21,6 +21,8 @@ package game.controller
     import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.def.ObstacleDefs;
     import game.model.gameObject.def.PlayerShipDefs;
+    import game.model.weapon.IWeaponDefs;
+    import game.model.weapon.WeaponDefs;
     import game.view.DebugGameMediator;
     import game.view.DebugGameView;
     import game.view.GameMediator;
@@ -75,6 +77,8 @@ package game.controller
             injector.mapSingletonOf(IPlayerShipDefs, PlayerShipDefs);
             injector.mapSingletonOf(IObstacleDefs, ObstacleDefs);
             injector.mapSingletonOf(IBehaviorFactory, BehaviorFactory);
+            injector.mapSingletonOf(IBulletDefs, BulletDefs);
+            injector.mapSingletonOf(IWeaponDefs, WeaponDefs);
 
             injector.mapSingleton(TextureProvider);
 
@@ -118,6 +122,9 @@ package game.controller
             injector.unmap(IEnemyDefs);
             injector.unmap(IPlayerShipDefs);
             injector.unmap(IObstacleDefs);
+            injector.unmap(IBehaviorFactory);
+            injector.unmap(IBulletDefs);
+            injector.unmap(IWeaponDefs);
 
             injector.unmap(TextureProvider);
 

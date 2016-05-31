@@ -2,7 +2,7 @@ package game.model.gameObject.vo
 {
     public class GameObjectVO
     {
-        private var _typeID: uint;
+        private var _bulletID: uint;
 
         private var _width: Number;
         private var _height: Number;
@@ -10,20 +10,20 @@ package game.model.gameObject.vo
         /**
          * ValueObject holidng definition of GameObject
          * it holds properties which are not changing and are common for a certain type of certain GameObjects
-         * @param aTypeID
+         * @param aBulletID
          * @param aWidth
          * @param aHeight
          */
-        public function GameObjectVO(aTypeID: uint, aWidth: Number, aHeight: Number)
+        public function GameObjectVO(aBulletID: uint, aWidth: Number, aHeight: Number)
         {
-            _typeID = aTypeID;
+            _bulletID = aBulletID;
             _width = aWidth;
             _height = aHeight;
         }
 
-        public function get typeID(): uint
+        public function get bulletID(): uint
         {
-            return _typeID;
+            return _bulletID;
         }
 
         public function get width(): Number

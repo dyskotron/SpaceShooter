@@ -1,18 +1,17 @@
 package game.model.gameObject
 {
-    import flash.utils.getTimer;
-
     import game.model.gameObject.vo.ShootingVO;
+    import game.model.weapon.Weapon;
+    import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 
     public class ShootingGO extends HittableGO
     {
+        protected var _weapon: Weapon;
+
         private var _shootSignal: Signal;
 
-        private var _isShooting: Boolean;
-        protected var _nextShotTime: Number = 0;
-        private var _shootInterval: uint = 200;
         private var _shootingVO: ShootingVO;
 
         /**
@@ -29,12 +28,7 @@ package game.model.gameObject
 
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
-            _shootInterval = aShootingVO.shootInterval;
-        }
-
-        public function get shootingVO(): ShootingVO
-        {
-            return _shootingVO;
+            _weapon = createWeapon(_shootSignal, _shootingVO.weaponVO);
         }
 
         public function get shootSignal(): Signal
@@ -42,34 +36,35 @@ package game.model.gameObject
             return _shootSignal;
         }
 
-        public function get shootInterval(): uint
-        {
-            return _shootInterval;
-        }
-
         override public function update(aDeltaTime: int): void
         {
-
-            if (_isShooting && getTimer() > _nextShotTime)
-                shoot();
+            _weapon.update(aDeltaTime, x, y);
 
             super.update(aDeltaTime);
         }
 
         public function startShoot(): void
         {
-            _isShooting = true;
-            _nextShotTime = 0;
+            _weapon.startShoot();
+
         }
 
         public function endShoot(): void
         {
-            _isShooting = false;
+            _weapon.stopShoot();
         }
 
-        protected function shoot(): void
+        /**
+         * Abstract weapon factory method
+         * @param aShootSignal
+         * @param aWeaponVO
+         * @param aX
+         * @param aY
+         * @return
+         */
+        protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): Weapon
         {
-            _nextShotTime = getTimer() + _shootInterval;
+            return null;
         }
     }
 }

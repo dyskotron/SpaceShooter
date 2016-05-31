@@ -1,6 +1,7 @@
 package common.model
 {
-    import game.model.gameObject.constants.BonusType;
+    import game.model.gameObject.constants.BonusTypeID;
+    import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.constants.ObstacleType;
 
@@ -53,9 +54,9 @@ package common.model
             _enemyTexture[EnemyType.WOBBLY_2] = "enemyRed4";
 
             _bonusTexture = new Vector.<String>(3);
-            _bonusTexture[BonusType.BONUS_HEALTH] = "pill_red";
-            _bonusTexture[BonusType.BONUS_LIFE] = "powerupRed_shield";
-            _bonusTexture[BonusType.BONUS_WEAPON] = "powerupRed_bolt";
+            _bonusTexture[BonusTypeID.BONUS_HEALTH] = "pill_red";
+            _bonusTexture[BonusTypeID.BONUS_LIFE] = "powerupRed_shield";
+            _bonusTexture[BonusTypeID.BONUS_WEAPON] = "powerupRed_bolt";
 
             _obstacleTexture = new Vector.<String>(3);
             _obstacleTexture[ObstacleType.TINY_1] = "tiny1";
@@ -92,9 +93,36 @@ package common.model
             return _imageCache.getTexture(aTextureID/* + ".png"*/);
         }
 
-        public function getBulletTexture(): Texture
+        public function getBulletTexture(aBulletID: uint): Texture
         {
-            return getTexture("laserBlue01");
+            var texture: Texture;
+
+            switch (aBulletID)
+            {
+                case BulletID.LASER:
+                    texture = getTexture("laserRed03");
+                    break;
+                case BulletID.PLASMA_1:
+                    texture = getTexture("laserGreen05");
+                    break;
+                case BulletID.PLASMA_2:
+                    texture = getTexture("laserGreen04");
+                    break;
+                case BulletID.PLASMA_3:
+                    texture = getTexture("laserGreen08");
+                    break;
+                case BulletID.ELECTRIC_1:
+                    texture = getTexture("laserBlue03");
+                    break;
+                case BulletID.ELECTRIC_2:
+                    texture = getTexture("laserBlue04");
+                    break;
+                default:
+                    throw new Error("No Tetxture for bulletID: " + aBulletID);
+
+            }
+
+            return texture;
         }
 
         public function getEnemyTexture(aEnemyID: uint): Texture

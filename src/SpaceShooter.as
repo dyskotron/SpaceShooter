@@ -22,8 +22,10 @@ package
 
         /**
          * TODO / IDEAS:
-         * - all loops in game model end->start
-         * - change target inputs in level generator to normalized 0 - 1 (+ size of all game objects later?)
+         * - multihit for plasma
+         * - check bulletVO defs - could be static / just created once
+         * - unify SomethingType and SomethingID
+         * - change target inputs in level generator to normalized 0 - 1 (+ do the same for size for all game objects later?)
          * - add msg / alerts - player based or level based
          * - count size of GameObjects in *Defs from xml, not textures
          * - main app states could be better connected to its own views - always switching scene as last thing in transition in

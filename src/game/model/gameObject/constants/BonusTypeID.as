@@ -1,6 +1,6 @@
 package game.model.gameObject.constants
 {
-    public class BonusType
+    public class BonusTypeID
     {
         public static const BONUS_WEAPON: uint = 0;
         public static const BONUS_HEALTH: uint = 1;
