@@ -5,10 +5,10 @@ package game.model.gameObject.def
     import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.vo.EnemyVO;
+    import game.model.weapon.ComponentSlot;
     import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.WeaponSlot;
+    import game.model.weapon.enums.ComponentType;
     import game.model.weapon.enums.EnemyWeaponID;
-    import game.model.weapon.enums.WeaponSlotType;
 
     import org.robotlegs.mvcs.Actor;
 
@@ -27,7 +27,7 @@ package game.model.gameObject.def
             var enemyType: uint;
             var texture: Texture;
             var speed: uint;
-            var weapons: Vector.<WeaponSlot>;
+            var weapons: Vector.<ComponentSlot>;
             var hp: int;
             var width: Number;
             var height: Number;
@@ -107,10 +107,10 @@ package game.model.gameObject.def
             return _enemyDefByID[aEnemyType];
         }
 
-        private function getWeaponSlots(aWeaponID: uint, aShootInterval: uint, bulletType: uint): Vector.<WeaponSlot>
+        private function getWeaponSlots(aWeaponID: uint, aShootInterval: uint, bulletType: uint): Vector.<ComponentSlot>
         {
-            var weaponSlots: Vector.<WeaponSlot> = new Vector.<WeaponSlot>();
-            weaponSlots.push(new WeaponSlot(WeaponSlotType.GUN, 0, 0, _weaponDefs.getEnemyWeaponModel(aWeaponID, aShootInterval, bulletType)));
+            var weaponSlots: Vector.<ComponentSlot> = new Vector.<ComponentSlot>();
+            weaponSlots.push(new ComponentSlot(ComponentType.MAIN_GUN, 0, 0, _weaponDefs.getEnemyWeaponModel(aWeaponID, aShootInterval, bulletType)));
             return weaponSlots;
         }
     }

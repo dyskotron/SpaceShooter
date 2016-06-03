@@ -7,7 +7,7 @@
  */
 package game.model.generator
 {
-    public class EnergyGenerator implements IGeneratorComponent
+    public class EnergyComponent implements IGeneratorComponent
     {
         private var _energy: Number;
         private var _capacity: Number;
@@ -17,10 +17,11 @@ package game.model.generator
          * Maintain battery, energy consumption and recharging
          * @param generatorVO
          */
-        public function EnergyGenerator(generatorVO: GeneratorVO)
+        public function EnergyComponent(aCapacity: Number, aRechargeSpeed: Number)
         {
-            _energy = _capacity = generatorVO.capacity;
-            _rechargeSpeed = generatorVO.rechargeSpeed;
+            trace("_MO_", this, "CREATED ENERGY COMPONENT", "aCapacity:", aCapacity, "aRechargeSpeed:", aRechargeSpeed);
+            _energy = _capacity = aCapacity;
+            _rechargeSpeed = aRechargeSpeed;
         }
 
         public function update(aDeltaTime: int): void

@@ -1,8 +1,9 @@
 package game.model.gameObject
 {
     import game.model.gameObject.vo.ShootingVO;
+    import game.model.weapon.ComponentSlot;
     import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.WeaponSlot;
+    import game.model.weapon.enums.ComponentType;
 
     import org.osflash.signals.Signal;
 
@@ -28,17 +29,7 @@ package game.model.gameObject
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
 
-            //init weapons
-            _weapons = new Vector.<IWeaponComponent>();
-
-            if (_shootingVO.weaponSlots)
-            {
-                for (var i: int = 0; i < _shootingVO.weaponSlots.length; i++)
-                {
-                    if (_shootingVO.weaponSlots[i].hasWeapon())
-                        _weapons.push(createWeapon(_shootSignal, _shootingVO.weaponSlots[i]));
-                }
-            }
+            installComponents();
         }
 
         public function get shootSignal(): Signal
@@ -72,15 +63,33 @@ package game.model.gameObject
             }
         }
 
+        protected function installComponents(): void
+        {
+            _weapons = new Vector.<IWeaponComponent>();
+
+            if (_shootingVO.componentSlots)
+            {
+                var weaponSlot: ComponentSlot;
+
+                for (var i: int = 0; i < _shootingVO.componentSlots.length; i++)
+                {
+                    weaponSlot = _shootingVO.componentSlots[i];
+                    if (weaponSlot.isType(ComponentType.GUNS))
+                    {
+                        if (weaponSlot.isType(ComponentType.GUNS))
+                            _weapons.push(createWeapon(_shootSignal, weaponSlot));
+                    }
+                }
+            }
+        }
+
         /**
          * Abstract weapon factory method
          * @param aShootSignal
          * @param aWeaponVO
-         * @param aX
-         * @param aY
          * @return
          */
-        protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponSlot): IWeaponComponent
+        protected function createWeapon(aShootSignal: Signal, aWeaponVO: ComponentSlot): IWeaponComponent
         {
             return null;
         }

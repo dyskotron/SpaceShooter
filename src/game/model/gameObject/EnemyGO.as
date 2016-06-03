@@ -11,9 +11,10 @@ package game.model.gameObject
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.EnemyVO;
+    import game.model.weapon.ComponentSlot;
     import game.model.weapon.EnemyWeapon;
     import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.WeaponSlot;
+    import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 
@@ -52,9 +53,9 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aWeaponSlot: WeaponSlot): IWeaponComponent
+        override protected function createWeapon(aShootSignal: Signal, aComponentSlot: ComponentSlot): IWeaponComponent
         {
-            return new EnemyWeapon(aShootSignal, aWeaponSlot.weaponModel, 100, aWeaponSlot.x, aWeaponSlot.y);
+            return new EnemyWeapon(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, aComponentSlot.x, aComponentSlot.y);
         }
 
     }

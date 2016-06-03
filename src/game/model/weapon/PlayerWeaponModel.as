@@ -10,12 +10,12 @@ package game.model.weapon
         private var _energyCost: Number;
 
 
-        public function PlayerWeaponModel(aWeaponType: uint, aShootInterval: Vector.<uint>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
+        public function PlayerWeaponModel(aComponentID: uint, aComponentType: uint,aWeaponType: uint, aShootInterval: Vector.<uint>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
         {
             _spawnPointsByPower = aSpawnPoints;
             _shootIntervalByPower = aShootInterval;
 
-            super(aWeaponType, aShootInterval[0], aSpawnPoints[0]);
+            super(aComponentID, aComponentType, aWeaponType, aShootInterval[0], aSpawnPoints[0]);
         }
 
         public function get maxPower(): uint

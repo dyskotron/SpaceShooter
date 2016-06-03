@@ -1,6 +1,6 @@
 package game.model.weapon
 {
-    public class WeaponModel
+    public class WeaponModel extends ComponentModel
     {
         /**
          * Spawn points + directions
@@ -12,11 +12,13 @@ package game.model.weapon
         private var _weaponType: uint = 0;
         protected var _shootInterval: int;
 
-        public function WeaponModel(aWeaponType: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>)
+        public function WeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>)
         {
             _weaponType = aWeaponType;
             _shootInterval = aShootInterval;
             _spawnPoints = aSpawnPoints;
+
+            super(aComponentID, aComponentType);
         }
 
         public function get weaponType(): uint
