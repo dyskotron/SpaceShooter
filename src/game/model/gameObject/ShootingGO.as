@@ -1,9 +1,9 @@
 package game.model.gameObject
 {
+    import game.model.gameObject.components.ComponentType;
+    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.vo.ShootingVO;
-    import game.model.weapon.ComponentSlot;
-    import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.enums.ComponentType;
 
     import org.osflash.signals.Signal;
 

@@ -5,10 +5,10 @@
  * Time: 19:29
  * To change this template use File | Settings | File Templates.
  */
-package game.model.generator
+package game.model.gameObject.components.generator
 {
-    import game.model.weapon.ComponentModel;
-    import game.model.weapon.enums.ComponentType;
+    import game.model.gameObject.components.ComponentType;
+    import game.model.gameObject.components.weapon.ComponentModel;
 
     public class GeneratorModel extends ComponentModel
     {

@@ -1,4 +1,4 @@
-package game.model.generator
+package game.model.gameObject.components.generator
 {
     public interface IGeneratorComponent
     {

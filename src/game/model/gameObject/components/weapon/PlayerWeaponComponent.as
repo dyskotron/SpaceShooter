@@ -1,7 +1,7 @@
-package game.model.weapon
+package game.model.gameObject.components.weapon
 {
-    import game.model.generator.IGeneratorComponent;
-    import game.model.generator.IGeneratorGO;
+    import game.model.gameObject.components.generator.IGeneratorComponent;
+    import game.model.gameObject.components.generator.IGeneratorGO;
 
     import org.osflash.signals.Signal;
 

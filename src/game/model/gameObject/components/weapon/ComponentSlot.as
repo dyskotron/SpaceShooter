@@ -5,25 +5,25 @@
  * Time: 20:51
  * To change this template use File | Settings | File Templates.
  */
-package game.model.weapon
+package game.model.gameObject.components.weapon
 {
     public class ComponentSlot
     {
-        private var _types: uint;
+        private var _validTypes: uint;
         private var _x: Number;
         private var _y: Number;
         private var _componentModel: ComponentModel;
 
         /**
          * Class representing ship's slot for components like weapons, generators, etc
-         * @param aType - @see game.model.weapon.enums.ComponentType
+         * @param aValidTypes - @see game.model.gameObject.components.ComponentType
          * @param aX - x position of component relative to ship
          * @param aY - y position of component relative to ship
          * @param aComponentModel @see ComponentModel
          */
-        public function ComponentSlot(aType: uint, aX: Number, aY: Number, aComponentModel: ComponentModel = null)
+        public function ComponentSlot(aValidTypes: uint, aX: Number, aY: Number, aComponentModel: ComponentModel = null)
         {
-            _types = aType;
+            _validTypes = aValidTypes;
             _x = aX;
             _y = aY;
             _componentModel = aComponentModel;
@@ -37,9 +37,9 @@ package game.model.weapon
         /**
          * Returns bit mask with allowed component types
          */
-        public function get types(): uint
+        public function get validTypes(): uint
         {
-            return _types;
+            return _validTypes;
         }
 
         public function get x(): Number
@@ -57,6 +57,14 @@ package game.model.weapon
             return _componentModel != null;
         }
 
+        public function setComponent(aComponentModel: ComponentModel): void
+        {
+            if (isTypeValid(aComponentModel.componentType))
+                _componentModel = aComponentModel;
+            else
+                throw new Error("Component(" + aComponentModel.componentType + ") not valid in slot. types:" + _validTypes);
+        }
+
         /**
          * Checks if component in slot is one of given types
          * @param aTypeIDs - single component ID, or multiple IDs in one bit mask to be tested
@@ -68,6 +76,11 @@ package game.model.weapon
                 return false;
 
             return aTypeIDs & _componentModel.componentType;
+        }
+
+        public function isTypeValid(aTypeID: uint): Boolean
+        {
+            return _validTypes & aTypeID;
         }
     }
 }

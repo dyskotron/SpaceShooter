@@ -1,4 +1,4 @@
-package game.model.weapon
+package game.model.gameObject.components.weapon
 {
     import org.osflash.signals.Signal;
 

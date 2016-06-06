@@ -9,18 +9,18 @@ package game.model.gameObject
 {
     import com.greensock.TweenLite;
 
+    import game.model.gameObject.components.ComponentType;
+    import game.model.gameObject.components.generator.BatteryModel;
+    import game.model.gameObject.components.generator.EnergyComponent;
+    import game.model.gameObject.components.generator.GeneratorModel;
+    import game.model.gameObject.components.generator.IGeneratorComponent;
+    import game.model.gameObject.components.generator.IGeneratorGO;
+    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.IWeaponComponent;
+    import game.model.gameObject.components.weapon.PlayerWeaponComponent;
+    import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.vo.PlayerShipVO;
-    import game.model.generator.BatteryModel;
-    import game.model.generator.EnergyComponent;
-    import game.model.generator.GeneratorModel;
-    import game.model.generator.IGeneratorComponent;
-    import game.model.generator.IGeneratorGO;
-    import game.model.weapon.ComponentSlot;
-    import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.PlayerWeaponComponent;
-    import game.model.weapon.WeaponModel;
-    import game.model.weapon.enums.ComponentType;
 
     import org.osflash.signals.Signal;
 
@@ -123,7 +123,7 @@ package game.model.gameObject
             return _playerDiedSignal;
         }
 
-        //endregion  ==================== ====================
+        //endregion
 
         override public function startShoot(): void
         {

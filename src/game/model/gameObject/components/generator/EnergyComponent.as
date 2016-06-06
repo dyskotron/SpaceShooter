@@ -5,7 +5,7 @@
  * Time: 19:29
  * To change this template use File | Settings | File Templates.
  */
-package game.model.generator
+package game.model.gameObject.components.generator
 {
     public class EnergyComponent implements IGeneratorComponent
     {

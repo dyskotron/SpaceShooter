@@ -2,13 +2,13 @@ package game.model.gameObject.def
 {
     import common.model.TextureProvider;
 
+    import game.model.gameObject.components.ComponentType;
+    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.IWeaponDefs;
+    import game.model.gameObject.components.weapon.enums.EnemyWeaponID;
     import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.vo.EnemyVO;
-    import game.model.weapon.ComponentSlot;
-    import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.enums.ComponentType;
-    import game.model.weapon.enums.EnemyWeaponID;
 
     import org.robotlegs.mvcs.Actor;
 

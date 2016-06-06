@@ -7,14 +7,14 @@
  */
 package game.model.gameObject
 {
+    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.EnemyWeapon;
+    import game.model.gameObject.components.weapon.IWeaponComponent;
+    import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.fsm.GameObjectFSM;
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.EnemyVO;
-    import game.model.weapon.ComponentSlot;
-    import game.model.weapon.EnemyWeapon;
-    import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 

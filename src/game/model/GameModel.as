@@ -12,8 +12,9 @@ package game.model
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.weapon.IWeaponDefs;
+    import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
     import game.model.gameObject.constants.BonusTypeID;
-    import game.model.gameObject.constants.PlayerShipType;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.vo.BonusVO;
@@ -23,8 +24,7 @@ package game.model
     import game.model.levelModel.SpawnBonusEvent;
     import game.model.levelModel.SpawnEnemyEvent;
     import game.model.levelModel.SpawnObstacleEvent;
-    import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.enums.PlayerWeaponID;
+    import game.model.playerModel.IPlayerModel;
 
     import highScores.model.IHighScoreService;
 
@@ -66,6 +66,9 @@ package game.model
 
         [Inject]
         public var mainModel: IMainModel;
+
+        [Inject]
+        public var playerModel: IPlayerModel;
 
         [Inject]
         public var behaviorFactory: IBehaviorFactory;
@@ -220,7 +223,7 @@ package game.model
 
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                player = new PlayerShipGO(i, playerShipDef.getPlayerShip(PlayerShipType.BASIC_SHOOTER));
+                player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild));
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
                 player.playerDiedSignal.add(playerDiedHandler);
@@ -633,15 +636,15 @@ package game.model
                     break;
                 case PlayerActionID.WEAPON_LASER:
                     if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getPlayerWeaponModel(PlayerWeaponID.LASER));
+                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.LASER));
                     break;
                 case PlayerActionID.WEAPON_PLASMA:
                     if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getPlayerWeaponModel(PlayerWeaponID.PLASMA));
+                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.PLASMA));
                     break;
                 case PlayerActionID.WEAPON_ELECTRIC:
                     if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getPlayerWeaponModel(PlayerWeaponID.ELECTRIC));
+                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.ELECTRIC));
                     break;
             }
         }

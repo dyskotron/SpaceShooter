@@ -1,4 +1,4 @@
-package game.model.weapon.enums
+package game.model.gameObject.components.weapon.enums
 {
     public class EnemyWeaponID
     {

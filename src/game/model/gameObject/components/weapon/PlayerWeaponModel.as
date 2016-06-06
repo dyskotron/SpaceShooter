@@ -1,6 +1,6 @@
-package game.model.weapon
+package game.model.gameObject.components.weapon
 {
-    import game.model.weapon.enums.WeaponType;
+    import game.model.gameObject.components.weapon.enums.WeaponType;
 
     public class PlayerWeaponModel extends WeaponModel
     {

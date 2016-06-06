@@ -1,13 +1,15 @@
 package game.model.gameObject.def
 {
+    import game.model.gameObject.components.ComponentType;
+    import game.model.gameObject.components.generator.BatteryModel;
+    import game.model.gameObject.components.generator.GeneratorModel;
+    import game.model.gameObject.components.weapon.ComponentModel;
+    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.IWeaponDefs;
     import game.model.gameObject.constants.PlayerShipType;
     import game.model.gameObject.vo.PlayerShipVO;
-    import game.model.generator.BatteryModel;
-    import game.model.generator.GeneratorModel;
-    import game.model.weapon.ComponentSlot;
-    import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.enums.ComponentType;
-    import game.model.weapon.enums.PlayerWeaponID;
+    import game.model.playerModel.BuildComponentSlotVO;
+    import game.model.playerModel.PlayerShipBuildVO;
 
     public class PlayerShipDefs implements IPlayerShipDefs
     {
@@ -20,28 +22,59 @@ package game.model.gameObject.def
         }
 
         //todo get players ship data
-        public function getPlayerShip(aShipType: uint)
+        public function getPlayerShip(aShipBuild: PlayerShipBuildVO): PlayerShipVO
         {
-            //fake player ship data
-            //vector of  type + id pairs, indexes in vector are same with slots on ship
+            var shipVO: PlayerShipVO = getBaseShip(aShipBuild.shipTypeID);
 
+            for (var i: int = 0; i < aShipBuild.componentSlots.length; i++)
+            {
+                shipVO.addComponent(i, getComponentModel(aShipBuild.componentSlots[i]));
+            }
 
-            //ship itself definition  todo: replace just with shipDefs.getBaseShip(aShipType) or so, got ship with empty slots
+            return shipVO;
+        }
+
+        private function getBaseShip(aShipTypeID: uint): PlayerShipVO
+        {
             var componentSlots: Vector.<ComponentSlot>;
             componentSlots = new Vector.<ComponentSlot>();
-            componentSlots.push(new ComponentSlot(ComponentType.MAIN_SLOT, 0, 0, weaponDef.getPlayerWeaponModel(PlayerWeaponID.PLASMA)));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -30, 60, weaponDef.getPlayerWeaponModel(PlayerWeaponID.ELECTRIC)));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 30, 60, weaponDef.getPlayerWeaponModel(PlayerWeaponID.ELECTRIC)));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 0, 60, new BatteryModel(0, 600)));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 0, 60, new BatteryModel(0, 600)));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 0, 60, new GeneratorModel(0, 300)));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 0, 60, new GeneratorModel(0, 300)));
+            componentSlots.push(new ComponentSlot(ComponentType.MAIN_SLOT, 0, 0));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -45, 0));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 45, 0));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -30, 0));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 30, 0));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -15, 0));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 15, 0));
             componentSlots.push(new ComponentSlot(ComponentType.ROCKET, 0, 60));
 
-
-            //todo: here go through player ship data and add models to slots
-
             return new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, componentSlots, 150, 99, 75);
+        }
+
+        //TODO: move this to component defs
+        private function getComponentModel(aBuildComponentSlotVO: BuildComponentSlotVO): ComponentModel
+        {
+            var componentModel: ComponentModel;
+
+            switch (aBuildComponentSlotVO.componentType)
+            {
+                case ComponentType.MAIN_GUN:
+                    componentModel = weaponDef.getMainWeaponModel(aBuildComponentSlotVO.componentID);
+                    break;
+                case ComponentType.SECONDARY_GUN:
+                    componentModel = weaponDef.getSeconaryWeaponModel(aBuildComponentSlotVO.componentID);
+                    break;
+                case ComponentType.GENERATOR:
+                    componentModel = new GeneratorModel(0, 300);
+                    break;
+                case ComponentType.BATTERY:
+                    componentModel = new BatteryModel(0, 600);
+                    break;
+                default:
+                    throw new Error("No component for component type ID: " + aBuildComponentSlotVO.componentType);
+
+            }
+
+            return componentModel;
         }
     }
 }

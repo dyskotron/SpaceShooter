@@ -1,7 +1,7 @@
-package game.model.weapon
+package game.model.gameObject.components.weapon
 {
     import game.model.gameObject.BulletGO;
-    import game.model.weapon.enums.WeaponType;
+    import game.model.gameObject.components.weapon.enums.WeaponType;
 
     import org.osflash.signals.Signal;
 
@@ -84,6 +84,8 @@ package game.model.weapon
                 case WeaponType.SEQUENTIAL:
                     _spawnPointIndex += _indexIncrement;
 
+
+                    //TODO: FIX THIS FOR ONE BULLET GUNS
                     if (_spawnPointIndex < 0)
                     {
                         _spawnPointIndex = 1;

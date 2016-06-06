@@ -5,7 +5,7 @@
  * Time: 20:52
  * To change this template use File | Settings | File Templates.
  */
-package game.model.weapon.enums
+package game.model.gameObject.components
 {
     public class ComponentType
     {
