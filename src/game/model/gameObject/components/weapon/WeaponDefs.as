@@ -389,22 +389,22 @@ package game.model.gameObject.components.weapon
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVO(BulletID.LASER_1, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, 0, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, 0, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, 0, bulletY1, 0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.3, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //9
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, 0, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.1, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.3, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //10
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.1, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.3, speed));
                     spawnPointsByPower.push(spawnPoints);
 
                     weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);

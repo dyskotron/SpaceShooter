@@ -104,23 +104,23 @@ package common.model
                     texture = getTexture("laserRed03");
                     break;
                 case BulletID.LASER_2:
-                    texture = getTexture("laserRed03");
+                    texture = getTexture("laserRed02");
                     break;
                 case BulletID.LASER_3:
-                    texture = getTexture("laserRed03");
+                    texture = getTexture("laserRed06");
                     break;
                 case BulletID.LASER_4:
-                    texture = getTexture("laserRed03");
+                    texture = getTexture("laserRed04");
                     break;
 
                 case BulletID.PLASMA_1:
                     texture = getTexture("laserGreen05");
                     break;
                 case BulletID.PLASMA_2:
-                    texture = getTexture("laserGreen05");
+                    texture = getTexture("laserGreen04");
                     break;
                 case BulletID.PLASMA_3:
-                    texture = getTexture("laserGreen04");
+                    texture = getTexture("laserGreen12");
                     break;
                 case BulletID.PLASMA_4:
                     texture = getTexture("laserGreen08");
