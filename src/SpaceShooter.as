@@ -22,6 +22,7 @@ package
 
         /**
          * TODO / IDEAS:
+         * - weapon/equip slots have also orientation - angle - change bullets and all this shit to polar cords
          * - move vector of weapon slots to weapons model with addWeapon method which will move guns to right slots
          *
          * - disable enemy hits out of screen

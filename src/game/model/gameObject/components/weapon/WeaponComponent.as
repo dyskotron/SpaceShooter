@@ -18,17 +18,19 @@ package game.model.gameObject.components.weapon
 
         private var _spawnPointIndex: Number = 0;
         private var _indexIncrement: int = 1;
+        private var _orientation: int;
 
 
-        public function WeaponComponent(aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
+        public function WeaponComponent(aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0, aOrientation: int = 1)
         {
             _shootSignal = aShootSignal;
             _weaponModel = aWeaponModel;
+            _weaponModel = aWeaponModel;
+            _orientation = aOrientation;
             _ownerID = aOwnerID;
             _x = aX;
-            _y = aY;
-            trace("_MO_", this, aX, aY);
-            trace("_MO_", this, _x, _y);
+            _orientation = aX >= 0 ? 1 : -1;
+            trace("_MO_", this, "CONSTRUCTOR", _orientation, aX);
         }
 
         public function get x(): Number
@@ -49,7 +51,7 @@ package game.model.gameObject.components.weapon
 
                 if (_nextShotAfter <= 0)
                 {
-                    shoot(_x + aShipX, _y + aShipY);
+                    shoot(aShipX + _x, aShipY + _y);
                     _nextShotAfter = _weaponModel.shootInterval;
                 }
             }
@@ -77,8 +79,7 @@ package game.model.gameObject.components.weapon
                     for (var i: int = 0; i < _weaponModel.spawnPoints.length; i++)
                     {
                         spawnPoint = _weaponModel.spawnPoints[i];
-                        bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
-
+                        bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x * _orientation, aY + spawnPoint.y, spawnPoint.speedX * _orientation, spawnPoint.speedY));
                     }
                     break;
                 case WeaponType.SEQUENTIAL:
@@ -98,7 +99,7 @@ package game.model.gameObject.components.weapon
                     }
 
                     spawnPoint = _weaponModel.spawnPoints[_spawnPointIndex];
-                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
+                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x * _orientation, aY + spawnPoint.y, spawnPoint.speedX * _orientation, spawnPoint.speedY));
                     break;
             }
 

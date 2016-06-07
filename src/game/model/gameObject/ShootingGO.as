@@ -29,7 +29,7 @@ package game.model.gameObject
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
 
-            installComponents();
+            mountComponents();
         }
 
         public function get shootSignal(): Signal
@@ -63,7 +63,7 @@ package game.model.gameObject
             }
         }
 
-        protected function installComponents(): void
+        protected function mountComponents(): void
         {
             _weapons = new Vector.<IWeaponComponent>();
 

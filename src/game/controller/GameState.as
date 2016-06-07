@@ -15,9 +15,11 @@ package game.controller
     import game.model.gameObject.components.weapon.WeaponDefs;
     import game.model.gameObject.def.BehaviorFactory;
     import game.model.gameObject.def.BulletDefs;
+    import game.model.gameObject.def.ComponentDefs;
     import game.model.gameObject.def.EnemyDefs;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IBulletDefs;
+    import game.model.gameObject.def.IComponentDefs;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
     import game.model.gameObject.def.IPlayerShipDefs;
@@ -77,6 +79,7 @@ package game.controller
             injector.mapSingletonOf(IPlayerModel, PlayerModel);
             injector.mapSingletonOf(IBulletDefs, BulletDefs);
             injector.mapSingletonOf(IEnemyDefs, EnemyDefs);
+            injector.mapSingletonOf(IComponentDefs, ComponentDefs);
             injector.mapSingletonOf(IPlayerShipDefs, PlayerShipDefs);
             injector.mapSingletonOf(IObstacleDefs, ObstacleDefs);
             injector.mapSingletonOf(IBehaviorFactory, BehaviorFactory);
@@ -125,6 +128,7 @@ package game.controller
 
             injector.unmap(IBulletDefs);
             injector.unmap(IEnemyDefs);
+            injector.unmap(IComponentDefs);
             injector.unmap(IPlayerShipDefs);
             injector.unmap(IObstacleDefs);
             injector.unmap(IBehaviorFactory);

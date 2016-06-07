@@ -206,7 +206,7 @@ package game.model.gameObject
 
         }
 
-        override protected function installComponents(): void
+        override protected function mountComponents(): void
         {
             _weapons = new Vector.<IWeaponComponent>();
 
@@ -235,7 +235,7 @@ package game.model.gameObject
             _generatorComponent = new EnergyComponent(capacity, rechargeSpeed);
 
 
-            super.installComponents();
+            super.mountComponents();
         }
 
         override protected function createWeapon(aShootSignal: Signal, aComponentSLot: ComponentSlot): IWeaponComponent
