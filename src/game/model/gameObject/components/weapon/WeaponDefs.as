@@ -32,6 +32,7 @@ package game.model.gameObject.components.weapon
             var bulletX1: Number = 0;
             var bulletX2: Number = 0;
             var bulletX3: Number = 0;
+            var bulletX4: Number = 0;
 
             var bulletY1: Number = 0;
             var bulletY2: Number = 0;
@@ -61,85 +62,44 @@ package game.model.gameObject.components.weapon
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //2
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX2, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, 0, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX2, bulletY1, 0, speed));
-                    spawnPointsByPower.push(spawnPoints);
-                    //3
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX2, bulletY1, -0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX2, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, 0, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX2, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX2, bulletY1, 0.1, speed));
-                    spawnPointsByPower.push(spawnPoints);
-                    //4
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX1, bulletY1, -0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX1, bulletY1, -0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0.2, speed));
-                    spawnPointsByPower.push(spawnPoints);
-                    //5
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX2, bulletY1, -0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX2, bulletY1, -0.1, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX2, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_2, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX2, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX2, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX2, bulletY1, 0.2, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //3
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX2, bulletY1, -0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX2, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX2, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX2, bulletY1, 0.1, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //4
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.2, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //5
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX2, bulletY1, -0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX2, bulletY1, -0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX2, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX2, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX2, bulletY1, 0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX2, bulletY1, 0.2, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //6
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX1, bulletY1, -0.3, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0.3, speed));
-                    spawnPointsByPower.push(spawnPoints);
-                    //7
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX1, bulletY1, -0.4, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX1, bulletY1, -0.3, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, 0, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0.3, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0.4, speed));
-                    spawnPointsByPower.push(spawnPoints);
-                    //8
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX1, bulletY1, -0.4, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, -bulletX1, bulletY1, -0.3, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, 0, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0.3, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_1, bulletX1, bulletY1, 0.4, speed));
-                    spawnPointsByPower.push(spawnPoints);
-                    //9
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.5, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.4, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.3, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.2, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.1, speed));
@@ -148,23 +108,64 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.1, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.2, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.3, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.4, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.5, speed));
                     spawnPointsByPower.push(spawnPoints);
-                    //10
+                    //7
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.4, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.3, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.3, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.4, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //8
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.4, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, -bulletX1, bulletY1, -0.3, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, -0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.3, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_2, bulletX1, bulletY1, 0.4, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //9
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.5, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.4, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.3, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.2, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, -0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.1, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, -0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, -0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.2, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.3, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.4, speed));
                     spawnPoints.push(getSpawnVO(BulletID.LASER_3, bulletX1, bulletY1, 0.5, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //10
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, -0.5, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, -0.4, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, -0.3, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, -0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, -0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, -bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.1, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.2, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.3, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.4, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.5, speed));
                     spawnPointsByPower.push(spawnPoints);
 
                     weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
@@ -177,8 +178,9 @@ package game.model.gameObject.components.weapon
                     shootIntervalByPower.push(1000 / 3);
 
                     bulletX1 = 5;
-                    bulletX2 = 25;
-                    bulletX3 = 45;
+                    bulletX2 = 18;
+                    bulletX3 = 32;
+                    bulletX4 = 45;
 
                     bulletY1 = -30;
                     bulletY2 = -20;
@@ -194,39 +196,34 @@ package game.model.gameObject.components.weapon
                     //2
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //3
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -bulletX2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //4
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -bulletX2, bulletY2, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX1, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
-                    //4
+                    //5
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX2, bulletY2, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX1, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX2, bulletY2, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
-                    //5
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -bulletX3, bulletY3, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX3, bulletY3, 0, speed));
-                    spawnPointsByPower.push(spawnPoints);
                     //6
                     spawnPoints = new Vector.<BulletSpawnVO>();
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -bulletX3, bulletY3, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX2, bulletY2, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX3, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
@@ -241,30 +238,41 @@ package game.model.gameObject.components.weapon
                     spawnPointsByPower.push(spawnPoints);
                     //8
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX3, bulletY3, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -bulletX3, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -bulletX2, bulletY2, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX3, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX3, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //9
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX3, bulletY3, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX3, bulletY3, 0, speed));
-                    spawnPointsByPower.push(spawnPoints);
-                    //10
-                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -bulletX4, bulletY3, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -bulletX3, bulletY3, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -bulletX2, bulletY2, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -bulletX1, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX1, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX2, bulletY2, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX3, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX4, bulletY3, 0, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //10
+                    var dist: Number = bulletX3 / 6;
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, -dist * 6, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, -dist * 5, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -dist * 4, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -dist * 3, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -dist * 2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, -dist, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, dist, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, dist * 2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, dist * 3, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, dist * 4, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, dist * 5, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, dist * 6, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
 
                     weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
@@ -416,9 +424,9 @@ package game.model.gameObject.components.weapon
                     //common
                     shootIntervalByPower.push(1000 / 3);
 
-                    bulletX1 = 5;
-                    bulletX2 = 25;
-                    bulletX3 = 45;
+                    bulletX1 = 10;
+                    bulletX2 = 20;
+                    bulletX3 = 30;
 
                     bulletY1 = -30;
                     bulletY2 = -20;
@@ -428,58 +436,63 @@ package game.model.gameObject.components.weapon
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, 0, bulletY1, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //2
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, 0, bulletY1, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //3
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX1, bulletY2, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //4
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX1, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, bulletX2, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //5
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX3, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, bulletX1, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, bulletX2, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //6
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX3, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX1, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //7
                     spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX3, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
                     //8
                     spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, 0, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX1, bulletY1, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, bulletX2, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, bulletX3, bulletY3, 0, speed));
+                    spawnPointsByPower.push(spawnPoints);
+                    //9
+                    spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX1, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX2, bulletY2, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX3, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
-                    //9
-                    spawnPoints = new Vector.<BulletSpawnVO>();
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX1, bulletY1, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX3, bulletY3, 0, speed));
-                    spawnPointsByPower.push(spawnPoints);
                     //10
                     spawnPoints = new Vector.<BulletSpawnVO>();
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, 0, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX1, bulletY1, 0, speed));
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX2, bulletY2, 0, speed));
-                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_4, bulletX3, bulletY3, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_3, bulletX3, bulletY2, 0, speed));
+                    spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, bulletX3 + 10, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
 
                     weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);

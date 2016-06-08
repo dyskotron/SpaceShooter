@@ -15,9 +15,9 @@ package game.model.playerModel
         public function PlayerModel()
         {
             var componentSlots: Vector.<BuildComponentSlotVO> = new Vector.<BuildComponentSlotVO>;
-            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.PLASMA, ComponentType.MAIN_GUN));
-            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.LASER, ComponentType.SECONDARY_GUN));
-            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.LASER, ComponentType.SECONDARY_GUN));
+            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.ELECTRIC, ComponentType.MAIN_GUN));
+            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.PLASMA, ComponentType.SECONDARY_GUN));
+            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.PLASMA, ComponentType.SECONDARY_GUN));
             componentSlots.push(new BuildComponentSlotVO(GeneratorID.BASIC, ComponentType.GENERATOR));
             componentSlots.push(new BuildComponentSlotVO(GeneratorID.BASIC, ComponentType.GENERATOR));
             componentSlots.push(new BuildComponentSlotVO(BatteryID.BASIC, ComponentType.BATTERY));
