@@ -9,14 +9,18 @@ package game.model.gameObject
 {
     import com.greensock.TweenLite;
 
+    import game.model.gameObject.components.ComponentType;
+    import game.model.gameObject.components.generator.BatteryModel;
+    import game.model.gameObject.components.generator.EnergyComponent;
+    import game.model.gameObject.components.generator.GeneratorModel;
+    import game.model.gameObject.components.generator.IGeneratorComponent;
+    import game.model.gameObject.components.generator.IGeneratorGO;
+    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.IWeaponComponent;
+    import game.model.gameObject.components.weapon.PlayerWeaponComponent;
+    import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.vo.PlayerShipVO;
-    import game.model.generator.EnergyGenerator;
-    import game.model.generator.IGeneratorComponent;
-    import game.model.generator.IGeneratorGO;
-    import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.PlayerWeapon;
-    import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 
@@ -59,8 +63,6 @@ package game.model.gameObject
             _changeStateSignal = new Signal(PlayerShipGO);
             _playerDiedSignal = new Signal(uint);
 
-            _generatorComponent = new EnergyGenerator(aPlayerShipVO.generatorVO);
-
             super(aPlayerShipVO, 0, 0, 0, 0);
         }
 
@@ -98,7 +100,7 @@ package game.model.gameObject
 
         public function get weaponPower(): uint
         {
-            return PlayerWeapon(_weapon).displayedPower;
+            return PlayerWeaponComponent(_weapons[0]).displayedPower;
         }
 
         public function get generatorComponent(): IGeneratorComponent
@@ -121,7 +123,7 @@ package game.model.gameObject
             return _playerDiedSignal;
         }
 
-        //endregion  ==================== ====================
+        //endregion
 
         override public function startShoot(): void
         {
@@ -176,7 +178,7 @@ package game.model.gameObject
                     _lives++;
                     break;
                 case BonusTypeID.BONUS_WEAPON:
-                    PlayerWeapon(_weapon).addPower();
+                    weaponsAddPower();
                     break;
             }
 
@@ -188,15 +190,15 @@ package game.model.gameObject
          */
         public function powerDown(): void
         {
-            PlayerWeapon(_weapon).onDeath();
+            weaponsOnDeath();
         }
 
         /**
          * Debug function
          */
-        public function switchWeapon(aWeaponModel: WeaponModel): void
+        public function switchMainWeapon(aWeaponModel: WeaponModel): void
         {
-            _weapon = new PlayerWeapon(this, shootSignal, aWeaponModel, 0, 0, PlayerWeapon(_weapon).power);
+            _weapons[0] = new PlayerWeaponComponent(this, shootSignal, aWeaponModel, _playerID, PlayerWeaponComponent(_weapons[0]).x, PlayerWeaponComponent(_weapons[0]).y, PlayerWeaponComponent(_weapons[0]).power);
         }
 
         override public function destroy(): void
@@ -204,15 +206,47 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): IWeaponComponent
+        override protected function mountComponents(): void
         {
-            return new PlayerWeapon(this, aShootSignal, aWeaponVO, aX, aY);
+            _weapons = new Vector.<IWeaponComponent>();
+
+            var capacity: Number = 0;
+            var rechargeSpeed: Number = 0;
+
+            if (_playerShipVO.componentSlots)
+            {
+                var componentSlot: ComponentSlot;
+
+                for (var i: int = 0; i < _playerShipVO.componentSlots.length; i++)
+                {
+                    componentSlot = _playerShipVO.componentSlots[i];
+
+                    if (componentSlot.isType(ComponentType.GENERATOR))
+                    {
+                        rechargeSpeed += GeneratorModel(componentSlot.componentModel).rechargeSpeed;
+                    }
+                    else if (componentSlot.isType(ComponentType.BATTERY))
+                    {
+                        capacity += BatteryModel(componentSlot.componentModel).capacity;
+                    }
+                }
+            }
+
+            _generatorComponent = new EnergyComponent(capacity, rechargeSpeed);
+
+
+            super.mountComponents();
+        }
+
+        override protected function createWeapon(aShootSignal: Signal, aComponentSLot: ComponentSlot): IWeaponComponent
+        {
+            return new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, aComponentSLot.x, aComponentSLot.y);
         }
 
         private function die(): void
         {
             _lives = Math.max(--_lives, 0);
-            PlayerWeapon(_weapon).onDeath();
+            weaponsOnDeath();
 
             if (_lives > 0)
             {
@@ -243,12 +277,28 @@ package game.model.gameObject
             _statsUpdateSignal.dispatch();
 
             if (_shouldBeShooting)
-                _weapon.startShoot();
+                startShoot();
         }
 
         private function dispatchDied(): void
         {
             _playerDiedSignal.dispatch(_playerID)
+        }
+
+        private function weaponsOnDeath(): void
+        {
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                PlayerWeaponComponent(_weapons[i]).onDeath();
+            }
+        }
+
+        private function weaponsAddPower(): void
+        {
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                PlayerWeaponComponent(_weapons[i]).addPower();
+            }
         }
     }
 }

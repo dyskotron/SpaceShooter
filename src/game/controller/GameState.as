@@ -11,18 +11,22 @@ package game.controller
     import game.model.IGameModel;
     import game.model.ILevelProvider;
     import game.model.SerialLevelGenerator;
+    import game.model.gameObject.components.weapon.IWeaponDefs;
+    import game.model.gameObject.components.weapon.WeaponDefs;
     import game.model.gameObject.def.BehaviorFactory;
     import game.model.gameObject.def.BulletDefs;
+    import game.model.gameObject.def.ComponentDefs;
     import game.model.gameObject.def.EnemyDefs;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IBulletDefs;
+    import game.model.gameObject.def.IComponentDefs;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
     import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.def.ObstacleDefs;
     import game.model.gameObject.def.PlayerShipDefs;
-    import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.WeaponDefs;
+    import game.model.playerModel.IPlayerModel;
+    import game.model.playerModel.PlayerModel;
     import game.view.DebugGameMediator;
     import game.view.DebugGameView;
     import game.view.GameMediator;
@@ -72,8 +76,10 @@ package game.controller
             //singletons & values
             injector.mapSingleton(GameEndSignal);
 
+            injector.mapSingletonOf(IPlayerModel, PlayerModel);
             injector.mapSingletonOf(IBulletDefs, BulletDefs);
             injector.mapSingletonOf(IEnemyDefs, EnemyDefs);
+            injector.mapSingletonOf(IComponentDefs, ComponentDefs);
             injector.mapSingletonOf(IPlayerShipDefs, PlayerShipDefs);
             injector.mapSingletonOf(IObstacleDefs, ObstacleDefs);
             injector.mapSingletonOf(IBehaviorFactory, BehaviorFactory);
@@ -118,8 +124,11 @@ package game.controller
             //singletons & values
             injector.unmap(GameEndSignal);
 
+            injector.unmap(IPlayerModel);
+
             injector.unmap(IBulletDefs);
             injector.unmap(IEnemyDefs);
+            injector.unmap(IComponentDefs);
             injector.unmap(IPlayerShipDefs);
             injector.unmap(IObstacleDefs);
             injector.unmap(IBehaviorFactory);

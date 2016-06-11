@@ -7,13 +7,14 @@
  */
 package game.model.gameObject
 {
+    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.EnemyWeaponComponent;
+    import game.model.gameObject.components.weapon.IWeaponComponent;
+    import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.fsm.GameObjectFSM;
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.EnemyVO;
-    import game.model.weapon.EnemyWeapon;
-    import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 
@@ -31,8 +32,7 @@ package game.model.gameObject
 
             _fsm = new GameObjectFSM(aBehaviorVO.states, this, aTarget);
 
-            if (aEnemyVO.weaponVO)
-                startShoot();
+            startShoot();
         }
 
         public function get enemyVO(): EnemyVO
@@ -53,9 +53,9 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): IWeaponComponent
+        override protected function createWeapon(aShootSignal: Signal, aComponentSlot: ComponentSlot): IWeaponComponent
         {
-            return new EnemyWeapon(aShootSignal, aWeaponVO, aX, aY);
+            return new EnemyWeaponComponent(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, aComponentSlot.x, aComponentSlot.y);
         }
 
     }

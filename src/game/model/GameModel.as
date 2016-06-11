@@ -12,21 +12,19 @@ package game.model
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.weapon.IWeaponDefs;
+    import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
     import game.model.gameObject.constants.BonusTypeID;
-    import game.model.gameObject.constants.PlayerShipType;
     import game.model.gameObject.def.IBehaviorFactory;
+    import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
-    import game.model.gameObject.vo.PlayerShipVO;
-    import game.model.generator.GeneratorVO;
     import game.model.levelModel.LevelEvent;
     import game.model.levelModel.SpawnBonusEvent;
     import game.model.levelModel.SpawnEnemyEvent;
     import game.model.levelModel.SpawnObstacleEvent;
-    import game.model.weapon.IWeaponDefs;
-    import game.model.weapon.WeaponModel;
-    import game.model.weapon.enums.PlayerWeaponID;
+    import game.model.playerModel.IPlayerModel;
 
     import highScores.model.IHighScoreService;
 
@@ -70,10 +68,16 @@ package game.model
         public var mainModel: IMainModel;
 
         [Inject]
+        public var playerModel: IPlayerModel;
+
+        [Inject]
         public var behaviorFactory: IBehaviorFactory;
 
         [Inject]
         public var weaponDef: IWeaponDefs;
+
+        [Inject]
+        public var playerShipDef: IPlayerShipDefs;
 
         [Inject]
         public var levelProvider: ILevelProvider;
@@ -215,14 +219,11 @@ package game.model
             _gameBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
             var player: PlayerShipGO;
-            var weaponModel: WeaponModel;
-            var generatorVO: GeneratorVO;
+
 
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                weaponModel = weaponDef.getPlayerWeaponVO(PlayerWeaponID.PLASMA);
-                generatorVO = new GeneratorVO(1000, 300);
-                player = new PlayerShipGO(i, new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, weaponModel, generatorVO, 150, 99, 75));
+                player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild));
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
                 player.playerDiedSignal.add(playerDiedHandler);
@@ -635,15 +636,15 @@ package game.model
                     break;
                 case PlayerActionID.WEAPON_LASER:
                     if (aValue)
-                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.LASER));
+                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.LASER));
                     break;
                 case PlayerActionID.WEAPON_PLASMA:
                     if (aValue)
-                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.PLASMA));
+                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.PLASMA));
                     break;
                 case PlayerActionID.WEAPON_ELECTRIC:
                     if (aValue)
-                        playerGO.switchWeapon(weaponDef.getPlayerWeaponVO(PlayerWeaponID.ELECTRIC));
+                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.ELECTRIC));
                     break;
             }
         }

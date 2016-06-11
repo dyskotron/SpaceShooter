@@ -61,6 +61,7 @@ package enterName.view
             _input.validate();
             _input.x = (aViewModel.stageWidth - _input.width) / 2;
             _input.y = aViewModel.stageHeight / 2;
+            _input.text = "Guest" + int(Math.random() * 1000);
             addChild(_input);
 
             _button = new Button();

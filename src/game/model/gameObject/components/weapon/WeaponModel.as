@@ -1,6 +1,6 @@
-package game.model.weapon
+package game.model.gameObject.components.weapon
 {
-    public class WeaponModel
+    public class WeaponModel extends ComponentModel
     {
         /**
          * Spawn points + directions
@@ -12,11 +12,13 @@ package game.model.weapon
         private var _weaponType: uint = 0;
         protected var _shootInterval: int;
 
-        public function WeaponModel(aWeaponType: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>)
+        public function WeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>)
         {
             _weaponType = aWeaponType;
             _shootInterval = aShootInterval;
             _spawnPoints = aSpawnPoints;
+
+            super(aComponentID, aComponentType);
         }
 
         public function get weaponType(): uint
@@ -32,6 +34,16 @@ package game.model.weapon
         public function get spawnPoints(): Vector.<BulletSpawnVO>
         {
             return _spawnPoints;
+        }
+
+        override public function rotate(aRotation: Number, aOrientation: int)
+        {
+            //recalculate all VOs:
+
+            for (var iS: int = 0; iS < _spawnPoints.length; iS++)
+            {
+                _spawnPoints[iS].setRotation(aRotation, aOrientation);
+            }
         }
     }
 }

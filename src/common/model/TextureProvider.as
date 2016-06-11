@@ -97,11 +97,22 @@ package common.model
         {
             var texture: Texture;
 
+            //todo graphic for each bullet
             switch (aBulletID)
             {
-                case BulletID.LASER:
+                case BulletID.LASER_1:
                     texture = getTexture("laserRed03");
                     break;
+                case BulletID.LASER_2:
+                    texture = getTexture("laserRed02");
+                    break;
+                case BulletID.LASER_3:
+                    texture = getTexture("laserRed06");
+                    break;
+                case BulletID.LASER_4:
+                    texture = getTexture("laserRed04");
+                    break;
+
                 case BulletID.PLASMA_1:
                     texture = getTexture("laserGreen05");
                     break;
@@ -109,8 +120,12 @@ package common.model
                     texture = getTexture("laserGreen04");
                     break;
                 case BulletID.PLASMA_3:
+                    texture = getTexture("laserGreen12");
+                    break;
+                case BulletID.PLASMA_4:
                     texture = getTexture("laserGreen08");
                     break;
+
                 case BulletID.ELECTRIC_1:
                     texture = getTexture("laserBlue03");
                     break;

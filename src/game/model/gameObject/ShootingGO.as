@@ -1,17 +1,17 @@
 package game.model.gameObject
 {
+    import game.model.gameObject.components.ComponentType;
+    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.vo.ShootingVO;
-    import game.model.weapon.IWeaponComponent;
-    import game.model.weapon.WeaponModel;
 
     import org.osflash.signals.Signal;
 
     public class ShootingGO extends HittableGO
     {
-        protected var _weapon: IWeaponComponent;
+        protected var _weapons: Vector.<IWeaponComponent>;
 
         private var _shootSignal: Signal;
-
         private var _shootingVO: ShootingVO;
 
         /**
@@ -28,7 +28,8 @@ package game.model.gameObject
 
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
-            _weapon = createWeapon(_shootSignal, _shootingVO.weaponVO);
+
+            mountComponents();
         }
 
         public function get shootSignal(): Signal
@@ -38,31 +39,57 @@ package game.model.gameObject
 
         override public function update(aDeltaTime: int): void
         {
-            _weapon.update(aDeltaTime, x, y);
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                _weapons[i].update(aDeltaTime, x, y);
+            }
 
             super.update(aDeltaTime);
         }
 
         public function startShoot(): void
         {
-            _weapon.startShoot();
-
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                _weapons[i].startShoot();
+            }
         }
 
         public function endShoot(): void
         {
-            _weapon.stopShoot();
+            for (var i: int = 0; i < _weapons.length; i++)
+            {
+                _weapons[i].stopShoot();
+            }
+        }
+
+        protected function mountComponents(): void
+        {
+            _weapons = new Vector.<IWeaponComponent>();
+
+            if (_shootingVO.componentSlots)
+            {
+                var weaponSlot: ComponentSlot;
+
+                for (var i: int = 0; i < _shootingVO.componentSlots.length; i++)
+                {
+                    weaponSlot = _shootingVO.componentSlots[i];
+                    if (weaponSlot.isType(ComponentType.GUNS))
+                    {
+                        if (weaponSlot.isType(ComponentType.GUNS))
+                            _weapons.push(createWeapon(_shootSignal, weaponSlot));
+                    }
+                }
+            }
         }
 
         /**
          * Abstract weapon factory method
          * @param aShootSignal
          * @param aWeaponVO
-         * @param aX
-         * @param aY
          * @return
          */
-        protected function createWeapon(aShootSignal: Signal, aWeaponVO: WeaponModel, aX: Number = 0, aY: Number = 0): IWeaponComponent
+        protected function createWeapon(aShootSignal: Signal, aWeaponVO: ComponentSlot): IWeaponComponent
         {
             return null;
         }

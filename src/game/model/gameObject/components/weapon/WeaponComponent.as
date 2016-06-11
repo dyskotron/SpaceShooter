@@ -1,7 +1,7 @@
-package game.model.weapon
+package game.model.gameObject.components.weapon
 {
     import game.model.gameObject.BulletGO;
-    import game.model.weapon.enums.WeaponType;
+    import game.model.gameObject.components.weapon.enums.WeaponType;
 
     import org.osflash.signals.Signal;
 
@@ -17,16 +17,26 @@ package game.model.weapon
         private var _y: Number = 0;
 
         private var _spawnPointIndex: Number = 0;
-        private var _indexIncrement: int = 1;
 
 
         public function WeaponComponent(aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
         {
             _shootSignal = aShootSignal;
             _weaponModel = aWeaponModel;
+            _weaponModel = aWeaponModel;
             _ownerID = aOwnerID;
             _x = aX;
             _y = aY;
+        }
+
+        public function get x(): Number
+        {
+            return _x;
+        }
+
+        public function get y(): Number
+        {
+            return _y;
         }
 
         public function update(aDeltaTime: int, aShipX: Number, aShipY: Number): void
@@ -37,7 +47,7 @@ package game.model.weapon
 
                 if (_nextShotAfter <= 0)
                 {
-                    shoot(_x + aShipX, _y + aShipY);
+                    shoot(aShipX + _x, aShipY + _y);
                     _nextShotAfter = _weaponModel.shootInterval;
                 }
             }
@@ -66,23 +76,10 @@ package game.model.weapon
                     {
                         spawnPoint = _weaponModel.spawnPoints[i];
                         bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
-
                     }
                     break;
                 case WeaponType.SEQUENTIAL:
-                    _spawnPointIndex += _indexIncrement;
-
-                    if (_spawnPointIndex < 0)
-                    {
-                        _spawnPointIndex = 1;
-                        _indexIncrement = 1;
-                    }
-                    else if (_spawnPointIndex > _weaponModel.spawnPoints.length - 1)
-                    {
-                        _spawnPointIndex = _weaponModel.spawnPoints.length - 2;
-                        _indexIncrement = -1;
-                    }
-
+                    _spawnPointIndex = (_spawnPointIndex + 1) % _weaponModel.spawnPoints.length;
                     spawnPoint = _weaponModel.spawnPoints[_spawnPointIndex];
                     bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
                     break;
