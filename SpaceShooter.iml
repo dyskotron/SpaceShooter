@@ -39,7 +39,7 @@
         <packaging-air-desktop />
         <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/SpaceShooter-app.xml" package-file-name="Matter" />
         <packaging-ios enabled="true" package-file-name="cz.sssn.shooter">
-          <AirSigningOptions keystore-path="$USER_HOME$/NVPACK/android-sdk-macosx/samples/android-23/legacy/KeyChainDemo/assets/keychain.p12" provisioning-profile-path="$USER_HOME$/Downloads/iOS_Team_Provisioning_Profile_comgeewaPLT2.mobileprovision" />
+          <AirSigningOptions keystore-path="$MODULE_DIR$/NU_cert.p12" provisioning-profile-path="$MODULE_DIR$/NU_XC_comgeewaPLTMobile.mobileprovision" />
         </packaging-ios>
       </configuration>
       <configuration name="SpaceShooterMobile" target-platform="Mobile" pure-as="true" main-class="SpaceShooter" output-file="MatterMobile.swf" output-folder="$MODULE_DIR$/out">
