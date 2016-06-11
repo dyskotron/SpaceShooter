@@ -8,7 +8,7 @@
 package game.model.gameObject
 {
     import game.model.gameObject.components.weapon.ComponentSlot;
-    import game.model.gameObject.components.weapon.EnemyWeapon;
+    import game.model.gameObject.components.weapon.EnemyWeaponComponent;
     import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.fsm.GameObjectFSM;
@@ -55,7 +55,7 @@ package game.model.gameObject
 
         override protected function createWeapon(aShootSignal: Signal, aComponentSlot: ComponentSlot): IWeaponComponent
         {
-            return new EnemyWeapon(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, aComponentSlot.x, aComponentSlot.y);
+            return new EnemyWeaponComponent(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, aComponentSlot.x, aComponentSlot.y);
         }
 
     }

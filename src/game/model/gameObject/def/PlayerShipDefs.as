@@ -2,6 +2,7 @@ package game.model.gameObject.def
 {
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.enums.SlotDirection;
     import game.model.gameObject.constants.PlayerShipType;
     import game.model.gameObject.vo.PlayerShipVO;
     import game.model.playerModel.PlayerShipBuildVO;
@@ -33,13 +34,13 @@ package game.model.gameObject.def
         {
             var componentSlots: Vector.<ComponentSlot>;
             componentSlots = new Vector.<ComponentSlot>();
-            componentSlots.push(new ComponentSlot(ComponentType.MAIN_SLOT, 0, 0));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -45, 0));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 45, 0));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -30, 0));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 30, 0));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -15, 0));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 15, 0));
+            componentSlots.push(new ComponentSlot(ComponentType.MAIN_SLOT, 0, 0, Math.PI, SlotDirection.CENTER));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -45, 0, Math.PI * 0.75, SlotDirection.LEFT));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 45, 0, Math.PI * 1.25, SlotDirection.RIGHT));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -30, 0, Math.PI, SlotDirection.LEFT));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 30, 0, Math.PI, SlotDirection.RIGHT));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -15, 0, 0, SlotDirection.RIGHT));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 15, 0, 0, SlotDirection.LEFT));
             componentSlots.push(new ComponentSlot(ComponentType.ROCKET, 0, 60));
 
             return new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, componentSlots, 150, 99, 75);

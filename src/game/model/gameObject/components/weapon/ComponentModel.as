@@ -20,5 +20,10 @@ package game.model.gameObject.components.weapon
         {
             return _componentType;
         }
+
+        public function rotate(aRotation: Number, aOrientation: int)
+        {
+
+        }
     }
 }

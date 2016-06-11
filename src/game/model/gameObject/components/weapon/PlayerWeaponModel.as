@@ -2,6 +2,8 @@ package game.model.gameObject.components.weapon
 {
     import game.model.gameObject.components.weapon.enums.WeaponType;
 
+    import starling.utils.MathUtil;
+
     public class PlayerWeaponModel extends WeaponModel
     {
         private var _spawnPointsByPower: Vector.<Vector.<BulletSpawnVO>>;
@@ -10,7 +12,7 @@ package game.model.gameObject.components.weapon
         private var _energyCost: Number;
 
 
-        public function PlayerWeaponModel(aComponentID: uint, aComponentType: uint,aWeaponType: uint, aShootInterval: Vector.<uint>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
+        public function PlayerWeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aShootInterval: Vector.<uint>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
         {
             _spawnPointsByPower = aSpawnPoints;
             _shootIntervalByPower = aShootInterval;
@@ -35,31 +37,42 @@ package game.model.gameObject.components.weapon
 
         public function setPower(aPower: uint): void
         {
-            _power = Math.min(aPower, maxPower);
+            _power = MathUtil.clamp(aPower, 0, maxPower);
             _spawnPoints = _spawnPointsByPower[Math.min(_power, _spawnPointsByPower.length - 1)];
             _shootInterval = _shootIntervalByPower[Math.min(_power, _shootIntervalByPower.length - 1)];
 
             //count energy cost
             _energyCost = 0;
-
+            var i: int
             switch (weaponType)
             {
                 case WeaponType.PARALEL:
-                    for (var i: int = 0; i < spawnPoints.length; i++)
+                    for (i = 0; i < spawnPoints.length; i++)
                     {
                         _energyCost += spawnPoints[i].bulletVO.damage;
                     }
                     break;
                 case WeaponType.SEQUENTIAL:
-                    for (var i: int = 0; i < spawnPoints.length; i++)
+                    for (i = 0; i < spawnPoints.length; i++)
                     {
                         _energyCost = Math.max(_energyCost, spawnPoints[i].bulletVO.damage);
                     }
                     break;
             }
-
         }
 
-
+        override public function rotate(aRotation: Number, aOrientation: int)
+        {
+            //recalculate all VOs:
+            var spawnPoints: Vector.<BulletSpawnVO>;
+            for (var iP: int = 0; iP < _spawnPointsByPower.length; iP++)
+            {
+                spawnPoints = _spawnPointsByPower[iP];
+                for (var iS: int = 0; iS < spawnPoints.length; iS++)
+                {
+                    spawnPoints[iS].setRotation(aRotation, aOrientation);
+                }
+            }
+        }
     }
 }

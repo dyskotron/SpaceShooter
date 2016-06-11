@@ -57,8 +57,8 @@ package game.model.gameObject.components.weapon
                     bulletX1 = 4;
                     bulletX2 = 8;
 
-                    bulletY1 = -30;
-                    speed = -0.6;
+                    bulletY1 = 30;
+                    speed =0.6;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -182,11 +182,11 @@ package game.model.gameObject.components.weapon
                     bulletX3 = 32;
                     bulletX4 = 45;
 
-                    bulletY1 = -30;
-                    bulletY2 = -20;
-                    bulletY3 = -10;
+                    bulletY1 = 30;
+                    bulletY2 = 20;
+                    bulletY3 = 10;
 
-                    speed = -0.5;
+                    speed =0.5;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -283,7 +283,7 @@ package game.model.gameObject.components.weapon
                 case PlayerWeaponID.ELECTRIC:
                     //common
                     bulletX1 = 9;
-                    speed = -0.7;
+                    speed =0.7;
 
                     var numShots: Number;
 
@@ -354,8 +354,8 @@ package game.model.gameObject.components.weapon
                     bulletX1 = 4;
                     bulletX2 = 8;
 
-                    bulletY1 = -30;
-                    speed = -0.6;
+                    bulletY1 = 30;
+                    speed =0.6;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -428,11 +428,11 @@ package game.model.gameObject.components.weapon
                     bulletX2 = 20;
                     bulletX3 = 30;
 
-                    bulletY1 = -30;
-                    bulletY2 = -20;
-                    bulletY3 = -10;
+                    bulletY1 = 30;
+                    bulletY2 = 20;
+                    bulletY3 = 10;
 
-                    speed = -0.5;
+                    speed =0.5;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -503,7 +503,7 @@ package game.model.gameObject.components.weapon
                 case PlayerWeaponID.ELECTRIC:
                     //common
                     bulletX1 = 2;
-                    speed = -0.7;
+                    speed =0.7;
 
                     var numShots: Number;
 
@@ -546,12 +546,11 @@ package game.model.gameObject.components.weapon
             var spawnPoints: Vector.<BulletSpawnVO> = new Vector.<BulletSpawnVO>();
             var weaponVO: WeaponModel;
 
-
             switch (aWeaponID)
             {
                 case EnemyWeaponID.LASER:
-                    spawnPoints.push(new BulletSpawnVO(bulletDefs.getBulletVO(bulletType), 8, 40, 0, 0.6));
-                    spawnPoints.push(new BulletSpawnVO(bulletDefs.getBulletVO(bulletType), -8, 40, 0, 0.6));
+                    spawnPoints.push(new BulletSpawnVO(bulletDefs.getBulletVO(bulletType), 8, 40, 0.6, 0));
+                    spawnPoints.push(new BulletSpawnVO(bulletDefs.getBulletVO(bulletType), -8, 40, 0.6, 0));
                     weaponVO = new WeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, aShootInterval, spawnPoints);
                     break;
 
@@ -574,7 +573,7 @@ package game.model.gameObject.components.weapon
          */
         private function getSpawnVO(aBulletType: uint, aX: Number, aY: Number, angle: Number, speed: Number = 0.6): BulletSpawnVO
         {
-            return new BulletSpawnVO(bulletDefs.getBulletVO(aBulletType), aX, aY, -speed * Math.sin(angle), speed * Math.cos(angle));
+            return new BulletSpawnVO(bulletDefs.getBulletVO(aBulletType), aX, aY, speed, angle);
         }
     }
 }

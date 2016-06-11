@@ -7,11 +7,15 @@
  */
 package game.model.gameObject.components.weapon
 {
+    import game.model.gameObject.components.weapon.enums.SlotDirection;
+
     public class ComponentSlot
     {
         private var _validTypes: uint;
         private var _x: Number;
         private var _y: Number;
+        private var _rotation: Number;
+        private var _direction: Number;
         private var _componentModel: ComponentModel;
 
         /**
@@ -19,14 +23,21 @@ package game.model.gameObject.components.weapon
          * @param aValidTypes - @see game.model.gameObject.components.ComponentType
          * @param aX - x position of component relative to ship
          * @param aY - y position of component relative to ship
+         * @param aRotation - rotation of component
+         * @param aDirection - orientation, used for left/right component mirroring
          * @param aComponentModel @see ComponentModel
          */
-        public function ComponentSlot(aValidTypes: uint, aX: Number, aY: Number, aComponentModel: ComponentModel = null)
+        public function ComponentSlot(aValidTypes: uint, aX: Number, aY: Number, aRotation: Number = Math.PI, aDirection: int = SlotDirection.LEFT, aComponentModel: ComponentModel = null)
         {
             _validTypes = aValidTypes;
             _x = aX;
             _y = aY;
-            _componentModel = aComponentModel;
+
+            _rotation = aRotation;
+            _direction = aDirection;
+
+            if (aComponentModel)
+                setComponent(aComponentModel);
         }
 
         public function get componentModel(): ComponentModel
@@ -60,9 +71,14 @@ package game.model.gameObject.components.weapon
         public function setComponent(aComponentModel: ComponentModel): void
         {
             if (isTypeValid(aComponentModel.componentType))
+            {
                 _componentModel = aComponentModel;
+                _componentModel.rotate(_rotation, _direction);
+            }
             else
+            {
                 throw new Error("Component(" + aComponentModel.componentType + ") not valid in slot. types:" + _validTypes);
+            }
         }
 
         /**
