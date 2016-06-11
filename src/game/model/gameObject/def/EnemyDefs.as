@@ -110,7 +110,7 @@ package game.model.gameObject.def
         private function getWeaponSlots(aWeaponID: uint, aShootInterval: uint, bulletType: uint): Vector.<ComponentSlot>
         {
             var weaponSlots: Vector.<ComponentSlot> = new Vector.<ComponentSlot>();
-            weaponSlots.push(new ComponentSlot(ComponentType.MAIN_GUN, 0, 0, Math.PI / 3, 1, _weaponDefs.getEnemyWeaponModel(aWeaponID, aShootInterval, bulletType)));
+            weaponSlots.push(new ComponentSlot(ComponentType.MAIN_GUN, 0, 0, 0, 1, _weaponDefs.getEnemyWeaponModel(aWeaponID, aShootInterval, bulletType)));
             return weaponSlots;
         }
     }
