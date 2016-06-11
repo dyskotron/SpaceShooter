@@ -6,6 +6,6 @@ package game.model.gameObject.components.weapon
 
         function startShoot(): void
 
-        function stopShoot(): void
+        function endShoot(): void
     }
 }

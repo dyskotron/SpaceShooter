@@ -59,7 +59,7 @@ package game.model.gameObject
         {
             for (var i: int = 0; i < _weapons.length; i++)
             {
-                _weapons[i].stopShoot();
+                _weapons[i].endShoot();
             }
         }
 

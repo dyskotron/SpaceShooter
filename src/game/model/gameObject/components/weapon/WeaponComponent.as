@@ -59,7 +59,7 @@ package game.model.gameObject.components.weapon
             _nextShotAfter = 0;
         }
 
-        public function stopShoot(): void
+        public function endShoot(): void
         {
             _isShooting = false;
         }

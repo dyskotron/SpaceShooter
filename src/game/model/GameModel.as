@@ -4,9 +4,9 @@ package game.model
 
     import game.controller.GameEndSignal;
     import game.controller.PhysicsUpdateSignal;
+    import game.controller.playerControl.ITouchController;
     import game.controller.playerControl.KeyController;
     import game.controller.playerControl.PlayerActionID;
-    import game.controller.playerControl.TouchController;
     import game.model.gameObject.BonusGO;
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.EnemyGO;
@@ -50,7 +50,7 @@ package game.model
         private const OBSTACLE_HP_TO_SCORE_RATIO: int = 0.3;
 
         [Inject]
-        public var touchController: TouchController;
+        public var touchController: ITouchController;
 
         [Inject]
         public var keyController: KeyController;
@@ -109,7 +109,6 @@ package game.model
         private var _finishedLevel: Boolean = false;
         private var _immortal: Boolean = false;
         private var _gameBounds: Rectangle;
-
 
         /**
          * Main model of the Game, it stores and updates all game objects, and dispatches according signals if something changes

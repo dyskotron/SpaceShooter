@@ -11,9 +11,9 @@ package game.controller.playerControl
     import starling.events.TouchEvent;
     import starling.events.TouchPhase;
 
-    public class TouchController extends Actor implements ITouchController
+    public class MobileTouchController extends Actor implements ITouchController
     {
-        public static const DISTANCE_TO_SPEED: int = 10;
+        public static const CONTROLL_Y_OFFSET: int = -200;
 
         [Inject]
         public var viewModel: IViewModel;
@@ -27,11 +27,13 @@ package game.controller.playerControl
         private var _enabled: Boolean;
         private var _playerID: uint = 0;
 
+        private var _shootingEnabled: Boolean;
+
         /**
          * Class Handling mouse / touch events and turning them to signals which GameModel can understand
          * and can control players GameObject accordingly
          */
-        public function TouchController(aViewModel: IViewModel)
+        public function MobileTouchController(aViewModel: IViewModel)
         {
             _directionChangeSignal = new DirectionChangeSignal();
             _positionChangeSignal = new PositionChangeSignal();
@@ -77,34 +79,30 @@ package game.controller.playerControl
 
         public function destroy(): void
         {
-            _stage.addEventListener(TouchEvent.TOUCH, touchHandler);
+            _stage.removeEventListener(TouchEvent.TOUCH, touchHandler);
         }
 
         private function touchHandler(aEvent: TouchEvent): void
         {
             var touch: Touch = aEvent.touches[0];
 
-
+            //todo double tap
             switch (touch.phase)
             {
                 case TouchPhase.BEGAN:
                     _mouseDownPoint = new Point(touch.globalX, touch.globalY);
+                    _shootingEnabled = !_shootingEnabled;
                     _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    _positionChangeSignal.dispatch(_playerID, touch.globalX, touch.globalY + CONTROLL_Y_OFFSET);
                     break;
 
                 case TouchPhase.ENDED:
-                    if (_mouseDownPoint != null)
-                    {
-                        var deltaX: Number = (touch.globalX - _mouseDownPoint.x) / viewModel.gameWidth * DISTANCE_TO_SPEED;
-                        var deltaY: Number = (touch.globalY - _mouseDownPoint.y) / viewModel.gameHeight * DISTANCE_TO_SPEED;
-                        _directionChangeSignal.dispatch(0, deltaX, deltaY)
-                    }
                     _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, false);
                     break;
 
                 case TouchPhase.HOVER:
                 case TouchPhase.MOVED:
-                    _positionChangeSignal.dispatch(_playerID, touch.globalX, touch.globalY);
+                    _positionChangeSignal.dispatch(_playerID, touch.globalX, touch.globalY + CONTROLL_Y_OFFSET);
                     break;
             }
         }

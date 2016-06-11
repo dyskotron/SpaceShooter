@@ -31,7 +31,7 @@ package game.model.gameObject
         public static const STATE_ALIVE: uint = 2;
         public static const STATE_SPAWNING: uint = 3;
 
-        public static const MOVE_EASING: Number = 0.2;
+        public static const MOVE_EASING: Number = 0.4;
 
         /**
          * Coordinates where player ship is heading to.

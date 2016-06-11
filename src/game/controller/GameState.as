@@ -5,7 +5,9 @@ package game.controller
 
     import flash.ui.Mouse;
 
+    import game.controller.playerControl.ITouchController;
     import game.controller.playerControl.KeyController;
+    import game.controller.playerControl.MobileTouchController;
     import game.controller.playerControl.TouchController;
     import game.model.GameModel;
     import game.model.IGameModel;
@@ -88,7 +90,13 @@ package game.controller
 
             injector.mapSingleton(TextureProvider);
 
-            injector.mapSingleton(TouchController);
+
+            //todo create enum
+            if (CONFIG::platform == "mobile")
+                injector.mapSingletonOf(ITouchController, MobileTouchController);
+            else
+                injector.mapSingletonOf(ITouchController, TouchController);
+
             injector.mapSingleton(KeyController);
             injector.mapSingletonOf(ILevelProvider, SerialLevelGenerator);
 
@@ -137,7 +145,7 @@ package game.controller
 
             injector.unmap(TextureProvider);
 
-            injector.unmap(TouchController);
+            injector.unmap(ITouchController);
             injector.unmap(KeyController);
             injector.unmap(ILevelProvider);
 
