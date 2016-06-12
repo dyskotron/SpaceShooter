@@ -1,6 +1,7 @@
 package game.controller.playerControl
 {
     import flash.geom.Point;
+    import flash.utils.getTimer;
 
     import main.model.IViewModel;
 
@@ -13,6 +14,7 @@ package game.controller.playerControl
 
     public class TouchController extends Actor implements ITouchController
     {
+        private const SECONDAY_DOUBLECLICK_TIME: Number = 0.2 * 1000;
         public static const DISTANCE_TO_SPEED: int = 10;
 
         [Inject]
@@ -26,6 +28,7 @@ package game.controller.playerControl
         private var _stage: Stage;
         private var _enabled: Boolean;
         private var _playerID: uint = 0;
+        private var _lastTime: int = 0;
 
         /**
          * Class Handling mouse / touch events and turning them to signals which GameModel can understand
@@ -89,7 +92,12 @@ package game.controller.playerControl
             {
                 case TouchPhase.BEGAN:
                     _mouseDownPoint = new Point(touch.globalX, touch.globalY);
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
+
+                    if (getTimer() - _lastTime < SECONDAY_DOUBLECLICK_TIME)
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SECONDARY_FIRE, true);
+
+                    _lastTime = getTimer();
                     break;
 
                 case TouchPhase.ENDED:
@@ -99,7 +107,7 @@ package game.controller.playerControl
                         var deltaY: Number = (touch.globalY - _mouseDownPoint.y) / viewModel.gameHeight * DISTANCE_TO_SPEED;
                         _directionChangeSignal.dispatch(0, deltaX, deltaY)
                     }
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, false);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, false);
                     break;
 
                 case TouchPhase.HOVER:

@@ -117,15 +117,15 @@ package game.controller.playerControl
             switch (aEvent.keyCode)
             {
                 case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
                     break;
 
                 case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
                     break;
 
                 case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
                     break;
 
                 case Keyboard.NUMBER_1:
@@ -161,7 +161,7 @@ package game.controller.playerControl
             switch (aEvent.keyCode)
             {
                 case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, false);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, false);
                     break;
             }
         }

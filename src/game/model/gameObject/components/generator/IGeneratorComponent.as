@@ -11,5 +11,7 @@ package game.model.gameObject.components.generator
         function deplete(aEnergyDelta: Number): Boolean
 
         function recharge(aEnergyDelta: Number): void
+
+        function isFull(): Boolean;
     }
 }

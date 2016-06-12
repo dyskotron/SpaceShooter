@@ -14,7 +14,9 @@ package game.model
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.weapon.IWeaponDefs;
     import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
+    import game.model.gameObject.components.weapon.enums.WeaponType;
     import game.model.gameObject.constants.BonusTypeID;
+    import game.model.gameObject.constants.BulletMode;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.vo.BonusVO;
@@ -88,6 +90,7 @@ package game.model
         private var _levelModel: ILevelModel;
 
         private var _playerBullets: Vector.<BulletGO>;
+        private var _playerAoeBullets: Vector.<BulletGO>;
         private var _enemyBullets: Vector.<BulletGO>;
         private var _enemies: Vector.<EnemyGO>;
         private var _bonuses: Vector.<BonusGO>;
@@ -101,6 +104,7 @@ package game.model
         private var _bulletSpawnedSignal: Signal;
 
         private var _gameObjectRemovedSignal: Signal;
+        private var _aoeDamageTriggeredSignal: Signal;
         private var _gameObjectHitSignal: Signal;
 
         private var _players: Vector.<PlayerShipGO>;
@@ -186,6 +190,11 @@ package game.model
             return _gameObjectHitSignal;
         }
 
+        public function get aoeDamageTriggeredSignal(): Signal
+        {
+            return _aoeDamageTriggeredSignal;
+        }
+
         //endregion
 
         //region ---------------------------------- PUBLIC METHODS ---------------------------------
@@ -207,10 +216,12 @@ package game.model
 
             _gameObjectRemovedSignal = new Signal(GameObject);
             _gameObjectHitSignal = new Signal(GameObject, int);
+            _aoeDamageTriggeredSignal = new Signal(BulletGO);
 
             _players = new Vector.<PlayerShipGO>();
             _enemies = new Vector.<EnemyGO>();
             _playerBullets = new Vector.<BulletGO>();
+            _playerAoeBullets = new Vector.<BulletGO>();
             _enemyBullets = new Vector.<BulletGO>();
             _bonuses = new Vector.<BonusGO>();
             _obstacles = new Vector.<ObstacleGO>();
@@ -376,16 +387,26 @@ package game.model
                         if (enemyGO.bounds.contains(playerBulletGO.x, playerBulletGO.y) && playerBulletGO.canHit(enemyGO))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-                            //decrease hp
-                            removeBullet = playerBulletGO.hitObject(enemyGO);
-                            _gameObjectHitSignal.dispatch(enemyGO, 0);
-
-                            //remove enemy if dead
-                            if (enemyGO.hp <= 0)
+                            if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
                             {
-                                _enemies.splice(iC, 1);
-                                _gameObjectRemovedSignal.dispatch(enemyGO);
-                                _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                                _playerAoeBullets.push(playerBulletGO);
+                                _aoeDamageTriggeredSignal.dispatch(playerBulletGO);
+                                removeBullet = true;
+                            }
+                            else
+                            {
+                                //decrease hp
+
+                                removeBullet = playerBulletGO.hitObject(enemyGO);
+                                _gameObjectHitSignal.dispatch(enemyGO, 0);
+
+                                //remove enemy if dead
+                                if (enemyGO.hp <= 0)
+                                {
+                                    _enemies.splice(iC, 1);
+                                    _gameObjectRemovedSignal.dispatch(enemyGO);
+                                    _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                                }
                             }
 
                             //remove bullet & stop checking rest of enemies vector
@@ -407,16 +428,27 @@ package game.model
                         if (obstacleGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-                            //decrease hp
-                            removeBullet = playerBulletGO.hitObject(obstacleGO);
-                            _gameObjectHitSignal.dispatch(obstacleGO, 0);
 
-                            //remove obstacle if dead
-                            if (obstacleGO.hp <= 0)
+
+                            if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
                             {
-                                _obstacles.splice(iC, 1);
-                                _gameObjectRemovedSignal.dispatch(obstacleGO);
-                                _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
+                                _playerAoeBullets.push(playerBulletGO);
+                                _aoeDamageTriggeredSignal.dispatch(playerBulletGO);
+                                removeBullet = true;
+                            }
+                            else
+                            {
+                                //decrease hp
+                                removeBullet = playerBulletGO.hitObject(obstacleGO);
+                                _gameObjectHitSignal.dispatch(obstacleGO, 0);
+
+                                //remove obstacle if dead
+                                if (obstacleGO.hp <= 0)
+                                {
+                                    _obstacles.splice(iC, 1);
+                                    _gameObjectRemovedSignal.dispatch(obstacleGO);
+                                    _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
+                                }
                             }
 
                             //remove bullet & stop checking rest of obstacles vector
@@ -438,6 +470,67 @@ package game.model
             }
 
             //endregion
+
+            //region UPDATE PLAYER AOE
+            for (i = _playerAoeBullets.length - 1; i >= 0; i--)
+            {
+                playerBulletGO = _playerAoeBullets[i];
+                playerBulletGO.update(aDeltaTime);
+
+                //enemy collisions
+                for (iC = _enemies.length - 1; iC >= 0; iC--)
+                {
+                    enemyGO = _enemies[iC];
+                    removeBullet = false;
+
+                    if (Math.pow(playerBulletGO.x - enemyGO.x, 2) + Math.pow(playerBulletGO.y - enemyGO.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
+                    {
+                        //decrease hp
+                        playerBulletGO.hitObject(enemyGO);
+                        _gameObjectHitSignal.dispatch(enemyGO, 0);
+
+                        //remove enemy if dead
+                        if (enemyGO.hp <= 0)
+                        {
+                            _enemies.splice(iC, 1);
+                            _gameObjectRemovedSignal.dispatch(enemyGO);
+                            _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                        }
+
+
+                    }
+                }
+
+                //obstacle collisions
+                for (iC = _obstacles.length - 1; iC >= 0; iC--)
+                {
+                    obstacleGO = _obstacles[iC];
+                    removeBullet = false;
+
+                    if (Math.pow(playerBulletGO.x - obstacleGO.x, 2) + Math.pow(playerBulletGO.y - obstacleGO.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
+                    {
+                        //decrease hp
+                        removeBullet = playerBulletGO.hitObject(obstacleGO);
+                        _gameObjectHitSignal.dispatch(obstacleGO, 0);
+
+                        //remove obstacle if dead
+                        if (obstacleGO.hp <= 0)
+                        {
+                            _obstacles.splice(iC, 1);
+                            _gameObjectRemovedSignal.dispatch(obstacleGO);
+                            _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
+                        }
+                    }
+                }
+
+                //remove aoe bullet
+                _playerAoeBullets.splice(i, 1);
+                _gameObjectRemovedSignal.dispatch(playerBulletGO);
+
+            }
+
+            //endregion
+
 
             //region UPDATE BONUSES
             for (i = _bonuses.length - 1; i >= 0; i--)
@@ -620,8 +713,13 @@ package game.model
 
             switch (aActionID)
             {
-                case PlayerActionID.SHOOT:
+                case PlayerActionID.PRIMARY_FIRE:
                     aValue ? playerGO.startShoot() : playerGO.endShoot();
+                    break;
+
+                case PlayerActionID.SECONDARY_FIRE:
+                    if (aValue)
+                        playerGO.startShoot(WeaponType.SECONDARY);
                     break;
 
                 case PlayerActionID.POWER_UP:
@@ -660,5 +758,6 @@ package game.model
         }
 
         //endregion
+
     }
 }

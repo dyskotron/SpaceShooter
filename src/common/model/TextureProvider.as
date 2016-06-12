@@ -89,12 +89,17 @@ package common.model
 
         private function getTexture(aTextureID: String): Texture
         {
-            //trace("_MO_", this, aTextureID);
             return _imageCache.getTexture(aTextureID/* + ".png"*/);
         }
 
-        public function getBulletTexture(aBulletID: uint): Texture
+        private function getTextures(aTexturePrefix: String): Vector.<Texture>
         {
+            return _imageCache.getTextures(aTexturePrefix);
+        }
+
+        public function getBulletTextures(aBulletID: uint): Vector.<Texture>
+        {
+            var textures: Vector.<Texture>;
             var texture: Texture;
 
             //todo graphic for each bullet
@@ -132,12 +137,28 @@ package common.model
                 case BulletID.ELECTRIC_2:
                     texture = getTexture("laserBlue04");
                     break;
+
+                case BulletID.ROCKET_1:
+                    textures = getTextures("rocket");
+                    break;
+
                 default:
                     throw new Error("No Tetxture for bulletID: " + aBulletID);
 
             }
 
-            return texture;
+            if (textures == null)
+            {
+                textures = new Vector.<Texture>();
+                textures.push(texture);
+            }
+
+            return textures;
+        }
+
+        public function getExplosionTextures(aExplosionID: uint): Vector.<Texture>
+        {
+            return getTextures("explosion");
         }
 
         public function getEnemyTexture(aEnemyID: uint): Texture

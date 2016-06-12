@@ -10,6 +10,7 @@ package game.model.gameObject.components.weapon
         private var _shootIntervalByPower: Vector.<uint>;
         private var _power: uint;
         private var _energyCost: Number;
+        private const AOE_ENERGY_COST_RATIO: Number = 20;
 
 
         public function PlayerWeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aShootInterval: Vector.<uint>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
@@ -46,6 +47,7 @@ package game.model.gameObject.components.weapon
             var i: int
             switch (weaponType)
             {
+                case WeaponType.SECONDARY:
                 case WeaponType.PARALEL:
                     for (i = 0; i < spawnPoints.length; i++)
                     {
@@ -58,6 +60,11 @@ package game.model.gameObject.components.weapon
                         _energyCost = Math.max(_energyCost, spawnPoints[i].bulletVO.damage);
                     }
                     break;
+            }
+
+            if (weaponType == WeaponType.SECONDARY)
+            {
+                _energyCost * AOE_ENERGY_COST_RATIO;
             }
         }
 

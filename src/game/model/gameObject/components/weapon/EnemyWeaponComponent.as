@@ -12,7 +12,7 @@ package game.model.gameObject.components.weapon
         override public function startShoot(): void
         {
             super.startShoot();
-            _nextShotAfter = _weaponModel.shootInterval * 3 * Math.random();
+            _nextShotAfter = weaponModel.shootInterval * 3 * Math.random();
         }
     }
 }

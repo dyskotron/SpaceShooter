@@ -35,6 +35,8 @@ package game.model
 
         function get gameObjectHitSignal(): Signal;
 
+        function get aoeDamageTriggeredSignal(): Signal;
+
         function getPlayerModelByID(aID: uint = 0): PlayerShipGO;
 
         function init(): void;

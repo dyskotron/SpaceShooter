@@ -6,5 +6,6 @@ package game.model.gameObject.components.weapon.enums
         public static const LASER: uint = 1;
         public static const PLASMA: uint = 2;
         public static const ELECTRIC: uint = 3;
+        public static const ROCKET_LAUNCHER: uint = 4;
     }
 }

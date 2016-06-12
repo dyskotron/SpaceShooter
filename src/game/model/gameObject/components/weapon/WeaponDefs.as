@@ -9,6 +9,12 @@ package game.model.gameObject.components.weapon
 
     public class WeaponDefs implements IWeaponDefs
     {
+        public static const LASER_SPEED: Number = 0.8;
+        public static const PLASMA_SPEED: Number = 0.5;
+        public static const ELECTRIC_SPEED: Number = 1;
+        public static const ROCKET_SPEED: Number = 0.65;
+
+
         [Inject]
         public var bulletDefs: IBulletDefs;
 
@@ -58,7 +64,7 @@ package game.model.gameObject.components.weapon
                     bulletX2 = 8;
 
                     bulletY1 = 30;
-                    speed =0.6;
+                    speed = LASER_SPEED;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -186,7 +192,7 @@ package game.model.gameObject.components.weapon
                     bulletY2 = 20;
                     bulletY3 = 10;
 
-                    speed =0.5;
+                    speed = PLASMA_SPEED;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -283,7 +289,7 @@ package game.model.gameObject.components.weapon
                 case PlayerWeaponID.ELECTRIC:
                     //common
                     bulletX1 = 9;
-                    speed =0.7;
+                    speed = ELECTRIC_SPEED;
 
                     var numShots: Number;
 
@@ -355,7 +361,7 @@ package game.model.gameObject.components.weapon
                     bulletX2 = 8;
 
                     bulletY1 = 30;
-                    speed =0.6;
+                    speed = LASER_SPEED;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -432,7 +438,7 @@ package game.model.gameObject.components.weapon
                     bulletY2 = 20;
                     bulletY3 = 10;
 
-                    speed =0.5;
+                    speed = PLASMA_SPEED;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -503,7 +509,7 @@ package game.model.gameObject.components.weapon
                 case PlayerWeaponID.ELECTRIC:
                     //common
                     bulletX1 = 2;
-                    speed =0.7;
+                    speed = ELECTRIC_SPEED;
 
                     var numShots: Number;
 
@@ -533,10 +539,35 @@ package game.model.gameObject.components.weapon
                     weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SEQUENTIAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
+
+                //region ========= ROCKET LAUNCHER =========
+                case PlayerWeaponID.ROCKET_LAUNCHER:
+                    //common
+                    bulletX1 = 9;
+                    speed = ROCKET_SPEED;
+
+                    var numShots: Number = 50;
+
+                    for (var i: int = 0; i < 10; i++)
+                    {
+                        spawnPoints = new Vector.<BulletSpawnVO>();
+                        spawnPoints.push(getSpawnVO(BulletID.ROCKET_1, -bulletX1, bulletY1, 0, speed));
+                        spawnPointsByPower.push(spawnPoints);
+
+
+                        trace("_MO_", this, "ROCKET_LAUNCHER:", i, "num shots", numShots);
+                        shootIntervalByPower.push(1000 / numShots);
+                    }
+
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SECONDARY, shootIntervalByPower, spawnPointsByPower);
+                    break;
+
                 default:
                     throw new Error("No Player Weapon for id " + aWeaponID);
 
             }
+
+            //endregion
 
             return weaponVO;
         }

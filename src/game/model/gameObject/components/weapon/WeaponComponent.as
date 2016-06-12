@@ -7,7 +7,7 @@ package game.model.gameObject.components.weapon
 
     public class WeaponComponent implements IWeaponComponent
     {
-        protected var _weaponModel: WeaponModel;
+        private var _weaponModel: WeaponModel;
         protected var _nextShotAfter: Number = 0;
         private var _shootSignal: Signal;
         protected var _ownerID: uint;
@@ -39,6 +39,11 @@ package game.model.gameObject.components.weapon
             return _y;
         }
 
+        public function get weaponModel(): WeaponModel
+        {
+            return _weaponModel;
+        }
+
         public function update(aDeltaTime: int, aShipX: Number, aShipY: Number): void
         {
             if (_isShooting)
@@ -50,6 +55,9 @@ package game.model.gameObject.components.weapon
                     shoot(aShipX + _x, aShipY + _y);
                     _nextShotAfter = _weaponModel.shootInterval;
                 }
+
+                if (_weaponModel.weaponType == WeaponType.SECONDARY)
+                    endShoot();
             }
         }
 
@@ -71,6 +79,7 @@ package game.model.gameObject.components.weapon
             var spawnPoint: BulletSpawnVO;
             switch (_weaponModel.weaponType)
             {
+                case WeaponType.SECONDARY:
                 case WeaponType.PARALEL:
                     for (var i: int = 0; i < _weaponModel.spawnPoints.length; i++)
                     {

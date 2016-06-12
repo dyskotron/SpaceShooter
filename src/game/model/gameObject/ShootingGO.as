@@ -3,6 +3,7 @@ package game.model.gameObject
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.weapon.ComponentSlot;
     import game.model.gameObject.components.weapon.IWeaponComponent;
+    import game.model.gameObject.components.weapon.enums.WeaponType;
     import game.model.gameObject.vo.ShootingVO;
 
     import org.osflash.signals.Signal;
@@ -47,11 +48,13 @@ package game.model.gameObject
             super.update(aDeltaTime);
         }
 
-        public function startShoot(): void
+        public function startShoot(aWeaponType: uint = 0): void
         {
             for (var i: int = 0; i < _weapons.length; i++)
             {
-                _weapons[i].startShoot();
+                //TODO: better filter for guns
+                if (aWeaponType == 0 && _weapons[i].weaponModel.weaponType != WeaponType.SECONDARY || _weapons[i].weaponModel.weaponType == WeaponType.SECONDARY && aWeaponType == WeaponType.SECONDARY)
+                    _weapons[i].startShoot();
             }
         }
 

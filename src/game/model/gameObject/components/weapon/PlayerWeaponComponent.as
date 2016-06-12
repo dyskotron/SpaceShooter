@@ -17,7 +17,7 @@ package game.model.gameObject.components.weapon
         {
             super(aShootSignal, aWeaponModel, aOwnerID, aX, aY);
 
-            playerWeaponModel = PlayerWeaponModel(_weaponModel);
+            playerWeaponModel = PlayerWeaponModel(aWeaponModel);
             playerWeaponModel.setPower(_aPower);
             _generator = aPlayerShipGO.generatorComponent;
             _playerShipGO = aPlayerShipGO;

@@ -125,12 +125,12 @@ package game.model.gameObject
 
         //endregion
 
-        override public function startShoot(): void
+        override public function startShoot(aWeaponType: uint = 0): void
         {
             _shouldBeShooting = true;
 
             if (state == STATE_ALIVE)
-                super.startShoot();
+                super.startShoot(aWeaponType);
         }
 
         override public function endShoot(): void
@@ -154,8 +154,8 @@ package game.model.gameObject
             x += speedX;
             y += speedY;
 
-            super.update(aDeltaTime);
             _generatorComponent.update(aDeltaTime);
+            super.update(aDeltaTime);
         }
 
         override public function hit(aDamage: Number): void

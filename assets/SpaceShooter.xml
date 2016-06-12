@@ -1,192 +1,219 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:2449947aff7124dcd77112557ad506af:52bbd4dc56f8957b5dff381a7883db0d:a1f4eee4247911cfa2b433bc4a2da848$ -->
-<TextureAtlas imagePath="SpaceShooter.png" width="755" height="755">
-    <SubTexture name="bold_silver" x="735" y="85" width="19" height="30"/>
-    <SubTexture name="bolt_bronze" x="733" y="477" width="19" height="30"/>
-    <SubTexture name="bolt_gold" x="579" y="553" width="19" height="30"/>
+<!-- $TexturePacker:SmartUpdate:33ed65cb66effbb5445ce6b8681952ba:4eb24309f8eceb19e4ab804614049f0d:a1f4eee4247911cfa2b433bc4a2da848$ -->
+<TextureAtlas imagePath="SpaceShooter.png" width="875" height="875">
+    <SubTexture name="bold_silver" x="662" y="559" width="19" height="30"/>
+    <SubTexture name="bolt_bronze" x="662" y="591" width="19" height="30"/>
+    <SubTexture name="bolt_gold" x="657" y="623" width="19" height="30"/>
     <SubTexture name="buttonBlue" x="147" y="1" width="222" height="39"/>
     <SubTexture name="buttonGreen" x="147" y="42" width="222" height="39"/>
     <SubTexture name="buttonRed" x="371" y="1" width="222" height="39"/>
     <SubTexture name="buttonYellow" x="147" y="83" width="222" height="39"/>
-    <SubTexture name="cursor" x="600" y="532" width="30" height="33"/>
-    <SubTexture name="enemyBlack1" x="445" y="291" width="93" height="84"/>
-    <SubTexture name="enemyBlack2" x="1" y="669" width="104" height="84"/>
-    <SubTexture name="enemyBlack3" x="252" y="201" width="103" height="84"/>
-    <SubTexture name="enemyBlack4" x="555" y="205" width="82" height="84"/>
-    <SubTexture name="enemyBlack5" x="226" y="459" width="97" height="84"/>
-    <SubTexture name="enemyBlue1" x="540" y="291" width="93" height="84"/>
-    <SubTexture name="enemyBlue2" x="375" y="119" width="104" height="84"/>
-    <SubTexture name="enemyBlue3" x="136" y="287" width="103" height="84"/>
-    <SubTexture name="enemyBlue4" x="297" y="622" width="82" height="84"/>
-    <SubTexture name="enemyBlue5" x="357" y="205" width="97" height="84"/>
-    <SubTexture name="enemyGreen1" x="107" y="622" width="93" height="84"/>
-    <SubTexture name="enemyGreen2" x="481" y="119" width="104" height="84"/>
-    <SubTexture name="enemyGreen3" x="241" y="287" width="103" height="84"/>
-    <SubTexture name="enemyGreen4" x="639" y="176" width="82" height="84"/>
-    <SubTexture name="enemyGreen5" x="456" y="205" width="97" height="84"/>
-    <SubTexture name="enemyRed1" x="202" y="622" width="93" height="84"/>
-    <SubTexture name="enemyRed2" x="146" y="201" width="104" height="84"/>
-    <SubTexture name="enemyRed3" x="123" y="373" width="103" height="84"/>
-    <SubTexture name="enemyRed4" x="639" y="262" width="82" height="84"/>
-    <SubTexture name="enemyRed5" x="346" y="291" width="97" height="84"/>
-    <SubTexture name="fire00" x="738" y="274" width="16" height="40"/>
-    <SubTexture name="fire01" x="503" y="579" width="14" height="31"/>
-    <SubTexture name="fire02" x="415" y="674" width="14" height="32"/>
-    <SubTexture name="fire03" x="740" y="544" width="14" height="34"/>
-    <SubTexture name="fire04" x="449" y="682" width="14" height="31"/>
-    <SubTexture name="fire05" x="737" y="580" width="14" height="31"/>
-    <SubTexture name="fire06" x="634" y="688" width="14" height="31"/>
-    <SubTexture name="fire07" x="650" y="688" width="14" height="31"/>
-    <SubTexture name="fire08" x="738" y="316" width="16" height="40"/>
-    <SubTexture name="fire09" x="407" y="708" width="16" height="40"/>
-    <SubTexture name="fire10" x="431" y="673" width="16" height="40"/>
-    <SubTexture name="fire11" x="666" y="688" width="14" height="31"/>
-    <SubTexture name="fire12" x="610" y="599" width="14" height="32"/>
-    <SubTexture name="fire13" x="458" y="612" width="14" height="34"/>
-    <SubTexture name="fire14" x="636" y="721" width="14" height="31"/>
-    <SubTexture name="fire15" x="652" y="721" width="14" height="31"/>
-    <SubTexture name="fire16" x="668" y="721" width="14" height="31"/>
-    <SubTexture name="fire17" x="682" y="688" width="14" height="31"/>
-    <SubTexture name="fire18" x="101" y="571" width="16" height="41"/>
-    <SubTexture name="fire19" x="738" y="231" width="16" height="41"/>
-    <SubTexture name="laserBlue01" x="510" y="612" width="9" height="54"/>
-    <SubTexture name="laserBlue02" x="497" y="717" width="13" height="37"/>
-    <SubTexture name="laserBlue03" x="552" y="667" width="9" height="37"/>
-    <SubTexture name="laserBlue04" x="512" y="717" width="13" height="37"/>
-    <SubTexture name="laserBlue05" x="591" y="698" width="9" height="37"/>
-    <SubTexture name="laserBlue06" x="527" y="717" width="13" height="37"/>
-    <SubTexture name="laserBlue07" x="689" y="635" width="9" height="37"/>
-    <SubTexture name="laserBlue08" x="107" y="708" width="48" height="46"/>
-    <SubTexture name="laserBlue09" x="157" y="708" width="48" height="46"/>
-    <SubTexture name="laserBlue10" x="431" y="499" width="37" height="37"/>
-    <SubTexture name="laserBlue11" x="708" y="46" width="38" height="37"/>
-    <SubTexture name="laserBlue12" x="416" y="531" width="13" height="57"/>
-    <SubTexture name="laserBlue13" x="587" y="119" width="9" height="57"/>
-    <SubTexture name="laserBlue14" x="699" y="111" width="13" height="57"/>
-    <SubTexture name="laserBlue15" x="411" y="615" width="9" height="57"/>
-    <SubTexture name="laserBlue16" x="714" y="111" width="13" height="54"/>
-    <SubTexture name="laserGreen01" x="570" y="454" width="37" height="38"/>
-    <SubTexture name="laserGreen02" x="381" y="615" width="13" height="57"/>
-    <SubTexture name="laserGreen03" x="470" y="499" width="9" height="57"/>
-    <SubTexture name="laserGreen04" x="537" y="667" width="13" height="37"/>
-    <SubTexture name="laserGreen05" x="700" y="635" width="9" height="37"/>
-    <SubTexture name="laserGreen06" x="396" y="615" width="13" height="57"/>
-    <SubTexture name="laserGreen07" x="559" y="496" width="9" height="57"/>
-    <SubTexture name="laserGreen08" x="576" y="698" width="13" height="37"/>
-    <SubTexture name="laserGreen09" x="711" y="635" width="9" height="37"/>
-    <SubTexture name="laserGreen10" x="723" y="231" width="13" height="54"/>
-    <SubTexture name="laserGreen11" x="557" y="580" width="9" height="54"/>
-    <SubTexture name="laserGreen12" x="629" y="649" width="13" height="37"/>
-    <SubTexture name="laserGreen13" x="722" y="635" width="9" height="37"/>
-    <SubTexture name="laserGreen14" x="207" y="708" width="48" height="46"/>
-    <SubTexture name="laserGreen15" x="257" y="708" width="48" height="46"/>
-    <SubTexture name="laserGreen16" x="431" y="538" width="37" height="37"/>
-    <SubTexture name="laserRed01" x="568" y="580" width="9" height="54"/>
-    <SubTexture name="laserRed02" x="644" y="649" width="13" height="37"/>
-    <SubTexture name="laserRed03" x="733" y="634" width="9" height="37"/>
-    <SubTexture name="laserRed04" x="659" y="649" width="13" height="37"/>
-    <SubTexture name="laserRed05" x="744" y="634" width="9" height="37"/>
-    <SubTexture name="laserRed06" x="674" y="649" width="13" height="37"/>
-    <SubTexture name="laserRed07" x="698" y="674" width="9" height="37"/>
-    <SubTexture name="laserRed08" x="307" y="708" width="48" height="46"/>
-    <SubTexture name="laserRed09" x="357" y="708" width="48" height="46"/>
-    <SubTexture name="laserRed10" x="520" y="496" width="37" height="36"/>
-    <SubTexture name="laserRed11" x="481" y="496" width="37" height="37"/>
-    <SubTexture name="laserRed12" x="570" y="494" width="13" height="57"/>
-    <SubTexture name="laserRed13" x="733" y="418" width="9" height="57"/>
-    <SubTexture name="laserRed14" x="585" y="494" width="13" height="57"/>
-    <SubTexture name="laserRed15" x="744" y="418" width="9" height="57"/>
-    <SubTexture name="laserRed16" x="723" y="287" width="13" height="54"/>
-    <SubTexture name="meteorBrown_big1" x="123" y="459" width="101" height="84"/>
+    <SubTexture name="cursor" x="607" y="807" width="30" height="33"/>
+    <SubTexture name="enemyBlack1" x="552" y="291" width="93" height="84"/>
+    <SubTexture name="enemyBlack2" x="375" y="119" width="104" height="84"/>
+    <SubTexture name="enemyBlack3" x="136" y="287" width="103" height="84"/>
+    <SubTexture name="enemyBlack4" x="568" y="205" width="82" height="84"/>
+    <SubTexture name="enemyBlack5" x="587" y="119" width="97" height="84"/>
+    <SubTexture name="enemyBlue1" x="647" y="291" width="93" height="84"/>
+    <SubTexture name="enemyBlue2" x="481" y="119" width="104" height="84"/>
+    <SubTexture name="enemyBlue3" x="241" y="287" width="103" height="84"/>
+    <SubTexture name="enemyBlue4" x="742" y="291" width="82" height="84"/>
+    <SubTexture name="enemyBlue5" x="652" y="205" width="97" height="84"/>
+    <SubTexture name="enemyGreen1" x="110" y="664" width="93" height="84"/>
+    <SubTexture name="enemyGreen2" x="146" y="201" width="104" height="84"/>
+    <SubTexture name="enemyGreen3" x="358" y="205" width="103" height="84"/>
+    <SubTexture name="enemyGreen4" x="306" y="745" width="82" height="84"/>
+    <SubTexture name="enemyGreen5" x="205" y="659" width="97" height="84"/>
+    <SubTexture name="enemyRed1" x="368" y="553" width="93" height="84"/>
+    <SubTexture name="enemyRed2" x="252" y="201" width="104" height="84"/>
+    <SubTexture name="enemyRed3" x="463" y="205" width="103" height="84"/>
+    <SubTexture name="enemyRed4" x="787" y="470" width="82" height="84"/>
+    <SubTexture name="enemyRed5" x="584" y="473" width="97" height="84"/>
+    <SubTexture name="explosion_01" x="571" y="634" width="42" height="53" frameX="-27" frameY="-20" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_02" x="563" y="560" width="56" height="72" frameX="-20" frameY="-11" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_03" x="783" y="556" width="61" height="83" frameX="-17" frameY="-8" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_04" x="297" y="567" width="69" height="88" frameX="-12" frameY="-6" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_05" x="795" y="1" width="78" height="91" frameX="-10" frameY="-5" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_06" x="510" y="377" width="84" height="93" frameX="-7" frameY="-3" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_07" x="596" y="377" width="88" height="94" frameX="-5" frameY="-2" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_08" x="220" y="471" width="92" height="94" frameX="-3" frameY="-2" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_09" x="123" y="471" width="95" height="95" frameX="-1" frameY="-1" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_10" x="697" y="1" width="96" height="95" frameX="0" frameY="-1" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_11" x="1" y="767" width="96" height="96"/>
+    <SubTexture name="explosion_12" x="599" y="1" width="96" height="96"/>
+    <SubTexture name="explosion_13" x="220" y="373" width="94" height="96" frameX="-2" frameY="0" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_14" x="123" y="373" width="95" height="96" frameX="-1" frameY="0" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_15" x="316" y="377" width="95" height="90" frameX="-1" frameY="-1" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_16" x="413" y="377" width="95" height="90" frameX="-1" frameY="-1" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_17" x="203" y="568" width="92" height="89" frameX="-4" frameY="-2" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_18" x="304" y="657" width="74" height="86" frameX="-17" frameY="-2" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_19" x="508" y="472" width="74" height="86" frameX="-17" frameY="-2" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="explosion_20" x="390" y="723" width="74" height="81" frameX="-17" frameY="-2" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="fire00" x="286" y="822" width="16" height="40"/>
+    <SubTexture name="fire01" x="724" y="693" width="14" height="31"/>
+    <SubTexture name="fire02" x="645" y="766" width="14" height="32"/>
+    <SubTexture name="fire03" x="677" y="766" width="14" height="34"/>
+    <SubTexture name="fire04" x="740" y="693" width="14" height="31"/>
+    <SubTexture name="fire05" x="756" y="688" width="14" height="31"/>
+    <SubTexture name="fire06" x="657" y="655" width="14" height="31"/>
+    <SubTexture name="fire07" x="794" y="834" width="14" height="31"/>
+    <SubTexture name="fire08" x="542" y="791" width="16" height="40"/>
+    <SubTexture name="fire09" x="819" y="641" width="16" height="40"/>
+    <SubTexture name="fire10" x="819" y="683" width="16" height="40"/>
+    <SubTexture name="fire11" x="810" y="834" width="14" height="31"/>
+    <SubTexture name="fire12" x="661" y="766" width="14" height="32"/>
+    <SubTexture name="fire13" x="693" y="766" width="14" height="34"/>
+    <SubTexture name="fire14" x="826" y="834" width="14" height="31"/>
+    <SubTexture name="fire15" x="817" y="725" width="14" height="31"/>
+    <SubTexture name="fire16" x="820" y="758" width="14" height="31"/>
+    <SubTexture name="fire17" x="836" y="747" width="14" height="31"/>
+    <SubTexture name="fire18" x="542" y="833" width="16" height="41"/>
+    <SubTexture name="fire19" x="787" y="248" width="16" height="41"/>
+    <SubTexture name="laserBlue01" x="560" y="791" width="9" height="54"/>
+    <SubTexture name="laserBlue02" x="811" y="230" width="13" height="37"/>
+    <SubTexture name="laserBlue03" x="645" y="688" width="9" height="37"/>
+    <SubTexture name="laserBlue04" x="645" y="727" width="13" height="37"/>
+    <SubTexture name="laserBlue05" x="656" y="688" width="9" height="37"/>
+    <SubTexture name="laserBlue06" x="660" y="727" width="13" height="37"/>
+    <SubTexture name="laserBlue07" x="667" y="688" width="9" height="37"/>
+    <SubTexture name="laserBlue08" x="826" y="94" width="48" height="46"/>
+    <SubTexture name="laserBlue09" x="826" y="142" width="48" height="46"/>
+    <SubTexture name="laserBlue10" x="430" y="806" width="37" height="37"/>
+    <SubTexture name="laserBlue11" x="390" y="806" width="38" height="37"/>
+    <SubTexture name="laserBlue12" x="608" y="689" width="13" height="57"/>
+    <SubTexture name="laserBlue13" x="686" y="122" width="9" height="57"/>
+    <SubTexture name="laserBlue14" x="608" y="748" width="13" height="57"/>
+    <SubTexture name="laserBlue15" x="697" y="122" width="9" height="57"/>
+    <SubTexture name="laserBlue16" x="781" y="192" width="13" height="54"/>
+    <SubTexture name="laserGreen01" x="503" y="791" width="37" height="38"/>
+    <SubTexture name="laserGreen02" x="708" y="122" width="13" height="57"/>
+    <SubTexture name="laserGreen03" x="723" y="122" width="9" height="57"/>
+    <SubTexture name="laserGreen04" x="675" y="727" width="13" height="37"/>
+    <SubTexture name="laserGreen05" x="690" y="727" width="9" height="37"/>
+    <SubTexture name="laserGreen06" x="734" y="122" width="13" height="57"/>
+    <SubTexture name="laserGreen07" x="749" y="122" width="9" height="57"/>
+    <SubTexture name="laserGreen08" x="678" y="688" width="13" height="37"/>
+    <SubTexture name="laserGreen09" x="705" y="802" width="9" height="37"/>
+    <SubTexture name="laserGreen10" x="796" y="192" width="13" height="54"/>
+    <SubTexture name="laserGreen11" x="634" y="688" width="9" height="54"/>
+    <SubTexture name="laserGreen12" x="675" y="802" width="13" height="37"/>
+    <SubTexture name="laserGreen13" x="772" y="688" width="9" height="37"/>
+    <SubTexture name="laserGreen14" x="826" y="190" width="48" height="46"/>
+    <SubTexture name="laserGreen15" x="826" y="238" width="48" height="46"/>
+    <SubTexture name="laserGreen16" x="304" y="831" width="37" height="37"/>
+    <SubTexture name="laserRed01" x="634" y="744" width="9" height="54"/>
+    <SubTexture name="laserRed02" x="690" y="802" width="13" height="37"/>
+    <SubTexture name="laserRed03" x="798" y="767" width="9" height="37"/>
+    <SubTexture name="laserRed04" x="701" y="659" width="13" height="37"/>
+    <SubTexture name="laserRed05" x="809" y="767" width="9" height="37"/>
+    <SubTexture name="laserRed06" x="783" y="788" width="13" height="37"/>
+    <SubTexture name="laserRed07" x="783" y="827" width="9" height="37"/>
+    <SubTexture name="laserRed08" x="826" y="286" width="48" height="46"/>
+    <SubTexture name="laserRed09" x="99" y="827" width="48" height="46"/>
+    <SubTexture name="laserRed10" x="760" y="126" width="37" height="36"/>
+    <SubTexture name="laserRed11" x="343" y="831" width="37" height="37"/>
+    <SubTexture name="laserRed12" x="751" y="192" width="13" height="57"/>
+    <SubTexture name="laserRed13" x="623" y="688" width="9" height="57"/>
+    <SubTexture name="laserRed14" x="766" y="192" width="13" height="57"/>
+    <SubTexture name="laserRed15" x="623" y="747" width="9" height="57"/>
+    <SubTexture name="laserRed16" x="811" y="174" width="13" height="54"/>
+    <SubTexture name="meteorBrown_big1" x="346" y="291" width="101" height="84"/>
     <SubTexture name="meteorBrown_big2" x="1" y="371" width="120" height="98"/>
-    <SubTexture name="meteorBrown_big3" x="635" y="348" width="89" height="82"/>
+    <SubTexture name="meteorBrown_big3" x="417" y="469" width="89" height="82"/>
     <SubTexture name="meteorBrown_big4" x="1" y="571" width="98" height="96"/>
-    <SubTexture name="meteorBrown_med1" x="708" y="1" width="43" height="43"/>
-    <SubTexture name="meteorBrown_med3" x="476" y="454" width="45" height="40"/>
-    <SubTexture name="meteorBrown_small1" x="726" y="358" width="28" height="28"/>
-    <SubTexture name="meteorBrown_small2" x="557" y="636" width="29" height="26"/>
-    <SubTexture name="meteorBrown_tiny1" x="559" y="555" width="18" height="18"/>
-    <SubTexture name="meteorBrown_tiny2" x="705" y="736" width="16" height="15"/>
-    <SubTexture name="meteorGrey_big1" x="228" y="373" width="101" height="84"/>
+    <SubTexture name="meteorBrown_med1" x="149" y="827" width="43" height="43"/>
+    <SubTexture name="meteorBrown_med3" x="826" y="334" width="45" height="40"/>
+    <SubTexture name="meteorBrown_small1" x="846" y="556" width="28" height="28"/>
+    <SubTexture name="meteorBrown_small2" x="795" y="94" width="29" height="26"/>
+    <SubTexture name="meteorBrown_tiny1" x="599" y="99" width="18" height="18"/>
+    <SubTexture name="meteorBrown_tiny2" x="495" y="859" width="16" height="15"/>
+    <SubTexture name="meteorGrey_big1" x="449" y="291" width="101" height="84"/>
     <SubTexture name="meteorGrey_big2" x="1" y="471" width="120" height="98"/>
-    <SubTexture name="meteorGrey_big3" x="325" y="531" width="89" height="82"/>
-    <SubTexture name="meteorGrey_big4" x="599" y="1" width="98" height="96"/>
-    <SubTexture name="meteorGrey_med1" x="431" y="454" width="43" height="43"/>
-    <SubTexture name="meteorGrey_med2" x="523" y="454" width="45" height="40"/>
-    <SubTexture name="meteorGrey_small1" x="726" y="388" width="28" height="28"/>
-    <SubTexture name="meteorGrey_small2" x="579" y="606" width="29" height="26"/>
-    <SubTexture name="meteorGrey_tiny1" x="705" y="716" width="18" height="18"/>
-    <SubTexture name="meteorGrey_tiny2" x="725" y="716" width="16" height="15"/>
-    <SubTexture name="numeral0" x="579" y="585" width="19" height="19"/>
-    <SubTexture name="numeral1" x="728" y="613" width="19" height="19"/>
-    <SubTexture name="numeral2" x="587" y="178" width="19" height="19"/>
-    <SubTexture name="numeral3" x="608" y="176" width="19" height="19"/>
-    <SubTexture name="numeral4" x="626" y="628" width="19" height="19"/>
-    <SubTexture name="numeral5" x="647" y="628" width="19" height="19"/>
-    <SubTexture name="numeral6" x="668" y="628" width="19" height="19"/>
-    <SubTexture name="numeral7" x="709" y="674" width="19" height="19"/>
-    <SubTexture name="numeral8" x="709" y="695" width="19" height="19"/>
-    <SubTexture name="numeral9" x="684" y="721" width="19" height="19"/>
-    <SubTexture name="numeralX" x="576" y="737" width="17" height="17"/>
-    <SubTexture name="pill_blue" x="609" y="454" width="22" height="21"/>
-    <SubTexture name="pill_green" x="609" y="477" width="22" height="21"/>
-    <SubTexture name="pill_red" x="729" y="143" width="22" height="21"/>
-    <SubTexture name="pill_yellow" x="448" y="648" width="22" height="21"/>
-    <SubTexture name="playerLife1_blue" x="632" y="572" width="33" height="26"/>
-    <SubTexture name="playerLife1_green" x="667" y="572" width="33" height="26"/>
-    <SubTexture name="playerLife1_orange" x="702" y="579" width="33" height="26"/>
-    <SubTexture name="playerLife1_red" x="588" y="634" width="33" height="26"/>
-    <SubTexture name="playerLife2_blue" x="481" y="535" width="37" height="26"/>
-    <SubTexture name="playerLife2_green" x="520" y="534" width="37" height="26"/>
-    <SubTexture name="playerLife2_orange" x="633" y="509" width="37" height="26"/>
-    <SubTexture name="playerLife2_red" x="672" y="509" width="37" height="26"/>
-    <SubTexture name="playerLife3_blue" x="626" y="600" width="32" height="26"/>
-    <SubTexture name="playerLife3_green" x="660" y="600" width="32" height="26"/>
-    <SubTexture name="playerLife3_orange" x="694" y="607" width="32" height="26"/>
-    <SubTexture name="playerLife3_red" x="602" y="726" width="32" height="26"/>
-    <SubTexture name="playerShip1_blue" x="331" y="377" width="99" height="75"/>
-    <SubTexture name="playerShip1_green" x="432" y="377" width="99" height="75"/>
-    <SubTexture name="playerShip1_orange" x="123" y="545" width="99" height="75"/>
-    <SubTexture name="playerShip1_red" x="224" y="545" width="99" height="75"/>
+    <SubTexture name="meteorGrey_big3" x="380" y="639" width="89" height="82"/>
+    <SubTexture name="meteorGrey_big4" x="1" y="669" width="98" height="96"/>
+    <SubTexture name="meteorGrey_med1" x="194" y="831" width="43" height="43"/>
+    <SubTexture name="meteorGrey_med2" x="239" y="822" width="45" height="40"/>
+    <SubTexture name="meteorGrey_small1" x="846" y="586" width="28" height="28"/>
+    <SubTexture name="meteorGrey_small2" x="693" y="698" width="29" height="26"/>
+    <SubTexture name="meteorGrey_tiny1" x="619" y="99" width="18" height="18"/>
+    <SubTexture name="meteorGrey_tiny2" x="513" y="859" width="16" height="15"/>
+    <SubTexture name="numeral0" x="314" y="546" width="19" height="19"/>
+    <SubTexture name="numeral1" x="335" y="546" width="19" height="19"/>
+    <SubTexture name="numeral2" x="805" y="269" width="19" height="19"/>
+    <SubTexture name="numeral3" x="734" y="98" width="19" height="19"/>
+    <SubTexture name="numeral4" x="777" y="767" width="19" height="19"/>
+    <SubTexture name="numeral5" x="673" y="659" width="19" height="19"/>
+    <SubTexture name="numeral6" x="852" y="747" width="19" height="19"/>
+    <SubTexture name="numeral7" x="852" y="768" width="19" height="19"/>
+    <SubTexture name="numeral8" x="842" y="789" width="19" height="19"/>
+    <SubTexture name="numeral9" x="832" y="810" width="19" height="19"/>
+    <SubTexture name="numeralX" x="639" y="99" width="17" height="17"/>
+    <SubTexture name="pill_blue" x="686" y="181" width="22" height="21"/>
+    <SubTexture name="pill_green" x="710" y="181" width="22" height="21"/>
+    <SubTexture name="pill_red" x="686" y="99" width="22" height="21"/>
+    <SubTexture name="pill_yellow" x="710" y="98" width="22" height="21"/>
+    <SubTexture name="playerLife1_blue" x="760" y="98" width="33" height="26"/>
+    <SubTexture name="playerLife1_green" x="460" y="847" width="33" height="26"/>
+    <SubTexture name="playerLife1_orange" x="748" y="790" width="33" height="26"/>
+    <SubTexture name="playerLife1_red" x="748" y="818" width="33" height="26"/>
+    <SubTexture name="playerLife2_blue" x="760" y="164" width="37" height="26"/>
+    <SubTexture name="playerLife2_green" x="503" y="831" width="37" height="26"/>
+    <SubTexture name="playerLife2_orange" x="382" y="845" width="37" height="26"/>
+    <SubTexture name="playerLife2_red" x="421" y="845" width="37" height="26"/>
+    <SubTexture name="playerLife3_blue" x="747" y="846" width="32" height="26"/>
+    <SubTexture name="playerLife3_green" x="783" y="711" width="32" height="26"/>
+    <SubTexture name="playerLife3_orange" x="777" y="739" width="32" height="26"/>
+    <SubTexture name="playerLife3_red" x="798" y="806" width="32" height="26"/>
+    <SubTexture name="playerShip1_blue" x="101" y="750" width="99" height="75"/>
+    <SubTexture name="playerShip1_green" x="205" y="745" width="99" height="75"/>
+    <SubTexture name="playerShip1_orange" x="686" y="470" width="99" height="75"/>
+    <SubTexture name="playerShip1_red" x="316" y="469" width="99" height="75"/>
     <SubTexture name="playerShip2_blue" x="371" y="42" width="112" height="75"/>
     <SubTexture name="playerShip2_green" x="485" y="42" width="112" height="75"/>
     <SubTexture name="playerShip2_orange" x="147" y="124" width="112" height="75"/>
     <SubTexture name="playerShip2_red" x="261" y="124" width="112" height="75"/>
-    <SubTexture name="playerShip3_blue" x="599" y="99" width="98" height="75"/>
-    <SubTexture name="playerShip3_green" x="533" y="377" width="98" height="75"/>
-    <SubTexture name="playerShip3_orange" x="633" y="432" width="98" height="75"/>
-    <SubTexture name="playerShip3_red" x="331" y="454" width="98" height="75"/>
-    <SubTexture name="powerupBlue" x="711" y="509" width="34" height="33"/>
-    <SubTexture name="powerupBlue_bolt" x="632" y="537" width="34" height="33"/>
-    <SubTexture name="powerupBlue_shield" x="668" y="537" width="34" height="33"/>
-    <SubTexture name="powerupBlue_star" x="704" y="544" width="34" height="33"/>
-    <SubTexture name="powerupGreen" x="431" y="577" width="34" height="33"/>
-    <SubTexture name="powerupGreen_bolt" x="422" y="612" width="34" height="33"/>
-    <SubTexture name="powerupGreen_shield" x="425" y="715" width="34" height="33"/>
-    <SubTexture name="powerupGreen_star" x="467" y="577" width="34" height="33"/>
-    <SubTexture name="powerupRed" x="474" y="612" width="34" height="33"/>
-    <SubTexture name="powerupRed_bolt" x="474" y="647" width="34" height="33"/>
-    <SubTexture name="powerupRed_shield" x="465" y="682" width="34" height="33"/>
-    <SubTexture name="powerupRed_star" x="461" y="717" width="34" height="33"/>
-    <SubTexture name="powerupYellow" x="501" y="682" width="34" height="33"/>
-    <SubTexture name="powerupYellow_bolt" x="520" y="562" width="34" height="33"/>
-    <SubTexture name="powerupYellow_shield" x="521" y="597" width="34" height="33"/>
-    <SubTexture name="powerupYellow_star" x="521" y="632" width="34" height="33"/>
+    <SubTexture name="playerShip3_blue" x="463" y="560" width="98" height="75"/>
+    <SubTexture name="playerShip3_green" x="471" y="637" width="98" height="75"/>
+    <SubTexture name="playerShip3_orange" x="683" y="547" width="98" height="75"/>
+    <SubTexture name="playerShip3_red" x="471" y="714" width="98" height="75"/>
+    <SubTexture name="powerupBlue" x="571" y="807" width="34" height="33"/>
+    <SubTexture name="powerupBlue_bolt" x="751" y="251" width="34" height="33"/>
+    <SubTexture name="powerupBlue_shield" x="621" y="621" width="34" height="33"/>
+    <SubTexture name="powerupBlue_star" x="678" y="624" width="34" height="33"/>
+    <SubTexture name="powerupGreen" x="714" y="624" width="34" height="33"/>
+    <SubTexture name="powerupGreen_bolt" x="783" y="641" width="34" height="33"/>
+    <SubTexture name="powerupGreen_shield" x="837" y="642" width="34" height="33"/>
+    <SubTexture name="powerupGreen_star" x="783" y="676" width="34" height="33"/>
+    <SubTexture name="powerupRed" x="837" y="677" width="34" height="33"/>
+    <SubTexture name="powerupRed_bolt" x="837" y="712" width="34" height="33"/>
+    <SubTexture name="powerupRed_shield" x="639" y="800" width="34" height="33"/>
+    <SubTexture name="powerupRed_star" x="639" y="835" width="34" height="33"/>
+    <SubTexture name="powerupYellow" x="675" y="841" width="34" height="33"/>
+    <SubTexture name="powerupYellow_bolt" x="711" y="841" width="34" height="33"/>
+    <SubTexture name="powerupYellow_shield" x="701" y="726" width="34" height="33"/>
+    <SubTexture name="powerupYellow_star" x="709" y="761" width="34" height="33"/>
+    <SubTexture name="rocket1" x="621" y="559" width="39" height="60"/>
+    <SubTexture name="rocket2" x="571" y="689" width="35" height="57" frameX="-1" frameY="0" frameWidth="39" frameHeight="60"/>
+    <SubTexture name="rocket3" x="469" y="791" width="32" height="54" frameX="-3" frameY="0" frameWidth="39" frameHeight="60"/>
+    <SubTexture name="rocket4" x="571" y="748" width="35" height="57" frameX="-1" frameY="0" frameWidth="39" frameHeight="60"/>
     <SubTexture name="shield1" x="1" y="261" width="133" height="108"/>
     <SubTexture name="shield2" x="1" y="140" width="143" height="119"/>
     <SubTexture name="shield3" x="1" y="1" width="144" height="137"/>
-    <SubTexture name="shield_bronze" x="600" y="567" width="30" height="30"/>
-    <SubTexture name="shield_gold" x="597" y="662" width="30" height="30"/>
-    <SubTexture name="shield_silver" x="602" y="694" width="30" height="30"/>
-    <SubTexture name="speed" x="699" y="1" width="7" height="108"/>
-    <SubTexture name="star1" x="708" y="85" width="25" height="24"/>
-    <SubTexture name="star2" x="729" y="117" width="25" height="24"/>
-    <SubTexture name="star3" x="422" y="647" width="24" height="24"/>
-    <SubTexture name="star_bronze" x="600" y="500" width="31" height="30"/>
-    <SubTexture name="star_gold" x="723" y="167" width="31" height="30"/>
-    <SubTexture name="star_silver" x="723" y="199" width="31" height="30"/>
-    <SubTexture name="things_bronze" x="381" y="674" width="32" height="32"/>
-    <SubTexture name="things_gold" x="542" y="706" width="32" height="32"/>
-    <SubTexture name="things_silver" x="563" y="664" width="32" height="32"/>
+    <SubTexture name="shield_bronze" x="716" y="796" width="30" height="30"/>
+    <SubTexture name="shield_gold" x="737" y="726" width="30" height="30"/>
+    <SubTexture name="shield_silver" x="745" y="758" width="30" height="30"/>
+    <SubTexture name="speed" x="101" y="571" width="7" height="108"/>
+    <SubTexture name="star1" x="799" y="122" width="25" height="24"/>
+    <SubTexture name="star2" x="799" y="148" width="25" height="24"/>
+    <SubTexture name="star3" x="846" y="616" width="24" height="24"/>
+    <SubTexture name="star_bronze" x="615" y="656" width="31" height="30"/>
+    <SubTexture name="star_gold" x="750" y="624" width="31" height="30"/>
+    <SubTexture name="star_silver" x="750" y="656" width="31" height="30"/>
+    <SubTexture name="things_bronze" x="571" y="842" width="32" height="32"/>
+    <SubTexture name="things_gold" x="605" y="842" width="32" height="32"/>
+    <SubTexture name="things_silver" x="716" y="659" width="32" height="32"/>
+    <SubTexture name="ufoBlue" x="686" y="377" width="91" height="91"/>
+    <SubTexture name="ufoGreen" x="779" y="377" width="91" height="91"/>
+    <SubTexture name="ufoRed" x="110" y="571" width="91" height="91"/>
 </TextureAtlas>

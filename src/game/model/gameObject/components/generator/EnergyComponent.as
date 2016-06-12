@@ -11,6 +11,7 @@ package game.model.gameObject.components.generator
     {
         private var _energy: Number;
         private var _capacity: Number;
+        private var _isFull: Boolean;
         private var _rechargeSpeed: Number;
 
         /**
@@ -27,6 +28,7 @@ package game.model.gameObject.components.generator
         public function update(aDeltaTime: int): void
         {
             recharge(_rechargeSpeed * aDeltaTime / 1000);
+            _isFull = (_capacity == _energy);
         }
 
         public function get energy(): Number
@@ -53,6 +55,9 @@ package game.model.gameObject.components.generator
             return true;
         }
 
-
+        public function isFull(): Boolean
+        {
+            return _isFull;
+        }
     }
 }

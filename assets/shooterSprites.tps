@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.2.1</string>
+        <string>4.2.2</string>
         <key>fileName</key>
-        <string>/Users/dysko/Documents/shooterSprites.tps</string>
+        <string>/PROJECTS/SpaceShooter/assets/shooterSprites.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -36,7 +36,7 @@
         <key>dataFormat</key>
         <string>sparrow</string>
         <key>textureFileName</key>
-        <filename>SpaceShooterSheet.png</filename>
+        <filename>SpaceShooter.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -375,6 +375,30 @@
             <key type="filename">../../../FLASH_LIBRARY/Resources/SpaceShooterRedux/PNG/playerShip3_green.png</key>
             <key type="filename">../../../FLASH_LIBRARY/Resources/SpaceShooterRedux/PNG/playerShip3_orange.png</key>
             <key type="filename">../../../FLASH_LIBRARY/Resources/SpaceShooterRedux/PNG/playerShip3_red.png</key>
+            <key type="filename">explosion/images/explosion_01.png</key>
+            <key type="filename">explosion/images/explosion_02.png</key>
+            <key type="filename">explosion/images/explosion_03.png</key>
+            <key type="filename">explosion/images/explosion_04.png</key>
+            <key type="filename">explosion/images/explosion_05.png</key>
+            <key type="filename">explosion/images/explosion_06.png</key>
+            <key type="filename">explosion/images/explosion_07.png</key>
+            <key type="filename">explosion/images/explosion_08.png</key>
+            <key type="filename">explosion/images/explosion_09.png</key>
+            <key type="filename">explosion/images/explosion_10.png</key>
+            <key type="filename">explosion/images/explosion_11.png</key>
+            <key type="filename">explosion/images/explosion_12.png</key>
+            <key type="filename">explosion/images/explosion_13.png</key>
+            <key type="filename">explosion/images/explosion_14.png</key>
+            <key type="filename">explosion/images/explosion_15.png</key>
+            <key type="filename">explosion/images/explosion_16.png</key>
+            <key type="filename">explosion/images/explosion_17.png</key>
+            <key type="filename">explosion/images/explosion_18.png</key>
+            <key type="filename">explosion/images/explosion_19.png</key>
+            <key type="filename">explosion/images/explosion_20.png</key>
+            <key type="filename">rocket1.png</key>
+            <key type="filename">rocket2.png</key>
+            <key type="filename">rocket3.png</key>
+            <key type="filename">rocket4.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -400,6 +424,11 @@
             <filename>../../../FLASH_LIBRARY/Resources/SpaceShooterRedux/PNG/UI</filename>
             <filename>../../../FLASH_LIBRARY/Resources/SpaceShooterRedux/PNG/Lasers</filename>
             <filename>../../../FLASH_LIBRARY/Resources/SpaceShooterRedux/PNG/Meteors</filename>
+            <filename>explosion/images</filename>
+            <filename>rocket4.png</filename>
+            <filename>rocket3.png</filename>
+            <filename>rocket2.png</filename>
+            <filename>rocket1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

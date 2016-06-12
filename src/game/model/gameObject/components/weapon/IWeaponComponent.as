@@ -7,5 +7,7 @@ package game.model.gameObject.components.weapon
         function startShoot(): void
 
         function endShoot(): void
+
+        function get weaponModel(): WeaponModel
     }
 }
