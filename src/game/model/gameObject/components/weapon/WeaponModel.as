@@ -11,12 +11,14 @@ package game.model.gameObject.components.weapon
 
         private var _weaponType: uint = 0;
         protected var _shootInterval: int;
+        private var _weaponGroup: uint;
 
-        public function WeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>)
+        public function WeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aWeaponGroup: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>)
         {
             _weaponType = aWeaponType;
             _shootInterval = aShootInterval;
             _spawnPoints = aSpawnPoints;
+            _weaponGroup = aWeaponGroup;
 
             super(aComponentID, aComponentType);
         }
@@ -24,6 +26,11 @@ package game.model.gameObject.components.weapon
         public function get weaponType(): uint
         {
             return _weaponType;
+        }
+
+        public function get weaponGroup(): uint
+        {
+            return _weaponGroup;
         }
 
         public function get shootInterval(): int

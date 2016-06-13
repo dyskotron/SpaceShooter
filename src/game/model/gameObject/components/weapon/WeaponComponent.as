@@ -55,9 +55,6 @@ package game.model.gameObject.components.weapon
                     shoot(aShipX + _x, aShipY + _y);
                     _nextShotAfter = _weaponModel.shootInterval;
                 }
-
-                if (_weaponModel.weaponType == WeaponType.SECONDARY)
-                    endShoot();
             }
         }
 
@@ -72,14 +69,18 @@ package game.model.gameObject.components.weapon
             _isShooting = false;
         }
 
-        protected function shoot(aX: Number, aY: Number): void
+        public function shoot(aX: Number, aY: Number): void
         {
             var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
 
             var spawnPoint: BulletSpawnVO;
             switch (_weaponModel.weaponType)
             {
-                case WeaponType.SECONDARY:
+                case WeaponType.SINGLE:
+                    spawnPoint = _weaponModel.spawnPoints[0];
+                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
+                    break;
+                case WeaponType.ONE_SHOT:
                 case WeaponType.PARALEL:
                     for (var i: int = 0; i < _weaponModel.spawnPoints.length; i++)
                     {

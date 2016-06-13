@@ -107,7 +107,6 @@ package game.controller.playerControl
                         _lastTime = getTimer();
                     }
 
-
                     break;
 
                 case TouchPhase.ENDED:

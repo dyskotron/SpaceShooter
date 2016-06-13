@@ -14,7 +14,6 @@ package game.model
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.weapon.IWeaponDefs;
     import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
-    import game.model.gameObject.components.weapon.enums.WeaponType;
     import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.constants.BulletMode;
     import game.model.gameObject.def.IBehaviorFactory;
@@ -719,7 +718,7 @@ package game.model
 
                 case PlayerActionID.SECONDARY_FIRE:
                     if (aValue)
-                        playerGO.startShoot(WeaponType.SECONDARY);
+                        playerGO.chargeShoot();
                     break;
 
                 case PlayerActionID.POWER_UP:

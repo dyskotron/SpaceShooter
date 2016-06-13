@@ -125,12 +125,12 @@ package game.model.gameObject
 
         //endregion
 
-        override public function startShoot(aWeaponType: uint = 0): void
+        override public function startShoot(): void
         {
             _shouldBeShooting = true;
 
             if (state == STATE_ALIVE)
-                super.startShoot(aWeaponType);
+                super.startShoot();
         }
 
         override public function endShoot(): void
@@ -208,8 +208,6 @@ package game.model.gameObject
 
         override protected function mountComponents(): void
         {
-            _weapons = new Vector.<IWeaponComponent>();
-
             var capacity: Number = 0;
             var rechargeSpeed: Number = 0;
 
@@ -233,7 +231,6 @@ package game.model.gameObject
             }
 
             _generatorComponent = new EnergyComponent(capacity, rechargeSpeed);
-
 
             super.mountComponents();
         }

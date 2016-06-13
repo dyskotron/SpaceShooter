@@ -3,6 +3,7 @@ package game.model.gameObject.components.weapon
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.weapon.enums.EnemyWeaponID;
     import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
+    import game.model.gameObject.components.weapon.enums.WeaponGroup;
     import game.model.gameObject.components.weapon.enums.WeaponType;
     import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.def.IBulletDefs;
@@ -174,7 +175,7 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.5, speed));
                     spawnPointsByPower.push(spawnPoints);
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -281,7 +282,7 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, dist * 6, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -316,7 +317,7 @@ package game.model.gameObject.components.weapon
                         shootIntervalByPower.push(1000 / numShots);
                     }
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.SEQUENTIAL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.SEQUENTIAL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
                 default:
@@ -421,7 +422,7 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.3, speed));
                     spawnPointsByPower.push(spawnPoints);
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -501,7 +502,7 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, bulletX3 + 10, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -536,7 +537,7 @@ package game.model.gameObject.components.weapon
                         shootIntervalByPower.push(1000 / numShots);
                     }
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SEQUENTIAL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SEQUENTIAL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -559,7 +560,7 @@ package game.model.gameObject.components.weapon
                         shootIntervalByPower.push(1000 / numShots);
                     }
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SECONDARY, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SINGLE, WeaponGroup.CHARGE, shootIntervalByPower, spawnPointsByPower);
                     break;
 
                 default:
@@ -582,7 +583,7 @@ package game.model.gameObject.components.weapon
                 case EnemyWeaponID.LASER:
                     spawnPoints.push(new BulletSpawnVO(bulletDefs.getBulletVO(bulletType), 8, 40, 0.6, 0));
                     spawnPoints.push(new BulletSpawnVO(bulletDefs.getBulletVO(bulletType), -8, 40, 0.6, 0));
-                    weaponVO = new WeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, aShootInterval, spawnPoints);
+                    weaponVO = new WeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, aShootInterval, spawnPoints);
                     break;
 
                 default:

@@ -12,7 +12,7 @@ package game.model.gameObject.components
         //guns
         public static const MAIN_GUN: uint = 0x00001;
         public static const SECONDARY_GUN: uint = 0x0002;
-        public static const ROCKET: uint = 0x0003;
+        public static const CHARGE_GUN: uint = 0x0003;
 
         //energy
         public static const GENERATOR: uint = 0x00010;
@@ -23,7 +23,7 @@ package game.model.gameObject.components
         //dmg mitigation, hp, power boost, ext boost
 
         //groups
-        public static const GUNS: uint = MAIN_GUN | SECONDARY_GUN | ROCKET;
+        public static const GUNS: uint = MAIN_GUN | SECONDARY_GUN | CHARGE_GUN;
         public static const MAIN_SLOT: uint = MAIN_GUN;
         public static const SECONDARY_SLOT: uint = SECONDARY_GUN | GENERATOR | BATTERY;
     }

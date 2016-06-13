@@ -48,7 +48,7 @@ package game.model.gameObject.def
                     break;
 
                 case BulletID.ROCKET_1:
-                    return new BulletVO(aBulletType, BulletMode.AOE, 400, 50, 80, 200);
+                    return new BulletVO(aBulletType, BulletMode.AOE, 300 , 50, 80, 200);
                     break;
 
                 default:

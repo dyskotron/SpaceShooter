@@ -3,7 +3,8 @@ package game.model.gameObject
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.weapon.ComponentSlot;
     import game.model.gameObject.components.weapon.IWeaponComponent;
-    import game.model.gameObject.components.weapon.enums.WeaponType;
+    import game.model.gameObject.components.weapon.WeaponModel;
+    import game.model.gameObject.components.weapon.enums.WeaponGroup;
     import game.model.gameObject.vo.ShootingVO;
 
     import org.osflash.signals.Signal;
@@ -11,6 +12,7 @@ package game.model.gameObject
     public class ShootingGO extends HittableGO
     {
         protected var _weapons: Vector.<IWeaponComponent>;
+        private var _chargeWeapons: Vector.<IWeaponComponent>;
 
         private var _shootSignal: Signal;
         private var _shootingVO: ShootingVO;
@@ -48,13 +50,11 @@ package game.model.gameObject
             super.update(aDeltaTime);
         }
 
-        public function startShoot(aWeaponType: uint = 0): void
+        public function startShoot(): void
         {
             for (var i: int = 0; i < _weapons.length; i++)
             {
-                //TODO: better filter for guns
-                if (aWeaponType == 0 && _weapons[i].weaponModel.weaponType != WeaponType.SECONDARY || _weapons[i].weaponModel.weaponType == WeaponType.SECONDARY && aWeaponType == WeaponType.SECONDARY)
-                    _weapons[i].startShoot();
+                _weapons[i].startShoot();
             }
         }
 
@@ -66,9 +66,18 @@ package game.model.gameObject
             }
         }
 
+        public function chargeShoot(): void
+        {
+            for (var i: int = 0; i < _chargeWeapons.length; i++)
+            {
+                _chargeWeapons[i].shoot(x, y);
+            }
+        }
+
         protected function mountComponents(): void
         {
             _weapons = new Vector.<IWeaponComponent>();
+            _chargeWeapons = new Vector.<IWeaponComponent>();
 
             if (_shootingVO.componentSlots)
             {
@@ -79,11 +88,14 @@ package game.model.gameObject
                     weaponSlot = _shootingVO.componentSlots[i];
                     if (weaponSlot.isType(ComponentType.GUNS))
                     {
-                        if (weaponSlot.isType(ComponentType.GUNS))
+                        if (WeaponModel(weaponSlot.componentModel).weaponGroup == WeaponGroup.NORMAL)
                             _weapons.push(createWeapon(_shootSignal, weaponSlot));
+                        else if (WeaponModel(weaponSlot.componentModel).weaponGroup == WeaponGroup.CHARGE)
+                            _chargeWeapons.push(createWeapon(_shootSignal, weaponSlot));
                     }
                 }
             }
+            //trace("_MO_", this, "mountComponents", "_weapons.length:", _weapons.length, "_chargeWeapons.length:", _chargeWeapons.length);
         }
 
         /**

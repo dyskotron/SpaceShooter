@@ -136,7 +136,7 @@ package game.view
             aGameModel.bonusSpawnedSignal.add(bonusSpawnedHandler);
             aGameModel.gameObjectRemovedSignal.add(gameObjectRemovedHandler);
             aGameModel.gameObjectHitSignal.add(gameObjectHitHandler);
-            _gameModel.aoeDamageTriggeredSignal.add(aoeDamageTriggeredHandler);
+            aGameModel.aoeDamageTriggeredSignal.add(aoeDamageTriggeredHandler);
 
             Mouse.hide();
             /*

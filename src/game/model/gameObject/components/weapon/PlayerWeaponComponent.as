@@ -50,7 +50,7 @@ package game.model.gameObject.components.weapon
             endShoot();
         }
 
-        override protected function shoot(aX: Number, aY: Number): void
+        override public function shoot(aX: Number, aY: Number): void
         {
             if (_generator.deplete(playerWeaponModel.energyCost))
             {
