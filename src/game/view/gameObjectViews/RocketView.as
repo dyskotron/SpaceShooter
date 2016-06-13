@@ -9,6 +9,7 @@ package game.view.gameObjectViews
             super(aTextures);
 
             pivotY = 0;
+            scale = 0.6;
         }
     }
 }

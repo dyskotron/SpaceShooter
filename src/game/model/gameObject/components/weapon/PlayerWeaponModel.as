@@ -43,17 +43,18 @@ package game.model.gameObject.components.weapon
 
             //count energy cost
             _energyCost = 0;
-            var i: int
+            var i: int;
             switch (weaponType)
             {
 
                 case WeaponType.SINGLE:
-                case WeaponType.ONE_SHOT:
+                    _energyCost += spawnPoints[0].bulletVO.damage * spawnPoints[0].bulletVO.dmgToCost;
+                    break;
                 case WeaponType.PARALEL:
                     //total cost
                     for (i = 0; i < spawnPoints.length; i++)
                     {
-                        _energyCost += spawnPoints[i].bulletVO.damage;
+                        _energyCost += spawnPoints[i].bulletVO.damage * spawnPoints[i].bulletVO.dmgToCost;
                     }
                     break;
                 case WeaponType.RANDOM:
@@ -61,7 +62,7 @@ package game.model.gameObject.components.weapon
                     //find bullet with biggest cost
                     for (i = 0; i < spawnPoints.length; i++)
                     {
-                        _energyCost = Math.max(_energyCost, spawnPoints[i].bulletVO.damage);
+                        _energyCost = Math.max(_energyCost, spawnPoints[i].bulletVO.damage * spawnPoints[i].bulletVO.dmgToCost);
                     }
                     break;
             }
