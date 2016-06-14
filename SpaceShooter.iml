@@ -13,7 +13,7 @@
         </dependencies>
         <compiler-options>
           <map>
-            <entry key="compiler.define" value="CONFIG::debug&#9;true&#10;CONFIG::version&#9;&quot;0.4.1d&quot;&#10;CONFIG::platform&#9;&quot;browser&quot;" />
+            <entry key="compiler.define" value="CONFIG::debug&#9;true&#10;CONFIG::version&#9;&quot;0.4.3d&quot;&#10;CONFIG::platform&#9;&quot;browser&quot;" />
           </map>
           <option name="additionalOptions" value="-swf-version=21" />
         </compiler-options>
@@ -33,7 +33,7 @@
         <compiler-options>
           <map>
             <entry key="compiler.debug.swf" value="false" />
-            <entry key="compiler.define" value="CONFIG::debug&#9;false&#10;CONFIG::version&#9;&quot;0.4.1&quot;&#10;CONFIG::platform&#9;&quot;mobile&quot;" />
+            <entry key="compiler.define" value="CONFIG::debug&#9;false&#10;CONFIG::version&#9;&quot;0.4.3&quot;&#10;CONFIG::platform&#9;&quot;mobile&quot;" />
           </map>
         </compiler-options>
         <packaging-air-desktop />
@@ -51,7 +51,7 @@
         </dependencies>
         <compiler-options>
           <map>
-            <entry key="compiler.define" value="CONFIG::debug&#9;true&#10;CONFIG::version&#9;&quot;0.4.1d&quot;&#10;CONFIG::platform&#9;&quot;mobile&quot;" />
+            <entry key="compiler.define" value="CONFIG::debug&#9;true&#10;CONFIG::version&#9;&quot;0.4.3d&quot;&#10;CONFIG::platform&#9;&quot;mobile&quot;" />
           </map>
         </compiler-options>
         <packaging-air-desktop />
@@ -70,7 +70,7 @@
         <compiler-options>
           <map>
             <entry key="compiler.debug.swf" value="false" />
-            <entry key="compiler.define" value="CONFIG::debug&#9;false&#10;CONFIG::version&#9;&quot;0.4.1&quot;&#10;CONFIG::platform&#9;&quot;browser&quot;" />
+            <entry key="compiler.define" value="CONFIG::debug&#9;false&#10;CONFIG::version&#9;&quot;0.4.3&quot;&#10;CONFIG::platform&#9;&quot;browser&quot;" />
           </map>
           <option name="additionalOptions" value="-swf-version=21" />
         </compiler-options>
