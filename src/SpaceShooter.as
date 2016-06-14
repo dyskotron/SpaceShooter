@@ -22,8 +22,8 @@ package
 
         /**
          * TODO / IDEAS:
-         * - weapon/equip slots have also orientation - angle - change bullets and all this shit to polar cords
-         * - move vector of weapon slots to weapons model with addWeapon method which will move guns to right slots
+         * - autoaim change direction smooth
+         * - target dead signal(-> check new target)
          *
          * - disable enemy hits out of screen
          * - check bulletVO defs - could be static / just created once

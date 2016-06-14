@@ -10,6 +10,8 @@ package game.controller.playerControl
 
         function get positionChangeSignal(): PositionChangeSignal;
 
+        function get actionEnableSignal(): ActionEnableSignal;
+
         function get actionSwitchSignal(): ActionSwitchSignal;
     }
 }

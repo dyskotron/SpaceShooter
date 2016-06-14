@@ -20,14 +20,16 @@ package game.controller.playerControl
 
         [Inject]
         public var viewModel: IViewModel;
+
         private var _directionChangeSignal: DirectionChangeSignal;
         private var _positionChangeSignal: PositionChangeSignal;
-
+        private var _actionEnableSignal: ActionEnableSignal;
         private var _actionSwitchSignal: ActionSwitchSignal;
+
         private var _mouseDownPoint: Point;
         private var _stage: Stage;
-        private var _enabled: Boolean;
 
+        private var _enabled: Boolean;
         private var _playerID: uint = 0;
         private var _shootingEnabled: Boolean;
         private var _lastTime: int = 0;
@@ -40,6 +42,7 @@ package game.controller.playerControl
         {
             _directionChangeSignal = new DirectionChangeSignal();
             _positionChangeSignal = new PositionChangeSignal();
+            _actionEnableSignal = new ActionEnableSignal();
             _actionSwitchSignal = new ActionSwitchSignal();
 
             _stage = aViewModel.stage;
@@ -75,6 +78,11 @@ package game.controller.playerControl
             return _positionChangeSignal;
         }
 
+        public function get actionEnableSignal(): ActionEnableSignal
+        {
+            return _actionEnableSignal;
+        }
+
         public function get actionSwitchSignal(): ActionSwitchSignal
         {
             return _actionSwitchSignal;
@@ -94,25 +102,22 @@ package game.controller.playerControl
                 case TouchPhase.BEGAN:
                     _mouseDownPoint = new Point(touch.globalX, touch.globalY);
                     _shootingEnabled = !_shootingEnabled;
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
+
                     _positionChangeSignal.dispatch(_playerID, touch.globalX, touch.globalY + CONTROLL_Y_OFFSET);
 
                     if (getTimer() - _lastTime < SECONDAY_DOUBLECLICK_TIME)
                     {
-                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.CHARGE_FIRE, true);
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.CHARGE_FIRE);
+                        _actionEnableSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
                         _lastTime = 0;
                     }
                     else
                     {
                         _lastTime = getTimer();
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE);
                     }
 
                     break;
-
-                case TouchPhase.ENDED:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, false);
-                    break;
-
                 case TouchPhase.HOVER:
                 case TouchPhase.MOVED:
                     _positionChangeSignal.dispatch(_playerID, touch.globalX, touch.globalY + CONTROLL_Y_OFFSET);

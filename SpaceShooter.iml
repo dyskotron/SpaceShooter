@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="SpaceShooter">
     <configurations>
-      <configuration name="SpaceShooter" pure-as="true" main-class="SpaceShooter" output-file="Matter.swf" output-folder="$MODULE_DIR$/out" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
+      <configuration name="SpaceShooter" pure-as="true" main-class="SpaceShooter" output-file="SpaceShooter.swf" output-folder="$MODULE_DIR$/out" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
         <dependencies target-player="21.0">
           <entries>
             <entry library-name="libs" library-level="project">
@@ -37,7 +37,7 @@
           </map>
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/SpaceShooter-app.xml" package-file-name="Matter" />
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/SpaceShooter-app.xml" package-file-name="Shooter" />
         <packaging-ios package-file-name="ON_TOP" />
       </configuration>
       <configuration name="SpaceShooterMobile" target-platform="Mobile" pure-as="true" main-class="SpaceShooter" output-file="MatterMobile.swf" output-folder="$MODULE_DIR$/out">
@@ -55,7 +55,7 @@
           </map>
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/SpaceShooter-app.xml" package-file-name="Matter" />
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/SpaceShooter-app.xml" package-file-name="Shooter" />
         <packaging-ios package-file-name="OnTopDebug" />
       </configuration>
       <configuration name="SpaceShooterRelease" pure-as="true" main-class="SpaceShooter" output-file="SpaceShooterRelease.swf" output-folder="$MODULE_DIR$/out" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">

@@ -18,7 +18,6 @@ package game.model.gameObject
         private var _target: ITarget;
         private var _targetProvider: ITargetProvider;
         private var _isAutoAim: Boolean;
-        private var _hitDistanceSq: Number = Math.pow(30, 2);
 
         private var _speed: Number = 0;
         private var _angle: Number = 0;
@@ -80,10 +79,7 @@ package game.model.gameObject
         {
             if (_isAutoAim)
             {
-                if (_target.getDistanceSq(x, y) < _hitDistanceSq)
-                    _isAutoAim = false;
-
-                else if (bulletVO.aim == BulletAim.ON_UPDATE)
+                if (bulletVO.aim == BulletAim.ON_UPDATE)
                 {
                     _angleDelta = _target.getAngleDelta(x, y, _origAngle);
 
@@ -97,18 +93,12 @@ package game.model.gameObject
                     }
                     else
                     {
-                        _isAutoAim = false;
+                        _target = _targetProvider.getTarget(bulletVO.aimTarget, x, y, _origAngle);
+                        if (_target == null && Math.abs(_target.getAngleDelta(x, y, _origAngle)) > Math.PI * 0.3)
+                            _isAutoAim = false;
                     }
 
                 }
-
-                if (_isAutoAim == false)
-                {
-                    _target = _targetProvider.getTarget(bulletVO.aimTarget, x, y, _origAngle);
-                    if (_target != null && Math.abs(_target.getAngleDelta(x, y, _origAngle)) < Math.PI * 0.3)
-                        _isAutoAim = true;
-                }
-
             }
 
             super.update(aDeltaTime);

@@ -20,6 +20,9 @@ package game.view
         public static const BUTTON_HIGHSCORES: uint = 1;
         public static const BUTTON_PLAY_AGAIN: uint = 2;
 
+        public static const WIDTH: Number = 500;
+        public static const HEIGHT: uint = 150;
+
         private var _buttonGroup: ButtonGroup;
 
         public function init(aViewModel: IViewModel, aGameModel: IGameModel, aMainModel: IMainModel): void
@@ -58,6 +61,8 @@ package game.view
             _buttonGroup.direction = ButtonGroup.DIRECTION_HORIZONTAL;
             _buttonGroup.x = (aViewModel.stageWidth - btnGroupWidth) / 2;
             _buttonGroup.y = aViewModel.stageHeight / 2 + 60;
+
+            _buttonGroup.setSize(WIDTH, HEIGHT);
             addChild(_buttonGroup);
         }
 

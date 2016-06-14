@@ -19,6 +19,7 @@ package game.model.gameObject
 
         private var _shootSignal: Signal;
         private var _shootingVO: ShootingVO;
+        private var _isShooting: Boolean;
 
         /**
          * Base class for all game objects which are able to shoot
@@ -44,6 +45,11 @@ package game.model.gameObject
             return _shootSignal;
         }
 
+        public function get isShooting(): Boolean
+        {
+            return _isShooting;
+        }
+
         override public function update(aDeltaTime: int): void
         {
             for (var i: int = 0; i < _weapons.length; i++)
@@ -60,6 +66,8 @@ package game.model.gameObject
             {
                 _weapons[i].startShoot();
             }
+
+            _isShooting = true;
         }
 
         public function endShoot(): void
@@ -68,6 +76,8 @@ package game.model.gameObject
             {
                 _weapons[i].endShoot();
             }
+
+            _isShooting = false;
         }
 
         public function chargeShoot(): void
@@ -111,5 +121,6 @@ package game.model.gameObject
         {
             return null;
         }
+
     }
 }

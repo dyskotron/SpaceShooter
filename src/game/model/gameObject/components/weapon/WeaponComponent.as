@@ -2,7 +2,6 @@ package game.model.gameObject.components.weapon
 {
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.components.weapon.enums.WeaponType;
-    import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.fsm.ITargetProvider;
 
     import org.osflash.signals.Signal;
@@ -80,7 +79,6 @@ package game.model.gameObject.components.weapon
             var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
 
             var spawnPoint: BulletSpawnVO;
-            var target: ITarget;
 
             switch (_weaponModel.weaponType)
             {

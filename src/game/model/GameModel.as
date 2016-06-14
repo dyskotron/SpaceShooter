@@ -205,90 +205,6 @@ package game.model
 
         //region ---------------------------------- PUBLIC METHODS ---------------------------------
 
-
-        public function getPlayerModelByID(aID: uint = 0): PlayerShipGO
-        {
-            return _players[aID];
-        }
-
-        public function getTarget(aTargetType: uint, aX: Number = 0, aY: Number = 0, aOrigAngle: Number = 0): ITarget
-        {
-            switch (aTargetType)
-            {
-                case TargetType.OLDEST:
-                    if (_enemies.length > 0)
-                        return _enemies[0];
-                    if (_obstacles.length > 0)
-                        return _obstacles[0];
-                    break;
-                case TargetType.NEWEST:
-                    if (_enemies.length > 0)
-                        return _enemies[_enemies.length - 1];
-                    if (_obstacles.length > 0)
-                        return _obstacles[_obstacles.length - 1];
-                    break;
-                case TargetType.RANDOM:
-                    if (_enemies.length > 0)
-                        return _enemies[Math.floor(Math.random() * _enemies.length)];
-                    if (_obstacles.length > 0)
-                        return _obstacles[Math.floor(Math.random() * _obstacles.length)];
-                    break;
-                case TargetType.EASIEST:
-                    var i: int = 0;
-                    var currDelta: Number;
-                    var smallestDelta: Number = Math.PI;
-                    var target: ITarget;
-                    for (i = 0; i < _enemies.length; i++)
-                    {
-                        currDelta = Math.abs(_enemies[i].getAngleDelta(aX, aY, aOrigAngle));
-                        if (smallestDelta > currDelta)
-                        {
-                            smallestDelta = currDelta;
-                            target = _enemies[i];
-                        }
-                    }
-                    for (i = 0; i < _obstacles.length; i++)
-                    {
-                        currDelta = Math.abs(_obstacles[i].getAngleDelta(aX, aY, aOrigAngle));
-                        if (smallestDelta > currDelta)
-                        {
-                            smallestDelta = currDelta;
-                            target = _obstacles[i];
-                        }
-                    }
-                    return target;
-                    break;
-                case TargetType.BIGGEST_HP:
-                    var i: int = 0;
-                    var currHP: Number;
-                    var smallestHP: Number = Math.PI;
-                    var target: ITarget;
-                    for (i = 0; i < _enemies.length; i++)
-                    {
-                        currHP = _enemies[i].hp;
-                        if (smallestHP > currHP)
-                        {
-                            smallestHP = currHP;
-                            target = _enemies[i];
-                        }
-                    }
-                    for (i = 0; i < _obstacles.length; i++)
-                    {
-                        currHP = _obstacles[i].hp;
-                        if (smallestHP > currHP)
-                        {
-                            smallestHP = currHP;
-                            target = _obstacles[i];
-                        }
-                    }
-                    return target;
-                    break;
-            }
-
-            return null;
-        }
-
-
         public function init(): void
         {
             _numPLayers = MathUtil.clamp(mainModel.numPlayers, 1, MAX_PLAYERS);
@@ -329,8 +245,11 @@ package game.model
             touchController.positionChangeSignal.add(changePlayerPosition);
             keyController.directionChangeSignal.add(changePlayerDirection);
 
-            touchController.actionSwitchSignal.add(actionSwitchHandler);
-            keyController.actionSwitchSignal.add(actionSwitchHandler);
+            touchController.actionEnableSignal.add(actionSwitchHandler);
+            keyController.actionEnableSignal.add(actionSwitchHandler);
+
+            touchController.actionSwitchSignal.add(actionTriggerHandler);
+            keyController.actionSwitchSignal.add(actionTriggerHandler);
 
             _levelModel = levelProvider.getLevel(0);
             _levelModel.levelEventSignal.add(levelEventHandler);
@@ -341,6 +260,91 @@ package game.model
         public function destroy(): void
         {
             trace(this, "========> MODEL - DESTROYED");
+        }
+
+        public function getPlayerModelByID(aID: uint = 0): PlayerShipGO
+        {
+            return _players[aID];
+        }
+
+        public function getTarget(aTargetType: uint, aX: Number = 0, aY: Number = 0, aOrigAngle: Number = 0): ITarget
+        {
+            switch (aTargetType)
+            {
+                case TargetType.PLAYER:
+                    return getRandomPlayer();
+                    break;
+                case TargetType.EASIEST:
+                    var i: int = 0;
+                    var currDelta: Number;
+                    var smallestDelta: Number = Math.PI;
+                    var target: ITarget;
+                    for (i = 0; i < _enemies.length; i++)
+                    {
+                        currDelta = Math.abs(_enemies[i].getAngleDelta(aX, aY, aOrigAngle));
+                        if (smallestDelta > currDelta)
+                        {
+                            smallestDelta = currDelta;
+                            target = _enemies[i];
+                        }
+                    }
+                    for (i = 0; i < _obstacles.length; i++)
+                    {
+                        currDelta = Math.abs(_obstacles[i].getAngleDelta(aX, aY, aOrigAngle));
+                        if (smallestDelta > currDelta)
+                        {
+                            smallestDelta = currDelta;
+                            target = _obstacles[i];
+                        }
+                    }
+                    return target;
+                    break;
+                case TargetType.OLDEST:
+                    if (_enemies.length > 0)
+                        return _enemies[0];
+                    if (_obstacles.length > 0)
+                        return _obstacles[0];
+                    break;
+                case TargetType.NEWEST:
+                    if (_enemies.length > 0)
+                        return _enemies[_enemies.length - 1];
+                    if (_obstacles.length > 0)
+                        return _obstacles[_obstacles.length - 1];
+                    break;
+                case TargetType.RANDOM:
+                    if (_enemies.length > 0)
+                        return _enemies[Math.floor(Math.random() * _enemies.length)];
+                    if (_obstacles.length > 0)
+                        return _obstacles[Math.floor(Math.random() * _obstacles.length)];
+                    break;
+                case TargetType.BIGGEST_HP:
+                    var i: int = 0;
+                    var currHP: Number;
+                    var smallestHP: Number = Math.PI;
+                    var target: ITarget;
+                    for (i = 0; i < _enemies.length; i++)
+                    {
+                        currHP = _enemies[i].hp;
+                        if (smallestHP > currHP)
+                        {
+                            smallestHP = currHP;
+                            target = _enemies[i];
+                        }
+                    }
+                    for (i = 0; i < _obstacles.length; i++)
+                    {
+                        currHP = _obstacles[i].hp;
+                        if (smallestHP > currHP)
+                        {
+                            smallestHP = currHP;
+                            target = _obstacles[i];
+                        }
+                    }
+                    return target;
+                    break;
+            }
+
+            return null;
         }
 
         //endregion
@@ -357,8 +361,8 @@ package game.model
 
             touchController.positionChangeSignal.remove(changePlayerPosition);
             keyController.directionChangeSignal.remove(changePlayerDirection);
-            touchController.actionSwitchSignal.remove(actionSwitchHandler);
-            keyController.actionSwitchSignal.remove(actionSwitchHandler);
+            touchController.actionEnableSignal.remove(actionSwitchHandler);
+            keyController.actionEnableSignal.remove(actionSwitchHandler);
 
             for (var i: int = 0; i < _players.length; i++)
             {
@@ -799,32 +803,40 @@ package game.model
                 case PlayerActionID.PRIMARY_FIRE:
                     aValue ? playerGO.startShoot() : playerGO.endShoot();
                     break;
+            }
+        }
+
+        private function actionTriggerHandler(aPlayerID: uint, aActionID: uint): void
+        {
+            aPlayerID = Math.min(aPlayerID, _numPLayers - 1);
+
+            var playerGO: PlayerShipGO = _players[aPlayerID];
+
+            switch (aActionID)
+            {
+                case PlayerActionID.PRIMARY_FIRE:
+                    playerGO.isShooting ? playerGO.endShoot() : playerGO.startShoot();
+                    break;
 
                 case PlayerActionID.CHARGE_FIRE:
-                    if (aValue)
-                        playerGO.chargeShoot();
+                    playerGO.chargeShoot();
                     break;
+
 
                 case PlayerActionID.POWER_UP:
-                    if (aValue)
-                        playerGO.getBonus(BonusTypeID.BONUS_WEAPON);
+                    playerGO.getBonus(BonusTypeID.BONUS_WEAPON);
                     break;
-
                 case PlayerActionID.POWER_DOWN:
-                    if (aValue)
-                        playerGO.powerDown();
+                    playerGO.powerDown();
                     break;
                 case PlayerActionID.WEAPON_LASER:
-                    if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.LASER));
+                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.LASER));
                     break;
                 case PlayerActionID.WEAPON_PLASMA:
-                    if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.PLASMA));
+                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.PLASMA));
                     break;
                 case PlayerActionID.WEAPON_ELECTRIC:
-                    if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.ELECTRIC));
+                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.ELECTRIC));
                     break;
             }
         }
