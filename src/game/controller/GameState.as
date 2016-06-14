@@ -7,8 +7,8 @@ package game.controller
 
     import game.controller.playerControl.ITouchController;
     import game.controller.playerControl.KeyController;
-    import game.controller.playerControl.MobileTouchController;
     import game.controller.playerControl.TouchController;
+    import game.controller.playerControl.TwoFingersTouchController;
     import game.model.GameModel;
     import game.model.IGameModel;
     import game.model.ILevelProvider;
@@ -93,7 +93,7 @@ package game.controller
 
             //todo create enum
             if (CONFIG::platform == "mobile")
-                injector.mapSingletonOf(ITouchController, MobileTouchController);
+                injector.mapSingletonOf(ITouchController, TwoFingersTouchController);
             else
                 injector.mapSingletonOf(ITouchController, TouchController);
 
