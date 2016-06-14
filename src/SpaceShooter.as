@@ -24,6 +24,7 @@ package
          * TODO / IDEAS:
          * - autoaim change direction smooth
          * - target dead signal(-> check new target)
+         * - core game loop dispatcher, dispatch deltaTime * 0.001
          *
          * - disable enemy hits out of screen
          * - check bulletVO defs - could be static / just created once

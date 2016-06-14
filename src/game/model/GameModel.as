@@ -617,7 +617,9 @@ package game.model
 
                 //remove aoe bullet
                 _playerAoeBullets.splice(i, 1);
-                _gameObjectRemovedSignal.dispatch(playerBulletGO);
+                //todo aoe is removing itself from stage, introduce removedSignal for gameobjects instead
+                //e.g.: playerBulletGO.removedSignal.add(some method wich will remove aoe GO and dispatch _gameObjectRemovedSignal)
+                //_gameObjectRemovedSignal.dispatch(playerBulletGO);
 
             }
 

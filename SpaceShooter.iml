@@ -47,7 +47,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK21_Compiler" />
+          <sdk name="FLEX46-38" />
         </dependencies>
         <compiler-options>
           <map>

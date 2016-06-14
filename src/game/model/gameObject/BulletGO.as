@@ -8,9 +8,13 @@ package game.model.gameObject
     import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.BulletVO;
 
+    import starling.utils.MathUtil;
+
     public class BulletGO extends SimpleMovingGO
     {
-        private static const AUTO_AIM_INTERVAL: int = 100;
+        private static const AUTO_AIM_MAX_TRIGGER_ANGLE: Number = Math.PI / 4;
+        //private static const AUTO_AIM_MAX_ANGLE: Number = Math.PI * AUTO_AIM_MAX_TRIGGER_ANGLE * 2;
+        private static const AUTO_AIM_MAX_DELTA_PER_S: Number = Math.PI;
 
         private var _ownerID: uint;
         private var _bulletVO: BulletVO;
@@ -21,10 +25,11 @@ package game.model.gameObject
 
         private var _speed: Number = 0;
         private var _angle: Number = 0;
-        private var _origAngle: Number = 0;
 
         //temp vars for update method
         private var _angleDelta: Number = 0;
+        private var _maxDelta: Number = 0;
+        //private var _angleDeltaToOrig: Number = 0;
 
         public function BulletGO(aOwnerID: int, aBulletVO: BulletVO, aX: Number, aY: Number, aSpeed: Number = 0, aAngle: Number = 0, aTargetProvider: ITargetProvider = null)
         {
@@ -33,7 +38,7 @@ package game.model.gameObject
             _ownerID = aOwnerID;
             _bulletVO = aBulletVO;
             _speed = aSpeed;
-            _angle = _origAngle = aAngle;
+            _angle = aAngle;
 
             speedX = _speed * Math.sin(_angle);
             speedY = _speed * Math.cos(_angle);
@@ -50,8 +55,6 @@ package game.model.gameObject
                 _targetProvider = aTargetProvider;
                 if (_target != null)
                 {
-
-
                     if (bulletVO.aim == BulletAim.ON_INIT)
                     {
                         _angle = _target.getAngleFromCoords(x, y);
@@ -77,27 +80,34 @@ package game.model.gameObject
 
         override public function update(aDeltaTime: int): void
         {
-            if (_isAutoAim)
+            //AUTO AIM
+            if (_isAutoAim && bulletVO.aim == BulletAim.ON_UPDATE)
             {
-                if (bulletVO.aim == BulletAim.ON_UPDATE)
+                _angleDelta = _target.getAngleDelta(x, y, _angle);
+
+                if (Math.abs(_angleDelta) < AUTO_AIM_MAX_TRIGGER_ANGLE)
                 {
-                    _angleDelta = _target.getAngleDelta(x, y, _origAngle);
+                    //max delta
+                    _maxDelta = AUTO_AIM_MAX_DELTA_PER_S * aDeltaTime / 1000;
+                    _angle = _angle + MathUtil.clamp(_angleDelta, -_maxDelta, _maxDelta);
 
-                    if (Math.abs(_angleDelta) < Math.PI * 0.3)
-                    {
-                        _angle = _origAngle + _angleDelta;
+                    /**
+                     //global max angle
+                     _angleDeltaToOrig = _angle - _origAngle;
+                     _angleDeltaToOrig = MathUtil.clamp(_angleDeltaToOrig, -AUTO_AIM_MAX_ANGLE, AUTO_AIM_MAX_ANGLE)
+                     _angle = _origAngle + _angleDeltaToOrig;
+                     */
 
-                        speedX = _speed * Math.sin(_angle);
-                        speedY = _speed * Math.cos(_angle);
-                        rotation = -_angle;
-                    }
-                    else
-                    {
-                        _target = _targetProvider.getTarget(bulletVO.aimTarget, x, y, _origAngle);
-                        if (_target == null && Math.abs(_target.getAngleDelta(x, y, _origAngle)) > Math.PI * 0.3)
-                            _isAutoAim = false;
-                    }
-
+                    speedX = _speed * Math.sin(_angle);
+                    speedY = _speed * Math.cos(_angle);
+                    rotation = -_angle;
+                }
+                else
+                {
+                    //NEW TARGET
+                    _target = _targetProvider.getTarget(bulletVO.aimTarget, x, y, _angle);
+                    if (_target == null || Math.abs(_target.getAngleDelta(x, y, _angle)) > AUTO_AIM_MAX_TRIGGER_ANGLE)
+                        _isAutoAim = false;
                 }
             }
 
@@ -113,19 +123,19 @@ package game.model.gameObject
         }
 
         /**
-         * Returns if bullet should be removed after hit or not
-         * @param enemyGO
+         * Hits object and Returns if bullet should be removed after hit or not
+         * @param hittableGO
          * @return
          */
-        public function hitObject(enemyGO: HittableGO): Boolean
+        public function hitObject(hittableGO: HittableGO): Boolean
         {
-            enemyGO.hit(_bulletVO.damage);
+            hittableGO.hit(_bulletVO.damage);
 
             if (_bulletVO.mode == BulletMode.ONE_SHOT)
                 return true;
 
             if (_bulletVO.mode == BulletMode.EACH_ONCE)
-                _hittedGO[enemyGO] = true;
+                _hittedGO[hittableGO] = true;
 
             return false;
 
