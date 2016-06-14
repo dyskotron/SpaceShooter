@@ -6,8 +6,6 @@ package game.model.gameObject.components.weapon
     {
         private var _x: Number;
         private var _y: Number;
-        private var _speedX: Number;
-        private var _speedY: Number;
         private var _bulletVO: BulletVO;
 
         //orig values storage
@@ -15,6 +13,7 @@ package game.model.gameObject.components.weapon
         private var _origY: Number;
         private var _speed: Number;
         private var _angle: Number;
+        private var _origAngle: Number;
 
         public function BulletSpawnVO(aBulletVO: BulletVO, aX: Number, aY: Number, aSpeed: Number = 0, aAngle: Number = 0)
         {
@@ -24,10 +23,7 @@ package game.model.gameObject.components.weapon
             _origY = _y = aY;
 
             _speed = aSpeed;
-            _angle = aAngle;
-
-            _speedX = _speed * Math.sin(_angle);
-            _speedY = _speed * Math.cos(_angle);
+            _angle = _origAngle = aAngle;
         }
 
         public function get bulletVO(): BulletVO
@@ -45,14 +41,14 @@ package game.model.gameObject.components.weapon
             return _y;
         }
 
-        public function get speedX(): Number
+        public function get angle(): Number
         {
-            return _speedX;
+            return _angle;
         }
 
-        public function get speedY(): Number
+        public function get speed(): Number
         {
-            return _speedY;
+            return _speed;
         }
 
         public function setRotation(aRotation: Number, aOrientation: int): void
@@ -62,8 +58,9 @@ package game.model.gameObject.components.weapon
             _y = _origY * Math.cos(aRotation) + (_origX * aOrientation) * Math.sin(aRotation);
 
             //recalculate direction
-            _speedX = _speed * Math.sin(_angle - aRotation);
-            _speedY = _speed * Math.cos(_angle - aRotation);
+            _angle = _origAngle - aRotation;
         }
+
+
     }
 }

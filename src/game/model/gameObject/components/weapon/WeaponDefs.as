@@ -313,7 +313,6 @@ package game.model.gameObject.components.weapon
                         spawnPointsByPower.push(spawnPoints);
 
 
-                        trace("_MO_", this, "MAIN-GUN:", i, "num shots", numShots);
                         shootIntervalByPower.push(1000 / numShots);
                     }
 
@@ -533,7 +532,6 @@ package game.model.gameObject.components.weapon
                         spawnPointsByPower.push(spawnPoints);
 
 
-                        trace("_MO_", this, "MAIN-GUN:", i, "num shots", numShots);
                         shootIntervalByPower.push(1000 / numShots);
                     }
 
@@ -556,7 +554,6 @@ package game.model.gameObject.components.weapon
                         spawnPointsByPower.push(spawnPoints);
 
 
-                        trace("_MO_", this, "ROCKET_LAUNCHER:", i, "num shots", numShots);
                         shootIntervalByPower.push(1000 / numShots);
                     }
 

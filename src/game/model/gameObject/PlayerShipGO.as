@@ -20,6 +20,7 @@ package game.model.gameObject
     import game.model.gameObject.components.weapon.PlayerWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.constants.BonusTypeID;
+    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.PlayerShipVO;
 
     import org.osflash.signals.Signal;
@@ -55,7 +56,7 @@ package game.model.gameObject
         private var _score: Number = 0;
         private var _generatorComponent: IGeneratorComponent;
 
-        public function PlayerShipGO(aPLayerID: uint, aPlayerShipVO: PlayerShipVO): void
+        public function PlayerShipGO(aPLayerID: uint, aPlayerShipVO: PlayerShipVO, aTargetProvider: ITargetProvider): void
         {
             _playerID = aPLayerID;
             _playerShipVO = aPlayerShipVO;
@@ -63,7 +64,7 @@ package game.model.gameObject
             _changeStateSignal = new Signal(PlayerShipGO);
             _playerDiedSignal = new Signal(uint);
 
-            super(aPlayerShipVO, 0, 0, 0, 0);
+            super(aPlayerShipVO, aTargetProvider, 0, 0, 0, 0);
         }
 
         //region ==================== SETTERS & GETTERS ====================
@@ -139,6 +140,12 @@ package game.model.gameObject
             super.endShoot();
         }
 
+        override public function chargeShoot(): void
+        {
+            if (state == STATE_ALIVE)
+                super.chargeShoot();
+        }
+
         public function init(aX: Number, aY: Number): void
         {
             x = controlX = aX;
@@ -198,7 +205,7 @@ package game.model.gameObject
          */
         public function switchMainWeapon(aWeaponModel: WeaponModel): void
         {
-            _weapons[0] = new PlayerWeaponComponent(this, shootSignal, aWeaponModel, _playerID, PlayerWeaponComponent(_weapons[0]).x, PlayerWeaponComponent(_weapons[0]).y, PlayerWeaponComponent(_weapons[0]).power);
+            _weapons[0] = new PlayerWeaponComponent(this, shootSignal, aWeaponModel, _playerID, _targetProvider, PlayerWeaponComponent(_weapons[0]).x, PlayerWeaponComponent(_weapons[0]).y, PlayerWeaponComponent(_weapons[0]).power);
         }
 
         override public function destroy(): void
@@ -237,7 +244,7 @@ package game.model.gameObject
 
         override protected function createWeapon(aShootSignal: Signal, aComponentSLot: ComponentSlot): IWeaponComponent
         {
-            return new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, aComponentSLot.x, aComponentSLot.y);
+            return new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, _targetProvider, aComponentSLot.x, aComponentSLot.y);
         }
 
         private function die(): void

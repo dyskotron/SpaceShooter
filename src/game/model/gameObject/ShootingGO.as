@@ -5,12 +5,15 @@ package game.model.gameObject
     import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.components.weapon.enums.WeaponGroup;
+    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.ShootingVO;
 
     import org.osflash.signals.Signal;
 
     public class ShootingGO extends HittableGO
     {
+        protected var _targetProvider: ITargetProvider;
+
         protected var _weapons: Vector.<IWeaponComponent>;
         private var _chargeWeapons: Vector.<IWeaponComponent>;
 
@@ -25,12 +28,13 @@ package game.model.gameObject
          * @param aSpeedX
          * @param aSpeedY
          */
-        public function ShootingGO(aShootingVO: ShootingVO, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0)
+        public function ShootingGO(aShootingVO: ShootingVO, aTargetProvider: ITargetProvider, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0)
         {
             super(aShootingVO, aX, aY, aSpeedX, aSpeedY);
 
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
+            _targetProvider = aTargetProvider;
 
             mountComponents();
         }
@@ -95,7 +99,6 @@ package game.model.gameObject
                     }
                 }
             }
-            //trace("_MO_", this, "mountComponents", "_weapons.length:", _weapons.length, "_chargeWeapons.length:", _chargeWeapons.length);
         }
 
         /**

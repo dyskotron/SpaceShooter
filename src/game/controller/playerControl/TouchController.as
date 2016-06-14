@@ -90,7 +90,7 @@ package game.controller.playerControl
                 case TouchPhase.BEGAN:
                     _mouseDownPoint = new Point(touch.globalX, touch.globalY);
                     _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SECONDARY_FIRE, true);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.CHARGE_FIRE, true);
 
                     break;
 

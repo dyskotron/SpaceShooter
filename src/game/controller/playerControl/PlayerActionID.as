@@ -3,7 +3,7 @@ package game.controller.playerControl
     public class PlayerActionID
     {
         public static const PRIMARY_FIRE: uint = 0;
-        public static const SECONDARY_FIRE: uint = 1;
+        public static const CHARGE_FIRE: uint = 1;
 
 
         //debug

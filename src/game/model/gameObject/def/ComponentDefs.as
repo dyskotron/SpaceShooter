@@ -48,7 +48,7 @@ package game.model.gameObject.def
             switch (aGeneratorID)
             {
                 case GeneratorID.BASIC:
-                    generatorModel = new GeneratorModel(0, 300);
+                    generatorModel = new GeneratorModel(0, 500);
                     break;
                 default:
                     throw new Error("No generator for generator ID: " + aGeneratorID);
@@ -65,7 +65,7 @@ package game.model.gameObject.def
             switch (aBatteryID)
             {
                 case BatteryID.BASIC:
-                    batteryModel = new BatteryModel(0, 600);
+                    batteryModel = new BatteryModel(0, 1000);
                     break;
                 default:
                     throw new Error("No battery for component ID: " + aBatteryID);

@@ -1,7 +1,5 @@
 package game.model.gameObject.fsm.state
 {
-    import flash.utils.getTimer;
-
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.fsm.*;
 
@@ -17,7 +15,7 @@ package game.model.gameObject.fsm.state
 
         public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
-            _startTime = getTimer();
+            _startTime = aEnemyGO.currentTime;
             _startX = aEnemyGO.x;
             _target = aTarget;
 
@@ -29,7 +27,7 @@ package game.model.gameObject.fsm.state
             aEnemyGO.y += aEnemyGO.speedY * aDeltaTime / 1000;
 
             var oldX: Number = aEnemyGO.x;
-            aEnemyGO.x = _startX + Math.sin((_startTime - getTimer()) / 500) * aEnemyGO.enemyVO.speed / 2;
+            aEnemyGO.x = _startX + Math.sin((_startTime - aEnemyGO.currentTime) / 500) * aEnemyGO.enemyVO.speed / 2;
 
             aEnemyGO.speedX = (oldX - aEnemyGO.x) / (aDeltaTime / 1000);
 

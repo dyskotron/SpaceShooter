@@ -18,6 +18,9 @@ package game.model
     import game.model.gameObject.constants.BulletMode;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IPlayerShipDefs;
+    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.fsm.ITargetProvider;
+    import game.model.gameObject.fsm.TargetType;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -37,7 +40,7 @@ package game.model
 
     import starling.utils.MathUtil;
 
-    public class GameModel extends Actor implements IGameModel
+    public class GameModel extends Actor implements IGameModel, ITargetProvider
     {
         public static const MAX_PLAYERS: Number = 2;
         public static const SHIP_MOVE_BOUNDS: Number = 50;
@@ -119,6 +122,10 @@ package game.model
         public function GameModel()
         {
             super();
+            trace("_MO_", this, Math.atan2(10, 10));
+            trace("_MO_", this, Math.atan2(10, -10));
+            trace("_MO_", this, Math.atan2(-10, 10));
+            trace("_MO_", this, Math.atan2(-10, -10));
         }
 
 
@@ -204,6 +211,84 @@ package game.model
             return _players[aID];
         }
 
+        public function getTarget(aTargetType: uint, aX: Number = 0, aY: Number = 0, aOrigAngle: Number = 0): ITarget
+        {
+            switch (aTargetType)
+            {
+                case TargetType.OLDEST:
+                    if (_enemies.length > 0)
+                        return _enemies[0];
+                    if (_obstacles.length > 0)
+                        return _obstacles[0];
+                    break;
+                case TargetType.NEWEST:
+                    if (_enemies.length > 0)
+                        return _enemies[_enemies.length - 1];
+                    if (_obstacles.length > 0)
+                        return _obstacles[_obstacles.length - 1];
+                    break;
+                case TargetType.RANDOM:
+                    if (_enemies.length > 0)
+                        return _enemies[Math.floor(Math.random() * _enemies.length)];
+                    if (_obstacles.length > 0)
+                        return _obstacles[Math.floor(Math.random() * _obstacles.length)];
+                    break;
+                case TargetType.EASIEST:
+                    var i: int = 0;
+                    var currDelta: Number;
+                    var smallestDelta: Number = Math.PI;
+                    var target: ITarget;
+                    for (i = 0; i < _enemies.length; i++)
+                    {
+                        currDelta = Math.abs(_enemies[i].getAngleDelta(aX, aY, aOrigAngle));
+                        if (smallestDelta > currDelta)
+                        {
+                            smallestDelta = currDelta;
+                            target = _enemies[i];
+                        }
+                    }
+                    for (i = 0; i < _obstacles.length; i++)
+                    {
+                        currDelta = Math.abs(_obstacles[i].getAngleDelta(aX, aY, aOrigAngle));
+                        if (smallestDelta > currDelta)
+                        {
+                            smallestDelta = currDelta;
+                            target = _obstacles[i];
+                        }
+                    }
+                    return target;
+                    break;
+                case TargetType.BIGGEST_HP:
+                    var i: int = 0;
+                    var currHP: Number;
+                    var smallestHP: Number = Math.PI;
+                    var target: ITarget;
+                    for (i = 0; i < _enemies.length; i++)
+                    {
+                        currHP = _enemies[i].hp;
+                        if (smallestHP > currHP)
+                        {
+                            smallestHP = currHP;
+                            target = _enemies[i];
+                        }
+                    }
+                    for (i = 0; i < _obstacles.length; i++)
+                    {
+                        currHP = _obstacles[i].hp;
+                        if (smallestHP > currHP)
+                        {
+                            smallestHP = currHP;
+                            target = _obstacles[i];
+                        }
+                    }
+                    return target;
+                    break;
+            }
+
+            return null;
+        }
+
+
         public function init(): void
         {
             _numPLayers = MathUtil.clamp(mainModel.numPlayers, 1, MAX_PLAYERS);
@@ -232,7 +317,7 @@ package game.model
 
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild));
+                player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild), this);
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
                 player.playerDiedSignal.add(playerDiedHandler);
@@ -260,6 +345,10 @@ package game.model
 
         //endregion
 
+        private function getRandomPlayer(): PlayerShipGO
+        {
+            return _players[Math.floor(Math.random() * _players.length)];
+        }
 
         private function endGame(aFinished: Boolean): void
         {
@@ -634,7 +723,7 @@ package game.model
                 case LevelEvent.ID_SPAWN_ENEMY:
                     var enemyEvent: SpawnEnemyEvent = SpawnEnemyEvent(aLevelEvent);
                     var enemyVO: EnemyVO = enemyEvent.aEnemyVO;
-                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, enemyEvent.x, enemyEvent.y, getRandomPlayer());
+                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, this, enemyEvent.x, enemyEvent.y, getRandomPlayer());
                     enemy.shootSignal.add(enemyShootHandler);
                     _enemies.push(enemy);
                     _enemySpawnedSignal.dispatch(enemy);
@@ -664,11 +753,6 @@ package game.model
                     endGame(true);
                     break;
             }
-        }
-
-        private function getRandomPlayer(): PlayerShipGO
-        {
-            return _players[Math.floor(Math.random() * _players.length)];
         }
 
         private function playerShootHandler(aBullets: Vector.<BulletGO>): void
@@ -716,7 +800,7 @@ package game.model
                     aValue ? playerGO.startShoot() : playerGO.endShoot();
                     break;
 
-                case PlayerActionID.SECONDARY_FIRE:
+                case PlayerActionID.CHARGE_FIRE:
                     if (aValue)
                         playerGO.chargeShoot();
                     break;
@@ -757,6 +841,5 @@ package game.model
         }
 
         //endregion
-
     }
 }

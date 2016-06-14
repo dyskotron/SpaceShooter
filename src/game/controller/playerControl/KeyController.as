@@ -118,14 +118,7 @@ package game.controller.playerControl
             {
                 case Keyboard.SPACE:
                     _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
-                    break;
-
-                case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
-                    break;
-
-                case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.CHARGE_FIRE, true);
                     break;
 
                 case Keyboard.NUMBER_1:

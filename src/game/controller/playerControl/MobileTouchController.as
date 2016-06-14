@@ -99,7 +99,7 @@ package game.controller.playerControl
 
                     if (getTimer() - _lastTime < SECONDAY_DOUBLECLICK_TIME)
                     {
-                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SECONDARY_FIRE, true);
+                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.CHARGE_FIRE, true);
                         _lastTime = 0;
                     }
                     else

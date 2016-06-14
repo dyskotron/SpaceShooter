@@ -2,15 +2,22 @@ package game.model.gameObject.components.weapon
 {
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.components.weapon.enums.WeaponType;
+    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.fsm.ITargetProvider;
+    import game.model.gameObject.fsm.TargetType;
 
     import org.osflash.signals.Signal;
 
     public class WeaponComponent implements IWeaponComponent
     {
+
+        protected var _ownerID: uint;
+
         private var _weaponModel: WeaponModel;
         protected var _nextShotAfter: Number = 0;
         private var _shootSignal: Signal;
-        protected var _ownerID: uint;
+        private var _targetProvider: ITargetProvider;
+
 
         private var _isShooting: Boolean;
         private var _x: Number = 50;
@@ -19,14 +26,14 @@ package game.model.gameObject.components.weapon
         private var _spawnPointIndex: Number = 0;
 
 
-        public function WeaponComponent(aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0)
+        public function WeaponComponent(aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aTargetProvider: ITargetProvider, aX: Number = 0, aY: Number = 0)
         {
             _shootSignal = aShootSignal;
-            _weaponModel = aWeaponModel;
             _weaponModel = aWeaponModel;
             _ownerID = aOwnerID;
             _x = aX;
             _y = aY;
+            _targetProvider = aTargetProvider;
         }
 
         public function get x(): Number
@@ -74,24 +81,28 @@ package game.model.gameObject.components.weapon
             var bullets: Vector.<BulletGO> = new Vector.<BulletGO>();
 
             var spawnPoint: BulletSpawnVO;
+            var target: ITarget;
+
             switch (_weaponModel.weaponType)
             {
                 case WeaponType.SINGLE:
                     spawnPoint = _weaponModel.spawnPoints[0];
-                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
+                    target = _targetProvider.getTarget(TargetType.EASIEST, aX, aY, spawnPoint.angle);
+                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, target));
                     break;
-                case WeaponType.ONE_SHOT:
                 case WeaponType.PARALEL:
                     for (var i: int = 0; i < _weaponModel.spawnPoints.length; i++)
                     {
                         spawnPoint = _weaponModel.spawnPoints[i];
-                        bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
+                        target = _targetProvider.getTarget(TargetType.EASIEST, aX, aY, spawnPoint.angle);
+                        bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, target));
                     }
                     break;
                 case WeaponType.SEQUENTIAL:
                     _spawnPointIndex = (_spawnPointIndex + 1) % _weaponModel.spawnPoints.length;
                     spawnPoint = _weaponModel.spawnPoints[_spawnPointIndex];
-                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speedX, spawnPoint.speedY));
+                    target = _targetProvider.getTarget(TargetType.EASIEST, aX, aY, spawnPoint.angle);
+                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, target));
                     break;
             }
 
