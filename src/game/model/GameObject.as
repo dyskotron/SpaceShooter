@@ -2,6 +2,8 @@ package game.model
 {
     import flash.geom.Rectangle;
 
+    import game.model.gameObject.components.physics.BasePhysicsComponent;
+    import game.model.gameObject.components.physics.IPhysicsComponent;
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.vo.GameObjectVO;
 
@@ -9,16 +11,8 @@ package game.model
     {
 
         private var _currentTime: int = 0;
-
-        private var _bounds: Rectangle;
-
-        private var _rotation: Number = 0;
-        private var _x: Number = 0;
-        private var _y: Number = 0;
-        private var _speedX: Number = 0;
-        private var _speedY: Number = 0;
-
         private var _gameObjectVO: GameObjectVO;
+        private var _physics: IPhysicsComponent;
 
         /**
          * base class representing all game objects e.g. player ships enemies bullets etc
@@ -33,64 +27,69 @@ package game.model
         {
             _gameObjectVO = aGameObjectVO;
 
-            _x = aX;
-            _y = aY;
-            _speedX = aSpeedX;
-            _speedY = aSpeedY;
-
-            _bounds = new Rectangle(_x - _gameObjectVO.width / 2, _y - _gameObjectVO.height / 2, _gameObjectVO.width, _gameObjectVO.height)
+            //todo: physics factory
+            _physics = new BasePhysicsComponent(_gameObjectVO.width, _gameObjectVO.height);
+            _physics.x = aX;
+            _physics.y = aY;
+            _physics.speedX = aSpeedX;
+            _physics.speedY = aSpeedY;
         }
 
         //region ========================================= SETTERS & GETTERS  ==========================================
 
+        public function get physics(): IPhysicsComponent
+        {
+            return _physics;
+        }
+
         public function get x(): Number
         {
-            return _x;
+            return _physics.x;
         }
 
         public function set x(value: Number): void
         {
-            _x = value;
+            _physics.x = value;
         }
 
         public function get y(): Number
         {
-            return _y;
+            return _physics.y;
         }
 
         public function set y(value: Number): void
         {
-            _y = value;
+            _physics.y = value;
         }
 
         public function get speedX(): Number
         {
-            return _speedX;
+            return  _physics.speedX;
         }
 
         public function set speedX(value: Number): void
         {
-            _speedX = value;
+            _physics.speedX = value;
         }
 
         public function get speedY(): Number
         {
-            return _speedY;
+            return _physics.speedY;
         }
 
         public function set speedY(value: Number): void
         {
-            _speedY = value;
+            _physics.speedY = value;
         }
 
         public function get rotation(): Number
         {
-            return _rotation;
+            return _physics.rotation;
         }
 
         public function set rotation(value: Number): void
         {
-            _rotation = value;
+            _physics.rotation = value;
         }
 
         public function get currentTime(): int
@@ -105,10 +104,21 @@ package game.model
 
         public function get bounds(): Rectangle
         {
-            return _bounds;
+            return _physics.bounds;
         }
 
         //endregion
+
+        public function update(aDeltaTime: int): void
+        {
+            _currentTime += aDeltaTime;
+            _physics.update(aDeltaTime);
+        }
+
+        public function destroy(): void
+        {
+
+        }
 
         public function getAngleFromCoords(aX: Number, aY: Number): Number
         {
@@ -127,18 +137,6 @@ package game.model
         public function getDistanceSq(aX: Number, aY: Number): Number
         {
             return Math.pow(x - aX, 2) + Math.pow(y - aY, 2);
-        }
-
-        public function update(aDeltaTime: int): void
-        {
-            _currentTime += aDeltaTime;
-            _bounds.x = _x - _bounds.width / 2;
-            _bounds.y = _y - _bounds.height / 2;
-        }
-
-        public function destroy(): void
-        {
-
         }
     }
 }
