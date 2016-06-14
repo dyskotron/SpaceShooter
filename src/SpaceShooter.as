@@ -22,11 +22,11 @@ package
 
         /**
          * TODO / IDEAS:
-         * - weapon/equip slots have also orientation - angle - change bullets and all this shit to polar cords
-         * - move vector of weapon slots to weapons model with addWeapon method which will move guns to right slots
+         * - target dead signal(-> check new target)
+         * - core game loop dispatcher, dispatch deltaTime * 0.001
          *
          * - disable enemy hits out of screen
-         * - check bulletVO defs - could be static / just created once
+         * - make defs static / just created once where applicable, factories where not
          * - unify SomethingType and SomethingID
          * - change target inputs in level generator to normalized 0 - 1 (+ do the same for size for all game objects later?)
          * - add msg / alerts - player based or level based

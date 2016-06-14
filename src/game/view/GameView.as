@@ -17,9 +17,12 @@ package game.view
     import game.view.gameObjectViews.BonusView;
     import game.view.gameObjectViews.BulletView;
     import game.view.gameObjectViews.EnemyShipView;
+    import game.view.gameObjectViews.ExplosionAnim;
     import game.view.gameObjectViews.GameObjectView;
+    import game.view.gameObjectViews.IGameObjectView;
     import game.view.gameObjectViews.ObstacleView;
     import game.view.gameObjectViews.PlayerShipView;
+    import game.view.gameObjectViews.RocketView;
 
     import main.model.IViewModel;
     import main.view.SceneID;
@@ -133,13 +136,14 @@ package game.view
             aGameModel.bonusSpawnedSignal.add(bonusSpawnedHandler);
             aGameModel.gameObjectRemovedSignal.add(gameObjectRemovedHandler);
             aGameModel.gameObjectHitSignal.add(gameObjectHitHandler);
+            aGameModel.aoeDamageTriggeredSignal.add(aoeDamageTriggeredHandler);
 
             Mouse.hide();
             /*
-            CONFIG::debug {
-                addChild(new DebugGameView());
-                Mouse.show();
-            } */
+             CONFIG::debug {
+             addChild(new DebugGameView());
+             Mouse.show();
+             } */
         }
 
         public function showResults(): void
@@ -175,7 +179,7 @@ package game.view
 
             /** UPDATE BULLETS **/
             var bulletModel: BulletGO;
-            var bulletView: BulletView;
+            var bulletView: IGameObjectView;
             for (i = 0; i < _gameModel.playerBullets.length; i++)
             {
                 bulletModel = _gameModel.playerBullets[i];
@@ -263,6 +267,7 @@ package game.view
             _gameModel.bonusSpawnedSignal.remove(bonusSpawnedHandler);
             _gameModel.gameObjectRemovedSignal.remove(gameObjectRemovedHandler);
             _gameModel.gameObjectHitSignal.remove(gameObjectHitHandler);
+            _gameModel.aoeDamageTriggeredSignal.remove(aoeDamageTriggeredHandler);
         }
 
         // ---------------------------------- PRIVATE METHODS ---------------------------------- //
@@ -286,8 +291,22 @@ package game.view
 
         private function bulletSpawnedHandler(aBulletGO: BulletGO): void
         {
-            var bulletView: BulletView = new BulletView(_textureProvider.getBulletTexture(aBulletGO.bulletVO.bulletID));
-            _miscLayer.addChild(bulletView);
+            var textures: Vector.<Texture> = _textureProvider.getBulletTextures(aBulletGO.bulletVO.bulletID)
+
+            var bulletView: IGameObjectView;
+
+            if (textures.length == 1)
+            {
+                bulletView = new BulletView(textures[0]);
+                _miscLayer.addChild(GameObjectView(bulletView));
+            }
+            else
+            {
+                bulletView = new RocketView(textures);
+                _miscLayer.addChild(RocketView(bulletView));
+                RocketView(bulletView).play();
+            }
+
             _gameObjectViews[aBulletGO] = bulletView;
         }
 
@@ -310,17 +329,11 @@ package game.view
 
             if (_gameObjectViews[aGameObject])
             {
-                var view: GameObjectView = _gameObjectViews[aGameObject];
-                if (view.parent)
-                {
-                    view.parent.removeChild(view);
-                    delete _gameObjectViews[aGameObject];
-                    //TODO: pooling
-                }
-                else
-                {
-                    trace("_MO_", this, "Error: view is not on stage", view);
-                }
+                var view: IGameObjectView = _gameObjectViews[aGameObject];
+                view.remove();
+                //TODO: pooling
+                delete _gameObjectViews[aGameObject];
+
             }
             else
             {
@@ -331,7 +344,7 @@ package game.view
         private function gameObjectHitHandler(aGameObject: GameObject, aHitPointsLost: uint): void
         {
             if (_gameObjectViews[aGameObject])
-                GameObjectView(_gameObjectViews[aGameObject]).hitAnim();
+                IGameObjectView(_gameObjectViews[aGameObject]).hitAnim();
             else
                 trace("_MO_", this, "Error: view for removed gameObject not present");
 
@@ -339,6 +352,15 @@ package game.view
             {
                 screenShake(aHitPointsLost * HP_TO_SCREENSHAKE_RATIO);
             }
+        }
+
+        private function aoeDamageTriggeredHandler(aBulletGO: BulletGO): void
+        {
+            var explosionAnim: ExplosionAnim = new ExplosionAnim(_textureProvider.getExplosionTextures(0), aBulletGO.bulletVO.aoeDistance * 2);
+            explosionAnim.x = aBulletGO.x;
+            explosionAnim.y = aBulletGO.y;
+            _miscLayer.addChild(explosionAnim);
+            screenShake(20);
         }
 
         private function playerChangeStateHandler(aPlayerShipGO: PlayerShipGO): void

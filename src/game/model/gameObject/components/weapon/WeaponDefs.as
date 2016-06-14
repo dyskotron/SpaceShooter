@@ -3,12 +3,19 @@ package game.model.gameObject.components.weapon
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.weapon.enums.EnemyWeaponID;
     import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
+    import game.model.gameObject.components.weapon.enums.WeaponGroup;
     import game.model.gameObject.components.weapon.enums.WeaponType;
     import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.def.IBulletDefs;
 
     public class WeaponDefs implements IWeaponDefs
     {
+        public static const LASER_SPEED: Number = 0.8;
+        public static const PLASMA_SPEED: Number = 0.5;
+        public static const ELECTRIC_SPEED: Number = 1;
+        public static const ROCKET_SPEED: Number = 0.65;
+
+
         [Inject]
         public var bulletDefs: IBulletDefs;
 
@@ -58,7 +65,7 @@ package game.model.gameObject.components.weapon
                     bulletX2 = 8;
 
                     bulletY1 = 30;
-                    speed =0.6;
+                    speed = LASER_SPEED;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -168,7 +175,7 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.LASER_4, bulletX1, bulletY1, 0.5, speed));
                     spawnPointsByPower.push(spawnPoints);
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -186,7 +193,7 @@ package game.model.gameObject.components.weapon
                     bulletY2 = 20;
                     bulletY3 = 10;
 
-                    speed =0.5;
+                    speed = PLASMA_SPEED;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -275,7 +282,7 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_2, dist * 6, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -283,7 +290,7 @@ package game.model.gameObject.components.weapon
                 case PlayerWeaponID.ELECTRIC:
                     //common
                     bulletX1 = 9;
-                    speed =0.7;
+                    speed = ELECTRIC_SPEED;
 
                     var numShots: Number;
 
@@ -306,11 +313,10 @@ package game.model.gameObject.components.weapon
                         spawnPointsByPower.push(spawnPoints);
 
 
-                        trace("_MO_", this, "MAIN-GUN:", i, "num shots", numShots);
                         shootIntervalByPower.push(1000 / numShots);
                     }
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.SEQUENTIAL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.SEQUENTIAL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
                 default:
@@ -355,7 +361,7 @@ package game.model.gameObject.components.weapon
                     bulletX2 = 8;
 
                     bulletY1 = 30;
-                    speed =0.6;
+                    speed = LASER_SPEED;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -415,7 +421,7 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.LASER_4, 0, bulletY1, 0.3, speed));
                     spawnPointsByPower.push(spawnPoints);
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -432,7 +438,7 @@ package game.model.gameObject.components.weapon
                     bulletY2 = 20;
                     bulletY3 = 10;
 
-                    speed =0.5;
+                    speed = PLASMA_SPEED;
 
                     //1
                     spawnPoints = new Vector.<BulletSpawnVO>();
@@ -495,7 +501,7 @@ package game.model.gameObject.components.weapon
                     spawnPoints.push(getSpawnVO(BulletID.PLASMA_1, bulletX3 + 10, bulletY3, 0, speed));
                     spawnPointsByPower.push(spawnPoints);
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
 
@@ -503,7 +509,7 @@ package game.model.gameObject.components.weapon
                 case PlayerWeaponID.ELECTRIC:
                     //common
                     bulletX1 = 2;
-                    speed =0.7;
+                    speed = ELECTRIC_SPEED;
 
                     var numShots: Number;
 
@@ -526,17 +532,40 @@ package game.model.gameObject.components.weapon
                         spawnPointsByPower.push(spawnPoints);
 
 
-                        trace("_MO_", this, "MAIN-GUN:", i, "num shots", numShots);
                         shootIntervalByPower.push(1000 / numShots);
                     }
 
-                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SEQUENTIAL, shootIntervalByPower, spawnPointsByPower);
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SEQUENTIAL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
                     break;
                 //endregion
+
+                //region ========= ROCKET LAUNCHER =========
+                case PlayerWeaponID.ROCKET_LAUNCHER:
+                    //common
+                    bulletX1 = 9;
+                    speed = ROCKET_SPEED;
+
+                    var numShots: Number = 50;
+
+                    for (var i: int = 0; i < 10; i++)
+                    {
+                        spawnPoints = new Vector.<BulletSpawnVO>();
+                        spawnPoints.push(getSpawnVO(BulletID.ROCKET_1, -bulletX1, bulletY1, 0, speed));
+                        spawnPointsByPower.push(spawnPoints);
+
+
+                        shootIntervalByPower.push(1000 / numShots);
+                    }
+
+                    weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SINGLE, WeaponGroup.CHARGE, shootIntervalByPower, spawnPointsByPower);
+                    break;
+
                 default:
                     throw new Error("No Player Weapon for id " + aWeaponID);
 
             }
+
+            //endregion
 
             return weaponVO;
         }
@@ -551,7 +580,7 @@ package game.model.gameObject.components.weapon
                 case EnemyWeaponID.LASER:
                     spawnPoints.push(new BulletSpawnVO(bulletDefs.getBulletVO(bulletType), 8, 40, 0.6, 0));
                     spawnPoints.push(new BulletSpawnVO(bulletDefs.getBulletVO(bulletType), -8, 40, 0.6, 0));
-                    weaponVO = new WeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, aShootInterval, spawnPoints);
+                    weaponVO = new WeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.PARALEL, WeaponGroup.NORMAL, aShootInterval, spawnPoints);
                     break;
 
                 default:

@@ -21,6 +21,7 @@ package game.controller.playerControl
         private var _directionChangeSignal: DirectionChangeSignal;
         private var _positionChangeSignal: PositionChangeSignal;
         private var _actionSwitchSignal: ActionSwitchSignal;
+        private var _actionTriggerSignal: ActionTriggerSignal;
 
         private var _mouseDownPoint: Point;
         private var _stage: Stage;
@@ -36,6 +37,7 @@ package game.controller.playerControl
             _directionChangeSignal = new DirectionChangeSignal();
             _positionChangeSignal = new PositionChangeSignal();
             _actionSwitchSignal = new ActionSwitchSignal();
+            _actionTriggerSignal = new ActionTriggerSignal();
 
             _stage = aViewModel.stage;
             _stage.addEventListener(TouchEvent.TOUCH, touchHandler);
@@ -75,6 +77,11 @@ package game.controller.playerControl
             return _actionSwitchSignal;
         }
 
+        public function get actionTriggerSignal(): ActionTriggerSignal
+        {
+            return _actionTriggerSignal;
+        }
+
         public function destroy(): void
         {
             _stage.addEventListener(TouchEvent.TOUCH, touchHandler);
@@ -89,7 +96,9 @@ package game.controller.playerControl
             {
                 case TouchPhase.BEGAN:
                     _mouseDownPoint = new Point(touch.globalX, touch.globalY);
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
+                    _actionTriggerSignal.dispatch(_playerID, PlayerActionID.CHARGE_FIRE);
+
                     break;
 
                 case TouchPhase.ENDED:
@@ -99,7 +108,7 @@ package game.controller.playerControl
                         var deltaY: Number = (touch.globalY - _mouseDownPoint.y) / viewModel.gameHeight * DISTANCE_TO_SPEED;
                         _directionChangeSignal.dispatch(0, deltaX, deltaY)
                     }
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, false);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, false);
                     break;
 
                 case TouchPhase.HOVER:

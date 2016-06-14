@@ -9,7 +9,7 @@ package game.controller.playerControl
     {
         public function ActionTriggerSignal()
         {
-            super(uint, Number, Number);
+            super(uint, uint);
         }
     }
 }

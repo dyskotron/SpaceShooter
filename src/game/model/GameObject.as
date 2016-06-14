@@ -7,6 +7,9 @@ package game.model
 
     public class GameObject implements ITarget
     {
+
+        private var _currentTime: int = 0;
+
         private var _bounds: Rectangle;
 
         private var _rotation: Number = 0;
@@ -90,6 +93,11 @@ package game.model
             _rotation = value;
         }
 
+        public function get currentTime(): int
+        {
+            return _currentTime;
+        }
+
         public function get gameObjectVO(): GameObjectVO
         {
             return _gameObjectVO;
@@ -102,8 +110,28 @@ package game.model
 
         //endregion
 
+        public function getAngleFromCoords(aX: Number, aY: Number): Number
+        {
+            return Math.atan2(x - aX, y - aY);
+        }
+
+        public function getAngleDelta(aX: Number, aY: Number, aAngle: Number): Number
+        {
+            var angleDelta = (Math.PI * 2 + (Math.atan2(x - aX, y - aY) - aAngle)) % (Math.PI * 2);
+            if (angleDelta > Math.PI)
+                angleDelta = angleDelta - Math.PI * 2;
+
+            return angleDelta;
+        }
+
+        public function getDistanceSq(aX: Number, aY: Number): Number
+        {
+            return Math.pow(x - aX, 2) + Math.pow(y - aY, 2);
+        }
+
         public function update(aDeltaTime: int): void
         {
+            _currentTime += aDeltaTime;
             _bounds.x = _x - _bounds.width / 2;
             _bounds.y = _y - _bounds.height / 2;
         }

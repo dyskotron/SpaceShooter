@@ -1,7 +1,9 @@
 package game.model.gameObject.components.weapon
 {
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.generator.IGeneratorComponent;
+    import game.model.gameObject.fsm.ITargetProvider;
 
     import org.osflash.signals.Signal;
 
@@ -13,11 +15,11 @@ package game.model.gameObject.components.weapon
         private var _generator: IGeneratorComponent;
         private var _playerShipGO: PlayerShipGO;
 
-        public function PlayerWeaponComponent(aPlayerShipGO: PlayerShipGO, aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
+        public function PlayerWeaponComponent(aPlayerShipGO: PlayerShipGO, aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aTargetProvider: ITargetProvider, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
         {
-            super(aShootSignal, aWeaponModel, aOwnerID, aX, aY);
+            super(aShootSignal, aWeaponModel, aOwnerID, aTargetProvider, aX, aY);
 
-            playerWeaponModel = PlayerWeaponModel(_weaponModel);
+            playerWeaponModel = PlayerWeaponModel(aWeaponModel);
             playerWeaponModel.setPower(_aPower);
             _generator = aPlayerShipGO.generatorComponent;
             _playerShipGO = aPlayerShipGO;
@@ -50,16 +52,17 @@ package game.model.gameObject.components.weapon
             endShoot();
         }
 
-        override protected function shoot(aX: Number, aY: Number): void
+        override public function shoot(aX: Number, aY: Number): void
         {
-            if (_generator.deplete(playerWeaponModel.energyCost))
+            if (_generator.percentLeft > 30 || weaponModel.componentType == ComponentType.MAIN_GUN)
             {
-                super.shoot(aX, aY);
+                if (_generator.deplete(playerWeaponModel.energyCost))
+                    super.shoot(aX, aY);
             }
-            else
-            {
-                _playerShipGO.endShoot();
-            }
+
+            /**
+             * if deplete == primary
+             */
         }
     }
 }

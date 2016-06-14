@@ -17,6 +17,8 @@ package game.model.gameObject.constants
         public static const ELECTRIC_1: uint = 30;
         public static const ELECTRIC_2: uint = 31;
 
+        public static const ROCKET_1: uint = 40;
+
 
         public static const FREEZE: uint = 4;
     }

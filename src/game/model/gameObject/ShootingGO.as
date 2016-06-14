@@ -3,16 +3,23 @@ package game.model.gameObject
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.weapon.ComponentSlot;
     import game.model.gameObject.components.weapon.IWeaponComponent;
+    import game.model.gameObject.components.weapon.WeaponModel;
+    import game.model.gameObject.components.weapon.enums.WeaponGroup;
+    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.ShootingVO;
 
     import org.osflash.signals.Signal;
 
     public class ShootingGO extends HittableGO
     {
+        protected var _targetProvider: ITargetProvider;
+
         protected var _weapons: Vector.<IWeaponComponent>;
+        private var _chargeWeapons: Vector.<IWeaponComponent>;
 
         private var _shootSignal: Signal;
         private var _shootingVO: ShootingVO;
+        private var _isShooting: Boolean;
 
         /**
          * Base class for all game objects which are able to shoot
@@ -22,12 +29,13 @@ package game.model.gameObject
          * @param aSpeedX
          * @param aSpeedY
          */
-        public function ShootingGO(aShootingVO: ShootingVO, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0)
+        public function ShootingGO(aShootingVO: ShootingVO, aTargetProvider: ITargetProvider, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0)
         {
             super(aShootingVO, aX, aY, aSpeedX, aSpeedY);
 
             _shootingVO = aShootingVO;
             _shootSignal = new Signal(Vector.<BulletGO>);
+            _targetProvider = aTargetProvider;
 
             mountComponents();
         }
@@ -35,6 +43,11 @@ package game.model.gameObject
         public function get shootSignal(): Signal
         {
             return _shootSignal;
+        }
+
+        public function get isShooting(): Boolean
+        {
+            return _isShooting;
         }
 
         override public function update(aDeltaTime: int): void
@@ -53,6 +66,8 @@ package game.model.gameObject
             {
                 _weapons[i].startShoot();
             }
+
+            _isShooting = true;
         }
 
         public function endShoot(): void
@@ -61,11 +76,22 @@ package game.model.gameObject
             {
                 _weapons[i].endShoot();
             }
+
+            _isShooting = false;
+        }
+
+        public function chargeShoot(): void
+        {
+            for (var i: int = 0; i < _chargeWeapons.length; i++)
+            {
+                _chargeWeapons[i].shoot(x, y);
+            }
         }
 
         protected function mountComponents(): void
         {
             _weapons = new Vector.<IWeaponComponent>();
+            _chargeWeapons = new Vector.<IWeaponComponent>();
 
             if (_shootingVO.componentSlots)
             {
@@ -76,8 +102,10 @@ package game.model.gameObject
                     weaponSlot = _shootingVO.componentSlots[i];
                     if (weaponSlot.isType(ComponentType.GUNS))
                     {
-                        if (weaponSlot.isType(ComponentType.GUNS))
+                        if (WeaponModel(weaponSlot.componentModel).weaponGroup == WeaponGroup.NORMAL)
                             _weapons.push(createWeapon(_shootSignal, weaponSlot));
+                        else if (WeaponModel(weaponSlot.componentModel).weaponGroup == WeaponGroup.CHARGE)
+                            _chargeWeapons.push(createWeapon(_shootSignal, weaponSlot));
                     }
                 }
             }
@@ -93,5 +121,6 @@ package game.model.gameObject
         {
             return null;
         }
+
     }
 }

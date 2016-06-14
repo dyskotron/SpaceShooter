@@ -15,8 +15,12 @@ package game.model
     import game.model.gameObject.components.weapon.IWeaponDefs;
     import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
     import game.model.gameObject.constants.BonusTypeID;
+    import game.model.gameObject.constants.BulletMode;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IPlayerShipDefs;
+    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.fsm.ITargetProvider;
+    import game.model.gameObject.fsm.TargetType;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -36,7 +40,7 @@ package game.model
 
     import starling.utils.MathUtil;
 
-    public class GameModel extends Actor implements IGameModel
+    public class GameModel extends Actor implements IGameModel, ITargetProvider
     {
         public static const MAX_PLAYERS: Number = 2;
         public static const SHIP_MOVE_BOUNDS: Number = 50;
@@ -88,6 +92,7 @@ package game.model
         private var _levelModel: ILevelModel;
 
         private var _playerBullets: Vector.<BulletGO>;
+        private var _playerAoeBullets: Vector.<BulletGO>;
         private var _enemyBullets: Vector.<BulletGO>;
         private var _enemies: Vector.<EnemyGO>;
         private var _bonuses: Vector.<BonusGO>;
@@ -101,6 +106,7 @@ package game.model
         private var _bulletSpawnedSignal: Signal;
 
         private var _gameObjectRemovedSignal: Signal;
+        private var _aoeDamageTriggeredSignal: Signal;
         private var _gameObjectHitSignal: Signal;
 
         private var _players: Vector.<PlayerShipGO>;
@@ -186,15 +192,14 @@ package game.model
             return _gameObjectHitSignal;
         }
 
+        public function get aoeDamageTriggeredSignal(): Signal
+        {
+            return _aoeDamageTriggeredSignal;
+        }
+
         //endregion
 
         //region ---------------------------------- PUBLIC METHODS ---------------------------------
-
-
-        public function getPlayerModelByID(aID: uint = 0): PlayerShipGO
-        {
-            return _players[aID];
-        }
 
         public function init(): void
         {
@@ -207,10 +212,12 @@ package game.model
 
             _gameObjectRemovedSignal = new Signal(GameObject);
             _gameObjectHitSignal = new Signal(GameObject, int);
+            _aoeDamageTriggeredSignal = new Signal(BulletGO);
 
             _players = new Vector.<PlayerShipGO>();
             _enemies = new Vector.<EnemyGO>();
             _playerBullets = new Vector.<BulletGO>();
+            _playerAoeBullets = new Vector.<BulletGO>();
             _enemyBullets = new Vector.<BulletGO>();
             _bonuses = new Vector.<BonusGO>();
             _obstacles = new Vector.<ObstacleGO>();
@@ -222,7 +229,7 @@ package game.model
 
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild));
+                player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild), this);
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
                 player.playerDiedSignal.add(playerDiedHandler);
@@ -237,6 +244,9 @@ package game.model
             touchController.actionSwitchSignal.add(actionSwitchHandler);
             keyController.actionSwitchSignal.add(actionSwitchHandler);
 
+            touchController.actionTriggerSignal.add(actionTriggerHandler);
+            keyController.actionTriggerSignal.add(actionTriggerHandler);
+
             _levelModel = levelProvider.getLevel(0);
             _levelModel.levelEventSignal.add(levelEventHandler);
 
@@ -248,8 +258,97 @@ package game.model
             trace(this, "========> MODEL - DESTROYED");
         }
 
+        public function getPlayerModelByID(aID: uint = 0): PlayerShipGO
+        {
+            return _players[aID];
+        }
+
+        public function getTarget(aTargetType: uint, aX: Number = 0, aY: Number = 0, aOrigAngle: Number = 0): ITarget
+        {
+            switch (aTargetType)
+            {
+                case TargetType.PLAYER:
+                    return getRandomPlayer();
+                    break;
+                case TargetType.EASIEST:
+                    var i: int = 0;
+                    var currDelta: Number;
+                    var smallestDelta: Number = Math.PI;
+                    var target: ITarget;
+                    for (i = 0; i < _enemies.length; i++)
+                    {
+                        currDelta = Math.abs(_enemies[i].getAngleDelta(aX, aY, aOrigAngle));
+                        if (smallestDelta > currDelta)
+                        {
+                            smallestDelta = currDelta;
+                            target = _enemies[i];
+                        }
+                    }
+                    for (i = 0; i < _obstacles.length; i++)
+                    {
+                        currDelta = Math.abs(_obstacles[i].getAngleDelta(aX, aY, aOrigAngle));
+                        if (smallestDelta > currDelta)
+                        {
+                            smallestDelta = currDelta;
+                            target = _obstacles[i];
+                        }
+                    }
+                    return target;
+                    break;
+                case TargetType.OLDEST:
+                    if (_enemies.length > 0)
+                        return _enemies[0];
+                    if (_obstacles.length > 0)
+                        return _obstacles[0];
+                    break;
+                case TargetType.NEWEST:
+                    if (_enemies.length > 0)
+                        return _enemies[_enemies.length - 1];
+                    if (_obstacles.length > 0)
+                        return _obstacles[_obstacles.length - 1];
+                    break;
+                case TargetType.RANDOM:
+                    if (_enemies.length > 0)
+                        return _enemies[Math.floor(Math.random() * _enemies.length)];
+                    if (_obstacles.length > 0)
+                        return _obstacles[Math.floor(Math.random() * _obstacles.length)];
+                    break;
+                case TargetType.BIGGEST_HP:
+                    var i: int = 0;
+                    var currHP: Number;
+                    var smallestHP: Number = Math.PI;
+                    var target: ITarget;
+                    for (i = 0; i < _enemies.length; i++)
+                    {
+                        currHP = _enemies[i].hp;
+                        if (smallestHP > currHP)
+                        {
+                            smallestHP = currHP;
+                            target = _enemies[i];
+                        }
+                    }
+                    for (i = 0; i < _obstacles.length; i++)
+                    {
+                        currHP = _obstacles[i].hp;
+                        if (smallestHP > currHP)
+                        {
+                            smallestHP = currHP;
+                            target = _obstacles[i];
+                        }
+                    }
+                    return target;
+                    break;
+            }
+
+            return null;
+        }
+
         //endregion
 
+        private function getRandomPlayer(): PlayerShipGO
+        {
+            return _players[Math.floor(Math.random() * _players.length)];
+        }
 
         private function endGame(aFinished: Boolean): void
         {
@@ -258,8 +357,12 @@ package game.model
 
             touchController.positionChangeSignal.remove(changePlayerPosition);
             keyController.directionChangeSignal.remove(changePlayerDirection);
+
             touchController.actionSwitchSignal.remove(actionSwitchHandler);
             keyController.actionSwitchSignal.remove(actionSwitchHandler);
+
+            touchController.actionTriggerSignal.remove(actionTriggerHandler);
+            keyController.actionTriggerSignal.remove(actionTriggerHandler);
 
             for (var i: int = 0; i < _players.length; i++)
             {
@@ -376,16 +479,26 @@ package game.model
                         if (enemyGO.bounds.contains(playerBulletGO.x, playerBulletGO.y) && playerBulletGO.canHit(enemyGO))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-                            //decrease hp
-                            removeBullet = playerBulletGO.hitObject(enemyGO);
-                            _gameObjectHitSignal.dispatch(enemyGO, 0);
-
-                            //remove enemy if dead
-                            if (enemyGO.hp <= 0)
+                            if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
                             {
-                                _enemies.splice(iC, 1);
-                                _gameObjectRemovedSignal.dispatch(enemyGO);
-                                _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                                _playerAoeBullets.push(playerBulletGO);
+                                _aoeDamageTriggeredSignal.dispatch(playerBulletGO);
+                                removeBullet = true;
+                            }
+                            else
+                            {
+                                //decrease hp
+
+                                removeBullet = playerBulletGO.hitObject(enemyGO);
+                                _gameObjectHitSignal.dispatch(enemyGO, 0);
+
+                                //remove enemy if dead
+                                if (enemyGO.hp <= 0)
+                                {
+                                    _enemies.splice(iC, 1);
+                                    _gameObjectRemovedSignal.dispatch(enemyGO);
+                                    _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                                }
                             }
 
                             //remove bullet & stop checking rest of enemies vector
@@ -407,16 +520,27 @@ package game.model
                         if (obstacleGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-                            //decrease hp
-                            removeBullet = playerBulletGO.hitObject(obstacleGO);
-                            _gameObjectHitSignal.dispatch(obstacleGO, 0);
 
-                            //remove obstacle if dead
-                            if (obstacleGO.hp <= 0)
+
+                            if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
                             {
-                                _obstacles.splice(iC, 1);
-                                _gameObjectRemovedSignal.dispatch(obstacleGO);
-                                _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
+                                _playerAoeBullets.push(playerBulletGO);
+                                _aoeDamageTriggeredSignal.dispatch(playerBulletGO);
+                                removeBullet = true;
+                            }
+                            else
+                            {
+                                //decrease hp
+                                removeBullet = playerBulletGO.hitObject(obstacleGO);
+                                _gameObjectHitSignal.dispatch(obstacleGO, 0);
+
+                                //remove obstacle if dead
+                                if (obstacleGO.hp <= 0)
+                                {
+                                    _obstacles.splice(iC, 1);
+                                    _gameObjectRemovedSignal.dispatch(obstacleGO);
+                                    _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
+                                }
                             }
 
                             //remove bullet & stop checking rest of obstacles vector
@@ -438,6 +562,69 @@ package game.model
             }
 
             //endregion
+
+            //region UPDATE PLAYER AOE
+            for (i = _playerAoeBullets.length - 1; i >= 0; i--)
+            {
+                playerBulletGO = _playerAoeBullets[i];
+                playerBulletGO.update(aDeltaTime);
+
+                //enemy collisions
+                for (iC = _enemies.length - 1; iC >= 0; iC--)
+                {
+                    enemyGO = _enemies[iC];
+                    removeBullet = false;
+
+                    if (Math.pow(playerBulletGO.x - enemyGO.x, 2) + Math.pow(playerBulletGO.y - enemyGO.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
+                    {
+                        //decrease hp
+                        playerBulletGO.hitObject(enemyGO);
+                        _gameObjectHitSignal.dispatch(enemyGO, 0);
+
+                        //remove enemy if dead
+                        if (enemyGO.hp <= 0)
+                        {
+                            _enemies.splice(iC, 1);
+                            _gameObjectRemovedSignal.dispatch(enemyGO);
+                            _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                        }
+
+
+                    }
+                }
+
+                //obstacle collisions
+                for (iC = _obstacles.length - 1; iC >= 0; iC--)
+                {
+                    obstacleGO = _obstacles[iC];
+                    removeBullet = false;
+
+                    if (Math.pow(playerBulletGO.x - obstacleGO.x, 2) + Math.pow(playerBulletGO.y - obstacleGO.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
+                    {
+                        //decrease hp
+                        removeBullet = playerBulletGO.hitObject(obstacleGO);
+                        _gameObjectHitSignal.dispatch(obstacleGO, 0);
+
+                        //remove obstacle if dead
+                        if (obstacleGO.hp <= 0)
+                        {
+                            _obstacles.splice(iC, 1);
+                            _gameObjectRemovedSignal.dispatch(obstacleGO);
+                            _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
+                        }
+                    }
+                }
+
+                //remove aoe bullet
+                _playerAoeBullets.splice(i, 1);
+                //todo aoe is removing itself from stage, introduce removedSignal for gameobjects instead
+                //e.g.: playerBulletGO.removedSignal.add(some method wich will remove aoe GO and dispatch _gameObjectRemovedSignal)
+                //_gameObjectRemovedSignal.dispatch(playerBulletGO);
+
+            }
+
+            //endregion
+
 
             //region UPDATE BONUSES
             for (i = _bonuses.length - 1; i >= 0; i--)
@@ -542,7 +729,7 @@ package game.model
                 case LevelEvent.ID_SPAWN_ENEMY:
                     var enemyEvent: SpawnEnemyEvent = SpawnEnemyEvent(aLevelEvent);
                     var enemyVO: EnemyVO = enemyEvent.aEnemyVO;
-                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, enemyEvent.x, enemyEvent.y, getRandomPlayer());
+                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, this, enemyEvent.x, enemyEvent.y, getRandomPlayer());
                     enemy.shootSignal.add(enemyShootHandler);
                     _enemies.push(enemy);
                     _enemySpawnedSignal.dispatch(enemy);
@@ -572,11 +759,6 @@ package game.model
                     endGame(true);
                     break;
             }
-        }
-
-        private function getRandomPlayer(): PlayerShipGO
-        {
-            return _players[Math.floor(Math.random() * _players.length)];
         }
 
         private function playerShootHandler(aBullets: Vector.<BulletGO>): void
@@ -620,30 +802,43 @@ package game.model
 
             switch (aActionID)
             {
-                case PlayerActionID.SHOOT:
+                case PlayerActionID.PRIMARY_FIRE:
                     aValue ? playerGO.startShoot() : playerGO.endShoot();
                     break;
+            }
+        }
+
+        private function actionTriggerHandler(aPlayerID: uint, aActionID: uint): void
+        {
+            aPlayerID = Math.min(aPlayerID, _numPLayers - 1);
+
+            var playerGO: PlayerShipGO = _players[aPlayerID];
+
+            switch (aActionID)
+            {
+                case PlayerActionID.PRIMARY_FIRE:
+                    playerGO.isShooting ? playerGO.endShoot() : playerGO.startShoot();
+                    break;
+
+                case PlayerActionID.CHARGE_FIRE:
+                    playerGO.chargeShoot();
+                    break;
+
 
                 case PlayerActionID.POWER_UP:
-                    if (aValue)
-                        playerGO.getBonus(BonusTypeID.BONUS_WEAPON);
+                    playerGO.getBonus(BonusTypeID.BONUS_WEAPON);
                     break;
-
                 case PlayerActionID.POWER_DOWN:
-                    if (aValue)
-                        playerGO.powerDown();
+                    playerGO.powerDown();
                     break;
                 case PlayerActionID.WEAPON_LASER:
-                    if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.LASER));
+                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.LASER));
                     break;
                 case PlayerActionID.WEAPON_PLASMA:
-                    if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.PLASMA));
+                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.PLASMA));
                     break;
                 case PlayerActionID.WEAPON_ELECTRIC:
-                    if (aValue)
-                        playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.ELECTRIC));
+                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.ELECTRIC));
                     break;
             }
         }

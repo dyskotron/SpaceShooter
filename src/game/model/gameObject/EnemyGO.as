@@ -13,6 +13,7 @@ package game.model.gameObject
     import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.fsm.GameObjectFSM;
     import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.EnemyVO;
 
@@ -24,9 +25,9 @@ package game.model.gameObject
 
         private var _fsm: GameObjectFSM;
 
-        public function EnemyGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aX: Number, aY: Number, aTarget: ITarget): void
+        public function EnemyGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aTargetProvider: ITargetProvider, aX: Number, aY: Number, aTarget: ITarget): void
         {
-            super(aEnemyVO, aX, aY, 0, 0);
+            super(aEnemyVO, aTargetProvider, aX, aY, 0, 0);
 
             _enemyVO = aEnemyVO;
 
@@ -55,7 +56,7 @@ package game.model.gameObject
 
         override protected function createWeapon(aShootSignal: Signal, aComponentSlot: ComponentSlot): IWeaponComponent
         {
-            return new EnemyWeaponComponent(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, aComponentSlot.x, aComponentSlot.y);
+            return new EnemyWeaponComponent(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, _targetProvider, aComponentSlot.x, aComponentSlot.y);
         }
 
     }

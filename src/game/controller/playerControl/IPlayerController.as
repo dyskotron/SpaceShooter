@@ -11,5 +11,7 @@ package game.controller.playerControl
         function get positionChangeSignal(): PositionChangeSignal;
 
         function get actionSwitchSignal(): ActionSwitchSignal;
+
+        function get actionTriggerSignal(): ActionTriggerSignal;
     }
 }

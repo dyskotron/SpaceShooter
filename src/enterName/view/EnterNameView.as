@@ -66,6 +66,8 @@ package enterName.view
 
             _button = new Button();
             _button.label = "Continue ->";
+            _button.width = 300;
+            _button.height = 100;
             _button.validate();
             _button.x = (aViewModel.stageWidth - _button.width) / 2;
             _button.y = aViewModel.stageHeight - 100;

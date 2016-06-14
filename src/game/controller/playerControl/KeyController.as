@@ -19,6 +19,7 @@ package game.controller.playerControl
         private var _directionChangeSignal: DirectionChangeSignal;
         private var _positionChangeSignal: PositionChangeSignal;
         private var _actionSwitchSignal: ActionSwitchSignal;
+        private var _actionTriggerSignal: ActionTriggerSignal;
 
         private var _stage: Stage;
         private var _enabled: Boolean;
@@ -40,6 +41,7 @@ package game.controller.playerControl
             _directionChangeSignal = new DirectionChangeSignal();
             _positionChangeSignal = new PositionChangeSignal();
             _actionSwitchSignal = new ActionSwitchSignal();
+            _actionTriggerSignal = new ActionTriggerSignal();
 
             _keysDown = new Dictionary();
 
@@ -89,6 +91,11 @@ package game.controller.playerControl
             return _actionSwitchSignal;
         }
 
+        public function get actionTriggerSignal(): ActionTriggerSignal
+        {
+            return _actionTriggerSignal;
+        }
+
         public function destroy(): void
         {
             removeListeners();
@@ -117,25 +124,18 @@ package game.controller.playerControl
             switch (aEvent.keyCode)
             {
                 case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
-                    break;
-
-                case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
-                    break;
-
-                case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, true);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, true);
+                    _actionTriggerSignal.dispatch(_playerID, PlayerActionID.CHARGE_FIRE);
                     break;
 
                 case Keyboard.NUMBER_1:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.WEAPON_ELECTRIC, true);
+                    _actionTriggerSignal.dispatch(_playerID, PlayerActionID.WEAPON_ELECTRIC);
                     break;
                 case Keyboard.NUMBER_2:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.WEAPON_LASER, true);
+                    _actionTriggerSignal.dispatch(_playerID, PlayerActionID.WEAPON_LASER);
                     break;
                 case Keyboard.NUMBER_3:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.WEAPON_PLASMA, true);
+                    _actionTriggerSignal.dispatch(_playerID, PlayerActionID.WEAPON_PLASMA);
                     break;
             }
 
@@ -144,11 +144,11 @@ package game.controller.playerControl
                 switch (aEvent.keyCode)
                 {
                     case Keyboard.Q:
-                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.POWER_UP, true);
+                        _actionTriggerSignal.dispatch(_playerID, PlayerActionID.POWER_UP);
                         break;
 
                     case Keyboard.A:
-                        _actionSwitchSignal.dispatch(_playerID, PlayerActionID.POWER_DOWN, true);
+                        _actionTriggerSignal.dispatch(_playerID, PlayerActionID.POWER_DOWN);
                         break;
                 }
             }
@@ -161,7 +161,7 @@ package game.controller.playerControl
             switch (aEvent.keyCode)
             {
                 case Keyboard.SPACE:
-                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.SHOOT, false);
+                    _actionSwitchSignal.dispatch(_playerID, PlayerActionID.PRIMARY_FIRE, false);
                     break;
             }
         }

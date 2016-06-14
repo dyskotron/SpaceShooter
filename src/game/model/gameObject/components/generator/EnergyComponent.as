@@ -11,7 +11,9 @@ package game.model.gameObject.components.generator
     {
         private var _energy: Number;
         private var _capacity: Number;
+        private var _isFull: Boolean;
         private var _rechargeSpeed: Number;
+        private var _percentLeft: int;
 
         /**
          * Maintain battery, energy consumption and recharging
@@ -22,6 +24,7 @@ package game.model.gameObject.components.generator
             trace("_MO_", this, "CREATED ENERGY COMPONENT", "aCapacity:", aCapacity, "aRechargeSpeed:", aRechargeSpeed);
             _energy = _capacity = aCapacity;
             _rechargeSpeed = aRechargeSpeed;
+            _percentLeft = 100;
         }
 
         public function update(aDeltaTime: int): void
@@ -39,10 +42,18 @@ package game.model.gameObject.components.generator
             return _capacity;
         }
 
+        public function get percentLeft(): int
+        {
+            return _percentLeft;
+        }
+
         public function recharge(aEnergyDelta: Number): void
         {
             _energy = Math.min(_energy + aEnergyDelta, _capacity);
+            _isFull = (_capacity == _energy);
+            _percentLeft = _energy / _capacity * 100;
         }
+
 
         public function deplete(aEnergyDelta: Number): Boolean
         {
@@ -50,7 +61,13 @@ package game.model.gameObject.components.generator
                 return false;
 
             _energy -= aEnergyDelta;
+            _percentLeft = _energy / _capacity * 100;
             return true;
+        }
+
+        public function isFull(): Boolean
+        {
+            return _isFull;
         }
 
 

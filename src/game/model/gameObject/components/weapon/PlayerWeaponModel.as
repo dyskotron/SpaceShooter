@@ -12,12 +12,12 @@ package game.model.gameObject.components.weapon
         private var _energyCost: Number;
 
 
-        public function PlayerWeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aShootInterval: Vector.<uint>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
+        public function PlayerWeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aWeaponGroup: uint, aShootInterval: Vector.<uint>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
         {
             _spawnPointsByPower = aSpawnPoints;
             _shootIntervalByPower = aShootInterval;
 
-            super(aComponentID, aComponentType, aWeaponType, aShootInterval[0], aSpawnPoints[0]);
+            super(aComponentID, aComponentType, aWeaponType, aWeaponGroup, aShootInterval[0], aSpawnPoints[0]);
         }
 
         public function get maxPower(): uint
@@ -43,19 +43,26 @@ package game.model.gameObject.components.weapon
 
             //count energy cost
             _energyCost = 0;
-            var i: int
+            var i: int;
             switch (weaponType)
             {
+
+                case WeaponType.SINGLE:
+                    _energyCost += spawnPoints[0].bulletVO.damage * spawnPoints[0].bulletVO.dmgToCost;
+                    break;
                 case WeaponType.PARALEL:
+                    //total cost
                     for (i = 0; i < spawnPoints.length; i++)
                     {
-                        _energyCost += spawnPoints[i].bulletVO.damage;
+                        _energyCost += spawnPoints[i].bulletVO.damage * spawnPoints[i].bulletVO.dmgToCost;
                     }
                     break;
+                case WeaponType.RANDOM:
                 case WeaponType.SEQUENTIAL:
+                    //find bullet with biggest cost
                     for (i = 0; i < spawnPoints.length; i++)
                     {
-                        _energyCost = Math.max(_energyCost, spawnPoints[i].bulletVO.damage);
+                        _energyCost = Math.max(_energyCost, spawnPoints[i].bulletVO.damage * spawnPoints[i].bulletVO.dmgToCost);
                     }
                     break;
             }

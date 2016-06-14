@@ -35,13 +35,14 @@ package game.model.gameObject.def
             var componentSlots: Vector.<ComponentSlot>;
             componentSlots = new Vector.<ComponentSlot>();
             componentSlots.push(new ComponentSlot(ComponentType.MAIN_SLOT, 0, 0, Math.PI, SlotDirection.CENTER));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -45, 0, Math.PI * 0.75, SlotDirection.LEFT));
-            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 45, 0, Math.PI * 1.25, SlotDirection.RIGHT));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 0, 0, Math.PI, SlotDirection.CENTER));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -45, 0, Math.PI, SlotDirection.LEFT));
+            componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 45, 0, Math.PI, SlotDirection.RIGHT));
             componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -30, 0, Math.PI, SlotDirection.LEFT));
             componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 30, 0, Math.PI, SlotDirection.RIGHT));
             componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, -15, 0, 0, SlotDirection.RIGHT));
             componentSlots.push(new ComponentSlot(ComponentType.SECONDARY_SLOT, 15, 0, 0, SlotDirection.LEFT));
-            componentSlots.push(new ComponentSlot(ComponentType.ROCKET, 0, 60));
+            componentSlots.push(new ComponentSlot(ComponentType.CHARGE_GUN, 0, 60));
 
             return new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, componentSlots, 150, 99, 75);
         }

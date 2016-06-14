@@ -20,6 +20,7 @@ package game.model.gameObject
     import game.model.gameObject.components.weapon.PlayerWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.constants.BonusTypeID;
+    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.PlayerShipVO;
 
     import org.osflash.signals.Signal;
@@ -47,15 +48,13 @@ package game.model.gameObject
         private var _changeStateSignal: Signal;
         private var _playerDiedSignal: Signal;
 
-        private var _shouldBeShooting: Boolean;
-
         //stats shown on gui
         private var _state: uint;
         private var _lives: int = 3;
         private var _score: Number = 0;
         private var _generatorComponent: IGeneratorComponent;
 
-        public function PlayerShipGO(aPLayerID: uint, aPlayerShipVO: PlayerShipVO): void
+        public function PlayerShipGO(aPLayerID: uint, aPlayerShipVO: PlayerShipVO, aTargetProvider: ITargetProvider): void
         {
             _playerID = aPLayerID;
             _playerShipVO = aPlayerShipVO;
@@ -63,7 +62,7 @@ package game.model.gameObject
             _changeStateSignal = new Signal(PlayerShipGO);
             _playerDiedSignal = new Signal(uint);
 
-            super(aPlayerShipVO, 0, 0, 0, 0);
+            super(aPlayerShipVO, aTargetProvider, 0, 0, 0, 0);
         }
 
         //region ==================== SETTERS & GETTERS ====================
@@ -127,16 +126,19 @@ package game.model.gameObject
 
         override public function startShoot(): void
         {
-            _shouldBeShooting = true;
-
             if (state == STATE_ALIVE)
                 super.startShoot();
         }
 
         override public function endShoot(): void
         {
-            _shouldBeShooting = false;
             super.endShoot();
+        }
+
+        override public function chargeShoot(): void
+        {
+            if (state == STATE_ALIVE)
+                super.chargeShoot();
         }
 
         public function init(aX: Number, aY: Number): void
@@ -154,8 +156,8 @@ package game.model.gameObject
             x += speedX;
             y += speedY;
 
-            super.update(aDeltaTime);
             _generatorComponent.update(aDeltaTime);
+            super.update(aDeltaTime);
         }
 
         override public function hit(aDamage: Number): void
@@ -198,7 +200,7 @@ package game.model.gameObject
          */
         public function switchMainWeapon(aWeaponModel: WeaponModel): void
         {
-            _weapons[0] = new PlayerWeaponComponent(this, shootSignal, aWeaponModel, _playerID, PlayerWeaponComponent(_weapons[0]).x, PlayerWeaponComponent(_weapons[0]).y, PlayerWeaponComponent(_weapons[0]).power);
+            _weapons[0] = new PlayerWeaponComponent(this, shootSignal, aWeaponModel, _playerID, _targetProvider, PlayerWeaponComponent(_weapons[0]).x, PlayerWeaponComponent(_weapons[0]).y, PlayerWeaponComponent(_weapons[0]).power);
         }
 
         override public function destroy(): void
@@ -208,8 +210,6 @@ package game.model.gameObject
 
         override protected function mountComponents(): void
         {
-            _weapons = new Vector.<IWeaponComponent>();
-
             var capacity: Number = 0;
             var rechargeSpeed: Number = 0;
 
@@ -234,13 +234,12 @@ package game.model.gameObject
 
             _generatorComponent = new EnergyComponent(capacity, rechargeSpeed);
 
-
             super.mountComponents();
         }
 
         override protected function createWeapon(aShootSignal: Signal, aComponentSLot: ComponentSlot): IWeaponComponent
         {
-            return new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, aComponentSLot.x, aComponentSLot.y);
+            return new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, _targetProvider, aComponentSLot.x, aComponentSLot.y);
         }
 
         private function die(): void
@@ -276,7 +275,7 @@ package game.model.gameObject
             _changeStateSignal.dispatch(this);
             _statsUpdateSignal.dispatch();
 
-            if (_shouldBeShooting)
+            if (isShooting)
                 startShoot();
         }
 
