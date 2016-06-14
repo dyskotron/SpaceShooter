@@ -7,11 +7,13 @@ package game.model.gameObject.vo
         private var _aim: uint;
         private var _aoeDistance: Number;
         private var _dmgToCost: Number;
+        private var _aimTarget: uint;
 
-        public function BulletVO(aTypeID: uint, aMode: uint, aAim: uint, aDamage: int, aWidth: Number, aHeight: Number, aDmgToCost: Number = 1, aAoeDistance: Number = 0)
+        public function BulletVO(aTypeID: uint, aMode: uint, aAim: uint, aAimTarget: uint, aDamage: int, aWidth: Number, aHeight: Number, aDmgToCost: Number = 1, aAoeDistance: Number = 0)
         {
             _damage = aDamage;
             _aim = aAim;
+            _aimTarget = aAimTarget;
             _mode = aMode;
             _dmgToCost = aDmgToCost;
             _aoeDistance = aAoeDistance;
@@ -31,6 +33,11 @@ package game.model.gameObject.vo
         public function get aim(): uint
         {
             return _aim;
+        }
+
+        public function get aimTarget(): uint
+        {
+            return _aimTarget;
         }
 
         public function get dmgToCost(): Number

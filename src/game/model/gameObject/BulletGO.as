@@ -5,6 +5,7 @@ package game.model.gameObject
     import game.model.gameObject.components.weapon.enums.BulletAim;
     import game.model.gameObject.constants.BulletMode;
     import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.BulletVO;
 
     public class BulletGO extends SimpleMovingGO
@@ -15,6 +16,7 @@ package game.model.gameObject
         private var _bulletVO: BulletVO;
         private var _hittedGO: Dictionary;
         private var _target: ITarget;
+        private var _targetProvider: ITargetProvider;
         private var _isAutoAim: Boolean;
         private var _hitDistanceSq: Number = Math.pow(30, 2);
 
@@ -22,17 +24,15 @@ package game.model.gameObject
         private var _angle: Number = 0;
         private var _origAngle: Number = 0;
 
-        //tem vars for update method
+        //temp vars for update method
         private var _angleDelta: Number = 0;
-        private var _lastAimTime: int;
 
-        public function BulletGO(aOwnerID: int, aBulletVO: BulletVO, aX: Number, aY: Number, aSpeed: Number = 0, aAngle: Number = 0, aTarget: ITarget = null)
+        public function BulletGO(aOwnerID: int, aBulletVO: BulletVO, aX: Number, aY: Number, aSpeed: Number = 0, aAngle: Number = 0, aTargetProvider: ITargetProvider = null)
         {
             super(aBulletVO, aX, aY);
 
             _ownerID = aOwnerID;
             _bulletVO = aBulletVO;
-            _target = aTarget;
             _speed = aSpeed;
             _angle = _origAngle = aAngle;
 
@@ -44,16 +44,24 @@ package game.model.gameObject
                 _hittedGO = new Dictionary();
 
 
-            _isAutoAim = bulletVO.aim != BulletAim.NONE && _target != null;
-
-            if (_isAutoAim)
+            //AUTO AIM
+            if (bulletVO.aim != BulletAim.NONE)
             {
-                if (bulletVO.aim == BulletAim.ON_INIT)
+                _target = aTargetProvider.getTarget(bulletVO.aimTarget, aX, aY, _angle);
+                _targetProvider = aTargetProvider;
+                if (_target != null)
                 {
-                    _angle = _target.getAngleFromCoords(x, y);
-                    speedX = _speed * Math.sin(rotation);
-                    speedY = _speed * Math.cos(rotation);
-                    rotation = -_angle;
+
+
+                    if (bulletVO.aim == BulletAim.ON_INIT)
+                    {
+                        _angle = _target.getAngleFromCoords(x, y);
+                        speedX = _speed * Math.sin(rotation);
+                        speedY = _speed * Math.cos(rotation);
+                        rotation = -_angle;
+                    }
+
+                    _isAutoAim = true;
                 }
             }
         }
@@ -75,11 +83,11 @@ package game.model.gameObject
                 if (_target.getDistanceSq(x, y) < _hitDistanceSq)
                     _isAutoAim = false;
 
-                if (bulletVO.aim == BulletAim.ON_UPDATE || bulletVO.aim == BulletAim.ROUGH)
+                else if (bulletVO.aim == BulletAim.ON_UPDATE)
                 {
                     _angleDelta = _target.getAngleDelta(x, y, _origAngle);
 
-                    if (Math.abs(_angleDelta) < Math.PI * 0.5)
+                    if (Math.abs(_angleDelta) < Math.PI * 0.3)
                     {
                         _angle = _origAngle + _angleDelta;
 
@@ -90,12 +98,16 @@ package game.model.gameObject
                     else
                     {
                         _isAutoAim = false;
-                        //or get new target
                     }
 
                 }
 
-                //if we turned off autoaim get new target
+                if (_isAutoAim == false)
+                {
+                    _target = _targetProvider.getTarget(bulletVO.aimTarget, x, y, _origAngle);
+                    if (_target != null && Math.abs(_target.getAngleDelta(x, y, _origAngle)) < Math.PI * 0.3)
+                        _isAutoAim = true;
+                }
 
             }
 

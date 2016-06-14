@@ -4,7 +4,6 @@ package game.model.gameObject.components.weapon
     import game.model.gameObject.components.weapon.enums.WeaponType;
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.fsm.ITargetProvider;
-    import game.model.gameObject.fsm.TargetType;
 
     import org.osflash.signals.Signal;
 
@@ -87,22 +86,19 @@ package game.model.gameObject.components.weapon
             {
                 case WeaponType.SINGLE:
                     spawnPoint = _weaponModel.spawnPoints[0];
-                    target = _targetProvider.getTarget(TargetType.EASIEST, aX, aY, spawnPoint.angle);
-                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, target));
+                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, _targetProvider));
                     break;
                 case WeaponType.PARALEL:
                     for (var i: int = 0; i < _weaponModel.spawnPoints.length; i++)
                     {
                         spawnPoint = _weaponModel.spawnPoints[i];
-                        target = _targetProvider.getTarget(TargetType.EASIEST, aX, aY, spawnPoint.angle);
-                        bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, target));
+                        bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, _targetProvider));
                     }
                     break;
                 case WeaponType.SEQUENTIAL:
                     _spawnPointIndex = (_spawnPointIndex + 1) % _weaponModel.spawnPoints.length;
                     spawnPoint = _weaponModel.spawnPoints[_spawnPointIndex];
-                    target = _targetProvider.getTarget(TargetType.EASIEST, aX, aY, spawnPoint.angle);
-                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, target));
+                    bullets.push(new BulletGO(_ownerID, spawnPoint.bulletVO, aX + spawnPoint.x, aY + spawnPoint.y, spawnPoint.speed, spawnPoint.angle, _targetProvider));
                     break;
             }
 
