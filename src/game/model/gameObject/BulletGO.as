@@ -35,9 +35,9 @@ package game.model.gameObject
             _speed = aSpeed;
             _angle = aAngle;
 
-            physics.speedX = _speed * Math.sin(_angle);
-            physics.speedY = _speed * Math.cos(_angle);
-            physics.rotation = -_angle;
+            transform.speedX = _speed * Math.sin(_angle);
+            transform.speedY = _speed * Math.cos(_angle);
+            transform.rotation = -_angle;
 
             if (_bulletVO.mode == BulletMode.EACH_ONCE)
                 _hittedGO = new Dictionary();
@@ -52,10 +52,10 @@ package game.model.gameObject
                 {
                     if (bulletVO.autoAim.mode == AutoAimMode.ON_INIT)
                     {
-                        _angle = _target.getAngleFromCoords(physics.x, physics.y);
-                        physics.speedX = _speed * Math.sin(physics.rotation);
-                        physics.speedY = _speed * Math.cos(physics.rotation);
-                        physics.rotation = -_angle;
+                        _angle = _target.getAngleFromCoords(transform.x, transform.y);
+                        transform.speedX = _speed * Math.sin(transform.rotation);
+                        transform.speedY = _speed * Math.cos(transform.rotation);
+                        transform.rotation = -_angle;
                     }
 
                     _isAutoAim = true;
@@ -78,7 +78,7 @@ package game.model.gameObject
             //AUTO AIM
             if (_isAutoAim && bulletVO.autoAim.mode == AutoAimMode.ON_UPDATE)
             {
-                _angleDelta = _target.getAngleDelta(physics.x, physics.y, _angle);
+                _angleDelta = _target.getAngleDelta(transform.x, transform.y, _angle);
 
                 if (Math.abs(_angleDelta) < bulletVO.autoAim.maxTriggerAngle)
                 {
@@ -86,15 +86,15 @@ package game.model.gameObject
                     _maxDelta = bulletVO.autoAim.maxRotation * aDeltaTime / 1000;
                     _angle = _angle + MathUtil.clamp(_angleDelta, -_maxDelta, _maxDelta);
 
-                    physics.speedX = _speed * Math.sin(_angle);
-                    physics.speedY = _speed * Math.cos(_angle);
-                    physics.rotation = -_angle;
+                    transform.speedX = _speed * Math.sin(_angle);
+                    transform.speedY = _speed * Math.cos(_angle);
+                    transform.rotation = -_angle;
                 }
                 else
                 {
                     //NEW TARGET
-                    _target = _targetProvider.getTarget(bulletVO.aimTarget, physics.x, physics.y, _angle);
-                    if (_target == null || Math.abs(_target.getAngleDelta(physics.x, physics.y, _angle)) > bulletVO.autoAim.maxTriggerAngle)
+                    _target = _targetProvider.getTarget(bulletVO.aimTarget, transform.x, transform.y, _angle);
+                    if (_target == null || Math.abs(_target.getAngleDelta(transform.x, transform.y, _angle)) > bulletVO.autoAim.maxTriggerAngle)
                         _isAutoAim = false;
                 }
             }

@@ -50,7 +50,7 @@ package game.view
                 testQuad = _gameObjectQuads[gameObject];
                 testQuad.x = gameObject.bounds.x;
                 testQuad.y = gameObject.bounds.y;
-                testQuad.rotation = gameObject.physics.rotation;
+                testQuad.rotation = gameObject.transform.rotation;
             }
 
             /** UPDATE BULLETS **/

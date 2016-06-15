@@ -143,18 +143,18 @@ package game.model.gameObject
 
         public function init(aX: Number, aY: Number): void
         {
-            physics.x = controlX = aX;
-            physics.y = controlY = aY;
+            transform.x = controlX = aX;
+            transform.y = controlY = aY;
             _state = STATE_ALIVE;
         }
 
         override public function update(aDeltaTime: int): void
         {
-            physics.speedX = (controlX - physics.x) * MOVE_EASING;
-            physics.speedY = (controlY - physics.y) * MOVE_EASING;
+            transform.speedX = (controlX - transform.x) * MOVE_EASING;
+            transform.speedY = (controlY - transform.y) * MOVE_EASING;
 
-            physics.x += physics.speedX;
-            physics.y += physics.speedY;
+            transform.x += transform.speedX;
+            transform.y += transform.speedY;
 
             _generatorComponent.update(aDeltaTime);
             super.update(aDeltaTime);

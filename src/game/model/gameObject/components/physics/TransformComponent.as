@@ -4,7 +4,7 @@ package game.model.gameObject.components.physics
 
     import game.model.gameObject.fsm.ITarget;
 
-    public class BasePhysicsComponent implements IPhysicsComponent, ITarget
+    public class TransformComponent implements ITransformComponent, ITarget
     {
         private var _bounds: Rectangle;
         private var _y: Number;
@@ -13,7 +13,7 @@ package game.model.gameObject.components.physics
         private var _speedY: Number;
         private var _rotation: Number;
 
-        public function BasePhysicsComponent(aWidth: Number, aHeight: Number)
+        public function TransformComponent(aWidth: Number, aHeight: Number)
         {
             _bounds = new Rectangle(0, 0, aWidth, aHeight);
             _y = 0;

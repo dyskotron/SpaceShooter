@@ -2,7 +2,7 @@ package game.model.gameObject.components.physics
 {
     import flash.geom.Rectangle;
 
-    public interface IPhysicsComponent
+    public interface ITransformComponent
     {
         function get x(): Number;
 

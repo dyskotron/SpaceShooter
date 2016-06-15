@@ -54,7 +54,7 @@ package game.model.gameObject
         {
             for (var i: int = 0; i < _weapons.length; i++)
             {
-                _weapons[i].update(aDeltaTime, x, y);
+                _weapons[i].update(aDeltaTime, transform.x, transform.y);
             }
 
             super.update(aDeltaTime);
@@ -84,7 +84,7 @@ package game.model.gameObject
         {
             for (var i: int = 0; i < _chargeWeapons.length; i++)
             {
-                _chargeWeapons[i].shoot(x, y);
+                _chargeWeapons[i].shoot(transform.x, transform.y);
             }
         }
 

@@ -2,17 +2,15 @@ package game.model
 {
     import flash.geom.Rectangle;
 
-    import game.model.gameObject.components.physics.BasePhysicsComponent;
-    import game.model.gameObject.components.physics.IPhysicsComponent;
-    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.components.physics.TransformComponent;
     import game.model.gameObject.vo.GameObjectVO;
 
-    public class GameObject implements ITarget
+    public class GameObject
     {
 
         private var _currentTime: int = 0;
         private var _gameObjectVO: GameObjectVO;
-        private var _physics: IPhysicsComponent;
+        private var _transform: TransformComponent;
 
         /**
          * base class representing all game objects e.g. player ships enemies bullets etc
@@ -28,41 +26,19 @@ package game.model
             _gameObjectVO = aGameObjectVO;
 
             //todo: physics factory
-            _physics = new BasePhysicsComponent(_gameObjectVO.width, _gameObjectVO.height);
-            _physics.x = aX;
-            _physics.y = aY;
-            _physics.speedX = aSpeedX;
-            _physics.speedY = aSpeedY;
+            _transform = new TransformComponent(_gameObjectVO.width, _gameObjectVO.height);
+            _transform.x = aX;
+            _transform.y = aY;
+            _transform.speedX = aSpeedX;
+            _transform.speedY = aSpeedY;
         }
 
         //region ========================================= SETTERS & GETTERS  ==========================================
 
-        public function get physics(): IPhysicsComponent
+        public function get transform(): TransformComponent
         {
-            return _physics;
+            return _transform;
         }
-
-
-        public function get x(): Number
-        {
-            return _physics.x;
-        }
-
-        public function set x(value: Number): void
-        {
-            _physics.x = value;
-        }
-
-        public function get y(): Number
-        {
-            return _physics.y;
-        }
-
-        public function set y(value: Number): void
-        {
-            _physics.y = value;
-        }
-
 
         public function get currentTime(): int
         {
@@ -76,7 +52,7 @@ package game.model
 
         public function get bounds(): Rectangle
         {
-            return _physics.bounds;
+            return _transform.bounds;
         }
 
         //endregion
@@ -84,27 +60,12 @@ package game.model
         public function update(aDeltaTime: int): void
         {
             _currentTime += aDeltaTime;
-            _physics.update(aDeltaTime);
+            _transform.update(aDeltaTime);
         }
 
         public function destroy(): void
         {
 
-        }
-
-        public function getAngleFromCoords(aX: Number, aY: Number): Number
-        {
-            return ITarget(_physics).getAngleFromCoords(aX, aY);
-        }
-
-        public function getAngleDelta(aX: Number, aY: Number, aAngle: Number): Number
-        {
-            return ITarget(_physics).getAngleDelta(aX, aY, aAngle);
-        }
-
-        public function getDistanceSq(aX: Number, aY: Number): Number
-        {
-            return ITarget(_physics).getDistanceSq(aX, aY);
         }
     }
 }

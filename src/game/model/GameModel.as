@@ -268,7 +268,7 @@ package game.model
             switch (aTargetType)
             {
                 case TargetType.PLAYER:
-                    return getRandomPlayer();
+                    return getRandomPlayer().transform;
                     break;
                 case TargetType.EASIEST:
                     var i: int = 0;
@@ -277,41 +277,41 @@ package game.model
                     var target: ITarget;
                     for (i = 0; i < _enemies.length; i++)
                     {
-                        currDelta = Math.abs(_enemies[i].getAngleDelta(aX, aY, aOrigAngle));
+                        currDelta = Math.abs(_enemies[i].transform.getAngleDelta(aX, aY, aOrigAngle));
                         if (smallestDelta > currDelta)
                         {
                             smallestDelta = currDelta;
-                            target = _enemies[i];
+                            target = _enemies[i].transform;
                         }
                     }
                     for (i = 0; i < _obstacles.length; i++)
                     {
-                        currDelta = Math.abs(_obstacles[i].getAngleDelta(aX, aY, aOrigAngle));
+                        currDelta = Math.abs(_obstacles[i].transform.getAngleDelta(aX, aY, aOrigAngle));
                         if (smallestDelta > currDelta)
                         {
                             smallestDelta = currDelta;
-                            target = _obstacles[i];
+                            target = _obstacles[i].transform;
                         }
                     }
                     return target;
                     break;
                 case TargetType.OLDEST:
                     if (_enemies.length > 0)
-                        return _enemies[0];
+                        return _enemies[0].transform;
                     if (_obstacles.length > 0)
-                        return _obstacles[0];
+                        return _obstacles[0].transform;
                     break;
                 case TargetType.NEWEST:
                     if (_enemies.length > 0)
-                        return _enemies[_enemies.length - 1];
+                        return _enemies[_enemies.length - 1].transform;
                     if (_obstacles.length > 0)
-                        return _obstacles[_obstacles.length - 1];
+                        return _obstacles[_obstacles.length - 1].transform;
                     break;
                 case TargetType.RANDOM:
                     if (_enemies.length > 0)
-                        return _enemies[Math.floor(Math.random() * _enemies.length)];
+                        return _enemies[Math.floor(Math.random() * _enemies.length)].transform;
                     if (_obstacles.length > 0)
-                        return _obstacles[Math.floor(Math.random() * _obstacles.length)];
+                        return _obstacles[Math.floor(Math.random() * _obstacles.length)].transform;
                     break;
                 case TargetType.BIGGEST_HP:
                     var i: int = 0;
@@ -324,7 +324,7 @@ package game.model
                         if (smallestHP > currHP)
                         {
                             smallestHP = currHP;
-                            target = _enemies[i];
+                            target = _enemies[i].transform;
                         }
                     }
                     for (i = 0; i < _obstacles.length; i++)
@@ -333,7 +333,7 @@ package game.model
                         if (smallestHP > currHP)
                         {
                             smallestHP = currHP;
-                            target = _obstacles[i];
+                            target = _obstacles[i].transform;
                         }
                     }
                     return target;
@@ -410,7 +410,7 @@ package game.model
             {
                 enemyGO = _enemies[i];
 
-                if (_gameBounds.contains(_enemies[i].physics.x, _enemies[i].physics.y))
+                if (_gameBounds.contains(_enemies[i].transform.x, _enemies[i].transform.y))
                 {
                     enemyGO.update(aDeltaTime);
                 }
@@ -429,7 +429,7 @@ package game.model
                 enemyBulletGO.update(aDeltaTime);
 
                 //if bullet is in game area
-                if (_gameBounds.contains(enemyBulletGO.physics.x, enemyBulletGO.physics.y))
+                if (_gameBounds.contains(enemyBulletGO.transform.x, enemyBulletGO.transform.y))
                 {
                     if (!_immortal)
                     {
@@ -438,7 +438,7 @@ package game.model
                         {
                             playerGO = _players[iC];
 
-                            if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.contains(enemyBulletGO.physics.x, enemyBulletGO.physics.y))
+                            if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.contains(enemyBulletGO.transform.x, enemyBulletGO.transform.y))
                             {
                                 //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                                 //decrease hp
@@ -469,14 +469,14 @@ package game.model
                 playerBulletGO.update(aDeltaTime);
 
                 //if bullet is in game area
-                if (_gameBounds.contains(playerBulletGO.physics.x, playerBulletGO.physics.y))
+                if (_gameBounds.contains(playerBulletGO.transform.x, playerBulletGO.transform.y))
                 {
                     //enemy collisions
                     for (iC = _enemies.length - 1; iC >= 0; iC--)
                     {
                         enemyGO = _enemies[iC];
                         removeBullet = false;
-                        if (enemyGO.bounds.contains(playerBulletGO.physics.x, playerBulletGO.physics.y) && playerBulletGO.canHit(enemyGO))
+                        if (enemyGO.bounds.contains(playerBulletGO.transform.x, playerBulletGO.transform.y) && playerBulletGO.canHit(enemyGO))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                             if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
@@ -517,7 +517,7 @@ package game.model
                         obstacleGO = _obstacles[iC];
                         removeBullet = false;
 
-                        if (obstacleGO.bounds.contains(playerBulletGO.physics.x, playerBulletGO.physics.y))
+                        if (obstacleGO.bounds.contains(playerBulletGO.transform.x, playerBulletGO.transform.y))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
 
@@ -575,7 +575,7 @@ package game.model
                     enemyGO = _enemies[iC];
                     removeBullet = false;
 
-                    if (Math.pow(playerBulletGO.physics.x - enemyGO.physics.x, 2) + Math.pow(playerBulletGO.physics.y - enemyGO.physics.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
+                    if (Math.pow(playerBulletGO.transform.x - enemyGO.transform.x, 2) + Math.pow(playerBulletGO.transform.y - enemyGO.transform.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
                         playerBulletGO.hitObject(enemyGO);
@@ -599,7 +599,7 @@ package game.model
                     obstacleGO = _obstacles[iC];
                     removeBullet = false;
 
-                    if (Math.pow(playerBulletGO.physics.x - obstacleGO.physics.x, 2) + Math.pow(playerBulletGO.physics.y - obstacleGO.physics.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
+                    if (Math.pow(playerBulletGO.transform.x - obstacleGO.transform.x, 2) + Math.pow(playerBulletGO.transform.y - obstacleGO.transform.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
                         removeBullet = playerBulletGO.hitObject(obstacleGO);
@@ -633,7 +633,7 @@ package game.model
                 bonusGO.update(aDeltaTime);
 
                 //TODO: rectangle contains instead
-                if (_bonuses[i].physics.y > viewModel.stageHeight + OUTER_BOUNDS)
+                if (_bonuses[i].transform.y > viewModel.stageHeight + OUTER_BOUNDS)
                 {
                     _bonuses.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(bonusGO);
@@ -648,7 +648,7 @@ package game.model
                 obstacleGO.update(aDeltaTime);
 
                 //TODO: rectangle contains instead
-                if (_obstacles[i].physics.y > viewModel.stageHeight + OUTER_BOUNDS)
+                if (_obstacles[i].transform.y > viewModel.stageHeight + OUTER_BOUNDS)
                 {
                     _obstacles.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(obstacleGO);
@@ -729,7 +729,7 @@ package game.model
                 case LevelEvent.ID_SPAWN_ENEMY:
                     var enemyEvent: SpawnEnemyEvent = SpawnEnemyEvent(aLevelEvent);
                     var enemyVO: EnemyVO = enemyEvent.aEnemyVO;
-                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, this, enemyEvent.x, enemyEvent.y, getRandomPlayer());
+                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, this, enemyEvent.x, enemyEvent.y, getTarget(TargetType.PLAYER));
                     enemy.shootSignal.add(enemyShootHandler);
                     _enemies.push(enemy);
                     _enemySpawnedSignal.dispatch(enemy);

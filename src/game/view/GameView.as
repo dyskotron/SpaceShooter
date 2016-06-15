@@ -172,9 +172,9 @@ package game.view
             {
                 playerGO = _gameModel.getPlayerModelByID(i);
                 playerView = _playerViews[i];
-                playerView.x = playerGO.physics.x;
-                playerView.y = playerGO.physics.y;
-                playerView.rotation = playerGO.physics.rotation;
+                playerView.x = playerGO.transform.x;
+                playerView.y = playerGO.transform.y;
+                playerView.rotation = playerGO.transform.rotation;
             }
 
             /** UPDATE BULLETS **/
@@ -184,18 +184,18 @@ package game.view
             {
                 bulletModel = _gameModel.playerBullets[i];
                 bulletView = _gameObjectViews[bulletModel];
-                bulletView.x = bulletModel.physics.x;
-                bulletView.y = bulletModel.physics.y;
-                bulletView.rotation = bulletModel.physics.rotation;
+                bulletView.x = bulletModel.transform.x;
+                bulletView.y = bulletModel.transform.y;
+                bulletView.rotation = bulletModel.transform.rotation;
             }
 
             for (i = 0; i < _gameModel.enemyBullets.length; i++)
             {
                 bulletModel = _gameModel.enemyBullets[i];
                 bulletView = _gameObjectViews[bulletModel];
-                bulletView.x = bulletModel.physics.x;
-                bulletView.y = bulletModel.physics.y;
-                bulletView.rotation = bulletModel.physics.rotation;
+                bulletView.x = bulletModel.transform.x;
+                bulletView.y = bulletModel.transform.y;
+                bulletView.rotation = bulletModel.transform.rotation;
             }
 
             /** UPDATE ENEMIES **/
@@ -205,9 +205,9 @@ package game.view
             {
                 enemyModel = _gameModel.enemies[i];
                 enemyView = _gameObjectViews[enemyModel];
-                enemyView.x = enemyModel.physics.x;
-                enemyView.y = enemyModel.physics.y;
-                enemyView.rotation = enemyModel.physics.rotation;
+                enemyView.x = enemyModel.transform.x;
+                enemyView.y = enemyModel.transform.y;
+                enemyView.rotation = enemyModel.transform.rotation;
             }
 
             /** UPDATE BONUSES **/
@@ -217,9 +217,9 @@ package game.view
             {
                 bonusModel = _gameModel.bonuses[i];
                 bonusView = _gameObjectViews[bonusModel];
-                bonusView.x = bonusModel.physics.x;
-                bonusView.y = bonusModel.physics.y;
-                bonusView.rotation = bonusModel.physics.rotation;
+                bonusView.x = bonusModel.transform.x;
+                bonusView.y = bonusModel.transform.y;
+                bonusView.rotation = bonusModel.transform.rotation;
             }
 
             /** UPDATE OBSTACLES **/
@@ -229,9 +229,9 @@ package game.view
             {
                 obstacleModel = _gameModel.obstacles[i];
                 obstacleView = _gameObjectViews[obstacleModel];
-                obstacleView.x = obstacleModel.physics.x;
-                obstacleView.y = obstacleModel.physics.y;
-                obstacleView.rotation = obstacleModel.physics.rotation;
+                obstacleView.x = obstacleModel.transform.x;
+                obstacleView.y = obstacleModel.transform.y;
+                obstacleView.rotation = obstacleModel.transform.rotation;
             }
 
             /** BACKGROUND **/
@@ -357,8 +357,8 @@ package game.view
         private function aoeDamageTriggeredHandler(aBulletGO: BulletGO): void
         {
             var explosionAnim: ExplosionAnim = new ExplosionAnim(_textureProvider.getExplosionTextures(0), aBulletGO.bulletVO.aoeDistance * 2);
-            explosionAnim.x = aBulletGO.physics.x;
-            explosionAnim.y = aBulletGO.physics.y;
+            explosionAnim.x = aBulletGO.transform.x;
+            explosionAnim.y = aBulletGO.transform.y;
             _miscLayer.addChild(explosionAnim);
             screenShake(20);
         }
