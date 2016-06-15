@@ -14,7 +14,7 @@ package game.model.gameObject.fsm.state
 
         public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
-            aEnemyGO.speedY = aEnemyGO.speedX = 0;
+            aEnemyGO.physics.speedY = aEnemyGO.physics.speedX = 0;
         }
 
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint

@@ -16,22 +16,22 @@ package game.model.gameObject.fsm.state
         public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
             _startTime = aEnemyGO.currentTime;
-            _startX = aEnemyGO.x;
+            _startX = aEnemyGO.physics.x;
             _target = aTarget;
 
-            aEnemyGO.speedY = aEnemyGO.enemyVO.speed;
+            aEnemyGO.physics.speedY = aEnemyGO.enemyVO.speed;
         }
 
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
-            aEnemyGO.y += aEnemyGO.speedY * aDeltaTime / 1000;
+            aEnemyGO.physics.y += aEnemyGO.physics.speedY * aDeltaTime / 1000;
 
-            var oldX: Number = aEnemyGO.x;
-            aEnemyGO.x = _startX + Math.sin((_startTime - aEnemyGO.currentTime) / 500) * aEnemyGO.enemyVO.speed / 2;
+            var oldX: Number = aEnemyGO.physics.x;
+            aEnemyGO.physics.x = _startX + Math.sin((_startTime - aEnemyGO.currentTime) / 500) * aEnemyGO.enemyVO.speed / 2;
 
-            aEnemyGO.speedX = (oldX - aEnemyGO.x) / (aDeltaTime / 1000);
+            aEnemyGO.physics.speedX = (oldX - aEnemyGO.physics.x) / (aDeltaTime / 1000);
 
-            aEnemyGO.rotation = Math.atan2(aEnemyGO.speedX, aEnemyGO.speedY);
+            aEnemyGO.physics.rotation = Math.atan2(aEnemyGO.physics.speedX, aEnemyGO.physics.speedY);
 
             return GameObjectFSM.ACTION_NONE;
         }

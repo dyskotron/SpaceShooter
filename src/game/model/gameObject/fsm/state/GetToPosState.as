@@ -20,8 +20,8 @@ package game.model.gameObject.fsm.state
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
             var maxDelta: Number = aEnemyGO.enemyVO.speed * aDeltaTime / 1000;
-            var speedX: Number = _target.x - aEnemyGO.x;
-            var speedY: Number = _target.y - aEnemyGO.y;
+            var speedX: Number = _target.x - aEnemyGO.physics.x;
+            var speedY: Number = _target.y - aEnemyGO.physics.y;
             var distance: Number = Math.sqrt(speedX * speedX + speedY * speedY);
 
             if (distance > maxDelta)
@@ -29,13 +29,13 @@ package game.model.gameObject.fsm.state
                 speedX *= maxDelta / distance;
                 speedY *= maxDelta / distance;
             }
-            aEnemyGO.speedX = speedX;
-            aEnemyGO.speedY = speedY;
+            aEnemyGO.physics.speedX = speedX;
+            aEnemyGO.physics.speedY = speedY;
 
-            aEnemyGO.x += aEnemyGO.speedX;
-            aEnemyGO.y += aEnemyGO.speedY;
+            aEnemyGO.physics.x += aEnemyGO.physics.speedX;
+            aEnemyGO.physics.y += aEnemyGO.physics.speedY;
 
-            if (aEnemyGO.x == _target.x && aEnemyGO.y == _target.y)
+            if (aEnemyGO.physics.x == _target.x && aEnemyGO.physics.y == _target.y)
                 return GameObjectFSM.ACTION_NEXT;
 
             return GameObjectFSM.ACTION_NONE;

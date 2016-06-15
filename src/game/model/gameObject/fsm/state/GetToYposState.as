@@ -17,17 +17,17 @@ package game.model.gameObject.fsm.state
         public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
             _target ||= aTarget;
-            aEnemyGO.speedX = 0;
-            aEnemyGO.speedY = aEnemyGO.enemyVO.speed;
+            aEnemyGO.physics.speedX = 0;
+            aEnemyGO.physics.speedY = aEnemyGO.enemyVO.speed;
         }
 
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
             var maxDelta: Number = aEnemyGO.enemyVO.speed * aDeltaTime / 1000;
-            var delta: Number = MathUtil.clamp(_target.y - aEnemyGO.y, -maxDelta, maxDelta);
-            aEnemyGO.y += delta;
+            var delta: Number = MathUtil.clamp(_target.y - aEnemyGO.physics.y, -maxDelta, maxDelta);
+            aEnemyGO.physics.y += delta;
 
-            if (aEnemyGO.y == _target.y)
+            if (aEnemyGO.physics.y == _target.y)
                 return GameObjectFSM.ACTION_NEXT;
 
             return GameObjectFSM.ACTION_NONE;

@@ -19,7 +19,7 @@ package game.model.gameObject.fsm.state
         public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
         {
             _speed += aEnemyGO.enemyVO.speed * 0.1;
-            aEnemyGO.y += _speed * aDeltaTime / 1000;
+            aEnemyGO.physics.y += _speed * aDeltaTime / 1000;
 
             return GameObjectFSM.ACTION_NONE;
         }

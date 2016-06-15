@@ -42,6 +42,7 @@ package game.model
             return _physics;
         }
 
+
         public function get x(): Number
         {
             return _physics.x;
@@ -122,12 +123,12 @@ package game.model
 
         public function getAngleFromCoords(aX: Number, aY: Number): Number
         {
-            return Math.atan2(x - aX, y - aY);
+            return Math.atan2(physics.x - aX, physics.y - aY);
         }
 
         public function getAngleDelta(aX: Number, aY: Number, aAngle: Number): Number
         {
-            var angleDelta = (Math.PI * 2 + (Math.atan2(x - aX, y - aY) - aAngle)) % (Math.PI * 2);
+            var angleDelta = (Math.PI * 2 + (Math.atan2(physics.x - aX, physics.y - aY) - aAngle)) % (Math.PI * 2);
             if (angleDelta > Math.PI)
                 angleDelta = angleDelta - Math.PI * 2;
 
@@ -136,7 +137,7 @@ package game.model
 
         public function getDistanceSq(aX: Number, aY: Number): Number
         {
-            return Math.pow(x - aX, 2) + Math.pow(y - aY, 2);
+            return Math.pow(physics.x - aX, 2) + Math.pow(physics.y - aY, 2);
         }
     }
 }
