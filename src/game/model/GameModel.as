@@ -298,21 +298,21 @@ package game.model
                     break;
                 case TargetType.OLDEST:
                     if (_enemies.length > 0)
-                        target =  _enemies[0].transform;
+                        target = _enemies[0].transform;
                     else if (_obstacles.length > 0)
-                        target =  _obstacles[0].transform;
+                        target = _obstacles[0].transform;
                     break;
                 case TargetType.NEWEST:
                     if (_enemies.length > 0)
-                        target =  _enemies[_enemies.length - 1].transform;
+                        target = _enemies[_enemies.length - 1].transform;
                     else if (_obstacles.length > 0)
-                        target =  _obstacles[_obstacles.length - 1].transform;
+                        target = _obstacles[_obstacles.length - 1].transform;
                     break;
                 case TargetType.RANDOM:
                     if (_enemies.length > 0)
                         target = _enemies[Math.floor(Math.random() * _enemies.length)].transform;
                     else if (_obstacles.length > 0)
-                        target =  _obstacles[Math.floor(Math.random() * _obstacles.length)].transform;
+                        target = _obstacles[Math.floor(Math.random() * _obstacles.length)].transform;
                     break;
                 case TargetType.BIGGEST_HP:
                     var currHP: Number;
@@ -436,9 +436,8 @@ package game.model
                         {
                             playerGO = _players[iC];
 
-                            if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.contains(enemyBulletGO.transform.x, enemyBulletGO.transform.y))
+                            if (playerGO.state == PlayerShipGO.STATE_ALIVE && enemyBulletGO.collider.checkCollision(playerGO.collider))
                             {
-                                //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                                 //decrease hp
                                 playerGO.hit(enemyBulletGO.bulletVO.damage);
                                 _gameObjectHitSignal.dispatch(playerGO, 0);
@@ -474,9 +473,8 @@ package game.model
                     {
                         enemyGO = _enemies[iC];
                         removeBullet = false;
-                        if (enemyGO.bounds.contains(playerBulletGO.transform.x, playerBulletGO.transform.y) && playerBulletGO.canHit(enemyGO))
+                        if (playerBulletGO.canHit(enemyGO) && playerBulletGO.collider.checkCollision(enemyGO.collider))
                         {
-                            //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                             if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
                             {
                                 _playerAoeBullets.push(playerBulletGO);
@@ -515,11 +513,8 @@ package game.model
                         obstacleGO = _obstacles[iC];
                         removeBullet = false;
 
-                        if (obstacleGO.bounds.contains(playerBulletGO.transform.x, playerBulletGO.transform.y))
+                        if (playerBulletGO.collider.checkCollision(obstacleGO.collider))
                         {
-                            //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-
-
                             if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
                             {
                                 _playerAoeBullets.push(playerBulletGO);
@@ -573,6 +568,7 @@ package game.model
                     enemyGO = _enemies[iC];
                     removeBullet = false;
 
+                    //TODO: add circle collider for aoe
                     if (Math.pow(playerBulletGO.transform.x - enemyGO.transform.x, 2) + Math.pow(playerBulletGO.transform.y - enemyGO.transform.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
@@ -597,6 +593,7 @@ package game.model
                     obstacleGO = _obstacles[iC];
                     removeBullet = false;
 
+                    //TODO: add circle collider for aoe
                     if (Math.pow(playerBulletGO.transform.x - obstacleGO.transform.x, 2) + Math.pow(playerBulletGO.transform.y - obstacleGO.transform.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
@@ -668,9 +665,8 @@ package game.model
                         for (iC = _bonuses.length - 1; iC >= 0; iC--)
                         {
                             bonusGO = _bonuses[iC];
-                            if (bonusGO.bounds.intersects(playerGO.bounds))
+                            if (playerGO.collider.checkCollision(bonusGO.collider))
                             {
-                                //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                                 //give player a bonus
                                 playerGO.getBonus(bonusGO.bonusVO.bulletID);
 
@@ -685,9 +681,8 @@ package game.model
                             for (iC = _enemies.length - 1; iC >= 0; iC--)
                             {
                                 enemyGO = _enemies[iC];
-                                if (enemyGO.bounds.intersects(playerGO.bounds))
+                                if (playerGO.collider.checkCollision(enemyGO.collider))
                                 {
-                                    //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                                     //decrease player hp
                                     playerGO.hit(enemyGO.enemyVO.initialHP);
                                     _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
@@ -697,12 +692,11 @@ package game.model
                                 }
                             }
 
-
                             //obstacle collisions
                             for (iC = _obstacles.length - 1; iC >= 0; iC--)
                             {
                                 obstacleGO = _obstacles[iC];
-                                if (obstacleGO.bounds.intersects(playerGO.bounds))
+                                if (playerGO.collider.checkCollision(obstacleGO.collider))
                                 {
                                     //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                                     //decrease player hp

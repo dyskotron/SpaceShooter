@@ -6,6 +6,7 @@ package game.view
 
     import game.model.GameObject;
     import game.model.IGameModel;
+    import game.model.gameObject.components.collider.SquareColliderComponent;
 
     import starling.display.Quad;
     import starling.display.Sprite;
@@ -48,8 +49,8 @@ package game.view
             {
                 gameObject = _gameModel.getPlayerModelByID(i);
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = gameObject.transform.rotation;
             }
 
@@ -58,8 +59,8 @@ package game.view
             {
                 gameObject = _gameModel.playerBullets[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
 
@@ -67,8 +68,8 @@ package game.view
             {
                 gameObject = _gameModel.enemyBullets[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
 
@@ -77,8 +78,8 @@ package game.view
             {
                 gameObject = _gameModel.enemies[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
 
@@ -87,8 +88,8 @@ package game.view
             {
                 gameObject = _gameModel.bonuses[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
 
@@ -97,8 +98,8 @@ package game.view
             {
                 gameObject = _gameModel.obstacles[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
         }

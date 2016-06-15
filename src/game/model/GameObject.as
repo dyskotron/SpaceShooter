@@ -1,8 +1,8 @@
 package game.model
 {
-    import flash.geom.Rectangle;
-
-    import game.model.gameObject.components.physics.TransformComponent;
+    import game.model.gameObject.components.collider.IColliderComponent;
+    import game.model.gameObject.components.collider.SquareColliderComponent;
+    import game.model.gameObject.components.transform.TransformComponent;
     import game.model.gameObject.vo.GameObjectVO;
 
     public class GameObject
@@ -10,7 +10,9 @@ package game.model
 
         private var _currentTime: int = 0;
         private var _gameObjectVO: GameObjectVO;
+
         private var _transform: TransformComponent;
+        private var _collider: IColliderComponent;
 
         /**
          * base class representing all game objects e.g. player ships enemies bullets etc
@@ -30,6 +32,9 @@ package game.model
             _transform.y = aY;
             _transform.speedX = aSpeedX;
             _transform.speedY = aSpeedY;
+
+            _collider = new SquareColliderComponent();
+            _collider.init(this);
         }
 
         //region ========================================= SETTERS & GETTERS  ==========================================
@@ -37,6 +42,11 @@ package game.model
         public function get transform(): TransformComponent
         {
             return _transform;
+        }
+
+        public function get collider(): IColliderComponent
+        {
+            return _collider;
         }
 
         public function get currentTime(): int
@@ -49,17 +59,13 @@ package game.model
             return _gameObjectVO;
         }
 
-        public function get bounds(): Rectangle
-        {
-            return _transform.bounds;
-        }
-
         //endregion
 
         public function update(aDeltaTime: int): void
         {
             _currentTime += aDeltaTime;
             _transform.update(aDeltaTime);
+            _collider.update(aDeltaTime);
         }
 
         public function destroy(): void

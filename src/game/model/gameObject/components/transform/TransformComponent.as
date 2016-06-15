@@ -1,31 +1,41 @@
-package game.model.gameObject.components.physics
+package game.model.gameObject.components.transform
 {
-    import flash.geom.Rectangle;
-
     import game.model.gameObject.fsm.ITarget;
 
-    public class TransformComponent implements ITransformComponent, ITarget
+    public class TransformComponent implements ITarget
     {
-        private var _bounds: Rectangle;
         private var _y: Number;
         private var _x: Number;
+        private var _width: Number;
+        private var _height: Number;
         private var _speedX: Number;
         private var _speedY: Number;
         private var _rotation: Number;
 
         public function TransformComponent(aWidth: Number, aHeight: Number)
         {
-            _bounds = new Rectangle(0, 0, aWidth, aHeight);
             _y = 0;
             _x = 0;
+            _width = aWidth;
+            _height = aHeight;
             _speedX = 0;
             _speedY = 0;
             _rotation = 0;
         }
 
+        public function get x(): Number
+        {
+            return _x;
+        }
+
         public function set x(value: Number): void
         {
             _x = value;
+        }
+
+        public function get y(): Number
+        {
+            return _y;
         }
 
         public function set y(value: Number): void
@@ -63,25 +73,19 @@ package game.model.gameObject.components.physics
             _rotation = avalue;
         }
 
-        public function get bounds(): Rectangle
+        public function get width(): Number
         {
-            return _bounds;
+            return _width;
         }
 
-        public function get x(): Number
+        public function get height(): Number
         {
-            return _x;
-        }
-
-        public function get y(): Number
-        {
-            return _y;
+            return _height;
         }
 
         public function update(deltaTime: int): void
         {
-            _bounds.x = _x - _bounds.width / 2;
-            _bounds.y = _y - _bounds.height / 2;
+
         }
     }
 }
