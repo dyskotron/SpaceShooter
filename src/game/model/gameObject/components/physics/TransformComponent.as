@@ -83,26 +83,5 @@ package game.model.gameObject.components.physics
             _bounds.x = _x - _bounds.width / 2;
             _bounds.y = _y - _bounds.height / 2;
         }
-
-
-        //TODO: remove
-        public function getAngleFromCoords(aX: Number, aY: Number): Number
-        {
-            return Math.atan2(x - aX, y - aY);
-        }
-
-        public function getAngleDelta(aX: Number, aY: Number, aAngle: Number): Number
-        {
-            var angleDelta = (Math.PI * 2 + (Math.atan2(x - aX, y - aY) - aAngle)) % (Math.PI * 2);
-            if (angleDelta > Math.PI)
-                angleDelta = angleDelta - Math.PI * 2;
-
-            return angleDelta;
-        }
-
-        public function getDistanceSq(aX: Number, aY: Number): Number
-        {
-            return Math.pow(x - aX, 2) + Math.pow(y - aY, 2);
-        }
     }
 }

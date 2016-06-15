@@ -6,6 +6,7 @@ package game.model.gameObject
     import game.model.gameObject.constants.BulletMode;
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.fsm.ITargetProvider;
+    import game.model.gameObject.fsm.Target;
     import game.model.gameObject.vo.BulletVO;
 
     import starling.utils.MathUtil;
@@ -52,7 +53,7 @@ package game.model.gameObject
                 {
                     if (bulletVO.autoAim.mode == AutoAimMode.ON_INIT)
                     {
-                        _angle = _target.getAngleFromCoords(transform.x, transform.y);
+                        _angle = Target.getAngleFromCoords(_target, transform.x, transform.y);
                         transform.speedX = _speed * Math.sin(transform.rotation);
                         transform.speedY = _speed * Math.cos(transform.rotation);
                         transform.rotation = -_angle;
@@ -78,7 +79,7 @@ package game.model.gameObject
             //AUTO AIM
             if (_isAutoAim && bulletVO.autoAim.mode == AutoAimMode.ON_UPDATE)
             {
-                _angleDelta = _target.getAngleDelta(transform.x, transform.y, _angle);
+                _angleDelta =  Target.getAngleDelta(_target, transform.x, transform.y, _angle);
 
                 if (Math.abs(_angleDelta) < bulletVO.autoAim.maxTriggerAngle)
                 {
@@ -94,7 +95,7 @@ package game.model.gameObject
                 {
                     //NEW TARGET
                     _target = _targetProvider.getTarget(bulletVO.aimTarget, transform.x, transform.y, _angle);
-                    if (_target == null || Math.abs(_target.getAngleDelta(transform.x, transform.y, _angle)) > bulletVO.autoAim.maxTriggerAngle)
+                    if (_target == null || Math.abs(Target.getAngleDelta(_target, transform.x, transform.y, _angle)) > bulletVO.autoAim.maxTriggerAngle)
                         _isAutoAim = false;
                 }
             }

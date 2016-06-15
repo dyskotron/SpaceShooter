@@ -20,6 +20,7 @@ package game.model
     import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.fsm.ITarget;
     import game.model.gameObject.fsm.ITargetProvider;
+    import game.model.gameObject.fsm.Target;
     import game.model.gameObject.fsm.TargetType;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
@@ -265,19 +266,20 @@ package game.model
 
         public function getTarget(aTargetType: uint, aX: Number = 0, aY: Number = 0, aOrigAngle: Number = 0): ITarget
         {
+            var i: int = 0;
+            var target: ITarget;
+
             switch (aTargetType)
             {
                 case TargetType.PLAYER:
                     return getRandomPlayer().transform;
                     break;
                 case TargetType.EASIEST:
-                    var i: int = 0;
                     var currDelta: Number;
                     var smallestDelta: Number = Math.PI;
-                    var target: ITarget;
                     for (i = 0; i < _enemies.length; i++)
                     {
-                        currDelta = Math.abs(_enemies[i].transform.getAngleDelta(aX, aY, aOrigAngle));
+                        currDelta = Math.abs(Target.getAngleDelta(_enemies[i].transform, aX, aY, aOrigAngle));
                         if (smallestDelta > currDelta)
                         {
                             smallestDelta = currDelta;
@@ -286,38 +288,35 @@ package game.model
                     }
                     for (i = 0; i < _obstacles.length; i++)
                     {
-                        currDelta = Math.abs(_obstacles[i].transform.getAngleDelta(aX, aY, aOrigAngle));
+                        currDelta = Math.abs(Target.getAngleDelta(_obstacles[i].transform, aX, aY, aOrigAngle));
                         if (smallestDelta > currDelta)
                         {
                             smallestDelta = currDelta;
                             target = _obstacles[i].transform;
                         }
                     }
-                    return target;
                     break;
                 case TargetType.OLDEST:
                     if (_enemies.length > 0)
-                        return _enemies[0].transform;
-                    if (_obstacles.length > 0)
-                        return _obstacles[0].transform;
+                        target =  _enemies[0].transform;
+                    else if (_obstacles.length > 0)
+                        target =  _obstacles[0].transform;
                     break;
                 case TargetType.NEWEST:
                     if (_enemies.length > 0)
-                        return _enemies[_enemies.length - 1].transform;
-                    if (_obstacles.length > 0)
-                        return _obstacles[_obstacles.length - 1].transform;
+                        target =  _enemies[_enemies.length - 1].transform;
+                    else if (_obstacles.length > 0)
+                        target =  _obstacles[_obstacles.length - 1].transform;
                     break;
                 case TargetType.RANDOM:
                     if (_enemies.length > 0)
-                        return _enemies[Math.floor(Math.random() * _enemies.length)].transform;
-                    if (_obstacles.length > 0)
-                        return _obstacles[Math.floor(Math.random() * _obstacles.length)].transform;
+                        target = _enemies[Math.floor(Math.random() * _enemies.length)].transform;
+                    else if (_obstacles.length > 0)
+                        target =  _obstacles[Math.floor(Math.random() * _obstacles.length)].transform;
                     break;
                 case TargetType.BIGGEST_HP:
-                    var i: int = 0;
                     var currHP: Number;
                     var smallestHP: Number = Math.PI;
-                    var target: ITarget;
                     for (i = 0; i < _enemies.length; i++)
                     {
                         currHP = _enemies[i].hp;
@@ -336,11 +335,10 @@ package game.model
                             target = _obstacles[i].transform;
                         }
                     }
-                    return target;
                     break;
             }
 
-            return null;
+            return target;
         }
 
         //endregion

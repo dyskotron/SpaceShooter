@@ -25,7 +25,6 @@ package game.model
         {
             _gameObjectVO = aGameObjectVO;
 
-            //todo: physics factory
             _transform = new TransformComponent(_gameObjectVO.width, _gameObjectVO.height);
             _transform.x = aX;
             _transform.y = aY;
