@@ -345,6 +345,7 @@ package game.model.gameObject.components.weapon
 
             var speed: Number = 0;
 
+            var numShots: Number = 0;
 
             var aBulletType: uint = 0;
 
@@ -511,8 +512,6 @@ package game.model.gameObject.components.weapon
                     bulletX1 = 2;
                     speed = ELECTRIC_SPEED;
 
-                    var numShots: Number;
-
                     for (var i: int = 0; i < 10; i++)
                     {
                         if (i < 5)
@@ -545,7 +544,7 @@ package game.model.gameObject.components.weapon
                     bulletX1 = 9;
                     speed = ROCKET_SPEED;
 
-                    var numShots: Number = 50;
+                    numShots = 50;
 
                     for (var i: int = 0; i < 10; i++)
                     {

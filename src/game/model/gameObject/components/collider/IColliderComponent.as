@@ -1,13 +1,9 @@
 package game.model.gameObject.components.collider
 {
-    import game.model.GameObject;
+    import game.model.gameObject.components.IComponent;
 
-    public interface IColliderComponent
+    public interface IColliderComponent extends IComponent
     {
         function checkCollision(aCollider: IColliderComponent): Boolean;
-
-        function init(aGameObject: GameObject): void
-
-        function update(deltaTime: int): void
     }
 }

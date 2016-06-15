@@ -33,7 +33,7 @@ package game.model
             _transform.speedX = aSpeedX;
             _transform.speedY = aSpeedY;
 
-            _collider = new SquareColliderComponent();
+            _collider = createCollider();
             _collider.init(this);
         }
 
@@ -71,6 +71,11 @@ package game.model
         public function destroy(): void
         {
 
+        }
+
+        protected function createCollider(): IColliderComponent
+        {
+            return new SquareColliderComponent();
         }
     }
 }

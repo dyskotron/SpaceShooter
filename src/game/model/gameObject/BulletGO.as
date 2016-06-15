@@ -2,6 +2,8 @@ package game.model.gameObject
 {
     import flash.utils.Dictionary;
 
+    import game.model.gameObject.components.collider.IColliderComponent;
+    import game.model.gameObject.components.collider.OnceSquareColliderComponent;
     import game.model.gameObject.components.weapon.enums.AutoAimMode;
     import game.model.gameObject.constants.BulletMode;
     import game.model.gameObject.fsm.ITarget;
@@ -79,7 +81,7 @@ package game.model.gameObject
             //AUTO AIM
             if (_isAutoAim && bulletVO.autoAim.mode == AutoAimMode.ON_UPDATE)
             {
-                _angleDelta =  Target.getAngleDelta(_target, transform.x, transform.y, _angle);
+                _angleDelta = Target.getAngleDelta(_target, transform.x, transform.y, _angle);
 
                 if (Math.abs(_angleDelta) < bulletVO.autoAim.maxTriggerAngle)
                 {
@@ -103,31 +105,38 @@ package game.model.gameObject
             super.update(aDeltaTime);
         }
 
-        public function canHit(enemyGO: HittableGO): Boolean
-        {
-            if (_bulletVO.mode == BulletMode.EACH_ONCE && _hittedGO[enemyGO])
-                return false;
+        /*
+         public function canHit(enemyGO: HittableGO): Boolean
+         {
+         if (_bulletVO.mode == BulletMode.EACH_ONCE && _hittedGO[enemyGO])
+         return false;
 
-            return true;
-        }
+         return true;
+         }
 
-        /**
+         /**
          * Hits object and Returns if bullet should be removed after hit or not
          * @param hittableGO
          * @return
          */
-        public function hitObject(hittableGO: HittableGO): Boolean
+        /*
+         public function hitObject(hittableGO: HittableGO): Boolean
+         {
+         hittableGO.hit(_bulletVO.damage);
+
+         if (_bulletVO.mode == BulletMode.ONE_SHOT)
+         return true;
+
+         if (_bulletVO.mode == BulletMode.EACH_ONCE)
+         _hittedGO[hittableGO] = true;
+
+         return false;
+
+         }
+         */
+        override protected function createCollider(): IColliderComponent
         {
-            hittableGO.hit(_bulletVO.damage);
-
-            if (_bulletVO.mode == BulletMode.ONE_SHOT)
-                return true;
-
-            if (_bulletVO.mode == BulletMode.EACH_ONCE)
-                _hittedGO[hittableGO] = true;
-
-            return false;
-
+            return new OnceSquareColliderComponent();
         }
     }
 }

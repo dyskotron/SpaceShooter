@@ -12,6 +12,7 @@ package game.model
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.collider.IOnceColliderComponent;
     import game.model.gameObject.components.weapon.IWeaponDefs;
     import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
     import game.model.gameObject.constants.BonusTypeID;
@@ -52,7 +53,7 @@ package game.model
         public static const STATE_ENDED: uint = 1;
 
         private const ENEMY_HP_TO_SCORE_RATIO: Number = 1;
-        private const OBSTACLE_HP_TO_SCORE_RATIO: int = 0.3;
+        private const OBSTACLE_HP_TO_SCORE_RATIO: Number = 0.3;
 
         [Inject]
         public var touchController: ITouchController;
@@ -403,58 +404,83 @@ package game.model
             }
             //endregion
 
-            //region UPDATE ENEMIES
-            for (i = _enemies.length - 1; i >= 0; i--)
+            //region UPDATE PLAYERS
+            for (i = 0; i < _numPLayers; i++)
             {
-                enemyGO = _enemies[i];
-
-                if (_gameBounds.contains(_enemies[i].transform.x, _enemies[i].transform.y))
+                playerGO = _players[i];
+                if (playerGO.state == PlayerShipGO.STATE_ALIVE || playerGO.state == PlayerShipGO.STATE_SPAWNING)
                 {
-                    enemyGO.update(aDeltaTime);
-                }
-                else
-                {
-                    _enemies.splice(i, 1);
-                    _gameObjectRemovedSignal.dispatch(enemyGO);
-                }
-            }
-            //endregion
+                    _players[i].update(aDeltaTime);
 
-            //region UPDATE ENEMY BULLETS
-            for (i = _enemyBullets.length - 1; i >= 0; i--)
-            {
-                enemyBulletGO = _enemyBullets[i];
-                enemyBulletGO.update(aDeltaTime);
-
-                //if bullet is in game area
-                if (_gameBounds.contains(enemyBulletGO.transform.x, enemyBulletGO.transform.y))
-                {
-                    if (!_immortal)
+                    if (playerGO.state == PlayerShipGO.STATE_ALIVE)
                     {
-                        //check for collisions
-                        for (iC = _players.length - 1; iC >= 0; iC--)
+                        //bonus collisions
+                        for (iC = _bonuses.length - 1; iC >= 0; iC--)
                         {
-                            playerGO = _players[iC];
-
-                            if (playerGO.state == PlayerShipGO.STATE_ALIVE && enemyBulletGO.collider.checkCollision(playerGO.collider))
+                            bonusGO = _bonuses[iC];
+                            if (playerGO.collider.checkCollision(bonusGO.collider))
                             {
-                                //decrease hp
-                                playerGO.hit(enemyBulletGO.bulletVO.damage);
-                                _gameObjectHitSignal.dispatch(playerGO, 0);
+                                //give player a bonus
+                                playerGO.getBonus(bonusGO.bonusVO.bulletID);
 
-                                //remove bullet & stop checking other players
-                                _enemyBullets.splice(i, 1);
-                                _gameObjectRemovedSignal.dispatch(enemyBulletGO);
-                                break;
+                                _bonuses.splice(iC, 1);
+                                _gameObjectRemovedSignal.dispatch(bonusGO);
+                            }
+                        }
+
+                        if (!_immortal)
+                        {
+                            //enemy collisions
+                            for (iC = _enemies.length - 1; iC >= 0; iC--)
+                            {
+                                enemyGO = _enemies[iC];
+                                if (playerGO.collider.checkCollision(enemyGO.collider))
+                                {
+                                    //decrease player hp
+                                    playerGO.hit(enemyGO.enemyVO.initialHP);
+                                    _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
+
+                                    //remove enemy
+                                    _enemies.splice(iC, 1);
+                                    _gameObjectRemovedSignal.dispatch(enemyGO);
+                                }
+                            }
+
+                            //enemy bullet collisions
+                            for (iC = _enemyBullets.length - 1; iC >= 0; iC--)
+                            {
+                                enemyBulletGO = _enemyBullets[iC];
+
+                                if (playerGO.collider.checkCollision(enemyBulletGO.collider))
+                                {
+                                    //decrease player hp
+                                    playerGO.hit(enemyBulletGO.bulletVO.damage);
+                                    _gameObjectHitSignal.dispatch(playerGO, 0);
+
+                                    //remove bullet
+                                    _enemyBullets.splice(iC, 1);
+                                    _gameObjectRemovedSignal.dispatch(enemyBulletGO);
+                                    break;
+                                }
+                            }
+
+                            //obstacle collisions
+                            for (iC = _obstacles.length - 1; iC >= 0; iC--)
+                            {
+                                obstacleGO = _obstacles[iC];
+                                if (playerGO.collider.checkCollision(obstacleGO.collider))
+                                {
+                                    //decrease player hp
+                                    playerGO.hit(obstacleGO.obstacleVO.initialHP);
+                                    _gameObjectHitSignal.dispatch(playerGO, obstacleGO.obstacleVO.initialHP);
+
+                                    //remove obstacle
+                                    _obstacles.splice(iC, 1);
+                                    _gameObjectRemovedSignal.dispatch(obstacleGO);
+                                }
                             }
                         }
                     }
-                }
-                else
-                {
-                    //remove bullet
-                    _enemyBullets.splice(i, 1);
-                    _gameObjectRemovedSignal.dispatch(enemyBulletGO);
                 }
             }
             //endregion
@@ -473,7 +499,7 @@ package game.model
                     {
                         enemyGO = _enemies[iC];
                         removeBullet = false;
-                        if (playerBulletGO.canHit(enemyGO) && playerBulletGO.collider.checkCollision(enemyGO.collider))
+                        if (playerBulletGO.collider.checkCollision(enemyGO.collider))
                         {
                             if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
                             {
@@ -483,9 +509,14 @@ package game.model
                             }
                             else
                             {
-                                //decrease hp
+                                //mark coliision for once colliders
+                                if (playerBulletGO.collider is IOnceColliderComponent)
+                                    IOnceColliderComponent(playerBulletGO.collider).markAsHit(enemyGO.collider);
 
-                                removeBullet = playerBulletGO.hitObject(enemyGO);
+                                //decrease hp
+                                enemyGO.hit(playerBulletGO.bulletVO.damage);
+                                removeBullet = playerBulletGO.bulletVO.mode == BulletMode.ONE_SHOT;
+
                                 _gameObjectHitSignal.dispatch(enemyGO, 0);
 
                                 //remove enemy if dead
@@ -523,8 +554,14 @@ package game.model
                             }
                             else
                             {
+                                //mark coliision for once colliders
+                                if (playerBulletGO.collider is IOnceColliderComponent)
+                                    IOnceColliderComponent(playerBulletGO.collider).markAsHit(obstacleGO.collider);
+
                                 //decrease hp
-                                removeBullet = playerBulletGO.hitObject(obstacleGO);
+                                obstacleGO.hit(playerBulletGO.bulletVO.damage);
+                                removeBullet = playerBulletGO.bulletVO.mode == BulletMode.ONE_SHOT;
+
                                 _gameObjectHitSignal.dispatch(obstacleGO, 0);
 
                                 //remove obstacle if dead
@@ -566,13 +603,12 @@ package game.model
                 for (iC = _enemies.length - 1; iC >= 0; iC--)
                 {
                     enemyGO = _enemies[iC];
-                    removeBullet = false;
 
                     //TODO: add circle collider for aoe
                     if (Math.pow(playerBulletGO.transform.x - enemyGO.transform.x, 2) + Math.pow(playerBulletGO.transform.y - enemyGO.transform.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
-                        playerBulletGO.hitObject(enemyGO);
+                        enemyGO.hit(playerBulletGO.bulletVO.damage);
                         _gameObjectHitSignal.dispatch(enemyGO, 0);
 
                         //remove enemy if dead
@@ -591,13 +627,12 @@ package game.model
                 for (iC = _obstacles.length - 1; iC >= 0; iC--)
                 {
                     obstacleGO = _obstacles[iC];
-                    removeBullet = false;
 
                     //TODO: add circle collider for aoe
                     if (Math.pow(playerBulletGO.transform.x - obstacleGO.transform.x, 2) + Math.pow(playerBulletGO.transform.y - obstacleGO.transform.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
-                        removeBullet = playerBulletGO.hitObject(obstacleGO);
+                        obstacleGO.hit(playerBulletGO.bulletVO.damage);
                         _gameObjectHitSignal.dispatch(obstacleGO, 0);
 
                         //remove obstacle if dead
@@ -620,15 +655,51 @@ package game.model
 
             //endregion
 
+            //region UPDATE ENEMIES
+            for (i = _enemies.length - 1; i >= 0; i--)
+            {
+                enemyGO = _enemies[i];
+
+                if (_gameBounds.contains(_enemies[i].transform.x, _enemies[i].transform.y))
+                {
+                    enemyGO.update(aDeltaTime);
+                }
+                else
+                {
+                    _enemies.splice(i, 1);
+                    _gameObjectRemovedSignal.dispatch(enemyGO);
+                }
+            }
+            //endregion
+
+            //region UPDATE ENEMY BULLETS
+            for (i = _enemyBullets.length - 1; i >= 0; i--)
+            {
+                enemyBulletGO = _enemyBullets[i];
+
+                //if bullet is in game area remove bullet
+                if (_gameBounds.contains(enemyBulletGO.transform.x, enemyBulletGO.transform.y))
+                {
+                    enemyBulletGO.update(aDeltaTime);
+                }
+                else
+                {
+                    _enemyBullets.splice(i, 1);
+                    _gameObjectRemovedSignal.dispatch(enemyBulletGO);
+                }
+            }
+            //endregion
 
             //region UPDATE BONUSES
             for (i = _bonuses.length - 1; i >= 0; i--)
             {
                 bonusGO = _bonuses[i];
-                bonusGO.update(aDeltaTime);
 
-                //TODO: rectangle contains instead
-                if (_bonuses[i].transform.y > viewModel.stageHeight + OUTER_BOUNDS)
+                if (_gameBounds.contains(bonusGO.transform.x, bonusGO.transform.y))
+                {
+                    bonusGO.update(aDeltaTime);
+                }
+                else
                 {
                     _bonuses.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(bonusGO);
@@ -640,10 +711,12 @@ package game.model
             for (i = _obstacles.length - 1; i >= 0; i--)
             {
                 obstacleGO = _obstacles[i];
-                obstacleGO.update(aDeltaTime);
 
-                //TODO: rectangle contains instead
-                if (_obstacles[i].transform.y > viewModel.stageHeight + OUTER_BOUNDS)
+                if (_gameBounds.contains(obstacleGO.transform.x, obstacleGO.transform.y))
+                {
+                    obstacleGO.update(aDeltaTime);
+                }
+                else
                 {
                     _obstacles.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(obstacleGO);
@@ -651,67 +724,6 @@ package game.model
             }
             //endregion
 
-            //region UPDATE PLAYERS
-            for (i = 0; i < _numPLayers; i++)
-            {
-                playerGO = _players[i];
-                if (playerGO.state == PlayerShipGO.STATE_ALIVE || playerGO.state == PlayerShipGO.STATE_SPAWNING)
-                {
-                    _players[i].update(aDeltaTime);
-
-                    if (playerGO.state == PlayerShipGO.STATE_ALIVE)
-                    {
-                        //bonus collisions
-                        for (iC = _bonuses.length - 1; iC >= 0; iC--)
-                        {
-                            bonusGO = _bonuses[iC];
-                            if (playerGO.collider.checkCollision(bonusGO.collider))
-                            {
-                                //give player a bonus
-                                playerGO.getBonus(bonusGO.bonusVO.bulletID);
-
-                                _bonuses.splice(iC, 1);
-                                _gameObjectRemovedSignal.dispatch(bonusGO);
-                            }
-                        }
-
-                        if (!_immortal)
-                        {
-                            //enemy collisions
-                            for (iC = _enemies.length - 1; iC >= 0; iC--)
-                            {
-                                enemyGO = _enemies[iC];
-                                if (playerGO.collider.checkCollision(enemyGO.collider))
-                                {
-                                    //decrease player hp
-                                    playerGO.hit(enemyGO.enemyVO.initialHP);
-                                    _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
-
-                                    _enemies.splice(iC, 1);
-                                    _gameObjectRemovedSignal.dispatch(enemyGO);
-                                }
-                            }
-
-                            //obstacle collisions
-                            for (iC = _obstacles.length - 1; iC >= 0; iC--)
-                            {
-                                obstacleGO = _obstacles[iC];
-                                if (playerGO.collider.checkCollision(obstacleGO.collider))
-                                {
-                                    //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
-                                    //decrease player hp
-                                    playerGO.hit(obstacleGO.obstacleVO.initialHP);
-                                    _gameObjectHitSignal.dispatch(playerGO, obstacleGO.obstacleVO.initialHP);
-
-                                    _obstacles.splice(iC, 1);
-                                    _gameObjectRemovedSignal.dispatch(obstacleGO);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            //endregion
         }
 
         private function levelEventHandler(aLevelEvent: LevelEvent): void

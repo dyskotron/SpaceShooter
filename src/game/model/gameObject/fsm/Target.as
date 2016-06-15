@@ -13,7 +13,7 @@ package game.model.gameObject.fsm
 
         public static function getAngleDelta(aTarget: ITarget, aX: Number, aY: Number, aAngle: Number): Number
         {
-            var angleDelta = (Math.PI * 2 + (Math.atan2(aTarget.x - aX, aTarget.y - aY) - aAngle)) % (Math.PI * 2);
+            var angleDelta: Number = (Math.PI * 2 + (Math.atan2(aTarget.x - aX, aTarget.y - aY) - aAngle)) % (Math.PI * 2);
             if (angleDelta > Math.PI)
                 angleDelta = angleDelta - Math.PI * 2;
 

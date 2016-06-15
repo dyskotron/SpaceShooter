@@ -333,7 +333,6 @@ package game.view
                 view.remove();
                 //TODO: pooling
                 delete _gameObjectViews[aGameObject];
-
             }
             else
             {

@@ -3,11 +3,11 @@ package game.model.gameObject.components.collider
     import flash.geom.Rectangle;
 
     import game.model.GameObject;
+    import game.model.gameObject.components.Component;
 
-    public class SquareColliderComponent implements IColliderComponent
+    public class SquareColliderComponent extends Component implements IColliderComponent
     {
         private var _bounds: Rectangle;
-        private var _gameObject: GameObject;
 
         public function SquareColliderComponent()
         {
@@ -29,20 +29,21 @@ package game.model.gameObject.components.collider
             return false;
         }
 
-        public function init(aGameObject: GameObject): void
+        override public function init(aGameObject: GameObject): void
         {
-            _gameObject = aGameObject;
-            _bounds = new Rectangle(_gameObject.transform.x - _gameObject.transform.width * 0.5,
-                                    _gameObject.transform.y - _gameObject.transform.height * 0.5,
-                                    _gameObject.gameObjectVO.width,
-                                    _gameObject.gameObjectVO.height);
+            _bounds = new Rectangle(aGameObject.transform.x - aGameObject.transform.width * 0.5,
+                                    aGameObject.transform.y - aGameObject.transform.height * 0.5,
+                                    aGameObject.gameObjectVO.width,
+                                    aGameObject.gameObjectVO.height);
+
+            super.init(aGameObject);
 
         }
 
-        public function update(deltaTime: int): void
+        override public function update(deltaTime: int): void
         {
-            _bounds.x = _gameObject.transform.x - _bounds.width * 0.5;
-            _bounds.y = _gameObject.transform.y - _bounds.height * 0.5;
+            _bounds.x = gameObject.transform.x - _bounds.width * 0.5;
+            _bounds.y = gameObject.transform.y - _bounds.height * 0.5;
         }
     }
 }

@@ -68,7 +68,7 @@ package game.model.gameObject.components.weapon
             }
         }
 
-        override public function rotate(aRotation: Number, aOrientation: int)
+        override public function rotate(aRotation: Number, aOrientation: int): void
         {
             //recalculate all VOs:
             var spawnPoints: Vector.<BulletSpawnVO>;

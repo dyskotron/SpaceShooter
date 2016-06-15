@@ -43,7 +43,7 @@ package game.model.gameObject.components.weapon
             return _spawnPoints;
         }
 
-        override public function rotate(aRotation: Number, aOrientation: int)
+        override public function rotate(aRotation: Number, aOrientation: int):void
         {
             //recalculate all VOs:
 
