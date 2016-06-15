@@ -166,15 +166,15 @@ package game.view
             var i: int;
 
             /** UPDATE PLAYERS **/
-            var playerModel: PlayerShipGO;
+            var playerGO: PlayerShipGO;
             var playerView: PlayerShipView;
             for (i = 0; i < _gameModel.numPlayers; i++)
             {
-                playerModel = _gameModel.getPlayerModelByID(i);
+                playerGO = _gameModel.getPlayerModelByID(i);
                 playerView = _playerViews[i];
-                playerView.x = playerModel.x;
-                playerView.y = playerModel.y;
-                playerView.rotation = playerModel.rotation;
+                playerView.x = playerGO.physics.x;
+                playerView.y = playerGO.physics.y;
+                playerView.rotation = playerGO.physics.rotation;
             }
 
             /** UPDATE BULLETS **/
@@ -184,18 +184,18 @@ package game.view
             {
                 bulletModel = _gameModel.playerBullets[i];
                 bulletView = _gameObjectViews[bulletModel];
-                bulletView.x = bulletModel.x;
-                bulletView.y = bulletModel.y;
-                bulletView.rotation = bulletModel.rotation;
+                bulletView.x = bulletModel.physics.x;
+                bulletView.y = bulletModel.physics.y;
+                bulletView.rotation = bulletModel.physics.rotation;
             }
 
             for (i = 0; i < _gameModel.enemyBullets.length; i++)
             {
                 bulletModel = _gameModel.enemyBullets[i];
                 bulletView = _gameObjectViews[bulletModel];
-                bulletView.x = bulletModel.x;
-                bulletView.y = bulletModel.y;
-                bulletView.rotation = bulletModel.rotation;
+                bulletView.x = bulletModel.physics.x;
+                bulletView.y = bulletModel.physics.y;
+                bulletView.rotation = bulletModel.physics.rotation;
             }
 
             /** UPDATE ENEMIES **/
@@ -205,9 +205,9 @@ package game.view
             {
                 enemyModel = _gameModel.enemies[i];
                 enemyView = _gameObjectViews[enemyModel];
-                enemyView.x = enemyModel.x;
-                enemyView.y = enemyModel.y;
-                enemyView.rotation = enemyModel.rotation;
+                enemyView.x = enemyModel.physics.x;
+                enemyView.y = enemyModel.physics.y;
+                enemyView.rotation = enemyModel.physics.rotation;
             }
 
             /** UPDATE BONUSES **/
@@ -217,9 +217,9 @@ package game.view
             {
                 bonusModel = _gameModel.bonuses[i];
                 bonusView = _gameObjectViews[bonusModel];
-                bonusView.x = bonusModel.x;
-                bonusView.y = bonusModel.y;
-                bonusView.rotation = bonusModel.rotation;
+                bonusView.x = bonusModel.physics.x;
+                bonusView.y = bonusModel.physics.y;
+                bonusView.rotation = bonusModel.physics.rotation;
             }
 
             /** UPDATE OBSTACLES **/
@@ -229,9 +229,9 @@ package game.view
             {
                 obstacleModel = _gameModel.obstacles[i];
                 obstacleView = _gameObjectViews[obstacleModel];
-                obstacleView.x = obstacleModel.x;
-                obstacleView.y = obstacleModel.y;
-                obstacleView.rotation = obstacleModel.rotation;
+                obstacleView.x = obstacleModel.physics.x;
+                obstacleView.y = obstacleModel.physics.y;
+                obstacleView.rotation = obstacleModel.physics.rotation;
             }
 
             /** BACKGROUND **/
@@ -357,8 +357,8 @@ package game.view
         private function aoeDamageTriggeredHandler(aBulletGO: BulletGO): void
         {
             var explosionAnim: ExplosionAnim = new ExplosionAnim(_textureProvider.getExplosionTextures(0), aBulletGO.bulletVO.aoeDistance * 2);
-            explosionAnim.x = aBulletGO.x;
-            explosionAnim.y = aBulletGO.y;
+            explosionAnim.x = aBulletGO.physics.x;
+            explosionAnim.y = aBulletGO.physics.y;
             _miscLayer.addChild(explosionAnim);
             screenShake(20);
         }

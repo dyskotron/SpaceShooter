@@ -63,35 +63,6 @@ package game.model
             _physics.y = value;
         }
 
-        public function get speedX(): Number
-        {
-            return  _physics.speedX;
-        }
-
-        public function set speedX(value: Number): void
-        {
-            _physics.speedX = value;
-        }
-
-        public function get speedY(): Number
-        {
-            return _physics.speedY;
-        }
-
-        public function set speedY(value: Number): void
-        {
-            _physics.speedY = value;
-        }
-
-        public function get rotation(): Number
-        {
-            return _physics.rotation;
-        }
-
-        public function set rotation(value: Number): void
-        {
-            _physics.rotation = value;
-        }
 
         public function get currentTime(): int
         {
@@ -123,21 +94,17 @@ package game.model
 
         public function getAngleFromCoords(aX: Number, aY: Number): Number
         {
-            return Math.atan2(physics.x - aX, physics.y - aY);
+            return ITarget(_physics).getAngleFromCoords(aX, aY);
         }
 
         public function getAngleDelta(aX: Number, aY: Number, aAngle: Number): Number
         {
-            var angleDelta = (Math.PI * 2 + (Math.atan2(physics.x - aX, physics.y - aY) - aAngle)) % (Math.PI * 2);
-            if (angleDelta > Math.PI)
-                angleDelta = angleDelta - Math.PI * 2;
-
-            return angleDelta;
+            return ITarget(_physics).getAngleDelta(aX, aY, aAngle);
         }
 
         public function getDistanceSq(aX: Number, aY: Number): Number
         {
-            return Math.pow(physics.x - aX, 2) + Math.pow(physics.y - aY, 2);
+            return ITarget(_physics).getDistanceSq(aX, aY);
         }
     }
 }

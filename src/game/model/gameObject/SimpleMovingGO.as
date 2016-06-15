@@ -12,8 +12,8 @@ package game.model.gameObject
 
         override public function update(aDeltaTime: int): void
         {
-            x += speedX * aDeltaTime;
-            y += speedY * aDeltaTime;
+            physics.x += physics.speedX * aDeltaTime;
+            physics.y += physics.speedY * aDeltaTime;
 
             super.update(aDeltaTime);
         }

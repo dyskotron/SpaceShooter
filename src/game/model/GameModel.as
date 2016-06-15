@@ -410,7 +410,7 @@ package game.model
             {
                 enemyGO = _enemies[i];
 
-                if (_gameBounds.contains(_enemies[i].x, _enemies[i].y))
+                if (_gameBounds.contains(_enemies[i].physics.x, _enemies[i].physics.y))
                 {
                     enemyGO.update(aDeltaTime);
                 }
@@ -429,7 +429,7 @@ package game.model
                 enemyBulletGO.update(aDeltaTime);
 
                 //if bullet is in game area
-                if (_gameBounds.contains(enemyBulletGO.x, enemyBulletGO.y))
+                if (_gameBounds.contains(enemyBulletGO.physics.x, enemyBulletGO.physics.y))
                 {
                     if (!_immortal)
                     {
@@ -438,7 +438,7 @@ package game.model
                         {
                             playerGO = _players[iC];
 
-                            if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.contains(enemyBulletGO.x, enemyBulletGO.y))
+                            if (playerGO.state == PlayerShipGO.STATE_ALIVE && playerGO.bounds.contains(enemyBulletGO.physics.x, enemyBulletGO.physics.y))
                             {
                                 //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                                 //decrease hp
@@ -469,14 +469,14 @@ package game.model
                 playerBulletGO.update(aDeltaTime);
 
                 //if bullet is in game area
-                if (_gameBounds.contains(playerBulletGO.x, playerBulletGO.y))
+                if (_gameBounds.contains(playerBulletGO.physics.x, playerBulletGO.physics.y))
                 {
                     //enemy collisions
                     for (iC = _enemies.length - 1; iC >= 0; iC--)
                     {
                         enemyGO = _enemies[iC];
                         removeBullet = false;
-                        if (enemyGO.bounds.contains(playerBulletGO.x, playerBulletGO.y) && playerBulletGO.canHit(enemyGO))
+                        if (enemyGO.bounds.contains(playerBulletGO.physics.x, playerBulletGO.physics.y) && playerBulletGO.canHit(enemyGO))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
                             if (playerBulletGO.bulletVO.mode == BulletMode.AOE)
@@ -517,7 +517,7 @@ package game.model
                         obstacleGO = _obstacles[iC];
                         removeBullet = false;
 
-                        if (obstacleGO.bounds.contains(playerBulletGO.x, playerBulletGO.y))
+                        if (obstacleGO.bounds.contains(playerBulletGO.physics.x, playerBulletGO.physics.y))
                         {
                             //TODO: there should be next more accurate hitTest ideally pixel perfect collision(based on asset bitmapData)
 
@@ -575,7 +575,7 @@ package game.model
                     enemyGO = _enemies[iC];
                     removeBullet = false;
 
-                    if (Math.pow(playerBulletGO.x - enemyGO.x, 2) + Math.pow(playerBulletGO.y - enemyGO.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
+                    if (Math.pow(playerBulletGO.physics.x - enemyGO.physics.x, 2) + Math.pow(playerBulletGO.physics.y - enemyGO.physics.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
                         playerBulletGO.hitObject(enemyGO);
@@ -599,7 +599,7 @@ package game.model
                     obstacleGO = _obstacles[iC];
                     removeBullet = false;
 
-                    if (Math.pow(playerBulletGO.x - obstacleGO.x, 2) + Math.pow(playerBulletGO.y - obstacleGO.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
+                    if (Math.pow(playerBulletGO.physics.x - obstacleGO.physics.x, 2) + Math.pow(playerBulletGO.physics.y - obstacleGO.physics.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
                         removeBullet = playerBulletGO.hitObject(obstacleGO);
@@ -633,7 +633,7 @@ package game.model
                 bonusGO.update(aDeltaTime);
 
                 //TODO: rectangle contains instead
-                if (_bonuses[i].y > viewModel.stageHeight + OUTER_BOUNDS)
+                if (_bonuses[i].physics.y > viewModel.stageHeight + OUTER_BOUNDS)
                 {
                     _bonuses.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(bonusGO);
@@ -648,7 +648,7 @@ package game.model
                 obstacleGO.update(aDeltaTime);
 
                 //TODO: rectangle contains instead
-                if (_obstacles[i].y > viewModel.stageHeight + OUTER_BOUNDS)
+                if (_obstacles[i].physics.y > viewModel.stageHeight + OUTER_BOUNDS)
                 {
                     _obstacles.splice(i, 1);
                     _gameObjectRemovedSignal.dispatch(obstacleGO);
