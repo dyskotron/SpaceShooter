@@ -349,6 +349,8 @@ package game.model.gameObject.components.weapon
 
             var aBulletType: uint = 0;
 
+            var i: int
+
 
             switch (aWeaponID)
             {
@@ -512,7 +514,7 @@ package game.model.gameObject.components.weapon
                     bulletX1 = 2;
                     speed = ELECTRIC_SPEED;
 
-                    for (var i: int = 0; i < 10; i++)
+                    for (i = 0; i < 10; i++)
                     {
                         if (i < 5)
                         {
@@ -541,15 +543,14 @@ package game.model.gameObject.components.weapon
                 //region ========= ROCKET LAUNCHER =========
                 case PlayerWeaponID.ROCKET_LAUNCHER:
                     //common
-                    bulletX1 = 9;
                     speed = ROCKET_SPEED;
 
                     numShots = 50;
 
-                    for (var i: int = 0; i < 10; i++)
+                    for (i = 0; i < 10; i++)
                     {
                         spawnPoints = new Vector.<BulletSpawnVO>();
-                        spawnPoints.push(getSpawnVO(BulletID.ROCKET_1, -bulletX1, bulletY1, 0, speed));
+                        spawnPoints.push(getSpawnVO(BulletID.ROCKET_1, 0, bulletY1, 0, speed));
                         spawnPointsByPower.push(spawnPoints);
 
 

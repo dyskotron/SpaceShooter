@@ -7,14 +7,14 @@
  */
 package game.model.gameObject
 {
-    import com.greensock.TweenLite;
-
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.generator.BatteryModel;
     import game.model.gameObject.components.generator.EnergyComponent;
     import game.model.gameObject.components.generator.GeneratorModel;
     import game.model.gameObject.components.generator.IGeneratorComponent;
     import game.model.gameObject.components.generator.IGeneratorGO;
+    import game.model.gameObject.components.health.IHealthComponent;
+    import game.model.gameObject.components.health.PlayerHealthComponent;
     import game.model.gameObject.components.weapon.ComponentSlot;
     import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.components.weapon.PlayerWeaponComponent;
@@ -44,13 +44,10 @@ package game.model.gameObject
 
         private var _playerID: uint;
         private var _playerShipVO: PlayerShipVO;
+
         private var _statsUpdateSignal: Signal;
-        private var _changeStateSignal: Signal;
-        private var _playerDiedSignal: Signal;
 
         //stats shown on gui
-        private var _state: uint;
-        private var _lives: int = 3;
         private var _score: Number = 0;
         private var _generatorComponent: IGeneratorComponent;
 
@@ -58,9 +55,8 @@ package game.model.gameObject
         {
             _playerID = aPLayerID;
             _playerShipVO = aPlayerShipVO;
+
             _statsUpdateSignal = new Signal();
-            _changeStateSignal = new Signal(PlayerShipGO);
-            _playerDiedSignal = new Signal(uint);
 
             super(aPlayerShipVO, aTargetProvider, 0, 0, 0, 0);
         }
@@ -78,12 +74,7 @@ package game.model.gameObject
 
         public function get state(): uint
         {
-            return _state;
-        }
-
-        public function get lives(): uint
-        {
-            return _lives;
+            return PlayerHealthComponent(healthComponent).state;
         }
 
         public function get score(): Number
@@ -112,16 +103,6 @@ package game.model.gameObject
             return _statsUpdateSignal;
         }
 
-        public function get changeStateSignal(): Signal
-        {
-            return _changeStateSignal;
-        }
-
-        public function get playerDiedSignal(): Signal
-        {
-            return _playerDiedSignal;
-        }
-
         //endregion
 
         override public function startShoot(): void
@@ -145,7 +126,6 @@ package game.model.gameObject
         {
             transform.x = controlX = aX;
             transform.y = controlY = aY;
-            _state = STATE_ALIVE;
         }
 
         override public function update(aDeltaTime: int): void
@@ -160,24 +140,15 @@ package game.model.gameObject
             super.update(aDeltaTime);
         }
 
-        override public function hit(aDamage: Number): void
-        {
-            super.hit(aDamage);
-            if (hp <= 0)
-                die();
-
-            _statsUpdateSignal.dispatch();
-        }
-
         public function getBonus(typeID: uint): void
         {
             switch (typeID)
             {
                 case BonusTypeID.BONUS_HEALTH:
-                    addHitPoints(80);
+                    healthComponent.addHitPoints(80);
                     break;
                 case BonusTypeID.BONUS_LIFE:
-                    _lives++;
+                    PlayerHealthComponent(healthComponent).lives++;
                     break;
                 case BonusTypeID.BONUS_WEAPON:
                     weaponsAddPower();
@@ -206,6 +177,11 @@ package game.model.gameObject
         override public function destroy(): void
         {
 
+        }
+
+        override protected function createHealthComponent(aInitialHP: int): IHealthComponent
+        {
+            return new PlayerHealthComponent(aInitialHP, 3);
         }
 
         override protected function mountComponents(): void
@@ -242,49 +218,8 @@ package game.model.gameObject
             return new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, _targetProvider, aComponentSLot.x, aComponentSLot.y);
         }
 
-        private function die(): void
-        {
-            _lives = Math.max(--_lives, 0);
-            weaponsOnDeath();
-
-            if (_lives > 0)
-            {
-                _state = STATE_WAITING;
-                TweenLite.delayedCall(1, spawn);
-            }
-            else
-            {
-                _state = STATE_DEAD;
-                TweenLite.delayedCall(1.5, dispatchDied);
-            }
-            _changeStateSignal.dispatch(this);
-        }
-
-        private function spawn(): void
-        {
-            _state = STATE_SPAWNING;
-            TweenLite.delayedCall(1.5, setAlive);
-            _changeStateSignal.dispatch(this);
-        }
-
-        private function setAlive(): void
-        {
-            _state = STATE_ALIVE;
-            setFullHealth();
-
-            _changeStateSignal.dispatch(this);
-            _statsUpdateSignal.dispatch();
-
-            if (isShooting)
-                startShoot();
-        }
-
-        private function dispatchDied(): void
-        {
-            _playerDiedSignal.dispatch(_playerID)
-        }
-
-        private function weaponsOnDeath(): void
+        //TODO: temporary public for health component
+        public function weaponsOnDeath(): void
         {
             for (var i: int = 0; i < _weapons.length; i++)
             {

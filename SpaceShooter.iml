@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="DesktopDebug">
     <configurations>
-      <configuration name="DesktopDebug" pure-as="true" main-class="SpaceShooter" output-file="SpaceShooter.swf" output-folder="$MODULE_DIR$/out" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
+      <configuration name="DesktopDebug" pure-as="true" main-class="SpaceShooter" output-file="ShooterDesktopDBG.swf" output-folder="$MODULE_DIR$/out" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
         <dependencies target-player="21.0">
           <entries>
             <entry library-name="libs" library-level="project">
@@ -21,7 +21,7 @@
         <packaging-android />
         <packaging-ios />
       </configuration>
-      <configuration name="MobileRelease" target-platform="Mobile" pure-as="true" main-class="SpaceShooter" output-file="SpaceShooterMobile.swf" output-folder="$MODULE_DIR$/out">
+      <configuration name="MobileRelease" target-platform="Mobile" pure-as="true" main-class="SpaceShooter" output-file="ShooterMobileRLS.swf" output-folder="$MODULE_DIR$/out">
         <dependencies>
           <entries>
             <entry library-name="libs" library-level="project">
@@ -40,7 +40,7 @@
         <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/SpaceShooter-app.xml" package-file-name="Shooter" />
         <packaging-ios package-file-name="OnTopDebug" />
       </configuration>
-      <configuration name="DesktopRelease" pure-as="true" main-class="SpaceShooter" output-file="SpaceShooterRelease.swf" output-folder="$MODULE_DIR$/out" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
+      <configuration name="DesktopRelease" pure-as="true" main-class="SpaceShooter" output-file="ShooterDesktopRLS.swf" output-folder="$MODULE_DIR$/out" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
         <dependencies target-player="21.0">
           <entries>
             <entry library-name="libs" library-level="project">
@@ -60,7 +60,7 @@
         <packaging-android />
         <packaging-ios />
       </configuration>
-      <configuration name="MobileDebug" target-platform="Mobile" pure-as="true" main-class="SpaceShooter" output-file="SpaceShooterMobileDebug.swf" output-folder="$MODULE_DIR$/out">
+      <configuration name="MobileDebug" target-platform="Mobile" pure-as="true" main-class="SpaceShooter" output-file="ShooterMobileDBG.swf" output-folder="$MODULE_DIR$/out">
         <dependencies>
           <entries>
             <entry library-name="libs" library-level="project">

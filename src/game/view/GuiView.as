@@ -8,6 +8,7 @@ package game.view
     import feathers.layout.HorizontalLayout;
 
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.health.PlayerHealthComponent;
 
     import main.model.IViewModel;
 
@@ -149,8 +150,9 @@ package game.view
         public function update(aPlayerModel: PlayerShipGO): void
         {
             _weaponPowerLabel.text = String(aPlayerModel.weaponPower);
-            _livesLabel.text = String(aPlayerModel.lives);
-            _hpDisplay.value = aPlayerModel.hp;
+            //TODO get rid of casting
+            _livesLabel.text = String(PlayerHealthComponent(aPlayerModel.healthComponent).lives);
+            _hpDisplay.value = aPlayerModel.healthComponent.hp;
             _scoreLabel.text = "score: " + aPlayerModel.score;
         }
 

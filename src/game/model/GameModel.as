@@ -1,5 +1,7 @@
 package game.model
 {
+    import com.greensock.TweenLite;
+
     import flash.geom.Rectangle;
 
     import game.controller.GameEndSignal;
@@ -13,6 +15,7 @@ package game.model
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.collider.IOnceColliderComponent;
+    import game.model.gameObject.components.health.IHealthComponent;
     import game.model.gameObject.components.weapon.IWeaponDefs;
     import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
     import game.model.gameObject.constants.BonusTypeID;
@@ -234,7 +237,7 @@ package game.model
                 player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild), this);
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
-                player.playerDiedSignal.add(playerDiedHandler);
+                player.healthComponent.changeStateSignal.add(playerDiedHandler);
                 _players.push(player);
             }
 
@@ -320,7 +323,7 @@ package game.model
                     var smallestHP: Number = Math.PI;
                     for (i = 0; i < _enemies.length; i++)
                     {
-                        currHP = _enemies[i].hp;
+                        currHP = _enemies[i].healthComponent.hp;
                         if (smallestHP > currHP)
                         {
                             smallestHP = currHP;
@@ -329,7 +332,7 @@ package game.model
                     }
                     for (i = 0; i < _obstacles.length; i++)
                     {
-                        currHP = _obstacles[i].hp;
+                        currHP = _obstacles[i].healthComponent.hp;
                         if (smallestHP > currHP)
                         {
                             smallestHP = currHP;
@@ -437,7 +440,7 @@ package game.model
                                 if (playerGO.collider.checkCollision(enemyGO.collider))
                                 {
                                     //decrease player hp
-                                    playerGO.hit(enemyGO.enemyVO.initialHP);
+                                    playerGO.healthComponent.hit(enemyGO.enemyVO.initialHP);
                                     _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
 
                                     //remove enemy
@@ -454,7 +457,7 @@ package game.model
                                 if (playerGO.collider.checkCollision(enemyBulletGO.collider))
                                 {
                                     //decrease player hp
-                                    playerGO.hit(enemyBulletGO.bulletVO.damage);
+                                    playerGO.healthComponent.hit(enemyBulletGO.bulletVO.damage);
                                     _gameObjectHitSignal.dispatch(playerGO, 0);
 
                                     //remove bullet
@@ -471,7 +474,7 @@ package game.model
                                 if (playerGO.collider.checkCollision(obstacleGO.collider))
                                 {
                                     //decrease player hp
-                                    playerGO.hit(obstacleGO.obstacleVO.initialHP);
+                                    playerGO.healthComponent.hit(obstacleGO.obstacleVO.initialHP);
                                     _gameObjectHitSignal.dispatch(playerGO, obstacleGO.obstacleVO.initialHP);
 
                                     //remove obstacle
@@ -514,13 +517,13 @@ package game.model
                                     IOnceColliderComponent(playerBulletGO.collider).markAsHit(enemyGO.collider);
 
                                 //decrease hp
-                                enemyGO.hit(playerBulletGO.bulletVO.damage);
+                                enemyGO.healthComponent.hit(playerBulletGO.bulletVO.damage);
                                 removeBullet = playerBulletGO.bulletVO.mode == BulletMode.ONE_SHOT;
 
                                 _gameObjectHitSignal.dispatch(enemyGO, 0);
 
                                 //remove enemy if dead
-                                if (enemyGO.hp <= 0)
+                                if (enemyGO.healthComponent.hp <= 0)
                                 {
                                     _enemies.splice(iC, 1);
                                     _gameObjectRemovedSignal.dispatch(enemyGO);
@@ -559,13 +562,13 @@ package game.model
                                     IOnceColliderComponent(playerBulletGO.collider).markAsHit(obstacleGO.collider);
 
                                 //decrease hp
-                                obstacleGO.hit(playerBulletGO.bulletVO.damage);
+                                obstacleGO.healthComponent.hit(playerBulletGO.bulletVO.damage);
                                 removeBullet = playerBulletGO.bulletVO.mode == BulletMode.ONE_SHOT;
 
                                 _gameObjectHitSignal.dispatch(obstacleGO, 0);
 
                                 //remove obstacle if dead
-                                if (obstacleGO.hp <= 0)
+                                if (obstacleGO.healthComponent.hp <= 0)
                                 {
                                     _obstacles.splice(iC, 1);
                                     _gameObjectRemovedSignal.dispatch(obstacleGO);
@@ -608,11 +611,11 @@ package game.model
                     if (Math.pow(playerBulletGO.transform.x - enemyGO.transform.x, 2) + Math.pow(playerBulletGO.transform.y - enemyGO.transform.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
-                        enemyGO.hit(playerBulletGO.bulletVO.damage);
+                        enemyGO.healthComponent.hit(playerBulletGO.bulletVO.damage);
                         _gameObjectHitSignal.dispatch(enemyGO, 0);
 
                         //remove enemy if dead
-                        if (enemyGO.hp <= 0)
+                        if (enemyGO.healthComponent.hp <= 0)
                         {
                             _enemies.splice(iC, 1);
                             _gameObjectRemovedSignal.dispatch(enemyGO);
@@ -632,11 +635,11 @@ package game.model
                     if (Math.pow(playerBulletGO.transform.x - obstacleGO.transform.x, 2) + Math.pow(playerBulletGO.transform.y - obstacleGO.transform.y, 2) < Math.pow(playerBulletGO.bulletVO.aoeDistance, 2))
                     {
                         //decrease hp
-                        obstacleGO.hit(playerBulletGO.bulletVO.damage);
+                        obstacleGO.healthComponent.hit(playerBulletGO.bulletVO.damage);
                         _gameObjectHitSignal.dispatch(obstacleGO, 0);
 
                         //remove obstacle if dead
-                        if (obstacleGO.hp <= 0)
+                        if (obstacleGO.healthComponent.hp <= 0)
                         {
                             _obstacles.splice(iC, 1);
                             _gameObjectRemovedSignal.dispatch(obstacleGO);
@@ -847,15 +850,22 @@ package game.model
             }
         }
 
-        private function playerDiedHandler(aPLayerID: uint): void
+        private function playerDiedHandler(aHealthComponent: IHealthComponent): void
         {
-            for (var i: int = 0; i < _players.length; i++)
+            if (aHealthComponent.state == PlayerShipGO.STATE_DEAD)
             {
-                if (_players[i].state != PlayerShipGO.STATE_DEAD)
-                    return;
-            }
+                if (_players.length > 1)
+                {
+                    //check all players
+                    for (var i: int = 0; i < _players.length; i++)
+                    {
+                        if (_players[i].state != PlayerShipGO.STATE_DEAD)
+                            return;
+                    }
+                }
 
-            endGame(false);
+                TweenLite.delayedCall(1.5, endGame, [false]);
+            }
         }
 
         //endregion

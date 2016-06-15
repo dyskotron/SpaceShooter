@@ -14,6 +14,7 @@ package game.view
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.health.IHealthComponent;
     import game.view.gameObjectViews.BonusView;
     import game.view.gameObjectViews.BulletView;
     import game.view.gameObjectViews.EnemyShipView;
@@ -121,7 +122,7 @@ package game.view
                 _playerViews[i] = playerView;
                 _gameObjectViews[playerGO] = playerView;
 
-                playerGO.changeStateSignal.add(playerChangeStateHandler);
+                playerGO.healthComponent.changeStateSignal.add(playerChangeStateHandler);
 
                 //gui
                 var guiView: GuiView = new GuiView(i, aViewModel.stageWidth / 2, 40);
@@ -362,11 +363,12 @@ package game.view
             screenShake(20);
         }
 
-        private function playerChangeStateHandler(aPlayerShipGO: PlayerShipGO): void
+        private function playerChangeStateHandler(aHealthComponent: IHealthComponent): void
         {
-            var playerView: PlayerShipView = _playerViews[aPlayerShipGO.playerID];
+            //todo: get player id better
+            var playerView: PlayerShipView = _playerViews[PlayerShipGO(aHealthComponent.gameObject).playerID];
 
-            switch (aPlayerShipGO.state)
+            switch (aHealthComponent.state)
             {
                 case PlayerShipGO.STATE_ALIVE:
                     playerView.alpha = 1;
