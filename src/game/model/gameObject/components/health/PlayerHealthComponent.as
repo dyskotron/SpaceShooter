@@ -4,11 +4,13 @@ package game.model.gameObject.components.health
 
     import game.model.GameObject;
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.controll.WeaponControlComponent;
 
     public class PlayerHealthComponent extends HealthComponent
     {
         private var _lives: int;
         private var _playerGO: PlayerShipGO;
+        private var _weaponControl: WeaponControlComponent;
 
         public function PlayerHealthComponent(aMaxHP: int, aLives: int = 1)
         {
@@ -17,7 +19,7 @@ package game.model.gameObject.components.health
 
         }
 
-        //region GETTERS & SETTERS
+        //region ========================================= GETTERS & SETTERS ===========================================
 
         public function get lives(): int
         {
@@ -33,10 +35,11 @@ package game.model.gameObject.components.health
 
         override public function init(aGameObject: GameObject): void
         {
-            _playerGO = PlayerShipGO(aGameObject);
-            _state = PlayerShipGO.STATE_ALIVE;
-
             super.init(aGameObject);
+
+            _playerGO = PlayerShipGO(aGameObject);
+            _state = HealthState.ALIVE;
+            _weaponControl = WeaponControlComponent(gameObject.getComponent(WeaponControlComponent));
         }
 
         override public function hit(aDamage: Number): void
@@ -51,43 +54,37 @@ package game.model.gameObject.components.health
         private function die(): void
         {
             _lives = Math.max(--_lives, 0);
-            _playerGO.weaponsOnDeath();
+            _weaponControl.weaponsOnDeath();
 
             if (_lives > 0)
             {
-                _state = PlayerShipGO.STATE_WAITING;
+                _state = HealthState.WAITING;
                 TweenLite.delayedCall(1, spawn);
             }
             else
             {
-                _state = PlayerShipGO.STATE_DEAD;
+                _state = HealthState.DEAD;
             }
             changeStateSignal.dispatch(this);
         }
 
         private function spawn(): void
         {
-            _state = PlayerShipGO.STATE_SPAWNING;
+            _state = HealthState.SPAWNING;
             TweenLite.delayedCall(1.5, setAlive);
             changeStateSignal.dispatch(this);
         }
 
         private function setAlive(): void
         {
-            _state = PlayerShipGO.STATE_ALIVE;
+            _state = HealthState.ALIVE;
             setFullHealth();
 
             changeStateSignal.dispatch(this);
             _playerGO.statsUpdateSignal.dispatch();
 
-            if (_playerGO.isShooting)
-                _playerGO.startShoot();
+            if (_weaponControl.isShooting)
+                _weaponControl.startShoot();
         }
-
-        /*
-         private function dispatchChangeState(): void
-         {
-         changeStateSignal.dispatch(this);
-         } */
     }
 }

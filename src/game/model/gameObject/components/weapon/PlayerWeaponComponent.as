@@ -1,11 +1,10 @@
 package game.model.gameObject.components.weapon
 {
+    import game.model.GameObject;
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.generator.IGeneratorComponent;
     import game.model.gameObject.fsm.ITargetProvider;
-
-    import org.osflash.signals.Signal;
 
     public class PlayerWeaponComponent extends WeaponComponent
     {
@@ -15,14 +14,12 @@ package game.model.gameObject.components.weapon
         private var _generator: IGeneratorComponent;
         private var _playerShipGO: PlayerShipGO;
 
-        public function PlayerWeaponComponent(aPlayerShipGO: PlayerShipGO, aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aTargetProvider: ITargetProvider, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
+        public function PlayerWeaponComponent(aWeaponModel: WeaponModel, aOwnerID: uint, aTargetProvider: ITargetProvider, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
         {
-            super(aShootSignal, aWeaponModel, aOwnerID, aTargetProvider, aX, aY);
+            super(aWeaponModel, aOwnerID, aTargetProvider, aX, aY);
 
             playerWeaponModel = PlayerWeaponModel(aWeaponModel);
             playerWeaponModel.setPower(_aPower);
-            _generator = aPlayerShipGO.generatorComponent;
-            _playerShipGO = aPlayerShipGO;
         }
 
         public function get displayedPower(): uint
@@ -35,10 +32,12 @@ package game.model.gameObject.components.weapon
             return playerWeaponModel.power;
         }
 
-        override public function startShoot(): void
+        override public function init(aGameObject: GameObject): void
         {
-            super.startShoot();
-            _nextShotAfter = 0;
+            _playerShipGO = PlayerShipGO(aGameObject);
+            _generator = IGeneratorComponent(aGameObject.getComponent(IGeneratorComponent));
+
+            super.init(aGameObject);
         }
 
         public function addPower(): void

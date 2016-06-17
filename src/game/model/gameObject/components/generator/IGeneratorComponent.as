@@ -1,9 +1,9 @@
 package game.model.gameObject.components.generator
 {
-    public interface IGeneratorComponent
-    {
-        function update(aDeltaTime: int): void;
+    import game.model.gameObject.components.IComponent;
 
+    public interface IGeneratorComponent extends IComponent
+    {
         function get energy(): Number;
 
         function get capacity(): Number;

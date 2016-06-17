@@ -14,6 +14,7 @@ package game.view
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.health.HealthState;
     import game.model.gameObject.components.health.IHealthComponent;
     import game.view.gameObjectViews.BonusView;
     import game.view.gameObjectViews.BulletView;
@@ -124,8 +125,9 @@ package game.view
 
                 playerGO.healthComponent.changeStateSignal.add(playerChangeStateHandler);
 
+                //TODO: move creating sub guis to mediator
                 //gui
-                var guiView: GuiView = new GuiView(i, aViewModel.stageWidth / 2, 40);
+                var guiView: GuiView = new GuiView(playerGO, aViewModel.stageWidth / 2, 40);
                 _guiLayer.addChild(guiView);
                 guiView.x = i * aViewModel.stageWidth / 2;
                 _guiViews.push(guiView);
@@ -370,14 +372,14 @@ package game.view
 
             switch (aHealthComponent.state)
             {
-                case PlayerShipGO.STATE_ALIVE:
+                case HealthState.ALIVE:
                     playerView.alpha = 1;
                     break;
-                case PlayerShipGO.STATE_SPAWNING:
+                case HealthState.SPAWNING:
                     playerView.alpha = 0.2;
                     break;
-                case PlayerShipGO.STATE_WAITING:
-                case PlayerShipGO.STATE_DEAD:
+                case HealthState.WAITING:
+                case HealthState.DEAD:
                     playerView.alpha = 0;
                     break;
             }

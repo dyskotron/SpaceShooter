@@ -10,6 +10,8 @@ package game.model.gameObject.components.health
 
         function get hp(): int;
 
+        function get maxHP(): int
+
         function get state(): uint;
 
         function hit(aDamage: Number): void;

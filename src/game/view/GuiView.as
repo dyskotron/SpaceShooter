@@ -8,9 +8,9 @@ package game.view
     import feathers.layout.HorizontalLayout;
 
     import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.components.controll.WeaponControlComponent;
+    import game.model.gameObject.components.generator.IGeneratorComponent;
     import game.model.gameObject.components.health.PlayerHealthComponent;
-
-    import main.model.IViewModel;
 
     import starling.display.DisplayObjectContainer;
     import starling.display.Image;
@@ -27,24 +27,32 @@ package game.view
         private var _width: Number;
 
         private var _scoreLabel: Label;
-        private var _playerID: Number;
+        private var _playerGO: PlayerShipGO;
         private var _hpDisplay: ProgressBar;
         private var _energyDisplay: ProgressBar;
         private var _layoutGroup: LayoutGroup;
         private var _livesLabel: Label;
         private var _weaponPowerLabel: Label;
 
+        private var _playerHealth: PlayerHealthComponent;
+        private var _playerGenerator: IGeneratorComponent;
+        private var _playerWeapons: WeaponControlComponent;
+
         /**
          * View for player stats e.g. lives, hp, weapon power etc
-         * @param aPlayerID
+         * @param aPlayerGO
          * @param aWidth
          * @param aHeight
          */
-        public function GuiView(aPlayerID: Number, aWidth: Number, aHeight: Number)
+        public function GuiView(aPlayerGO: PlayerShipGO, aWidth: Number, aHeight: Number)
         {
             _height = aHeight;
             _width = aWidth;
-            _playerID = aPlayerID;
+            _playerGO = aPlayerGO;
+
+            _playerHealth = PlayerHealthComponent(_playerGO.getComponent(PlayerHealthComponent));
+            _playerGenerator = IGeneratorComponent(_playerGO.getComponent(IGeneratorComponent));
+            _playerWeapons = WeaponControlComponent(_playerGO.getComponent(WeaponControlComponent));
         }
 
         override public function get height(): Number
@@ -59,10 +67,10 @@ package game.view
 
         public function get playerID(): Number
         {
-            return _playerID;
+            return _playerGO.playerID;
         }
 
-        public function init(aViewModel: IViewModel, aPlayerModel: PlayerShipGO, aTextureProvider: TextureProvider): void
+        public function init(aTextureProvider: TextureProvider): void
         {
             var innerHeight: Number = height - 2 * MARGIN;
 
@@ -98,7 +106,7 @@ package game.view
             //lives
             var livesContainer: Sprite = new Sprite();
 
-            var livesIcon: Image = new Image(aTextureProvider.getPlayerLifeIconTexture(_playerID));
+            var livesIcon: Image = new Image(aTextureProvider.getPlayerLifeIconTexture(_playerGO.playerID));
             livesIcon.y = (innerHeight - livesIcon.height) / 2;
             livesContainer.addChild(livesIcon);
 
@@ -113,13 +121,13 @@ package game.view
             //hit points + energy
             var hpEnergyContainer: Sprite = new Sprite();
             _hpDisplay = new ProgressBar();
-            _hpDisplay.value = _hpDisplay.maximum = aPlayerModel.playerShipVO.initialHP;
+            _hpDisplay.value = _hpDisplay.maximum = _playerHealth.maxHP;
             _hpDisplay.width = width / 4;
             _hpDisplay.height = innerHeight / 2;
             hpEnergyContainer.addChild(_hpDisplay);
 
             _energyDisplay = new ProgressBar();
-            _energyDisplay.value = _energyDisplay.maximum = aPlayerModel.generatorComponent.capacity;
+            _energyDisplay.value = _energyDisplay.maximum = _playerGenerator.capacity;
             _energyDisplay.y = innerHeight / 2;
             _energyDisplay.width = width / 4;
             _energyDisplay.height = innerHeight / 2;
@@ -144,21 +152,20 @@ package game.view
                 _layoutGroup.addChild(layoutChildren[i]);
             }
 
-            update(aPlayerModel);
+            update(_playerGO);
         }
 
-        public function update(aPlayerModel: PlayerShipGO): void
+        public function update(aPlayerGO: PlayerShipGO): void
         {
-            _weaponPowerLabel.text = String(aPlayerModel.weaponPower);
-            //TODO get rid of casting
-            _livesLabel.text = String(PlayerHealthComponent(aPlayerModel.healthComponent).lives);
-            _hpDisplay.value = aPlayerModel.healthComponent.hp;
-            _scoreLabel.text = "score: " + aPlayerModel.score;
+            _weaponPowerLabel.text = String(_playerWeapons.weaponPower);
+            _livesLabel.text = String(_playerHealth.lives);
+            _hpDisplay.value = _playerHealth.hp;
+            _scoreLabel.text = "score: " + aPlayerGO.score;
         }
 
-        public function updateEnergyDisplay(aPlayerModel: PlayerShipGO): void
+        public function updateEnergyDisplay(): void
         {
-            _energyDisplay.value = aPlayerModel.generatorComponent.energy;
+            _energyDisplay.value = _playerGenerator.energy;
         }
     }
 }

@@ -46,5 +46,39 @@ package game.model.gameObject.def
 
             return new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, componentSlots, 150, 99, 75);
         }
+
+        /*
+         protected function mountComponents(aComponentSlots: Vector.<ComponentSlot>): void
+         {
+         var components: Vector.<IComponent>;
+         var capacity: Number = 0;
+         var rechargeSpeed: Number = 0;
+
+         if (aComponentSlots)
+         {
+         var componentSlot: ComponentSlot;
+
+         for (var i: int = 0; i < aComponentSlots.length; i++)
+         {
+         componentSlot = aComponentSlots[i];
+
+         if (componentSlot.isComponentType(ComponentType.GENERATOR))
+         {
+         rechargeSpeed += GeneratorModel(componentSlot.componentModel).rechargeSpeed;
+         }
+         else if (componentSlot.isComponentType(ComponentType.BATTERY))
+         {
+         capacity += BatteryModel(componentSlot.componentModel).capacity;
+         }
+         else if (componentSlot.isComponentType(ComponentType.GUNS))
+         {
+         weaponComponent = createWeapon(componentSlot);
+         addComponent(weaponComponent);
+         }
+         }
+         }
+
+         components.push(new EnergyComponent(capacity, rechargeSpeed));
+         }     */
     }
 }

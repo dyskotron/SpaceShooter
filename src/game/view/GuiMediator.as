@@ -35,7 +35,7 @@ package game.view
             _playerModel = gameModel.getPlayerModelByID(guiView.playerID);
             _playerModel.statsUpdateSignal.add(statsUpdateHandler);
 
-            guiView.init(viewModel, _playerModel, textureProvider);
+            guiView.init(textureProvider);
 
             viewUpdateSignal.add(viewUpdateHandler);
         }
@@ -49,7 +49,7 @@ package game.view
 
         private function viewUpdateHandler(aDeltaTime: int): void
         {
-            guiView.updateEnergyDisplay(_playerModel);
+            guiView.updateEnergyDisplay();
         }
 
         private function statsUpdateHandler(): void

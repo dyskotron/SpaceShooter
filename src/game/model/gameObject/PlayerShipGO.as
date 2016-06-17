@@ -12,25 +12,20 @@ package game.model.gameObject
     import game.model.gameObject.components.generator.EnergyComponent;
     import game.model.gameObject.components.generator.GeneratorModel;
     import game.model.gameObject.components.generator.IGeneratorComponent;
-    import game.model.gameObject.components.generator.IGeneratorGO;
     import game.model.gameObject.components.health.IHealthComponent;
     import game.model.gameObject.components.health.PlayerHealthComponent;
     import game.model.gameObject.components.weapon.ComponentSlot;
     import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.components.weapon.PlayerWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
-    import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.PlayerShipVO;
 
     import org.osflash.signals.Signal;
 
-    public class PlayerShipGO extends ShootingGO implements IGeneratorGO
+    public class PlayerShipGO extends ShootingGO
     {
-        public static const STATE_DEAD: uint = 0;
-        public static const STATE_WAITING: uint = 1;
         public static const STATE_ALIVE: uint = 2;
-        public static const STATE_SPAWNING: uint = 3;
 
         public static const MOVE_EASING: Number = 0.4;
 
@@ -61,11 +56,7 @@ package game.model.gameObject
             super(aPlayerShipVO, aTargetProvider, 0, 0, 0, 0);
         }
 
-        //region ==================== SETTERS & GETTERS ====================
-        public function get playerShipVO(): PlayerShipVO
-        {
-            return _playerShipVO;
-        }
+        //region ========================================== SETTERS & GETTERS ==========================================
 
         public function get playerID(): uint
         {
@@ -88,39 +79,12 @@ package game.model.gameObject
             _statsUpdateSignal.dispatch();
         }
 
-        public function get weaponPower(): uint
-        {
-            return PlayerWeaponComponent(_weapons[0]).displayedPower;
-        }
-
-        public function get generatorComponent(): IGeneratorComponent
-        {
-            return _generatorComponent;
-        }
-
         public function get statsUpdateSignal(): Signal
         {
             return _statsUpdateSignal;
         }
 
         //endregion
-
-        override public function startShoot(): void
-        {
-            if (state == STATE_ALIVE)
-                super.startShoot();
-        }
-
-        override public function endShoot(): void
-        {
-            super.endShoot();
-        }
-
-        override public function chargeShoot(): void
-        {
-            if (state == STATE_ALIVE)
-                super.chargeShoot();
-        }
 
         public function init(aX: Number, aY: Number): void
         {
@@ -140,49 +104,9 @@ package game.model.gameObject
             super.update(aDeltaTime);
         }
 
-        public function getBonus(typeID: uint): void
-        {
-            switch (typeID)
-            {
-                case BonusTypeID.BONUS_HEALTH:
-                    healthComponent.addHitPoints(80);
-                    break;
-                case BonusTypeID.BONUS_LIFE:
-                    PlayerHealthComponent(healthComponent).lives++;
-                    break;
-                case BonusTypeID.BONUS_WEAPON:
-                    weaponsAddPower();
-                    break;
-            }
-
-            _statsUpdateSignal.dispatch();
-        }
-
-        /**
-         * Debug function
-         */
-        public function powerDown(): void
-        {
-            weaponsOnDeath();
-        }
-
-        /**
-         * Debug function
-         */
-        public function switchMainWeapon(aWeaponModel: WeaponModel): void
-        {
-            _weapons[0] = new PlayerWeaponComponent(this, shootSignal, aWeaponModel, _playerID, _targetProvider, PlayerWeaponComponent(_weapons[0]).x, PlayerWeaponComponent(_weapons[0]).y, PlayerWeaponComponent(_weapons[0]).power);
-            _weapons[0].init(this);
-        }
-
         override public function destroy(): void
         {
 
-        }
-
-        override protected function createHealthComponent(aInitialHP: int): IHealthComponent
-        {
-            return new PlayerHealthComponent(aInitialHP, 3);
         }
 
         override protected function mountComponents(): void
@@ -198,11 +122,11 @@ package game.model.gameObject
                 {
                     componentSlot = _playerShipVO.componentSlots[i];
 
-                    if (componentSlot.isType(ComponentType.GENERATOR))
+                    if (componentSlot.isComponentType(ComponentType.GENERATOR))
                     {
                         rechargeSpeed += GeneratorModel(componentSlot.componentModel).rechargeSpeed;
                     }
-                    else if (componentSlot.isType(ComponentType.BATTERY))
+                    else if (componentSlot.isComponentType(ComponentType.BATTERY))
                     {
                         capacity += BatteryModel(componentSlot.componentModel).capacity;
                     }
@@ -210,32 +134,22 @@ package game.model.gameObject
             }
 
             _generatorComponent = new EnergyComponent(capacity, rechargeSpeed);
+            addComponent(_generatorComponent);
 
             super.mountComponents();
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aComponentSLot: ComponentSlot): IWeaponComponent
+        override protected function createHealthComponent(aInitialHP: int): IHealthComponent
         {
-            var playerComponent: IWeaponComponent = new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, _targetProvider, aComponentSLot.x, aComponentSLot.y);
-            playerComponent.init(this);
-            return playerComponent;
+            return new PlayerHealthComponent(aInitialHP, 3);
         }
 
-        //TODO: temporary public for health component
-        public function weaponsOnDeath(): void
+        override protected function createWeapon(aComponentSLot: ComponentSlot): IWeaponComponent
         {
-            for (var i: int = 0; i < _weapons.length; i++)
-            {
-                PlayerWeaponComponent(_weapons[i]).onDeath();
-            }
+            var playerWeaponComponent: IWeaponComponent = new PlayerWeaponComponent(WeaponModel(aComponentSLot.componentModel), _playerID, targetProvider, aComponentSLot.x, aComponentSLot.y);
+            return playerWeaponComponent;
         }
 
-        private function weaponsAddPower(): void
-        {
-            for (var i: int = 0; i < _weapons.length; i++)
-            {
-                PlayerWeaponComponent(_weapons[i]).addPower();
-            }
-        }
+
     }
 }

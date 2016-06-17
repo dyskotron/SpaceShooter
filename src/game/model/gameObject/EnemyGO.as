@@ -17,8 +17,6 @@ package game.model.gameObject
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.EnemyVO;
 
-    import org.osflash.signals.Signal;
-
     public class EnemyGO extends ShootingGO
     {
         private var _enemyVO: EnemyVO;
@@ -33,7 +31,7 @@ package game.model.gameObject
 
             _fsm = new GameObjectFSM(aBehaviorVO.states, this, aTarget);
 
-            startShoot();
+            _weaponControl.startShoot();
         }
 
         public function get enemyVO(): EnemyVO
@@ -54,10 +52,9 @@ package game.model.gameObject
 
         }
 
-        override protected function createWeapon(aShootSignal: Signal, aComponentSlot: ComponentSlot): IWeaponComponent
+        override protected function createWeapon(aComponentSlot: ComponentSlot): IWeaponComponent
         {
-            var weaponComponent: EnemyWeaponComponent = new EnemyWeaponComponent(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, _targetProvider, aComponentSlot.x, aComponentSlot.y);
-            weaponComponent.init(this);
+            var weaponComponent: EnemyWeaponComponent = new EnemyWeaponComponent(WeaponModel(aComponentSlot.componentModel), 100, targetProvider, aComponentSlot.x, aComponentSlot.y);
             return weaponComponent;
         }
 

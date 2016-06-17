@@ -16,12 +16,10 @@ package game.model.gameObject
 
             _hittableVO = aHittableVO;
             _healthComponent = createHealthComponent(aHittableVO.initialHP);
-            _healthComponent.init(this);
-        }
+            addComponent(_healthComponent);
 
-        public function get hittableVO(): HittableVO
-        {
-            return _hittableVO;
+            //TODO unify with guns and call just once!!
+            initComponents();
         }
 
         public function get healthComponent(): IHealthComponent

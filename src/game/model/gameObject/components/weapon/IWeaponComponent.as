@@ -4,7 +4,7 @@ package game.model.gameObject.components.weapon
 
     public interface IWeaponComponent extends IComponent
     {
-        function startShoot(): void
+        function startShoot(aNextShotAfter: Number = 0): void
 
         function endShoot(): void
 

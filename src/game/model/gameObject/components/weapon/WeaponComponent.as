@@ -1,7 +1,9 @@
 package game.model.gameObject.components.weapon
 {
+    import game.model.GameObject;
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.components.Component;
+    import game.model.gameObject.components.controll.WeaponControlComponent;
     import game.model.gameObject.components.weapon.enums.WeaponType;
     import game.model.gameObject.fsm.ITargetProvider;
 
@@ -25,9 +27,8 @@ package game.model.gameObject.components.weapon
         private var _spawnPointIndex: Number = 0;
 
 
-        public function WeaponComponent(aShootSignal: Signal, aWeaponModel: WeaponModel, aOwnerID: uint, aTargetProvider: ITargetProvider, aX: Number = 0, aY: Number = 0)
+        public function WeaponComponent(aWeaponModel: WeaponModel, aOwnerID: uint, aTargetProvider: ITargetProvider, aX: Number = 0, aY: Number = 0)
         {
-            _shootSignal = aShootSignal;
             _weaponModel = aWeaponModel;
             _ownerID = aOwnerID;
             _x = aX;
@@ -50,6 +51,18 @@ package game.model.gameObject.components.weapon
             return _weaponModel;
         }
 
+
+        override public function init(aGameObject: GameObject): void
+        {
+            super.init(aGameObject);
+
+            var weaponControlComponent: WeaponControlComponent = WeaponControlComponent(gameObject.getComponent(WeaponControlComponent));
+            if (weaponControlComponent)
+                _shootSignal = weaponControlComponent.shootSignal;
+            else
+                _shootSignal = new Signal(Vector.<BulletGO>);
+        }
+
         override public function update(aDeltaTime: int): void
         {
             if (_isShooting)
@@ -64,10 +77,10 @@ package game.model.gameObject.components.weapon
             }
         }
 
-        public function startShoot(): void
+        public function startShoot(aNextShotAfter:Number = 0): void
         {
             _isShooting = true;
-            _nextShotAfter = 0;
+            _nextShotAfter = aNextShotAfter;
         }
 
         public function endShoot(): void

@@ -15,7 +15,10 @@ package game.model
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.collider.IOnceColliderComponent;
+    import game.model.gameObject.components.controll.WeaponControlComponent;
+    import game.model.gameObject.components.health.HealthState;
     import game.model.gameObject.components.health.IHealthComponent;
+    import game.model.gameObject.components.health.PlayerHealthComponent;
     import game.model.gameObject.components.weapon.IWeaponDefs;
     import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
     import game.model.gameObject.constants.BonusTypeID;
@@ -120,6 +123,8 @@ package game.model
         private var _finishedLevel: Boolean = false;
         private var _immortal: Boolean = false;
         private var _gameBounds: Rectangle;
+        private var _playerHealth: Vector.<PlayerHealthComponent>;
+        private var _playerWeapons: Vector.<WeaponControlComponent>;
 
         /**
          * Main model of the Game, it stores and updates all game objects, and dispatches according signals if something changes
@@ -220,6 +225,9 @@ package game.model
             _aoeDamageTriggeredSignal = new Signal(BulletGO);
 
             _players = new Vector.<PlayerShipGO>();
+            _playerWeapons = new Vector.<WeaponControlComponent>();
+            _playerHealth = new Vector.<PlayerHealthComponent>();
+
             _enemies = new Vector.<EnemyGO>();
             _playerBullets = new Vector.<BulletGO>();
             _playerAoeBullets = new Vector.<BulletGO>();
@@ -230,15 +238,24 @@ package game.model
             _gameBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
             var player: PlayerShipGO;
-
+            var playerWeapon: WeaponControlComponent;
+            var playerHealth: PlayerHealthComponent;
 
             for (var i: int = 0; i < _numPLayers; i++)
             {
                 player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild), this);
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
-                player.shootSignal.add(playerShootHandler);
                 player.healthComponent.changeStateSignal.add(playerHealthHandler);
                 _players.push(player);
+
+                playerWeapon = WeaponControlComponent(player.getComponent(WeaponControlComponent));
+                playerWeapon.shootSignal.add(playerShootHandler);
+                _playerWeapons.push(playerWeapon);
+
+                playerHealth = PlayerHealthComponent(player.getComponent(PlayerHealthComponent));
+                playerHealth.changeStateSignal.add(playerHealthHandler);
+                _playerHealth.push(playerHealth);
+
             }
 
             physicsUpdateSignal.add(gameLoopSignalHandler);
@@ -370,7 +387,8 @@ package game.model
             {
                 if (_players[i].score > 0)
                     highScoreService.saveScore(mainModel.getPlayerName(i), _players[i].score);
-                _players[i].endShoot();
+
+                _playerWeapons[i].endShoot();
             }
 
             _state = STATE_ENDED;
@@ -411,11 +429,11 @@ package game.model
             for (i = 0; i < _numPLayers; i++)
             {
                 playerGO = _players[i];
-                if (playerGO.state == PlayerShipGO.STATE_ALIVE || playerGO.state == PlayerShipGO.STATE_SPAWNING)
+                if (playerGO.state == HealthState.ALIVE || playerGO.state == HealthState.SPAWNING)
                 {
                     _players[i].update(aDeltaTime);
 
-                    if (playerGO.state == PlayerShipGO.STATE_ALIVE)
+                    if (playerGO.state == HealthState.ALIVE)
                     {
                         //bonus collisions
                         for (iC = _bonuses.length - 1; iC >= 0; iC--)
@@ -424,7 +442,7 @@ package game.model
                             if (playerGO.collider.checkCollision(bonusGO.collider))
                             {
                                 //give player a bonus
-                                playerGO.getBonus(bonusGO.bonusVO.bulletID);
+                                getBonus(playerGO.playerID, bonusGO.bonusVO.bulletID);
 
                                 _bonuses.splice(iC, 1);
                                 _gameObjectRemovedSignal.dispatch(bonusGO);
@@ -805,12 +823,12 @@ package game.model
         {
             aPlayerID = Math.min(aPlayerID, _numPLayers - 1);
 
-            var playerGO: PlayerShipGO = _players[aPlayerID];
+            var weaponControl: WeaponControlComponent = _playerWeapons[aPlayerID];
 
             switch (aActionID)
             {
                 case PlayerActionID.PRIMARY_FIRE:
-                    aValue ? playerGO.startShoot() : playerGO.endShoot();
+                    aValue ? weaponControl.startShoot() : weaponControl.endShoot();
                     break;
             }
         }
@@ -819,52 +837,67 @@ package game.model
         {
             aPlayerID = Math.min(aPlayerID, _numPLayers - 1);
 
-            var playerGO: PlayerShipGO = _players[aPlayerID];
+            var weaponControl: WeaponControlComponent = _playerWeapons[aPlayerID];
 
             switch (aActionID)
             {
                 case PlayerActionID.PRIMARY_FIRE:
-                    playerGO.isShooting ? playerGO.endShoot() : playerGO.startShoot();
+                    weaponControl.isShooting ? weaponControl.endShoot() : weaponControl.startShoot();
                     break;
 
                 case PlayerActionID.CHARGE_FIRE:
-                    playerGO.chargeShoot();
+                    weaponControl.chargeShoot();
                     break;
-
 
                 case PlayerActionID.POWER_UP:
-                    playerGO.getBonus(BonusTypeID.BONUS_WEAPON);
+                    getBonus(aPlayerID, BonusTypeID.BONUS_WEAPON);
                     break;
                 case PlayerActionID.POWER_DOWN:
-                    playerGO.powerDown();
+                    weaponControl.weaponsOnDeath();
                     break;
                 case PlayerActionID.WEAPON_LASER:
-                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.LASER));
+                    weaponControl.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.LASER));
                     break;
                 case PlayerActionID.WEAPON_PLASMA:
-                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.PLASMA));
+                    weaponControl.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.PLASMA));
                     break;
                 case PlayerActionID.WEAPON_ELECTRIC:
-                    playerGO.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.ELECTRIC));
+                    weaponControl.switchMainWeapon(weaponDef.getMainWeaponModel(PlayerWeaponID.ELECTRIC));
                     break;
             }
         }
 
         private function playerHealthHandler(aHealthComponent: IHealthComponent): void
         {
-            if (aHealthComponent.state == PlayerShipGO.STATE_DEAD)
+            if (aHealthComponent.state == HealthState.DEAD)
             {
                 if (_players.length > 1)
                 {
                     //check all players
                     for (var i: int = 0; i < _players.length; i++)
                     {
-                        if (_players[i].state != PlayerShipGO.STATE_DEAD)
+                        if (_players[i].state != HealthState.DEAD)
                             return;
                     }
                 }
 
                 TweenLite.delayedCall(1.5, endGame, [false]);
+            }
+        }
+
+        private function getBonus(aPlayerID: uint, typeID: uint): void
+        {
+            switch (typeID)
+            {
+                case BonusTypeID.BONUS_HEALTH:
+                    _playerHealth[aPlayerID].addHitPoints(80);
+                    break;
+                case BonusTypeID.BONUS_LIFE:
+                    _playerHealth[aPlayerID].lives++;
+                    break;
+                case BonusTypeID.BONUS_WEAPON:
+                    _playerWeapons[aPlayerID].weaponsAddPower();
+                    break;
             }
         }
 

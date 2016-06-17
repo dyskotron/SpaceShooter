@@ -84,7 +84,7 @@ package game.model.gameObject.components.weapon
          * @param aTypeIDs - single component ID, or multiple IDs in one bit mask to be tested
          * @return
          */
-        public function isType(aTypeIDs: uint): Boolean
+        public function isComponentType(aTypeIDs: uint): Boolean
         {
             if (!hasComponent())
                 return false;

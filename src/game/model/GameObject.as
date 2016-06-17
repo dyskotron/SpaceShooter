@@ -42,6 +42,8 @@ package game.model
 
             _collider = createCollider();
             addComponent(_collider);
+
+            initComponents();
         }
 
         //region ========================================= SETTERS & GETTERS  ==========================================
@@ -127,13 +129,20 @@ package game.model
 
         protected function addComponent(aComponent: IComponent): void
         {
-            aComponent.init(this);
             _components.push(aComponent);
         }
 
         protected function createCollider(): IColliderComponent
         {
             return new SquareColliderComponent();
+        }
+
+        protected function initComponents(): void
+        {
+            for (var i: int = 0; i < _components.length; i++)
+            {
+                _components[i].init(this);
+            }
         }
     }
 }
