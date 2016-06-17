@@ -59,10 +59,6 @@ package game.model.gameObject.components.weapon
                 if (_generator.deplete(playerWeaponModel.energyCost))
                     super.shoot(aX, aY);
             }
-
-            /**
-             * if deplete == primary
-             */
         }
     }
 }

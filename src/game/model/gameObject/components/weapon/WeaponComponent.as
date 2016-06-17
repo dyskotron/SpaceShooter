@@ -1,12 +1,13 @@
 package game.model.gameObject.components.weapon
 {
     import game.model.gameObject.BulletGO;
+    import game.model.gameObject.components.Component;
     import game.model.gameObject.components.weapon.enums.WeaponType;
     import game.model.gameObject.fsm.ITargetProvider;
 
     import org.osflash.signals.Signal;
 
-    public class WeaponComponent implements IWeaponComponent
+    public class WeaponComponent extends Component implements IWeaponComponent
     {
 
         protected var _ownerID: uint;
@@ -49,7 +50,7 @@ package game.model.gameObject.components.weapon
             return _weaponModel;
         }
 
-        public function update(aDeltaTime: int, aShipX: Number, aShipY: Number): void
+        override public function update(aDeltaTime: int): void
         {
             if (_isShooting)
             {
@@ -57,7 +58,7 @@ package game.model.gameObject.components.weapon
 
                 if (_nextShotAfter <= 0)
                 {
-                    shoot(aShipX + _x, aShipY + _y);
+                    shoot(gameObject.transform.x + _x, gameObject.transform.y + _y);
                     _nextShotAfter = _weaponModel.shootInterval;
                 }
             }

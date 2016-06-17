@@ -56,7 +56,9 @@ package game.model.gameObject
 
         override protected function createWeapon(aShootSignal: Signal, aComponentSlot: ComponentSlot): IWeaponComponent
         {
-            return new EnemyWeaponComponent(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, _targetProvider, aComponentSlot.x, aComponentSlot.y);
+            var weaponComponent: EnemyWeaponComponent = new EnemyWeaponComponent(aShootSignal, WeaponModel(aComponentSlot.componentModel), 100, _targetProvider, aComponentSlot.x, aComponentSlot.y);
+            weaponComponent.init(this);
+            return weaponComponent;
         }
 
     }

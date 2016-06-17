@@ -237,7 +237,7 @@ package game.model
                 player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild), this);
                 player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
                 player.shootSignal.add(playerShootHandler);
-                player.healthComponent.changeStateSignal.add(playerDiedHandler);
+                player.healthComponent.changeStateSignal.add(playerHealthHandler);
                 _players.push(player);
             }
 
@@ -850,7 +850,7 @@ package game.model
             }
         }
 
-        private function playerDiedHandler(aHealthComponent: IHealthComponent): void
+        private function playerHealthHandler(aHealthComponent: IHealthComponent): void
         {
             if (aHealthComponent.state == PlayerShipGO.STATE_DEAD)
             {

@@ -7,7 +7,9 @@
  */
 package game.model.gameObject.components.generator
 {
-    public class EnergyComponent implements IGeneratorComponent
+    import game.model.gameObject.components.Component;
+
+    public class EnergyComponent extends Component implements IGeneratorComponent
     {
         private var _energy: Number;
         private var _capacity: Number;
@@ -17,7 +19,8 @@ package game.model.gameObject.components.generator
 
         /**
          * Maintain battery, energy consumption and recharging
-         * @param generatorVO
+         * @param aCapacity
+         * @param aRechargeSpeed
          */
         public function EnergyComponent(aCapacity: Number, aRechargeSpeed: Number)
         {
@@ -27,7 +30,7 @@ package game.model.gameObject.components.generator
             _percentLeft = 100;
         }
 
-        public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: int): void
         {
             recharge(_rechargeSpeed * aDeltaTime / 1000);
         }

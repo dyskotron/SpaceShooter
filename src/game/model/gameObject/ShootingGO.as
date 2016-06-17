@@ -54,7 +54,7 @@ package game.model.gameObject
         {
             for (var i: int = 0; i < _weapons.length; i++)
             {
-                _weapons[i].update(aDeltaTime, transform.x, transform.y);
+                _weapons[i].update(aDeltaTime);
             }
 
             super.update(aDeltaTime);

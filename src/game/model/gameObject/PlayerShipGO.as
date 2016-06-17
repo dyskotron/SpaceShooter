@@ -172,6 +172,7 @@ package game.model.gameObject
         public function switchMainWeapon(aWeaponModel: WeaponModel): void
         {
             _weapons[0] = new PlayerWeaponComponent(this, shootSignal, aWeaponModel, _playerID, _targetProvider, PlayerWeaponComponent(_weapons[0]).x, PlayerWeaponComponent(_weapons[0]).y, PlayerWeaponComponent(_weapons[0]).power);
+            _weapons[0].init(this);
         }
 
         override public function destroy(): void
@@ -215,7 +216,9 @@ package game.model.gameObject
 
         override protected function createWeapon(aShootSignal: Signal, aComponentSLot: ComponentSlot): IWeaponComponent
         {
-            return new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, _targetProvider, aComponentSLot.x, aComponentSLot.y);
+            var playerComponent: IWeaponComponent = new PlayerWeaponComponent(this, aShootSignal, WeaponModel(aComponentSLot.componentModel), _playerID, _targetProvider, aComponentSLot.x, aComponentSLot.y);
+            playerComponent.init(this);
+            return playerComponent;
         }
 
         //TODO: temporary public for health component
