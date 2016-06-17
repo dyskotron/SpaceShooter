@@ -35,5 +35,20 @@ package game.model.gameObject.components
         {
             _enabled = aEnabled;
         }
+
+        protected function hasGOComponent(aComponentClass: Class): Boolean
+        {
+            return _gameObject.hasComponent(aComponentClass);
+        }
+
+        protected function getGOComponent(aComponentClass: Class): IComponent
+        {
+            return _gameObject.getComponent(aComponentClass);
+        }
+
+        protected function getGOComponents(aComponentClass: Class): Vector.<IComponent>
+        {
+            return _gameObject.getComponents(aComponentClass);
+        }
     }
 }

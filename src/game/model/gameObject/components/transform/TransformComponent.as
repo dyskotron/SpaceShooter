@@ -1,8 +1,9 @@
 package game.model.gameObject.components.transform
 {
+    import game.model.gameObject.components.Component;
     import game.model.gameObject.fsm.ITarget;
 
-    public class TransformComponent implements ITarget
+    public class TransformComponent extends Component implements ITarget
     {
         private var _y: Number;
         private var _x: Number;
@@ -83,7 +84,7 @@ package game.model.gameObject.components.transform
             return _height;
         }
 
-        public function update(deltaTime: int): void
+        override public function update(deltaTime: int): void
         {
 
         }
