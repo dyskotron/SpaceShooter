@@ -9,7 +9,6 @@ package game.view
 
     import game.model.GameObject;
     import game.model.IGameModel;
-    import game.model.gameObject.BonusGO;
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.components.health.HealthState;
@@ -212,15 +211,15 @@ package game.view
             }
 
             /** UPDATE BONUSES **/
-            var bonusModel: BonusGO;
+            var bonusGO: GameObject;
             var bonusView: BonusView;
             for (i = 0; i < _gameModel.bonuses.length; i++)
             {
-                bonusModel = _gameModel.bonuses[i];
-                bonusView = _gameObjectViews[bonusModel];
-                bonusView.x = bonusModel.transform.x;
-                bonusView.y = bonusModel.transform.y;
-                bonusView.rotation = bonusModel.transform.rotation;
+                bonusGO = _gameModel.bonuses[i];
+                bonusView = _gameObjectViews[bonusGO];
+                bonusView.x = bonusGO.transform.x;
+                bonusView.y = bonusGO.transform.y;
+                bonusView.rotation = bonusGO.transform.rotation;
             }
 
             /** UPDATE OBSTACLES **/
@@ -313,14 +312,14 @@ package game.view
 
         private function obstacleSpawnedHandler(aObstacleGO: ObstacleGO): void
         {
-            var obstacleView: ObstacleView = new ObstacleView(_textureProvider.getObstacleTexture(aObstacleGO.obstacleVO.gameObjectType));
+            var obstacleView: ObstacleView = new ObstacleView(_textureProvider.getObstacleTexture(aObstacleGO.identity.gameObjectType));
             _obstacleLayer.addChild(obstacleView);
             _gameObjectViews[aObstacleGO] = obstacleView;
         }
 
-        private function bonusSpawnedHandler(aBonusGO: BonusGO): void
+        private function bonusSpawnedHandler(aBonusGO: GameObject): void
         {
-            var bonusView: BonusView = new BonusView(_textureProvider.getBonusTexture(aBonusGO.bonusVO.gameObjectType));
+            var bonusView: BonusView = new BonusView(_textureProvider.getBonusTexture(aBonusGO.identity.gameObjectType));
             _miscLayer.addChild(bonusView);
             _gameObjectViews[aBonusGO] = bonusView;
         }

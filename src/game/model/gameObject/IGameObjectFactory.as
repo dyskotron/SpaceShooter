@@ -4,6 +4,7 @@ package game.model.gameObject
     import game.model.gameObject.components.fsm.ITarget;
     import game.model.gameObject.components.fsm.ITargetProvider;
     import game.model.gameObject.vo.BehaviorVO;
+    import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.playerModel.PlayerShipBuildVO;
 
@@ -12,5 +13,7 @@ package game.model.gameObject
         function createEnemyShipGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aTargetProvider: ITargetProvider, aX: Number, aY: Number, aTarget: ITarget): GameObject
 
         function createPlayerShipGO(aPlayerID: uint, aShipBuild: PlayerShipBuildVO, aTargetProvider: ITargetProvider): GameObject
+
+        function createBonusGO(aBonusVO: BonusVO, aX: Number, aY: Number, aSpeedY: Number): GameObject;
     }
 }

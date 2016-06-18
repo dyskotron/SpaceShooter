@@ -9,7 +9,6 @@ package game.model
     import game.controller.playerControl.ITouchController;
     import game.controller.playerControl.KeyController;
     import game.controller.playerControl.PlayerActionID;
-    import game.model.gameObject.BonusGO;
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.IGameObjectFactory;
     import game.model.gameObject.ObstacleGO;
@@ -106,7 +105,7 @@ package game.model
         private var _playerAoeBullets: Vector.<BulletGO>;
         private var _enemyBullets: Vector.<BulletGO>;
         private var _enemies: Vector.<GameObject>;
-        private var _bonuses: Vector.<BonusGO>;
+        private var _bonuses: Vector.<GameObject>;
         private var _obstacles: Vector.<ObstacleGO>;
 
         private var _numPLayers: uint;
@@ -170,7 +169,7 @@ package game.model
             return _enemies;
         }
 
-        public function get bonuses(): Vector.<BonusGO>
+        public function get bonuses(): Vector.<GameObject>
         {
             return _bonuses;
         }
@@ -226,7 +225,7 @@ package game.model
             _enemySpawnedSignal = new Signal(GameObject);
             _bulletSpawnedSignal = new Signal(BulletGO);
             _obstacleSpawnedSignal = new Signal(ObstacleGO);
-            _bonusSpawnedSignal = new Signal(BonusGO);
+            _bonusSpawnedSignal = new Signal(GameObject);
 
             _gameObjectRemovedSignal = new Signal(GameObject);
             _gameObjectHitSignal = new Signal(GameObject, int);
@@ -242,7 +241,7 @@ package game.model
             _playerBullets = new Vector.<BulletGO>();
             _playerAoeBullets = new Vector.<BulletGO>();
             _enemyBullets = new Vector.<BulletGO>();
-            _bonuses = new Vector.<BonusGO>();
+            _bonuses = new Vector.<GameObject>();
             _obstacles = new Vector.<ObstacleGO>();
 
             _gameBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
@@ -424,7 +423,7 @@ package game.model
             var enemyBulletGO: BulletGO;
             var playerBulletGO: BulletGO;
 
-            var bonusGO: BonusGO;
+            var bonusGO: GameObject;
             var obstacleGO: ObstacleGO;
 
             var removeBullet: Boolean;
@@ -457,7 +456,7 @@ package game.model
                         if (playerGO.collider.checkCollision(bonusGO.collider))
                         {
                             //give player a bonus
-                            getBonus(playerGO.gameObjectID, bonusGO.bonusVO.gameObjectType);
+                            getBonus(playerGO.gameObjectID, bonusGO.identity.gameObjectType);
 
                             _bonuses.splice(iC, 1);
                             _gameObjectRemovedSignal.dispatch(bonusGO);
@@ -780,7 +779,7 @@ package game.model
                 case LevelEvent.ID_SPAWN_BONUS:
                     var bonusEvent: SpawnBonusEvent = SpawnBonusEvent(aLevelEvent);
                     var bonusVO: BonusVO = bonusEvent.aBonusVO;
-                    var bonus: BonusGO = new BonusGO(bonusVO, bonusEvent.x, bonusEvent.y, 0, 0.1);
+                    var bonus: GameObject = gameObjectFactory.createBonusGO(bonusVO, bonusEvent.x, bonusEvent.y, 0.1);
                     _bonuses.push(bonus);
                     _bonusSpawnedSignal.dispatch(bonus);
                     break;

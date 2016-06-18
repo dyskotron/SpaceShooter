@@ -39,7 +39,8 @@ package game.model
             _gameObjectVO = aGameObjectVO;
             _gameObjectID = nextGameObjectID++;
 
-            _components = new Vector.<IComponent>();
+            //todo remove ugly shit
+            _components ||= new Vector.<IComponent>();
 
             //transform
             _transform = new TransformComponent(_gameObjectVO.width, _gameObjectVO.height);
@@ -133,6 +134,9 @@ package game.model
 
         public function getComponents(aComponentClass: Class): Vector.<IComponent>
         {
+            //todo remove
+            _components ||= new Vector.<IComponent>();
+
             var components: Vector.<IComponent> = new Vector.<IComponent>();
 
             for (var i: int = 0; i < _components.length; i++)
@@ -147,6 +151,9 @@ package game.model
 
         public function addComponent(aComponent: IComponent): void
         {
+            //todo remove
+            _components ||= new Vector.<IComponent>();
+
             if (aComponent == null)
                 throw new Error("Component cant be null");
 

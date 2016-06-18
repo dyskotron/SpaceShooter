@@ -2,7 +2,7 @@ package game.model.gameObject.components.control
 {
     import game.model.GameObject;
     import game.model.gameObject.components.Component;
-    import game.model.gameObject.components.movement.MovementParamsComponent;
+    import game.model.gameObject.components.movement.MoveParamsComponent;
     import game.model.gameObject.components.transform.TransformComponent;
 
     public class PlayerControlComponent extends Component
@@ -18,7 +18,7 @@ package game.model.gameObject.components.control
         public var controlY: Number;
 
         private var _transform: TransformComponent;
-        private var _movementParams: MovementParamsComponent;
+        private var _movementParams: MoveParamsComponent;
 
         public function PlayerControlComponent()
         {
@@ -29,7 +29,7 @@ package game.model.gameObject.components.control
             super.init(aGameObject);
 
             _transform = gameObject.transform;
-            _movementParams = MovementParamsComponent(gameObject.getComponent(MovementParamsComponent));
+            _movementParams = MoveParamsComponent(gameObject.getComponent(MoveParamsComponent));
         }
 
         public function initControl(aX: Number, aY: Number): void

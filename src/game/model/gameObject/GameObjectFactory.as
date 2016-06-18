@@ -15,7 +15,8 @@ package game.model.gameObject
     import game.model.gameObject.components.health.HealthComponent;
     import game.model.gameObject.components.health.PlayerHealthComponent;
     import game.model.gameObject.components.identity.IdentityComponent;
-    import game.model.gameObject.components.movement.MovementParamsComponent;
+    import game.model.gameObject.components.movement.MoveLinearY;
+    import game.model.gameObject.components.movement.MoveParamsComponent;
     import game.model.gameObject.components.weapon.ComponentSlot;
     import game.model.gameObject.components.weapon.EnemyWeaponComponent;
     import game.model.gameObject.components.weapon.IWeaponComponent;
@@ -24,6 +25,7 @@ package game.model.gameObject
     import game.model.gameObject.def.IComponentDefs;
     import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.vo.BehaviorVO;
+    import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.PlayerShipVO;
     import game.model.playerModel.PlayerShipBuildVO;
@@ -38,6 +40,32 @@ package game.model.gameObject
 
         public function GameObjectFactory()
         {
+        }
+
+
+        public function createPlayerShipGO(aPlayerID: uint, aShipBuild: PlayerShipBuildVO, aTargetProvider: ITargetProvider): GameObject
+        {
+            var playerShipVO: PlayerShipVO = playerShipDefs.getPlayerShipVO(aShipBuild);
+
+            //create ship gameobject
+            var gameObject: GameObject = new GameObject(playerShipVO, 0, 0);
+
+            //create components and add to ship go
+            gameObject.addComponents(getComponentsBySlots(playerShipVO.componentSlots));
+            gameObject.addComponent(new WeaponControlComponent(aTargetProvider));
+            gameObject.addComponent(new SquareColliderComponent());
+            gameObject.addComponent(new PlayerHealthComponent(playerShipVO.initialHP, 3));
+            gameObject.addComponent(new PlayerControlComponent());
+            gameObject.addComponent(new MoveParamsComponent());
+            var identity: IdentityComponent = new IdentityComponent();
+            identity.gameObjectGroupSpecificID = aPlayerID;
+            identity.gameObjectType = aShipBuild.shipTypeID;
+
+            //set width/height
+            gameObject.transform.width = playerShipVO.width;
+            gameObject.transform.height = playerShipVO.height;
+
+            return gameObject;
         }
 
         public function createEnemyShipGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aTargetProvider: ITargetProvider, aX: Number, aY: Number, aTarget: ITarget): GameObject
@@ -57,7 +85,7 @@ package game.model.gameObject
             }
             gameObject.transform.x = aX;
             gameObject.transform.y = aY;
-            gameObject.addComponent(new MovementParamsComponent(aEnemyVO.speed));
+            gameObject.addComponent(new MoveParamsComponent(aEnemyVO.speed));
             gameObject.addComponent(new GameObjectFSM(aBehaviorVO.states, aTarget));
             gameObject.addComponent(new HealthComponent(aEnemyVO.initialHP));
             gameObject.addComponent(new SquareColliderComponent());
@@ -69,28 +97,17 @@ package game.model.gameObject
             return gameObject;
         }
 
-
-        public function createPlayerShipGO(aPlayerID: uint, aShipBuild: PlayerShipBuildVO, aTargetProvider: ITargetProvider): GameObject
+        public function createBonusGO(aBonusVO: BonusVO, aX: Number, aY: Number, aSpeedY: Number): GameObject
         {
-            var playerShipVO: PlayerShipVO = playerShipDefs.getPlayerShipVO(aShipBuild);
+            var gameObject: GameObject = new GameObject(aBonusVO, 0, 0);
+            gameObject.transform.x = aX;
+            gameObject.transform.y = aY;
 
-            //create ship gameobject
-            var gameObject: GameObject = new GameObject(playerShipVO, 0, 0);
+            var movementParams = new MoveParamsComponent(aSpeedY);
+            movementParams.speedY = aSpeedY;
+            gameObject.addComponent(movementParams);
 
-            //create components and add to ship go
-            gameObject.addComponents(getComponentsBySlots(playerShipVO.componentSlots));
-            gameObject.addComponent(new WeaponControlComponent(aTargetProvider));
-            gameObject.addComponent(new SquareColliderComponent());
-            gameObject.addComponent(new PlayerHealthComponent(playerShipVO.initialHP, 3));
-            gameObject.addComponent(new PlayerControlComponent());
-            gameObject.addComponent(new MovementParamsComponent());
-            var identity: IdentityComponent = new IdentityComponent();
-            identity.gameObjectGroupSpecificID = aPlayerID;
-            identity.gameObjectType = aShipBuild.shipTypeID;
-
-            //set width/height
-            gameObject.transform.width = playerShipVO.width;
-            gameObject.transform.height = playerShipVO.height;
+            gameObject.addComponent(new MoveLinearY());
 
             return gameObject;
         }
@@ -136,5 +153,6 @@ package game.model.gameObject
             var playerWeaponComponent: IWeaponComponent = new PlayerWeaponComponent(WeaponModel(aComponentSlot.componentModel), aComponentSlot.x, aComponentSlot.y);
             return playerWeaponComponent;
         }
+
     }
 }

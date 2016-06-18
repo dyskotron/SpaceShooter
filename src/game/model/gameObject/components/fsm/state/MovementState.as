@@ -2,11 +2,11 @@ package game.model.gameObject.components.fsm.state
 {
     import game.model.GameObject;
     import game.model.gameObject.components.fsm.*;
-    import game.model.gameObject.components.movement.MovementParamsComponent;
+    import game.model.gameObject.components.movement.MoveParamsComponent;
 
     public class MovementState implements IEnemyState
     {
-        protected var _movementParams: MovementParamsComponent;
+        protected var _movementParams: MoveParamsComponent;
         protected var _gameObject: GameObject;
 
         public function MovementState()
@@ -15,7 +15,7 @@ package game.model.gameObject.components.fsm.state
 
         public function start(aEnemyGO: GameObject, aTarget: ITarget): void
         {
-            _movementParams = MovementParamsComponent(aEnemyGO.getComponent(MovementParamsComponent));
+            _movementParams = MoveParamsComponent(aEnemyGO.getComponent(MoveParamsComponent));
             _gameObject = aEnemyGO;
         }
 

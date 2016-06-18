@@ -1,6 +1,5 @@
 package game.model
 {
-    import game.model.gameObject.BonusGO;
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.ObstacleGO;
 
@@ -14,7 +13,7 @@ package game.model
 
         function get enemies(): Vector.<GameObject>;
 
-        function get bonuses(): Vector.<BonusGO>;
+        function get bonuses(): Vector.<GameObject>;
 
         function get obstacles(): Vector.<ObstacleGO>;
 
