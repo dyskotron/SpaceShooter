@@ -3,13 +3,11 @@ package game.model.gameObject.components.health
     import com.greensock.TweenLite;
 
     import game.model.GameObject;
-    import game.model.gameObject.PlayerShipGO;
-    import game.model.gameObject.components.controll.WeaponControlComponent;
+    import game.model.gameObject.components.control.WeaponControlComponent;
 
     public class PlayerHealthComponent extends HealthComponent
     {
         private var _lives: int;
-        private var _playerGO: PlayerShipGO;
         private var _weaponControl: WeaponControlComponent;
 
         public function PlayerHealthComponent(aMaxHP: int, aLives: int = 1)
@@ -37,7 +35,6 @@ package game.model.gameObject.components.health
         {
             super.init(aGameObject);
 
-            _playerGO = PlayerShipGO(aGameObject);
             _state = HealthState.ALIVE;
             _weaponControl = WeaponControlComponent(gameObject.getComponent(WeaponControlComponent));
         }
@@ -47,8 +44,6 @@ package game.model.gameObject.components.health
             super.hit(aDamage);
             if (hp <= 0)
                 die();
-
-            _playerGO.statsUpdateSignal.dispatch();
         }
 
         private function die(): void
@@ -81,7 +76,6 @@ package game.model.gameObject.components.health
             setFullHealth();
 
             changeStateSignal.dispatch(this);
-            _playerGO.statsUpdateSignal.dispatch();
 
             if (_weaponControl.isShooting)
                 _weaponControl.startShoot();

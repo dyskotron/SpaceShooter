@@ -1,0 +1,46 @@
+package game.model.gameObject.components.control
+{
+    import game.model.GameObject;
+    import game.model.gameObject.components.Component;
+    import game.model.gameObject.components.transform.TransformComponent;
+
+    public class PlayerControlComponent extends Component
+    {
+        public static const MOVE_EASING: Number = 0.4;
+
+        /**
+         * Coordinates where player ship is heading to.
+         * it stores mouse position for mouse controller
+         * or "keyboard position" emulated from keys presses by KeyController
+         */
+        public var controlX: Number;
+        public var controlY: Number;
+
+        private var _transform: TransformComponent;
+
+        public function PlayerControlComponent()
+        {
+        }
+
+        override public function init(aGameObject: GameObject): void
+        {
+            super.init(aGameObject);
+            _transform = gameObject.transform;
+        }
+
+        public function initControl(aX: Number, aY: Number): void
+        {
+            _transform.x = controlX = aX;
+            _transform.y = controlY = aY;
+        }
+
+        override public function update(aDeltaTime: int): void
+        {
+            _transform.speedX = (controlX - _transform.x) * MOVE_EASING;
+            _transform.speedY = (controlY - _transform.y) * MOVE_EASING;
+
+            _transform.x += _transform.speedX;
+            _transform.y += _transform.speedY;
+        }
+    }
+}

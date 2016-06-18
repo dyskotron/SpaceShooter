@@ -1,10 +1,8 @@
 package game.model.gameObject.components.weapon
 {
     import game.model.GameObject;
-    import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.ComponentType;
     import game.model.gameObject.components.generator.IGeneratorComponent;
-    import game.model.gameObject.fsm.ITargetProvider;
 
     public class PlayerWeaponComponent extends WeaponComponent
     {
@@ -12,11 +10,10 @@ package game.model.gameObject.components.weapon
 
         private var playerWeaponModel: PlayerWeaponModel;
         private var _generator: IGeneratorComponent;
-        private var _playerShipGO: PlayerShipGO;
 
-        public function PlayerWeaponComponent(aWeaponModel: WeaponModel, aOwnerID: uint, aTargetProvider: ITargetProvider, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
+        public function PlayerWeaponComponent(aWeaponModel: WeaponModel, aX: Number = 0, aY: Number = 0, _aPower: uint = MIN_POWER)
         {
-            super(aWeaponModel, aOwnerID, aTargetProvider, aX, aY);
+            super(aWeaponModel, aX, aY);
 
             playerWeaponModel = PlayerWeaponModel(aWeaponModel);
             playerWeaponModel.setPower(_aPower);
@@ -34,7 +31,6 @@ package game.model.gameObject.components.weapon
 
         override public function init(aGameObject: GameObject): void
         {
-            _playerShipGO = PlayerShipGO(aGameObject);
             _generator = IGeneratorComponent(aGameObject.getComponent(IGeneratorComponent));
 
             super.init(aGameObject);

@@ -8,7 +8,7 @@ package game.view
     import feathers.layout.HorizontalLayout;
 
     import game.model.gameObject.PlayerShipGO;
-    import game.model.gameObject.components.controll.WeaponControlComponent;
+    import game.model.gameObject.components.control.WeaponControlComponent;
     import game.model.gameObject.components.generator.IGeneratorComponent;
     import game.model.gameObject.components.health.PlayerHealthComponent;
 
@@ -67,7 +67,7 @@ package game.view
 
         public function get playerID(): Number
         {
-            return _playerGO.playerID;
+            return _playerGO.gameObjectID;
         }
 
         public function init(aTextureProvider: TextureProvider): void
@@ -106,7 +106,7 @@ package game.view
             //lives
             var livesContainer: Sprite = new Sprite();
 
-            var livesIcon: Image = new Image(aTextureProvider.getPlayerLifeIconTexture(_playerGO.playerID));
+            var livesIcon: Image = new Image(aTextureProvider.getPlayerLifeIconTexture(_playerGO.gameObjectID));
             livesIcon.y = (innerHeight - livesIcon.height) / 2;
             livesContainer.addChild(livesIcon);
 
@@ -160,7 +160,8 @@ package game.view
             _weaponPowerLabel.text = String(_playerWeapons.weaponPower);
             _livesLabel.text = String(_playerHealth.lives);
             _hpDisplay.value = _playerHealth.hp;
-            _scoreLabel.text = "score: " + aPlayerGO.score;
+            //TODO:
+            //_scoreLabel.text = "score: " + aPlayerGO.score;
         }
 
         public function updateEnergyDisplay(): void

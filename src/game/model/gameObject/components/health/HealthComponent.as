@@ -1,6 +1,5 @@
 package game.model.gameObject.components.health
 {
-    import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.Component;
 
     import org.osflash.signals.Signal;
@@ -16,7 +15,7 @@ package game.model.gameObject.components.health
         public function HealthComponent(aMaxHP: int)
         {
             _hp = _maxHP = aMaxHP;
-            _state = PlayerShipGO.STATE_ALIVE;
+            _state = HealthState.ALIVE;
             _changeStateSignal = new Signal(IHealthComponent);
         }
 

@@ -10,6 +10,7 @@ package game.controller
     import game.controller.playerControl.TouchController;
     import game.controller.playerControl.TwoFingersTouchController;
     import game.model.GameModel;
+    import game.model.GameObject;
     import game.model.IGameModel;
     import game.model.ILevelProvider;
     import game.model.SerialLevelGenerator;
@@ -75,6 +76,8 @@ package game.controller
 
         override public function transitionIn(): void
         {
+            GameObject.nextGameObjectID = 0;
+
             //singletons & values
             injector.mapSingleton(GameEndSignal);
 

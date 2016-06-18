@@ -16,7 +16,8 @@ package game.model.gameObject
 
             _hittableVO = aHittableVO;
             _healthComponent = createHealthComponent(aHittableVO.initialHP);
-            addComponent(_healthComponent);
+            if (_healthComponent)
+                addComponent(_healthComponent);
 
             //TODO unify with guns and call just once!!
             initComponents();
@@ -24,6 +25,10 @@ package game.model.gameObject
 
         public function get healthComponent(): IHealthComponent
         {
+            //TODO FIXME OHGODKILLME UGLY TEMPORARY PUNK
+            if (!_healthComponent)
+                _healthComponent = IHealthComponent(getComponent(IHealthComponent));
+
             return _healthComponent;
         }
 

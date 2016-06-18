@@ -8,6 +8,9 @@ package game.model
 
     public class GameObject
     {
+        //TODO: gameobject factory will take care of this
+        public static var nextGameObjectID: int = 0;
+
 
         private var _currentTime: int = 0;
         private var _gameObjectVO: GameObjectVO;
@@ -16,6 +19,8 @@ package game.model
         private var _collider: IColliderComponent;
 
         private var _components: Vector.<IComponent>;
+        private var _gameObjectID: int;
+
 
         /**
          * base class representing all game objects e.g. player ships enemies bullets etc
@@ -29,6 +34,7 @@ package game.model
         public function GameObject(aGameObjectVO: GameObjectVO, aX: Number, aY: Number, aSpeedX: Number, aSpeedY: Number)
         {
             _gameObjectVO = aGameObjectVO;
+            _gameObjectID = nextGameObjectID++;
 
             _components = new Vector.<IComponent>();
 
@@ -41,7 +47,8 @@ package game.model
             addComponent(_transform);
 
             _collider = createCollider();
-            addComponent(_collider);
+            if (_collider)
+                addComponent(_collider);
 
             initComponents();
         }
@@ -55,6 +62,10 @@ package game.model
 
         public function get collider(): IColliderComponent
         {
+            //TODO FIXME OHGODKILLME UGLY TEMPORARY PUNK
+            if (!_collider)
+                _collider = IColliderComponent(getComponent(IColliderComponent));
+
             return _collider;
         }
 
@@ -66,6 +77,11 @@ package game.model
         public function get gameObjectVO(): GameObjectVO
         {
             return _gameObjectVO;
+        }
+
+        public function get gameObjectID(): uint
+        {
+            return _gameObjectID;
         }
 
         //endregion
@@ -110,6 +126,31 @@ package game.model
             return components;
         }
 
+        public function addComponent(aComponent: IComponent): void
+        {
+            if (aComponent == null)
+                throw new Error("Component cant be null");
+
+            _components.push(aComponent);
+
+            initComponents();
+        }
+
+        public function addComponents(aComponents: Vector.<IComponent>): void
+        {
+            for (var i: int = 0; i < aComponents.length; i++)
+            {
+                if (aComponents[i] == null)
+                    throw new Error("Component cant be null");
+
+                _components.push(aComponents[i]);
+            }
+
+            initComponents();
+        }
+
+        //todo: remove component, make init components public
+
         //endregion
 
         public function update(aDeltaTime: int): void
@@ -125,11 +166,6 @@ package game.model
         public function destroy(): void
         {
 
-        }
-
-        protected function addComponent(aComponent: IComponent): void
-        {
-            _components.push(aComponent);
         }
 
         protected function createCollider(): IColliderComponent

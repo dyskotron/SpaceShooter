@@ -33,8 +33,8 @@ package game.model.gameObject.components.collider
         {
             _bounds = new Rectangle(aGameObject.transform.x - aGameObject.transform.width * 0.5,
                                     aGameObject.transform.y - aGameObject.transform.height * 0.5,
-                                    aGameObject.gameObjectVO.width,
-                                    aGameObject.gameObjectVO.height);
+                                    aGameObject.transform.width,
+                                    aGameObject.transform.height);
 
             super.init(aGameObject);
 
@@ -42,8 +42,10 @@ package game.model.gameObject.components.collider
 
         override public function update(deltaTime: int): void
         {
-            _bounds.x = gameObject.transform.x - _bounds.width * 0.5;
-            _bounds.y = gameObject.transform.y - _bounds.height * 0.5;
+            _bounds.x = gameObject.transform.x - gameObject.transform.width * 0.5;
+            _bounds.y = gameObject.transform.y - gameObject.transform.height * 0.5;
+            _bounds.width = gameObject.transform.width;
+            _bounds.height = gameObject.transform.height;
         }
     }
 }

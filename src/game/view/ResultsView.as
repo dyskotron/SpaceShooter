@@ -41,7 +41,9 @@ package game.view
                 var text: String = aGameModel.numPlayers == 1 ? "Your " : aMainModel.getPlayerName(i);
 
                 var scoreLabel: Label = new Label();
-                scoreLabel.text = text + " score is " + player.score;
+
+                //TODO: score
+                scoreLabel.text = text + " score is " + 0;//player.score;
                 scoreLabel.validate();
                 scoreLabel.x = (aViewModel.stageWidth - scoreLabel.width) / 2;
                 scoreLabel.y = aViewModel.stageHeight / 2 + 20 * i - (aGameModel.numPlayers - 1) * 10;

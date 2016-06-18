@@ -15,7 +15,8 @@ package game.model
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.collider.IOnceColliderComponent;
-    import game.model.gameObject.components.controll.WeaponControlComponent;
+    import game.model.gameObject.components.control.PlayerControlComponent;
+    import game.model.gameObject.components.control.WeaponControlComponent;
     import game.model.gameObject.components.health.HealthState;
     import game.model.gameObject.components.health.IHealthComponent;
     import game.model.gameObject.components.health.PlayerHealthComponent;
@@ -117,14 +118,19 @@ package game.model
         private var _aoeDamageTriggeredSignal: Signal;
         private var _gameObjectHitSignal: Signal;
 
-        private var _players: Vector.<PlayerShipGO>;
-
         private var _state: uint;
         private var _finishedLevel: Boolean = false;
         private var _immortal: Boolean = false;
         private var _gameBounds: Rectangle;
+
+
+        private var _players: Vector.<PlayerShipGO>;
         private var _playerHealth: Vector.<PlayerHealthComponent>;
         private var _playerWeapons: Vector.<WeaponControlComponent>;
+        private var _playerControl: Vector.<PlayerControlComponent>;
+
+        //todo create player stats model
+        private var _playerScores: Vector.<int>;
 
         /**
          * Main model of the Game, it stores and updates all game objects, and dispatches according signals if something changes
@@ -227,6 +233,8 @@ package game.model
             _players = new Vector.<PlayerShipGO>();
             _playerWeapons = new Vector.<WeaponControlComponent>();
             _playerHealth = new Vector.<PlayerHealthComponent>();
+            _playerControl = new Vector.<PlayerControlComponent>();
+            _playerScores = new Vector.<int>();
 
             _enemies = new Vector.<EnemyGO>();
             _playerBullets = new Vector.<BulletGO>();
@@ -240,22 +248,30 @@ package game.model
             var player: PlayerShipGO;
             var playerWeapon: WeaponControlComponent;
             var playerHealth: PlayerHealthComponent;
+            var playerControl: PlayerControlComponent;
 
             for (var i: int = 0; i < _numPLayers; i++)
             {
-                player = new PlayerShipGO(i, playerShipDef.getPlayerShip(playerModel.shipBuild), this);
-                player.init((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
+                //TODO:player should have player unique id to make shure its ids starts from 0
+                player = playerShipDef.playerGameObjectFactory(i, playerModel.shipBuild, this);
+
+                playerControl = PlayerControlComponent(player.getComponent(PlayerControlComponent));
+                playerControl.initControl((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
+                _playerControl[player.gameObjectID] = playerControl;
+
                 player.healthComponent.changeStateSignal.add(playerHealthHandler);
-                _players.push(player);
+                _players[player.gameObjectID] = player;
 
                 playerWeapon = WeaponControlComponent(player.getComponent(WeaponControlComponent));
+                playerWeapon.targetProvider = this;
                 playerWeapon.shootSignal.add(playerShootHandler);
-                _playerWeapons.push(playerWeapon);
+                _playerWeapons[player.gameObjectID] = playerWeapon;
 
                 playerHealth = PlayerHealthComponent(player.getComponent(PlayerHealthComponent));
                 playerHealth.changeStateSignal.add(playerHealthHandler);
-                _playerHealth.push(playerHealth);
+                _playerHealth[player.gameObjectID] = playerHealth;
 
+                _playerScores[player.gameObjectID] = 0;
             }
 
             physicsUpdateSignal.add(gameLoopSignalHandler);
@@ -385,8 +401,8 @@ package game.model
 
             for (var i: int = 0; i < _players.length; i++)
             {
-                if (_players[i].score > 0)
-                    highScoreService.saveScore(mainModel.getPlayerName(i), _players[i].score);
+                if (_playerScores[i] > 0)
+                    highScoreService.saveScore(mainModel.getPlayerName(i), _playerScores[i]);
 
                 _playerWeapons[i].endShoot();
             }
@@ -429,80 +445,78 @@ package game.model
             for (i = 0; i < _numPLayers; i++)
             {
                 playerGO = _players[i];
-                if (playerGO.state == HealthState.ALIVE || playerGO.state == HealthState.SPAWNING)
+                _players[i].update(aDeltaTime);
+
+                if (_playerHealth[i].state == HealthState.ALIVE)
                 {
-                    _players[i].update(aDeltaTime);
-
-                    if (playerGO.state == HealthState.ALIVE)
+                    //bonus collisions
+                    for (iC = _bonuses.length - 1; iC >= 0; iC--)
                     {
-                        //bonus collisions
-                        for (iC = _bonuses.length - 1; iC >= 0; iC--)
+                        bonusGO = _bonuses[iC];
+                        if (playerGO.collider.checkCollision(bonusGO.collider))
                         {
-                            bonusGO = _bonuses[iC];
-                            if (playerGO.collider.checkCollision(bonusGO.collider))
-                            {
-                                //give player a bonus
-                                getBonus(playerGO.playerID, bonusGO.bonusVO.bulletID);
+                            //give player a bonus
+                            getBonus(playerGO.gameObjectID, bonusGO.bonusVO.bulletID);
 
-                                _bonuses.splice(iC, 1);
-                                _gameObjectRemovedSignal.dispatch(bonusGO);
+                            _bonuses.splice(iC, 1);
+                            _gameObjectRemovedSignal.dispatch(bonusGO);
+                        }
+                    }
+
+                    if (!_immortal)
+                    {
+                        //enemy collisions
+                        for (iC = _enemies.length - 1; iC >= 0; iC--)
+                        {
+                            enemyGO = _enemies[iC];
+                            if (playerGO.collider.checkCollision(enemyGO.collider))
+                            {
+                                //decrease player hp
+                                playerGO.healthComponent.hit(enemyGO.enemyVO.initialHP);
+                                _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
+
+                                //remove enemy
+                                _enemies.splice(iC, 1);
+                                _gameObjectRemovedSignal.dispatch(enemyGO);
                             }
                         }
 
-                        if (!_immortal)
+                        //enemy bullet collisions
+                        for (iC = _enemyBullets.length - 1; iC >= 0; iC--)
                         {
-                            //enemy collisions
-                            for (iC = _enemies.length - 1; iC >= 0; iC--)
-                            {
-                                enemyGO = _enemies[iC];
-                                if (playerGO.collider.checkCollision(enemyGO.collider))
-                                {
-                                    //decrease player hp
-                                    playerGO.healthComponent.hit(enemyGO.enemyVO.initialHP);
-                                    _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
+                            enemyBulletGO = _enemyBullets[iC];
 
-                                    //remove enemy
-                                    _enemies.splice(iC, 1);
-                                    _gameObjectRemovedSignal.dispatch(enemyGO);
-                                }
+                            if (playerGO.collider.checkCollision(enemyBulletGO.collider))
+                            {
+                                //decrease player hp
+                                playerGO.healthComponent.hit(enemyBulletGO.bulletVO.damage);
+                                _gameObjectHitSignal.dispatch(playerGO, 0);
+
+                                //remove bullet
+                                _enemyBullets.splice(iC, 1);
+                                _gameObjectRemovedSignal.dispatch(enemyBulletGO);
+                                break;
                             }
+                        }
 
-                            //enemy bullet collisions
-                            for (iC = _enemyBullets.length - 1; iC >= 0; iC--)
+                        //obstacle collisions
+                        for (iC = _obstacles.length - 1; iC >= 0; iC--)
+                        {
+                            obstacleGO = _obstacles[iC];
+                            if (playerGO.collider.checkCollision(obstacleGO.collider))
                             {
-                                enemyBulletGO = _enemyBullets[iC];
+                                //decrease player hp
+                                playerGO.healthComponent.hit(obstacleGO.obstacleVO.initialHP);
+                                _gameObjectHitSignal.dispatch(playerGO, obstacleGO.obstacleVO.initialHP);
 
-                                if (playerGO.collider.checkCollision(enemyBulletGO.collider))
-                                {
-                                    //decrease player hp
-                                    playerGO.healthComponent.hit(enemyBulletGO.bulletVO.damage);
-                                    _gameObjectHitSignal.dispatch(playerGO, 0);
-
-                                    //remove bullet
-                                    _enemyBullets.splice(iC, 1);
-                                    _gameObjectRemovedSignal.dispatch(enemyBulletGO);
-                                    break;
-                                }
-                            }
-
-                            //obstacle collisions
-                            for (iC = _obstacles.length - 1; iC >= 0; iC--)
-                            {
-                                obstacleGO = _obstacles[iC];
-                                if (playerGO.collider.checkCollision(obstacleGO.collider))
-                                {
-                                    //decrease player hp
-                                    playerGO.healthComponent.hit(obstacleGO.obstacleVO.initialHP);
-                                    _gameObjectHitSignal.dispatch(playerGO, obstacleGO.obstacleVO.initialHP);
-
-                                    //remove obstacle
-                                    _obstacles.splice(iC, 1);
-                                    _gameObjectRemovedSignal.dispatch(obstacleGO);
-                                }
+                                //remove obstacle
+                                _obstacles.splice(iC, 1);
+                                _gameObjectRemovedSignal.dispatch(obstacleGO);
                             }
                         }
                     }
                 }
+
             }
             //endregion
 
@@ -545,7 +559,7 @@ package game.model
                                 {
                                     _enemies.splice(iC, 1);
                                     _gameObjectRemovedSignal.dispatch(enemyGO);
-                                    _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                                    _playerScores[playerBulletGO.ownerID] += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
                                 }
                             }
 
@@ -590,7 +604,7 @@ package game.model
                                 {
                                     _obstacles.splice(iC, 1);
                                     _gameObjectRemovedSignal.dispatch(obstacleGO);
-                                    _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
+                                    _playerScores[playerBulletGO.ownerID] += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
                                 }
                             }
 
@@ -637,7 +651,7 @@ package game.model
                         {
                             _enemies.splice(iC, 1);
                             _gameObjectRemovedSignal.dispatch(enemyGO);
-                            _players[playerBulletGO.ownerID].score += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                            _playerScores[playerBulletGO.ownerID] += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
                         }
 
 
@@ -661,7 +675,7 @@ package game.model
                         {
                             _obstacles.splice(iC, 1);
                             _gameObjectRemovedSignal.dispatch(obstacleGO);
-                            _players[playerBulletGO.ownerID].score += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
+                            _playerScores[playerBulletGO.ownerID] += obstacleGO.obstacleVO.initialHP * OBSTACLE_HP_TO_SCORE_RATIO;
                         }
                     }
                 }
@@ -808,15 +822,16 @@ package game.model
         {
             aPlayerID = Math.min(aPlayerID, _numPLayers - 1);
 
-            changePlayerPosition(aPlayerID, _players[aPlayerID].controlX + aX, _players[aPlayerID].controlY + aY);
+            changePlayerPosition(aPlayerID, _playerControl[aPlayerID].controlX + aX, _playerControl[aPlayerID].controlY + aY);
         }
 
         private function changePlayerPosition(aPlayerID: uint, aX: Number, aY: Number): void
         {
             aPlayerID = Math.min(aPlayerID, _numPLayers - 1);
 
-            _players[aPlayerID].controlX = MathUtil.clamp(aX, SHIP_MOVE_BOUNDS, viewModel.gameWidth - SHIP_MOVE_BOUNDS);
-            _players[aPlayerID].controlY = MathUtil.clamp(aY, SHIP_MOVE_BOUNDS, viewModel.gameHeight - SHIP_MOVE_BOUNDS);
+
+            _playerControl[aPlayerID].controlX = MathUtil.clamp(aX, SHIP_MOVE_BOUNDS, viewModel.gameWidth - SHIP_MOVE_BOUNDS);
+            _playerControl[aPlayerID].controlY = MathUtil.clamp(aY, SHIP_MOVE_BOUNDS, viewModel.gameHeight - SHIP_MOVE_BOUNDS);
         }
 
         private function actionSwitchHandler(aPlayerID: uint, aActionID: uint, aValue: Boolean): void
@@ -876,7 +891,7 @@ package game.model
                     //check all players
                     for (var i: int = 0; i < _players.length; i++)
                     {
-                        if (_players[i].state != HealthState.DEAD)
+                        if (_playerHealth[i].state != HealthState.DEAD)
                             return;
                     }
                 }

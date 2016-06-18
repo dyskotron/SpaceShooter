@@ -1,7 +1,7 @@
 package game.model.gameObject
 {
     import game.model.gameObject.components.ComponentType;
-    import game.model.gameObject.components.controll.WeaponControlComponent;
+    import game.model.gameObject.components.control.WeaponControlComponent;
     import game.model.gameObject.components.weapon.ComponentSlot;
     import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.fsm.ITargetProvider;

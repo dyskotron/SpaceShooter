@@ -368,7 +368,7 @@ package game.view
         private function playerChangeStateHandler(aHealthComponent: IHealthComponent): void
         {
             //todo: get player id better
-            var playerView: PlayerShipView = _playerViews[PlayerShipGO(aHealthComponent.gameObject).playerID];
+            var playerView: PlayerShipView = _playerViews[PlayerShipGO(aHealthComponent.gameObject).gameObjectID];
 
             switch (aHealthComponent.state)
             {

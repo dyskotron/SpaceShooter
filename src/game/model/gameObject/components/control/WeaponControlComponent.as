@@ -1,8 +1,7 @@
-package game.model.gameObject.components.controll
+package game.model.gameObject.components.control
 {
     import game.model.GameObject;
     import game.model.gameObject.BulletGO;
-    import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.Component;
     import game.model.gameObject.components.IComponent;
     import game.model.gameObject.components.health.HealthComponent;
@@ -14,6 +13,7 @@ package game.model.gameObject.components.controll
     import game.model.gameObject.components.weapon.PlayerWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.components.weapon.enums.WeaponGroup;
+    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.ShootingVO;
 
     import org.osflash.signals.Signal;
@@ -29,6 +29,8 @@ package game.model.gameObject.components.controll
         private var _healthComponent: HealthComponent;
         private var _shootSignal: Signal;
 
+        private var _targetProvider: ITargetProvider;
+
         public function WeaponControlComponent()
         {
             _weapons = new Vector.<IWeaponComponent>();
@@ -39,6 +41,16 @@ package game.model.gameObject.components.controll
         public function get shootSignal(): Signal
         {
             return _shootSignal;
+        }
+
+        public function get targetProvider(): ITargetProvider
+        {
+            return _targetProvider;
+        }
+
+        public function set targetProvider(value: ITargetProvider): void
+        {
+            _targetProvider = value;
         }
 
         override public function init(aGameObject: GameObject): void
@@ -143,7 +155,7 @@ package game.model.gameObject.components.controll
                 }
             }
 
-            _weapons[0] = new PlayerWeaponComponent(aWeaponModel, PlayerShipGO(gameObject).playerID, PlayerShipGO(gameObject).targetProvider, weaponSlot.x, weaponSlot.y, weaponPower);
+            _weapons[0] = new PlayerWeaponComponent(aWeaponModel, weaponSlot.x, weaponSlot.y, weaponPower);
             _weapons[0].init(gameObject);
         }
     }

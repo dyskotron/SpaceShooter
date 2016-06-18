@@ -33,7 +33,8 @@ package game.view
         override public function onRegister(): void
         {
             _playerModel = gameModel.getPlayerModelByID(guiView.playerID);
-            _playerModel.statsUpdateSignal.add(statsUpdateHandler);
+            //TODO:
+            //_playerModel.statsUpdateSignal.add(statsUpdateHandler);
 
             guiView.init(textureProvider);
 
@@ -42,7 +43,7 @@ package game.view
 
         override public function onRemove(): void
         {
-            _playerModel.statsUpdateSignal.remove(statsUpdateHandler);
+            //_playerModel.statsUpdateSignal.remove(statsUpdateHandler);
 
             viewUpdateSignal.remove(viewUpdateHandler);
         }

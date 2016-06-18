@@ -65,7 +65,7 @@ package game.controller
             deltaTime = currentFrameTime - previousFrameTime;
             previousFrameTime = currentFrameTime;
 
-            physicsUpdateSignal.dispatch(deltaTime);
+            physicsUpdateSignal.dispatch(int(deltaTime * 1.5));
             viewUpdateSignal.dispatch(deltaTime);
         }
 
