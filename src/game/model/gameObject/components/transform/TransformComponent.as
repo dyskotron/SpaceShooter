@@ -1,15 +1,13 @@
 package game.model.gameObject.components.transform
 {
     import game.model.gameObject.components.Component;
-    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.components.fsm.ITarget;
 
     public class TransformComponent extends Component implements ITarget
     {
 
         public var width: Number;
         public var height: Number;
-        public var speedX: Number;
-        public var speedY: Number;
         public var rotation: Number;
 
         private var _x: Number;
@@ -21,9 +19,9 @@ package game.model.gameObject.components.transform
             _y = 0;
             width = aWidth;
             height = aHeight;
-            speedX = 0;
-            speedY = 0;
             rotation = 0;
+
+            super(false);
         }
 
         public function get x(): Number

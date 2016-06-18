@@ -7,7 +7,7 @@ package game.view
     import feathers.controls.ProgressBar;
     import feathers.layout.HorizontalLayout;
 
-    import game.model.gameObject.PlayerShipGO;
+    import game.model.GameObject;
     import game.model.gameObject.components.control.WeaponControlComponent;
     import game.model.gameObject.components.generator.IGeneratorComponent;
     import game.model.gameObject.components.health.PlayerHealthComponent;
@@ -27,7 +27,7 @@ package game.view
         private var _width: Number;
 
         private var _scoreLabel: Label;
-        private var _playerGO: PlayerShipGO;
+        private var _playerGO: GameObject;
         private var _hpDisplay: ProgressBar;
         private var _energyDisplay: ProgressBar;
         private var _layoutGroup: LayoutGroup;
@@ -44,7 +44,7 @@ package game.view
          * @param aWidth
          * @param aHeight
          */
-        public function GuiView(aPlayerGO: PlayerShipGO, aWidth: Number, aHeight: Number)
+        public function GuiView(aPlayerGO: GameObject, aWidth: Number, aHeight: Number)
         {
             _height = aHeight;
             _width = aWidth;
@@ -155,7 +155,7 @@ package game.view
             update(_playerGO);
         }
 
-        public function update(aPlayerGO: PlayerShipGO): void
+        public function update(aPlayerGO: GameObject): void
         {
             _weaponPowerLabel.text = String(_playerWeapons.weaponPower);
             _livesLabel.text = String(_playerHealth.lives);

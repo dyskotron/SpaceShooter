@@ -1,4 +1,4 @@
-package game.model.gameObject.fsm
+package game.model.gameObject.components.fsm
 {
     import game.model.gameObject.EnemyGO;
 
@@ -6,6 +6,6 @@ package game.model.gameObject.fsm
     {
         function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
 
-        function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
+        function update(aDeltaTime: int): uint
     }
 }

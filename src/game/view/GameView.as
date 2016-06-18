@@ -112,7 +112,7 @@ package game.view
             _gameObjectViews = new Dictionary();
 
             var playerView: PlayerShipView;
-            var playerGO: PlayerShipGO;
+            var playerGO: GameObject;
             for (var i: int = 0; i < _gameModel.numPlayers; i++)
             {
                 //add player
@@ -169,7 +169,7 @@ package game.view
             var i: int;
 
             /** UPDATE PLAYERS **/
-            var playerGO: PlayerShipGO;
+            var playerGO: GameObject;
             var playerView: PlayerShipView;
             for (i = 0; i < _gameModel.numPlayers; i++)
             {
@@ -285,16 +285,16 @@ package game.view
 
         private function enemySpawnedHandler(aEnemyGO: EnemyGO): void
         {
-            var enemyView: EnemyShipView = new EnemyShipView(_textureProvider.getEnemyTexture(aEnemyGO.enemyVO.bulletID));
-            enemyView.width = aEnemyGO.enemyVO.width;
-            enemyView.height = aEnemyGO.enemyVO.height;
+            var enemyView: EnemyShipView = new EnemyShipView(_textureProvider.getEnemyTexture(aEnemyGO.identity.gameObjectType));
+            enemyView.width = aEnemyGO.transform.width;
+            enemyView.height = aEnemyGO.transform.height;
             _shipsLayer.addChild(enemyView);
             _gameObjectViews[aEnemyGO] = enemyView;
         }
 
         private function bulletSpawnedHandler(aBulletGO: BulletGO): void
         {
-            var textures: Vector.<Texture> = _textureProvider.getBulletTextures(aBulletGO.bulletVO.bulletID)
+            var textures: Vector.<Texture> = _textureProvider.getBulletTextures(aBulletGO.bulletVO.gameObjectType)
 
             var bulletView: IGameObjectView;
 
@@ -315,14 +315,14 @@ package game.view
 
         private function obstacleSpawnedHandler(aObstacleGO: ObstacleGO): void
         {
-            var obstacleView: ObstacleView = new ObstacleView(_textureProvider.getObstacleTexture(aObstacleGO.obstacleVO.bulletID));
+            var obstacleView: ObstacleView = new ObstacleView(_textureProvider.getObstacleTexture(aObstacleGO.obstacleVO.gameObjectType));
             _obstacleLayer.addChild(obstacleView);
             _gameObjectViews[aObstacleGO] = obstacleView;
         }
 
         private function bonusSpawnedHandler(aBonusGO: BonusGO): void
         {
-            var bonusView: BonusView = new BonusView(_textureProvider.getBonusTexture(aBonusGO.bonusVO.bulletID));
+            var bonusView: BonusView = new BonusView(_textureProvider.getBonusTexture(aBonusGO.bonusVO.gameObjectType));
             _miscLayer.addChild(bonusView);
             _gameObjectViews[aBonusGO] = bonusView;
         }
@@ -368,7 +368,7 @@ package game.view
         private function playerChangeStateHandler(aHealthComponent: IHealthComponent): void
         {
             //todo: get player id better
-            var playerView: PlayerShipView = _playerViews[PlayerShipGO(aHealthComponent.gameObject).gameObjectID];
+            var playerView: PlayerShipView = _playerViews[aHealthComponent.gameObject.gameObjectID];
 
             switch (aHealthComponent.state)
             {

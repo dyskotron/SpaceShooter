@@ -1,9 +1,9 @@
 package game.model.gameObject.def
 {
+    import game.model.gameObject.components.fsm.TargetType;
     import game.model.gameObject.components.weapon.enums.AutoAimMode;
     import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.constants.BulletMode;
-    import game.model.gameObject.fsm.TargetType;
     import game.model.gameObject.vo.AutoAimVO;
     import game.model.gameObject.vo.BulletVO;
 

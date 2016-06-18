@@ -7,13 +7,17 @@
  */
 package game.model.gameObject
 {
+    import game.model.gameObject.components.ComponentType;
+    import game.model.gameObject.components.collider.SquareColliderComponent;
+    import game.model.gameObject.components.control.WeaponControlComponent;
+    import game.model.gameObject.components.fsm.GameObjectFSM;
+    import game.model.gameObject.components.fsm.ITarget;
+    import game.model.gameObject.components.fsm.ITargetProvider;
+    import game.model.gameObject.components.health.HealthComponent;
+    import game.model.gameObject.components.movement.MovementParamsComponent;
     import game.model.gameObject.components.weapon.ComponentSlot;
     import game.model.gameObject.components.weapon.EnemyWeaponComponent;
-    import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
-    import game.model.gameObject.fsm.GameObjectFSM;
-    import game.model.gameObject.fsm.ITarget;
-    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.EnemyVO;
 
@@ -21,41 +25,36 @@ package game.model.gameObject
     {
         private var _enemyVO: EnemyVO;
 
-        private var _fsm: GameObjectFSM;
-
         public function EnemyGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aTargetProvider: ITargetProvider, aX: Number, aY: Number, aTarget: ITarget): void
         {
-            super(aEnemyVO, aTargetProvider, aX, aY, 0, 0);
+            super(aEnemyVO, aTargetProvider, aX, aY);
 
             _enemyVO = aEnemyVO;
 
-            _fsm = new GameObjectFSM(aBehaviorVO.states, this, aTarget);
+            var weaponSlot: ComponentSlot;
+
+            if (aEnemyVO.componentSlots)
+            {
+                for (var i: int = 0; i < aEnemyVO.componentSlots.length; i++)
+                {
+                    weaponSlot = aEnemyVO.componentSlots[i];
+                    if (weaponSlot.isComponentType(ComponentType.GUNS))
+                    {
+                        addComponent(new EnemyWeaponComponent(WeaponModel(weaponSlot.componentModel), weaponSlot.x, weaponSlot.y));
+                    }
+                }
+            }
+
+            addComponent(new MovementParamsComponent(aEnemyVO.speed));
+            addComponent(new GameObjectFSM(aBehaviorVO.states, aTarget));
+            addComponent(new HealthComponent(aEnemyVO.initialHP));
+            addComponent(new SquareColliderComponent());
+            _weaponControl = new WeaponControlComponent(aTargetProvider);
+            addComponent(_weaponControl);
+
+            initComponents();
 
             _weaponControl.startShoot();
-        }
-
-        public function get enemyVO(): EnemyVO
-        {
-            return _enemyVO;
-        }
-
-        override public function update(aDeltaTime: int): void
-        {
-            _fsm.update(this, aDeltaTime);
-            _fsm.curentState.update(this, aDeltaTime);
-
-            super.update(aDeltaTime);
-        }
-
-        override public function destroy(): void
-        {
-
-        }
-
-        override protected function createWeapon(aComponentSlot: ComponentSlot): IWeaponComponent
-        {
-            var weaponComponent: EnemyWeaponComponent = new EnemyWeaponComponent(WeaponModel(aComponentSlot.componentModel), aComponentSlot.x, aComponentSlot.y);
-            return weaponComponent;
         }
 
     }

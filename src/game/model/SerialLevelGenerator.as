@@ -1,5 +1,6 @@
 package game.model
 {
+    import game.model.gameObject.components.fsm.Target;
     import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.constants.ObstacleType;
@@ -7,7 +8,6 @@ package game.model
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
-    import game.model.gameObject.fsm.Target;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;

@@ -1,8 +1,10 @@
-package game.model.gameObject.fsm
+package game.model.gameObject.components.fsm
 {
+    import game.model.GameObject;
     import game.model.gameObject.EnemyGO;
+    import game.model.gameObject.components.Component;
 
-    public class GameObjectFSM
+    public class GameObjectFSM extends Component
     {
         public static const ACTION_NONE: uint = 0;
         public static const ACTION_PREV: uint = 1;
@@ -18,14 +20,11 @@ package game.model.gameObject.fsm
         private var _states: Vector.<IEnemyState>;
         private var _stateIndex: int;
 
-        public function GameObjectFSM(aStates: Vector.<IEnemyState>, aEnemyGO: EnemyGO, aTarget: ITarget)
+        public function GameObjectFSM(aStates: Vector.<IEnemyState>, aTarget: ITarget)
         {
             _states = aStates;
-            _stateIndex = 0;
-            _enemyGO = aEnemyGO;
             _target = aTarget;
-
-            startState();
+            _stateIndex = 0;
         }
 
         public function get curentState(): IEnemyState
@@ -39,9 +38,17 @@ package game.model.gameObject.fsm
             _curentState.start(_enemyGO, _target);
         }
 
-        public function update(aEnemyGO: EnemyGO, aDeltaTime: int): void
+        override public function init(aGameObject: GameObject): void
         {
-            var result: uint = curentState.update(aEnemyGO, aDeltaTime);
+            super.init(aGameObject)
+
+            _enemyGO = EnemyGO(aGameObject);
+            startState();
+        }
+
+        override public function update(aDeltaTime: int): void
+        {
+            var result: uint = curentState.update(aDeltaTime);
 
             if (result != ACTION_NONE)
                 processResult(result);

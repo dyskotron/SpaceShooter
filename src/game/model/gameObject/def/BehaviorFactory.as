@@ -1,15 +1,15 @@
 package game.model.gameObject.def
 {
-    import game.model.gameObject.fsm.ITarget;
-    import game.model.gameObject.fsm.state.FlyThroughState;
-    import game.model.gameObject.fsm.state.GetToPosState;
-    import game.model.gameObject.fsm.state.GetToXposState;
-    import game.model.gameObject.fsm.state.GetToYposState;
-    import game.model.gameObject.fsm.state.KamikazeChaseState;
-    import game.model.gameObject.fsm.state.KamikazeStraightState;
-    import game.model.gameObject.fsm.state.StopState;
-    import game.model.gameObject.fsm.state.WaitState;
-    import game.model.gameObject.fsm.state.WobbleState;
+    import game.model.gameObject.components.fsm.ITarget;
+    import game.model.gameObject.components.fsm.state.FlyThroughState;
+    import game.model.gameObject.components.fsm.state.GetToPosState;
+    import game.model.gameObject.components.fsm.state.GetToXposState;
+    import game.model.gameObject.components.fsm.state.GetToYposState;
+    import game.model.gameObject.components.fsm.state.KamikazeChaseState;
+    import game.model.gameObject.components.fsm.state.KamikazeStraightState;
+    import game.model.gameObject.components.fsm.state.StopState;
+    import game.model.gameObject.components.fsm.state.WaitState;
+    import game.model.gameObject.components.fsm.state.WobbleState;
     import game.model.gameObject.vo.BehaviorVO;
 
     public class BehaviorFactory implements IBehaviorFactory

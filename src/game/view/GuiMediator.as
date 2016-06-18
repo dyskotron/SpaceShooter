@@ -3,8 +3,8 @@ package game.view
     import common.model.TextureProvider;
 
     import game.controller.ViewUpdateSignal;
+    import game.model.GameObject;
     import game.model.IGameModel;
-    import game.model.gameObject.PlayerShipGO;
 
     import main.model.IViewModel;
 
@@ -28,7 +28,7 @@ package game.view
         [Inject]
         public var viewUpdateSignal: ViewUpdateSignal;
 
-        private var _playerModel: PlayerShipGO;
+        private var _playerModel: GameObject;
 
         override public function onRegister(): void
         {

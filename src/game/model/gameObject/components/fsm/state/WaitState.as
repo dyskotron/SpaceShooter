@@ -1,9 +1,9 @@
-package game.model.gameObject.fsm.state
+package game.model.gameObject.components.fsm.state
 {
     import game.model.gameObject.EnemyGO;
-    import game.model.gameObject.fsm.*;
+    import game.model.gameObject.components.fsm.*;
 
-    public class WaitState implements IEnemyState
+    public class WaitState extends MovementState implements IEnemyState
     {
         private var _delay: int;
         private var _currentDelay: int;
@@ -13,13 +13,15 @@ package game.model.gameObject.fsm.state
             _delay = aDelay;
         }
 
-        public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
+        override public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
         {
-            aEnemyGO.transform.speedY = aEnemyGO.transform.speedX = 0;
+            super.start(aEnemyGO, aTarget);
+
+            _movementParams.speedY = _movementParams.speedX = 0;
             _currentDelay = _delay;
         }
 
-        public function update(aEnemyGO: EnemyGO, aDeltaTime: int): uint
+        override public function update(aDeltaTime: int): uint
         {
             _currentDelay -= aDeltaTime;
 

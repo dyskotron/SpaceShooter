@@ -4,7 +4,6 @@ package game.model
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
-    import game.model.gameObject.PlayerShipGO;
 
     import org.osflash.signals.Signal;
 
@@ -37,7 +36,7 @@ package game.model
 
         function get aoeDamageTriggeredSignal(): Signal;
 
-        function getPlayerModelByID(aID: uint = 0): PlayerShipGO;
+        function getPlayerModelByID(aID: uint = 0): GameObject;
 
         function init(): void;
 

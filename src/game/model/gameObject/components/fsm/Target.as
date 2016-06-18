@@ -1,4 +1,4 @@
-package game.model.gameObject.fsm
+package game.model.gameObject.components.fsm
 {
     public class Target implements ITarget
     {

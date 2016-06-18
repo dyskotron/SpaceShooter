@@ -5,10 +5,11 @@ package game.model.gameObject.components
     public class Component implements IComponent
     {
         private var _gameObject: GameObject;
-        private var _enabled: Boolean;
+        private var _active: Boolean;
 
-        public function Component()
+        public function Component(aActive: Boolean = true)
         {
+            active = aActive;
         }
 
         public function get gameObject(): GameObject
@@ -26,14 +27,14 @@ package game.model.gameObject.components
 
         }
 
-        public function get enabled(): Boolean
+        public function get active(): Boolean
         {
-            return _enabled;
+            return _active;
         }
 
-        public function set enabled(aEnabled: Boolean): void
+        public function set active(aUpdatable: Boolean): void
         {
-            _enabled = aEnabled;
+            _active = aUpdatable;
         }
 
         protected function hasGOComponent(aComponentClass: Class): Boolean

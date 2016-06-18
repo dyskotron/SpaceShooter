@@ -4,9 +4,9 @@ package game.model.gameObject.components
 
     public interface IComponent
     {
-        function get enabled(): Boolean;
+        function get active(): Boolean;
 
-        function set enabled(value: Boolean): void;
+        function set active(value: Boolean): void;
 
         function get gameObject(): GameObject;
 

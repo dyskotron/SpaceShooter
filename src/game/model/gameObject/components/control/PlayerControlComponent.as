@@ -2,6 +2,7 @@ package game.model.gameObject.components.control
 {
     import game.model.GameObject;
     import game.model.gameObject.components.Component;
+    import game.model.gameObject.components.movement.MovementParamsComponent;
     import game.model.gameObject.components.transform.TransformComponent;
 
     public class PlayerControlComponent extends Component
@@ -17,6 +18,7 @@ package game.model.gameObject.components.control
         public var controlY: Number;
 
         private var _transform: TransformComponent;
+        private var _movementParams: MovementParamsComponent;
 
         public function PlayerControlComponent()
         {
@@ -25,7 +27,9 @@ package game.model.gameObject.components.control
         override public function init(aGameObject: GameObject): void
         {
             super.init(aGameObject);
+
             _transform = gameObject.transform;
+            _movementParams = MovementParamsComponent(gameObject.getComponent(MovementParamsComponent));
         }
 
         public function initControl(aX: Number, aY: Number): void
@@ -36,11 +40,11 @@ package game.model.gameObject.components.control
 
         override public function update(aDeltaTime: int): void
         {
-            _transform.speedX = (controlX - _transform.x) * MOVE_EASING;
-            _transform.speedY = (controlY - _transform.y) * MOVE_EASING;
+            _movementParams.speedX = (controlX - _transform.x) * MOVE_EASING;
+            _movementParams.speedY = (controlY - _transform.y) * MOVE_EASING;
 
-            _transform.x += _transform.speedX;
-            _transform.y += _transform.speedY;
+            _transform.x += _movementParams.speedX;
+            _transform.y += _movementParams.speedY;
         }
     }
 }

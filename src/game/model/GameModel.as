@@ -12,11 +12,15 @@ package game.model
     import game.model.gameObject.BonusGO;
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.EnemyGO;
+    import game.model.gameObject.IGameObjectFactory;
     import game.model.gameObject.ObstacleGO;
-    import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.collider.IOnceColliderComponent;
     import game.model.gameObject.components.control.PlayerControlComponent;
     import game.model.gameObject.components.control.WeaponControlComponent;
+    import game.model.gameObject.components.fsm.ITarget;
+    import game.model.gameObject.components.fsm.ITargetProvider;
+    import game.model.gameObject.components.fsm.Target;
+    import game.model.gameObject.components.fsm.TargetType;
     import game.model.gameObject.components.health.HealthState;
     import game.model.gameObject.components.health.IHealthComponent;
     import game.model.gameObject.components.health.PlayerHealthComponent;
@@ -26,10 +30,6 @@ package game.model
     import game.model.gameObject.constants.BulletMode;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IPlayerShipDefs;
-    import game.model.gameObject.fsm.ITarget;
-    import game.model.gameObject.fsm.ITargetProvider;
-    import game.model.gameObject.fsm.Target;
-    import game.model.gameObject.fsm.TargetType;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -93,6 +93,9 @@ package game.model
         public var playerShipDef: IPlayerShipDefs;
 
         [Inject]
+        public var gameObjectFactory: IGameObjectFactory;
+
+        [Inject]
         public var levelProvider: ILevelProvider;
 
         [Inject]
@@ -124,7 +127,7 @@ package game.model
         private var _gameBounds: Rectangle;
 
 
-        private var _players: Vector.<PlayerShipGO>;
+        private var _players: Vector.<GameObject>;
         private var _playerHealth: Vector.<PlayerHealthComponent>;
         private var _playerWeapons: Vector.<WeaponControlComponent>;
         private var _playerControl: Vector.<PlayerControlComponent>;
@@ -230,7 +233,7 @@ package game.model
             _gameObjectHitSignal = new Signal(GameObject, int);
             _aoeDamageTriggeredSignal = new Signal(BulletGO);
 
-            _players = new Vector.<PlayerShipGO>();
+            _players = new Vector.<GameObject>();
             _playerWeapons = new Vector.<WeaponControlComponent>();
             _playerHealth = new Vector.<PlayerHealthComponent>();
             _playerControl = new Vector.<PlayerControlComponent>();
@@ -245,7 +248,7 @@ package game.model
 
             _gameBounds = new flash.geom.Rectangle(-OUTER_BOUNDS, -OUTER_BOUNDS, viewModel.gameWidth + 2 * OUTER_BOUNDS, viewModel.gameHeight + 2 * OUTER_BOUNDS);
 
-            var player: PlayerShipGO;
+            var player: GameObject;
             var playerWeapon: WeaponControlComponent;
             var playerHealth: PlayerHealthComponent;
             var playerControl: PlayerControlComponent;
@@ -253,7 +256,7 @@ package game.model
             for (var i: int = 0; i < _numPLayers; i++)
             {
                 //TODO:player should have player unique id to make shure its ids starts from 0
-                player = playerShipDef.playerGameObjectFactory(i, playerModel.shipBuild, this);
+                player = gameObjectFactory.createPlayerShipGO(i, playerModel.shipBuild, this);
 
                 playerControl = PlayerControlComponent(player.getComponent(PlayerControlComponent));
                 playerControl.initControl((viewModel.gameWidth / (_numPLayers + 1)) * (i + 1), viewModel.gameHeight - SHIP_MOVE_BOUNDS);
@@ -263,7 +266,6 @@ package game.model
                 _players[player.gameObjectID] = player;
 
                 playerWeapon = WeaponControlComponent(player.getComponent(WeaponControlComponent));
-                playerWeapon.targetProvider = this;
                 playerWeapon.shootSignal.add(playerShootHandler);
                 _playerWeapons[player.gameObjectID] = playerWeapon;
 
@@ -296,7 +298,7 @@ package game.model
             trace(this, "========> MODEL - DESTROYED");
         }
 
-        public function getPlayerModelByID(aID: uint = 0): PlayerShipGO
+        public function getPlayerModelByID(aID: uint = 0): GameObject
         {
             return _players[aID];
         }
@@ -380,7 +382,7 @@ package game.model
 
         //endregion
 
-        private function getRandomPlayer(): PlayerShipGO
+        private function getRandomPlayer(): GameObject
         {
             return _players[Math.floor(Math.random() * _players.length)];
         }
@@ -417,7 +419,7 @@ package game.model
             var i: int;
             var iC: int;
 
-            var playerGO: PlayerShipGO;
+            var playerGO: GameObject;
             var enemyGO: EnemyGO;
 
             var enemyBulletGO: BulletGO;
@@ -456,7 +458,7 @@ package game.model
                         if (playerGO.collider.checkCollision(bonusGO.collider))
                         {
                             //give player a bonus
-                            getBonus(playerGO.gameObjectID, bonusGO.bonusVO.bulletID);
+                            getBonus(playerGO.gameObjectID, bonusGO.bonusVO.gameObjectType);
 
                             _bonuses.splice(iC, 1);
                             _gameObjectRemovedSignal.dispatch(bonusGO);
@@ -472,8 +474,8 @@ package game.model
                             if (playerGO.collider.checkCollision(enemyGO.collider))
                             {
                                 //decrease player hp
-                                playerGO.healthComponent.hit(enemyGO.enemyVO.initialHP);
-                                _gameObjectHitSignal.dispatch(playerGO, enemyGO.enemyVO.initialHP);
+                                playerGO.healthComponent.hit(enemyGO.healthComponent.maxHP);
+                                _gameObjectHitSignal.dispatch(playerGO, enemyGO.healthComponent.maxHP);
 
                                 //remove enemy
                                 _enemies.splice(iC, 1);
@@ -559,7 +561,7 @@ package game.model
                                 {
                                     _enemies.splice(iC, 1);
                                     _gameObjectRemovedSignal.dispatch(enemyGO);
-                                    _playerScores[playerBulletGO.ownerID] += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                                    _playerScores[playerBulletGO.ownerID] += enemyGO.healthComponent.maxHP * ENEMY_HP_TO_SCORE_RATIO;
                                 }
                             }
 
@@ -651,7 +653,7 @@ package game.model
                         {
                             _enemies.splice(iC, 1);
                             _gameObjectRemovedSignal.dispatch(enemyGO);
-                            _playerScores[playerBulletGO.ownerID] += enemyGO.enemyVO.initialHP * ENEMY_HP_TO_SCORE_RATIO;
+                            _playerScores[playerBulletGO.ownerID] += enemyGO.healthComponent.maxHP * ENEMY_HP_TO_SCORE_RATIO;
                         }
 
 

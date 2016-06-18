@@ -6,8 +6,8 @@ package game.view
     import feathers.controls.Label;
     import feathers.data.ListCollection;
 
+    import game.model.GameObject;
     import game.model.IGameModel;
-    import game.model.gameObject.PlayerShipGO;
 
     import main.model.IMainModel;
     import main.model.IViewModel;
@@ -37,7 +37,7 @@ package game.view
 
             for (var i: int = 0; i < aGameModel.numPlayers; i++)
             {
-                var player: PlayerShipGO = aGameModel.getPlayerModelByID(i);
+                var player: GameObject = aGameModel.getPlayerModelByID(i);
                 var text: String = aGameModel.numPlayers == 1 ? "Your " : aMainModel.getPlayerName(i);
 
                 var scoreLabel: Label = new Label();

@@ -14,6 +14,8 @@ package game.controller
     import game.model.IGameModel;
     import game.model.ILevelProvider;
     import game.model.SerialLevelGenerator;
+    import game.model.gameObject.GameObjectFactory;
+    import game.model.gameObject.IGameObjectFactory;
     import game.model.gameObject.components.weapon.IWeaponDefs;
     import game.model.gameObject.components.weapon.WeaponDefs;
     import game.model.gameObject.def.BehaviorFactory;
@@ -90,6 +92,7 @@ package game.controller
             injector.mapSingletonOf(IBehaviorFactory, BehaviorFactory);
             injector.mapSingletonOf(IBulletDefs, BulletDefs);
             injector.mapSingletonOf(IWeaponDefs, WeaponDefs);
+            injector.mapSingletonOf(IGameObjectFactory, GameObjectFactory);
 
             injector.mapSingleton(TextureProvider);
 

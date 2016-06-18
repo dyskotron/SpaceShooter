@@ -4,6 +4,7 @@ package game.model.gameObject.components.control
     import game.model.gameObject.BulletGO;
     import game.model.gameObject.components.Component;
     import game.model.gameObject.components.IComponent;
+    import game.model.gameObject.components.fsm.ITargetProvider;
     import game.model.gameObject.components.health.HealthComponent;
     import game.model.gameObject.components.health.HealthState;
     import game.model.gameObject.components.health.IHealthComponent;
@@ -13,7 +14,6 @@ package game.model.gameObject.components.control
     import game.model.gameObject.components.weapon.PlayerWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.components.weapon.enums.WeaponGroup;
-    import game.model.gameObject.fsm.ITargetProvider;
     import game.model.gameObject.vo.ShootingVO;
 
     import org.osflash.signals.Signal;
@@ -31,11 +31,12 @@ package game.model.gameObject.components.control
 
         private var _targetProvider: ITargetProvider;
 
-        public function WeaponControlComponent()
+        public function WeaponControlComponent(aTargetProvider: ITargetProvider = null)
         {
             _weapons = new Vector.<IWeaponComponent>();
             _chargeWeapons = new Vector.<IWeaponComponent>();
             _shootSignal = new Signal(Vector.<BulletGO>);
+            _targetProvider = aTargetProvider;
         }
 
         public function get shootSignal(): Signal
@@ -46,11 +47,6 @@ package game.model.gameObject.components.control
         public function get targetProvider(): ITargetProvider
         {
             return _targetProvider;
-        }
-
-        public function set targetProvider(value: ITargetProvider): void
-        {
-            _targetProvider = value;
         }
 
         override public function init(aGameObject: GameObject): void

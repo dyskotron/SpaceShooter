@@ -2,11 +2,10 @@ package game.model.gameObject.components.weapon
 {
     import game.model.GameObject;
     import game.model.gameObject.BulletGO;
-    import game.model.gameObject.ShootingGO;
     import game.model.gameObject.components.Component;
     import game.model.gameObject.components.control.WeaponControlComponent;
+    import game.model.gameObject.components.fsm.ITargetProvider;
     import game.model.gameObject.components.weapon.enums.WeaponType;
-    import game.model.gameObject.fsm.ITargetProvider;
 
     import org.osflash.signals.Signal;
 
@@ -57,13 +56,16 @@ package game.model.gameObject.components.weapon
 
             var weaponControlComponent: WeaponControlComponent = WeaponControlComponent(gameObject.getComponent(WeaponControlComponent));
             if (weaponControlComponent)
+            {
                 _shootSignal = weaponControlComponent.shootSignal;
+                _targetProvider = weaponControlComponent.targetProvider;
+            }
             else
                 _shootSignal = new Signal(Vector.<BulletGO>);
 
             _ownerID = gameObject.gameObjectID;
 
-            _targetProvider = ShootingGO(gameObject).targetProvider;
+
         }
 
         override public function update(aDeltaTime: int): void

@@ -1,14 +1,11 @@
 package game.model.gameObject
 {
-    import flash.utils.Dictionary;
-
     import game.model.gameObject.components.collider.IColliderComponent;
     import game.model.gameObject.components.collider.OnceSquareColliderComponent;
+    import game.model.gameObject.components.fsm.ITarget;
+    import game.model.gameObject.components.fsm.ITargetProvider;
+    import game.model.gameObject.components.fsm.Target;
     import game.model.gameObject.components.weapon.enums.AutoAimMode;
-    import game.model.gameObject.constants.BulletMode;
-    import game.model.gameObject.fsm.ITarget;
-    import game.model.gameObject.fsm.ITargetProvider;
-    import game.model.gameObject.fsm.Target;
     import game.model.gameObject.vo.BulletVO;
 
     import starling.utils.MathUtil;
@@ -17,7 +14,6 @@ package game.model.gameObject
     {
         private var _ownerID: uint;
         private var _bulletVO: BulletVO;
-        private var _hittedGO: Dictionary;
         private var _target: ITarget;
         private var _targetProvider: ITargetProvider;
         private var _isAutoAim: Boolean;
@@ -31,20 +27,15 @@ package game.model.gameObject
 
         public function BulletGO(aOwnerID: int, aBulletVO: BulletVO, aX: Number, aY: Number, aSpeed: Number = 0, aAngle: Number = 0, aTargetProvider: ITargetProvider = null)
         {
-            super(aBulletVO, aX, aY);
+            super(aBulletVO, aX, aY, aSpeed, aAngle);
 
             _ownerID = aOwnerID;
             _bulletVO = aBulletVO;
             _speed = aSpeed;
             _angle = aAngle;
 
-            transform.speedX = _speed * Math.sin(_angle);
-            transform.speedY = _speed * Math.cos(_angle);
+
             transform.rotation = -_angle;
-
-            if (_bulletVO.mode == BulletMode.EACH_ONCE)
-                _hittedGO = new Dictionary();
-
 
             //AUTO AIM
             if (bulletVO.autoAim && bulletVO.autoAim.mode != AutoAimMode.NONE)
@@ -56,8 +47,8 @@ package game.model.gameObject
                     if (bulletVO.autoAim.mode == AutoAimMode.ON_INIT)
                     {
                         _angle = Target.getAngleFromCoords(_target, transform.x, transform.y);
-                        transform.speedX = _speed * Math.sin(transform.rotation);
-                        transform.speedY = _speed * Math.cos(transform.rotation);
+                        movementParams.speedX = _speed * Math.sin(transform.rotation);
+                        movementParams.speedY = _speed * Math.cos(transform.rotation);
                         transform.rotation = -_angle;
                     }
 
@@ -89,8 +80,8 @@ package game.model.gameObject
                     _maxDelta = bulletVO.autoAim.maxRotation * aDeltaTime / 1000;
                     _angle = _angle + MathUtil.clamp(_angleDelta, -_maxDelta, _maxDelta);
 
-                    transform.speedX = _speed * Math.sin(_angle);
-                    transform.speedY = _speed * Math.cos(_angle);
+                    movementParams.speedX = _speed * Math.sin(_angle);
+                    movementParams.speedY = _speed * Math.cos(_angle);
                     transform.rotation = -_angle;
                 }
                 else
@@ -105,35 +96,6 @@ package game.model.gameObject
             super.update(aDeltaTime);
         }
 
-        /*
-         public function canHit(enemyGO: HittableGO): Boolean
-         {
-         if (_bulletVO.mode == BulletMode.EACH_ONCE && _hittedGO[enemyGO])
-         return false;
-
-         return true;
-         }
-
-         /**
-         * Hits object and Returns if bullet should be removed after hit or not
-         * @param hittableGO
-         * @return
-         */
-        /*
-         public function hitObject(hittableGO: HittableGO): Boolean
-         {
-         hittableGO.hit(_bulletVO.damage);
-
-         if (_bulletVO.mode == BulletMode.ONE_SHOT)
-         return true;
-
-         if (_bulletVO.mode == BulletMode.EACH_ONCE)
-         _hittedGO[hittableGO] = true;
-
-         return false;
-
-         }
-         */
         override protected function createCollider(): IColliderComponent
         {
             return new OnceSquareColliderComponent();

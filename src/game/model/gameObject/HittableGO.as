@@ -8,28 +8,18 @@ package game.model.gameObject
     public class HittableGO extends GameObject
     {
         private var _hittableVO: HittableVO;
-        private var _healthComponent: IHealthComponent;
 
-        public function HittableGO(aHittableVO: HittableVO, aX: Number, aY: Number, aSpeedX: Number = 0, aSpeedY: Number = 0)
+        public function HittableGO(aHittableVO: HittableVO, aX: Number, aY: Number)
         {
-            super(aHittableVO, aX, aY, aSpeedX, aSpeedY);
+            super(aHittableVO, aX, aY);
 
             _hittableVO = aHittableVO;
-            _healthComponent = createHealthComponent(aHittableVO.initialHP);
-            if (_healthComponent)
-                addComponent(_healthComponent);
+            var healthComponent: IHealthComponent = createHealthComponent(aHittableVO.initialHP);
+            if (healthComponent)
+                addComponent(healthComponent);
 
             //TODO unify with guns and call just once!!
             initComponents();
-        }
-
-        public function get healthComponent(): IHealthComponent
-        {
-            //TODO FIXME OHGODKILLME UGLY TEMPORARY PUNK
-            if (!_healthComponent)
-                _healthComponent = IHealthComponent(getComponent(IHealthComponent));
-
-            return _healthComponent;
         }
 
         protected function createHealthComponent(aInitialHP: int): IHealthComponent

@@ -3,6 +3,8 @@ package game.model
     import game.model.gameObject.components.IComponent;
     import game.model.gameObject.components.collider.IColliderComponent;
     import game.model.gameObject.components.collider.SquareColliderComponent;
+    import game.model.gameObject.components.health.IHealthComponent;
+    import game.model.gameObject.components.identity.IdentityComponent;
     import game.model.gameObject.components.transform.TransformComponent;
     import game.model.gameObject.vo.GameObjectVO;
 
@@ -16,10 +18,13 @@ package game.model
         private var _gameObjectVO: GameObjectVO;
 
         private var _transform: TransformComponent;
+        private var _identity: IdentityComponent;
         private var _collider: IColliderComponent;
 
         private var _components: Vector.<IComponent>;
         private var _gameObjectID: int;
+
+        private var _healthComponent: IHealthComponent;
 
 
         /**
@@ -28,10 +33,8 @@ package game.model
          * @param aGameObjectVO - definition for game objects - keep all properties common to all instances of one type
          * @param aX - keeps track of object instance X position
          * @param aY - keeps track of object instance Y position
-         * @param aSpeedX - keeps track of object instance X speed
-         * @param aSpeedY - keeps track of object instance Y speed
          */
-        public function GameObject(aGameObjectVO: GameObjectVO, aX: Number, aY: Number, aSpeedX: Number, aSpeedY: Number)
+        public function GameObject(aGameObjectVO: GameObjectVO, aX: Number, aY: Number)
         {
             _gameObjectVO = aGameObjectVO;
             _gameObjectID = nextGameObjectID++;
@@ -42,9 +45,11 @@ package game.model
             _transform = new TransformComponent(_gameObjectVO.width, _gameObjectVO.height);
             _transform.x = aX;
             _transform.y = aY;
-            _transform.speedX = aSpeedX;
-            _transform.speedY = aSpeedY;
             addComponent(_transform);
+
+            _identity = new IdentityComponent();
+            _identity.gameObjectType = aGameObjectVO.gameObjectType;
+            addComponent(_identity);
 
             _collider = createCollider();
             if (_collider)
@@ -60,6 +65,11 @@ package game.model
             return _transform;
         }
 
+        public function get identity(): IdentityComponent
+        {
+            return _identity;
+        }
+
         public function get collider(): IColliderComponent
         {
             //TODO FIXME OHGODKILLME UGLY TEMPORARY PUNK
@@ -67,6 +77,15 @@ package game.model
                 _collider = IColliderComponent(getComponent(IColliderComponent));
 
             return _collider;
+        }
+
+        public function get healthComponent(): IHealthComponent
+        {
+            //TODO FIXME OHGODKILLME UGLY TEMPORARY PUNK
+            if (!_healthComponent)
+                _healthComponent = IHealthComponent(getComponent(IHealthComponent));
+
+            return _healthComponent;
         }
 
         public function get currentTime(): int
