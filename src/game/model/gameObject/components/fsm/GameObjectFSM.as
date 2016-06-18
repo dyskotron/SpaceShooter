@@ -1,7 +1,6 @@
 package game.model.gameObject.components.fsm
 {
     import game.model.GameObject;
-    import game.model.gameObject.EnemyGO;
     import game.model.gameObject.components.Component;
 
     public class GameObjectFSM extends Component
@@ -15,7 +14,6 @@ package game.model.gameObject.components.fsm
 
         private var _curentState: IEnemyState;
         private var _target: ITarget;
-        private var _enemyGO: EnemyGO;
 
         private var _states: Vector.<IEnemyState>;
         private var _stateIndex: int;
@@ -35,14 +33,13 @@ package game.model.gameObject.components.fsm
         private function startState(): void
         {
             _curentState = _states[_stateIndex];
-            _curentState.start(_enemyGO, _target);
+            _curentState.start(gameObject, _target);
         }
 
         override public function init(aGameObject: GameObject): void
         {
             super.init(aGameObject)
 
-            _enemyGO = EnemyGO(aGameObject);
             startState();
         }
 

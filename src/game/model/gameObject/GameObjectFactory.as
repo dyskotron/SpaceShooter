@@ -6,19 +6,25 @@ package game.model.gameObject
     import game.model.gameObject.components.collider.SquareColliderComponent;
     import game.model.gameObject.components.control.PlayerControlComponent;
     import game.model.gameObject.components.control.WeaponControlComponent;
+    import game.model.gameObject.components.fsm.GameObjectFSM;
+    import game.model.gameObject.components.fsm.ITarget;
     import game.model.gameObject.components.fsm.ITargetProvider;
     import game.model.gameObject.components.generator.BatteryModel;
     import game.model.gameObject.components.generator.EnergyComponent;
     import game.model.gameObject.components.generator.GeneratorModel;
+    import game.model.gameObject.components.health.HealthComponent;
     import game.model.gameObject.components.health.PlayerHealthComponent;
     import game.model.gameObject.components.identity.IdentityComponent;
     import game.model.gameObject.components.movement.MovementParamsComponent;
     import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.components.weapon.EnemyWeaponComponent;
     import game.model.gameObject.components.weapon.IWeaponComponent;
     import game.model.gameObject.components.weapon.PlayerWeaponComponent;
     import game.model.gameObject.components.weapon.WeaponModel;
     import game.model.gameObject.def.IComponentDefs;
     import game.model.gameObject.def.IPlayerShipDefs;
+    import game.model.gameObject.vo.BehaviorVO;
+    import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.PlayerShipVO;
     import game.model.playerModel.PlayerShipBuildVO;
 
@@ -34,26 +40,31 @@ package game.model.gameObject
         {
         }
 
-        public function createEnemyShipGO(aPlayerID: uint, aShipBuild: PlayerShipBuildVO, aTargetProvider: ITargetProvider): PlayerShipGO
+        public function createEnemyShipGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aTargetProvider: ITargetProvider, aX: Number, aY: Number, aTarget: ITarget): GameObject
         {
-            var playerShipVO: PlayerShipVO = playerShipDefs.getPlayerShipVO(aShipBuild);
-
-            //create ship gameobject
-            var gameObject: PlayerShipGO = new PlayerShipGO(playerShipVO, aTargetProvider);
-
-            //create components and add to ship go
-            gameObject.addComponents(getComponentsBySlots(playerShipVO.componentSlots));
+            var gameObject: GameObject = new GameObject(aEnemyVO, 0, 0);
+            var weaponSlot: ComponentSlot;
+            if (aEnemyVO.componentSlots)
+            {
+                for (var i: int = 0; i < aEnemyVO.componentSlots.length; i++)
+                {
+                    weaponSlot = aEnemyVO.componentSlots[i];
+                    if (weaponSlot.isComponentType(ComponentType.GUNS))
+                    {
+                        gameObject.addComponent(new EnemyWeaponComponent(WeaponModel(weaponSlot.componentModel), weaponSlot.x, weaponSlot.y));
+                    }
+                }
+            }
+            gameObject.transform.x = aX;
+            gameObject.transform.y = aY;
+            gameObject.addComponent(new MovementParamsComponent(aEnemyVO.speed));
+            gameObject.addComponent(new GameObjectFSM(aBehaviorVO.states, aTarget));
+            gameObject.addComponent(new HealthComponent(aEnemyVO.initialHP));
             gameObject.addComponent(new SquareColliderComponent());
-            gameObject.addComponent(new PlayerHealthComponent(playerShipVO.initialHP, 3));
-            gameObject.addComponent(new PlayerControlComponent());
-            gameObject.addComponent(new MovementParamsComponent());
-            var identity: IdentityComponent = new IdentityComponent();
-            identity.gameObjectGroupSpecificID = aPlayerID;
-            identity.gameObjectType = aShipBuild.shipTypeID;
+            var _weaponControl: WeaponControlComponent = new WeaponControlComponent(aTargetProvider);
+            gameObject.addComponent(_weaponControl);
 
-            //set width/height
-            gameObject.transform.width = playerShipVO.width;
-            gameObject.transform.height = playerShipVO.height;
+            _weaponControl.startShoot();
 
             return gameObject;
         }

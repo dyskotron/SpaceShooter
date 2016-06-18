@@ -1,7 +1,6 @@
 package game.model.gameObject.components.fsm.state
 {
     import game.model.GameObject;
-    import game.model.gameObject.EnemyGO;
     import game.model.gameObject.components.fsm.*;
     import game.model.gameObject.components.movement.MovementParamsComponent;
 
@@ -14,7 +13,7 @@ package game.model.gameObject.components.fsm.state
         {
         }
 
-        public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
+        public function start(aEnemyGO: GameObject, aTarget: ITarget): void
         {
             _movementParams = MovementParamsComponent(aEnemyGO.getComponent(MovementParamsComponent));
             _gameObject = aEnemyGO;

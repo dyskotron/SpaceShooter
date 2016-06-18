@@ -11,9 +11,7 @@ package game.view
     import game.model.IGameModel;
     import game.model.gameObject.BonusGO;
     import game.model.gameObject.BulletGO;
-    import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
-    import game.model.gameObject.PlayerShipGO;
     import game.model.gameObject.components.health.HealthState;
     import game.model.gameObject.components.health.IHealthComponent;
     import game.view.gameObjectViews.BonusView;
@@ -203,7 +201,7 @@ package game.view
 
             /** UPDATE ENEMIES **/
             var enemyView: EnemyShipView;
-            var enemyModel: EnemyGO;
+            var enemyModel: GameObject;
             for (i = 0; i < _gameModel.enemies.length; i++)
             {
                 enemyModel = _gameModel.enemies[i];
@@ -283,7 +281,7 @@ package game.view
 
         // ---------------------------------- SIGNAL HANDLERS ---------------------------------- //
 
-        private function enemySpawnedHandler(aEnemyGO: EnemyGO): void
+        private function enemySpawnedHandler(aEnemyGO: GameObject): void
         {
             var enemyView: EnemyShipView = new EnemyShipView(_textureProvider.getEnemyTexture(aEnemyGO.identity.gameObjectType));
             enemyView.width = aEnemyGO.transform.width;
@@ -349,11 +347,11 @@ package game.view
                 IGameObjectView(_gameObjectViews[aGameObject]).hitAnim();
             else
                 trace("_MO_", this, "Error: view for removed gameObject not present");
-
-            if (aGameObject is PlayerShipGO)
-            {
-                screenShake(aHitPointsLost * HP_TO_SCREENSHAKE_RATIO);
-            }
+            //TODO get from identity
+            /*if (aGameObject is PlayerShipGO)
+             {
+             screenShake(aHitPointsLost * HP_TO_SCREENSHAKE_RATIO);
+             }*/
         }
 
         private function aoeDamageTriggeredHandler(aBulletGO: BulletGO): void

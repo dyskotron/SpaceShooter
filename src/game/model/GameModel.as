@@ -11,7 +11,6 @@ package game.model
     import game.controller.playerControl.PlayerActionID;
     import game.model.gameObject.BonusGO;
     import game.model.gameObject.BulletGO;
-    import game.model.gameObject.EnemyGO;
     import game.model.gameObject.IGameObjectFactory;
     import game.model.gameObject.ObstacleGO;
     import game.model.gameObject.components.collider.IOnceColliderComponent;
@@ -106,7 +105,7 @@ package game.model
         private var _playerBullets: Vector.<BulletGO>;
         private var _playerAoeBullets: Vector.<BulletGO>;
         private var _enemyBullets: Vector.<BulletGO>;
-        private var _enemies: Vector.<EnemyGO>;
+        private var _enemies: Vector.<GameObject>;
         private var _bonuses: Vector.<BonusGO>;
         private var _obstacles: Vector.<ObstacleGO>;
 
@@ -166,7 +165,7 @@ package game.model
             return _enemyBullets;
         }
 
-        public function get enemies(): Vector.<EnemyGO>
+        public function get enemies(): Vector.<GameObject>
         {
             return _enemies;
         }
@@ -224,7 +223,7 @@ package game.model
         {
             _numPLayers = MathUtil.clamp(mainModel.numPlayers, 1, MAX_PLAYERS);
 
-            _enemySpawnedSignal = new Signal(EnemyGO);
+            _enemySpawnedSignal = new Signal(GameObject);
             _bulletSpawnedSignal = new Signal(BulletGO);
             _obstacleSpawnedSignal = new Signal(ObstacleGO);
             _bonusSpawnedSignal = new Signal(BonusGO);
@@ -239,7 +238,7 @@ package game.model
             _playerControl = new Vector.<PlayerControlComponent>();
             _playerScores = new Vector.<int>();
 
-            _enemies = new Vector.<EnemyGO>();
+            _enemies = new Vector.<GameObject>();
             _playerBullets = new Vector.<BulletGO>();
             _playerAoeBullets = new Vector.<BulletGO>();
             _enemyBullets = new Vector.<BulletGO>();
@@ -420,7 +419,7 @@ package game.model
             var iC: int;
 
             var playerGO: GameObject;
-            var enemyGO: EnemyGO;
+            var enemyGO: GameObject;
 
             var enemyBulletGO: BulletGO;
             var playerBulletGO: BulletGO;
@@ -770,8 +769,10 @@ package game.model
                 case LevelEvent.ID_SPAWN_ENEMY:
                     var enemyEvent: SpawnEnemyEvent = SpawnEnemyEvent(aLevelEvent);
                     var enemyVO: EnemyVO = enemyEvent.aEnemyVO;
-                    var enemy: EnemyGO = new EnemyGO(enemyVO, enemyEvent.behaviorVO, this, enemyEvent.x, enemyEvent.y, getTarget(TargetType.PLAYER));
-                    enemy.shootSignal.add(enemyShootHandler);
+                    var enemy: GameObject = gameObjectFactory.createEnemyShipGO(enemyVO, enemyEvent.behaviorVO, this, enemyEvent.x, enemyEvent.y, getTarget(TargetType.PLAYER));
+                    var comp: WeaponControlComponent = WeaponControlComponent(enemy.getComponent(WeaponControlComponent));
+                    comp.shootSignal.add(enemyShootHandler);
+
                     _enemies.push(enemy);
                     _enemySpawnedSignal.dispatch(enemy);
                     break;

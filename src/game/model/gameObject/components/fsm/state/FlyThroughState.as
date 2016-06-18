@@ -1,6 +1,6 @@
 package game.model.gameObject.components.fsm.state
 {
-    import game.model.gameObject.EnemyGO;
+    import game.model.GameObject;
     import game.model.gameObject.components.fsm.*;
 
     public class FlyThroughState extends MovementState implements IEnemyState
@@ -9,7 +9,7 @@ package game.model.gameObject.components.fsm.state
         {
         }
 
-        override public function start(aEnemyGO: EnemyGO, aTarget: ITarget): void
+        override public function start(aEnemyGO: GameObject, aTarget: ITarget): void
         {
 
         }

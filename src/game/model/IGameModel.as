@@ -2,7 +2,6 @@ package game.model
 {
     import game.model.gameObject.BonusGO;
     import game.model.gameObject.BulletGO;
-    import game.model.gameObject.EnemyGO;
     import game.model.gameObject.ObstacleGO;
 
     import org.osflash.signals.Signal;
@@ -13,7 +12,7 @@ package game.model
 
         function get enemyBullets(): Vector.<BulletGO>;
 
-        function get enemies(): Vector.<EnemyGO>;
+        function get enemies(): Vector.<GameObject>;
 
         function get bonuses(): Vector.<BonusGO>;
 
