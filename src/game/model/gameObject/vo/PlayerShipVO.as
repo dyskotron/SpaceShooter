@@ -1,6 +1,6 @@
 package game.model.gameObject.vo
 {
-    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.component.weapon.ComponentSlot;
 
     public class PlayerShipVO extends ShootingVO
     {

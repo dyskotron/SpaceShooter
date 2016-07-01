@@ -6,8 +6,8 @@ package game.view
     import feathers.controls.Label;
     import feathers.data.ListCollection;
 
+    import game.model.GameObject;
     import game.model.IGameModel;
-    import game.model.gameObject.PlayerShipGO;
 
     import main.model.IMainModel;
     import main.model.IViewModel;
@@ -37,11 +37,11 @@ package game.view
 
             for (var i: int = 0; i < aGameModel.numPlayers; i++)
             {
-                var player: PlayerShipGO = aGameModel.getPlayerModelByID(i);
+                var player: GameObject = aGameModel.getPlayerGOByID(i);
                 var text: String = aGameModel.numPlayers == 1 ? "Your " : aMainModel.getPlayerName(i);
 
                 var scoreLabel: Label = new Label();
-                scoreLabel.text = text + " score is " + player.score;
+                scoreLabel.text = text + " score is " + aMainModel.getPlayerModel(player.identity.concreteID).score;
                 scoreLabel.validate();
                 scoreLabel.x = (aViewModel.stageWidth - scoreLabel.width) / 2;
                 scoreLabel.y = aViewModel.stageHeight / 2 + 20 * i - (aGameModel.numPlayers - 1) * 10;

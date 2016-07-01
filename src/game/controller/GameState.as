@@ -2,6 +2,7 @@ package game.controller
 {
     import common.controller.fsm.*;
     import common.model.TextureProvider;
+    import common.model.consts.Platform;
 
     import flash.ui.Mouse;
 
@@ -13,8 +14,10 @@ package game.controller
     import game.model.IGameModel;
     import game.model.ILevelProvider;
     import game.model.SerialLevelGenerator;
-    import game.model.gameObject.components.weapon.IWeaponDefs;
-    import game.model.gameObject.components.weapon.WeaponDefs;
+    import game.model.gameObject.GameObjectFactory;
+    import game.model.gameObject.IGameObjectFactory;
+    import game.model.gameObject.component.weapon.IWeaponDefs;
+    import game.model.gameObject.component.weapon.WeaponDefs;
     import game.model.gameObject.def.BehaviorFactory;
     import game.model.gameObject.def.BulletDefs;
     import game.model.gameObject.def.ComponentDefs;
@@ -27,8 +30,6 @@ package game.controller
     import game.model.gameObject.def.IPlayerShipDefs;
     import game.model.gameObject.def.ObstacleDefs;
     import game.model.gameObject.def.PlayerShipDefs;
-    import game.model.playerModel.IPlayerModel;
-    import game.model.playerModel.PlayerModel;
     import game.view.DebugGameMediator;
     import game.view.DebugGameView;
     import game.view.GameMediator;
@@ -78,7 +79,6 @@ package game.controller
             //singletons & values
             injector.mapSingleton(GameEndSignal);
 
-            injector.mapSingletonOf(IPlayerModel, PlayerModel);
             injector.mapSingletonOf(IBulletDefs, BulletDefs);
             injector.mapSingletonOf(IEnemyDefs, EnemyDefs);
             injector.mapSingletonOf(IComponentDefs, ComponentDefs);
@@ -87,12 +87,12 @@ package game.controller
             injector.mapSingletonOf(IBehaviorFactory, BehaviorFactory);
             injector.mapSingletonOf(IBulletDefs, BulletDefs);
             injector.mapSingletonOf(IWeaponDefs, WeaponDefs);
+            injector.mapSingletonOf(IGameObjectFactory, GameObjectFactory);
 
             injector.mapSingleton(TextureProvider);
 
 
-            //todo create enum
-            if (CONFIG::platform == "mobile")
+            if (CONFIG::platform == Platform.MOBILE)
                 injector.mapSingletonOf(ITouchController, TwoFingersTouchController);
             else
                 injector.mapSingletonOf(ITouchController, TouchController);
@@ -131,8 +131,6 @@ package game.controller
 
             //singletons & values
             injector.unmap(GameEndSignal);
-
-            injector.unmap(IPlayerModel);
 
             injector.unmap(IBulletDefs);
             injector.unmap(IEnemyDefs);

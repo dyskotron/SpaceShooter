@@ -1,25 +1,18 @@
 package game.model
 {
-    import game.model.gameObject.BonusGO;
-    import game.model.gameObject.BulletGO;
-    import game.model.gameObject.EnemyGO;
-    import game.model.gameObject.ObstacleGO;
-    import game.model.gameObject.PlayerShipGO;
-
     import org.osflash.signals.Signal;
 
     public interface IGameModel
     {
-        function get playerBullets(): Vector.<BulletGO>;
+        function get playerBullets(): Vector.<GameObject>;
 
-        function get enemyBullets(): Vector.<BulletGO>;
+        function get enemyBullets(): Vector.<GameObject>;
 
-        function get enemies(): Vector.<EnemyGO>;
+        function get enemies(): Vector.<GameObject>;
 
-        function get bonuses(): Vector.<BonusGO>;
+        function get bonuses(): Vector.<GameObject>;
 
-        function get obstacles(): Vector.<ObstacleGO>;
-
+        function get obstacles(): Vector.<GameObject>;
 
         function get numPlayers(): uint;
 
@@ -37,7 +30,7 @@ package game.model
 
         function get aoeDamageTriggeredSignal(): Signal;
 
-        function getPlayerModelByID(aID: uint = 0): PlayerShipGO;
+        function getPlayerGOByID(aID: uint = 0): GameObject;
 
         function init(): void;
 

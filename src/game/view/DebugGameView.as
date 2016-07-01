@@ -6,6 +6,7 @@ package game.view
 
     import game.model.GameObject;
     import game.model.IGameModel;
+    import game.model.gameObject.component.collider.SquareColliderComponent;
 
     import starling.display.Quad;
     import starling.display.Sprite;
@@ -23,7 +24,7 @@ package game.view
 
             for (var i: int = 0; i < _gameModel.numPlayers; i++)
             {
-                goSpawnedHandler(_gameModel.getPlayerModelByID(i));
+                goSpawnedHandler(_gameModel.getPlayerGOByID(i));
             }
 
             aGameModel.enemySpawnedSignal.add(goSpawnedHandler);
@@ -46,11 +47,11 @@ package game.view
             /** UPDATE PLAYERS **/
             for (i = 0; i < _gameModel.numPlayers; i++)
             {
-                gameObject = _gameModel.getPlayerModelByID(i);
+                gameObject = _gameModel.getPlayerGOByID(i);
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
-                testQuad.rotation = gameObject.rotation;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
+                testQuad.rotation = gameObject.transform.rotation;
             }
 
             /** UPDATE BULLETS **/
@@ -58,8 +59,8 @@ package game.view
             {
                 gameObject = _gameModel.playerBullets[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
 
@@ -67,8 +68,8 @@ package game.view
             {
                 gameObject = _gameModel.enemyBullets[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
 
@@ -77,8 +78,8 @@ package game.view
             {
                 gameObject = _gameModel.enemies[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
 
@@ -87,8 +88,8 @@ package game.view
             {
                 gameObject = _gameModel.bonuses[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
 
@@ -97,8 +98,8 @@ package game.view
             {
                 gameObject = _gameModel.obstacles[i];
                 testQuad = _gameObjectQuads[gameObject];
-                testQuad.x = gameObject.bounds.x;
-                testQuad.y = gameObject.bounds.y;
+                testQuad.x = SquareColliderComponent(gameObject.collider).bounds.x;
+                testQuad.y = SquareColliderComponent(gameObject.collider).bounds.y;
                 testQuad.rotation = testQuad.rotation;
             }
         }
@@ -117,7 +118,7 @@ package game.view
 
         private function goSpawnedHandler(gameObject: GameObject): void
         {
-            var debugQuad: Quad = new Quad(gameObject.gameObjectVO.width, gameObject.gameObjectVO.height, 0xFF0000);
+            var debugQuad: Quad = new Quad(gameObject.transform.width, gameObject.transform.height, 0xFF0000);
             debugQuad.alpha = 0.3;
             addChild(debugQuad);
             _gameObjectQuads[gameObject] = debugQuad;

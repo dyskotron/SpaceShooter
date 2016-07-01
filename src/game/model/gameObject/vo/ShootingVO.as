@@ -1,7 +1,7 @@
 package game.model.gameObject.vo
 {
-    import game.model.gameObject.components.weapon.ComponentModel;
-    import game.model.gameObject.components.weapon.ComponentSlot;
+    import game.model.gameObject.component.weapon.ComponentModel;
+    import game.model.gameObject.component.weapon.ComponentSlot;
 
     public class ShootingVO extends HittableVO
     {

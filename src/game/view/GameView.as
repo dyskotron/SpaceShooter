@@ -9,11 +9,9 @@ package game.view
 
     import game.model.GameObject;
     import game.model.IGameModel;
-    import game.model.gameObject.BonusGO;
-    import game.model.gameObject.BulletGO;
-    import game.model.gameObject.EnemyGO;
-    import game.model.gameObject.ObstacleGO;
-    import game.model.gameObject.PlayerShipGO;
+    import game.model.gameObject.component.health.HealthState;
+    import game.model.gameObject.component.health.IHealthComponent;
+    import game.model.gameObject.goDef.GameObjectGroupID;
     import game.view.gameObjectViews.BonusView;
     import game.view.gameObjectViews.BulletView;
     import game.view.gameObjectViews.EnemyShipView;
@@ -110,21 +108,22 @@ package game.view
             _gameObjectViews = new Dictionary();
 
             var playerView: PlayerShipView;
-            var playerGO: PlayerShipGO;
+            var playerGO: GameObject;
             for (var i: int = 0; i < _gameModel.numPlayers; i++)
             {
                 //add player
-                playerGO = _gameModel.getPlayerModelByID(i);
+                playerGO = _gameModel.getPlayerGOByID(i);
                 playerView = new PlayerShipView(_textureProvider.getPlayerShipTexture(i));
                 _shipsLayer.addChild(playerView);
 
                 _playerViews[i] = playerView;
                 _gameObjectViews[playerGO] = playerView;
 
-                playerGO.changeStateSignal.add(playerChangeStateHandler);
+                playerGO.healthComponent.changeStateSignal.add(playerChangeStateHandler);
 
+                //TODO: move creating sub guis to mediator
                 //gui
-                var guiView: GuiView = new GuiView(i, aViewModel.stageWidth / 2, 40);
+                var guiView: GuiView = new GuiView(playerGO, aViewModel.stageWidth / 2, 40);
                 _guiLayer.addChild(guiView);
                 guiView.x = i * aViewModel.stageWidth / 2;
                 _guiViews.push(guiView);
@@ -166,72 +165,72 @@ package game.view
             var i: int;
 
             /** UPDATE PLAYERS **/
-            var playerModel: PlayerShipGO;
+            var playerGO: GameObject;
             var playerView: PlayerShipView;
             for (i = 0; i < _gameModel.numPlayers; i++)
             {
-                playerModel = _gameModel.getPlayerModelByID(i);
+                playerGO = _gameModel.getPlayerGOByID(i);
                 playerView = _playerViews[i];
-                playerView.x = playerModel.x;
-                playerView.y = playerModel.y;
-                playerView.rotation = playerModel.rotation;
+                playerView.x = playerGO.transform.x;
+                playerView.y = playerGO.transform.y;
+                playerView.rotation = playerGO.transform.rotation;
             }
 
             /** UPDATE BULLETS **/
-            var bulletModel: BulletGO;
+            var bulletModel: GameObject;
             var bulletView: IGameObjectView;
             for (i = 0; i < _gameModel.playerBullets.length; i++)
             {
                 bulletModel = _gameModel.playerBullets[i];
                 bulletView = _gameObjectViews[bulletModel];
-                bulletView.x = bulletModel.x;
-                bulletView.y = bulletModel.y;
-                bulletView.rotation = bulletModel.rotation;
+                bulletView.x = bulletModel.transform.x;
+                bulletView.y = bulletModel.transform.y;
+                bulletView.rotation = bulletModel.transform.rotation;
             }
 
             for (i = 0; i < _gameModel.enemyBullets.length; i++)
             {
                 bulletModel = _gameModel.enemyBullets[i];
                 bulletView = _gameObjectViews[bulletModel];
-                bulletView.x = bulletModel.x;
-                bulletView.y = bulletModel.y;
-                bulletView.rotation = bulletModel.rotation;
+                bulletView.x = bulletModel.transform.x;
+                bulletView.y = bulletModel.transform.y;
+                bulletView.rotation = bulletModel.transform.rotation;
             }
 
             /** UPDATE ENEMIES **/
             var enemyView: EnemyShipView;
-            var enemyModel: EnemyGO;
+            var enemyModel: GameObject;
             for (i = 0; i < _gameModel.enemies.length; i++)
             {
                 enemyModel = _gameModel.enemies[i];
                 enemyView = _gameObjectViews[enemyModel];
-                enemyView.x = enemyModel.x;
-                enemyView.y = enemyModel.y;
-                enemyView.rotation = enemyModel.rotation;
+                enemyView.x = enemyModel.transform.x;
+                enemyView.y = enemyModel.transform.y;
+                enemyView.rotation = enemyModel.transform.rotation;
             }
 
             /** UPDATE BONUSES **/
-            var bonusModel: BonusGO;
+            var bonusGO: GameObject;
             var bonusView: BonusView;
             for (i = 0; i < _gameModel.bonuses.length; i++)
             {
-                bonusModel = _gameModel.bonuses[i];
-                bonusView = _gameObjectViews[bonusModel];
-                bonusView.x = bonusModel.x;
-                bonusView.y = bonusModel.y;
-                bonusView.rotation = bonusModel.rotation;
+                bonusGO = _gameModel.bonuses[i];
+                bonusView = _gameObjectViews[bonusGO];
+                bonusView.x = bonusGO.transform.x;
+                bonusView.y = bonusGO.transform.y;
+                bonusView.rotation = bonusGO.transform.rotation;
             }
 
             /** UPDATE OBSTACLES **/
-            var obstacleModel: ObstacleGO;
+            var obstacleModel: GameObject;
             var obstacleView: ObstacleView;
             for (i = 0; i < _gameModel.obstacles.length; i++)
             {
                 obstacleModel = _gameModel.obstacles[i];
                 obstacleView = _gameObjectViews[obstacleModel];
-                obstacleView.x = obstacleModel.x;
-                obstacleView.y = obstacleModel.y;
-                obstacleView.rotation = obstacleModel.rotation;
+                obstacleView.x = obstacleModel.transform.x;
+                obstacleView.y = obstacleModel.transform.y;
+                obstacleView.rotation = obstacleModel.transform.rotation;
             }
 
             /** BACKGROUND **/
@@ -280,18 +279,18 @@ package game.view
 
         // ---------------------------------- SIGNAL HANDLERS ---------------------------------- //
 
-        private function enemySpawnedHandler(aEnemyGO: EnemyGO): void
+        private function enemySpawnedHandler(aEnemyGO: GameObject): void
         {
-            var enemyView: EnemyShipView = new EnemyShipView(_textureProvider.getEnemyTexture(aEnemyGO.enemyVO.bulletID));
-            enemyView.width = aEnemyGO.enemyVO.width;
-            enemyView.height = aEnemyGO.enemyVO.height;
+            var enemyView: EnemyShipView = new EnemyShipView(_textureProvider.getEnemyTexture(aEnemyGO.identity.concreteTypeID));
+            enemyView.width = aEnemyGO.transform.width;
+            enemyView.height = aEnemyGO.transform.height;
             _shipsLayer.addChild(enemyView);
             _gameObjectViews[aEnemyGO] = enemyView;
         }
 
-        private function bulletSpawnedHandler(aBulletGO: BulletGO): void
+        private function bulletSpawnedHandler(aBulletGO: GameObject): void
         {
-            var textures: Vector.<Texture> = _textureProvider.getBulletTextures(aBulletGO.bulletVO.bulletID)
+            var textures: Vector.<Texture> = _textureProvider.getBulletTextures(aBulletGO.identity.concreteTypeID);
 
             var bulletView: IGameObjectView;
 
@@ -310,16 +309,16 @@ package game.view
             _gameObjectViews[aBulletGO] = bulletView;
         }
 
-        private function obstacleSpawnedHandler(aObstacleGO: ObstacleGO): void
+        private function obstacleSpawnedHandler(aObstacleGO: GameObject): void
         {
-            var obstacleView: ObstacleView = new ObstacleView(_textureProvider.getObstacleTexture(aObstacleGO.obstacleVO.bulletID));
+            var obstacleView: ObstacleView = new ObstacleView(_textureProvider.getObstacleTexture(aObstacleGO.identity.concreteTypeID));
             _obstacleLayer.addChild(obstacleView);
             _gameObjectViews[aObstacleGO] = obstacleView;
         }
 
-        private function bonusSpawnedHandler(aBonusGO: BonusGO): void
+        private function bonusSpawnedHandler(aBonusGO: GameObject): void
         {
-            var bonusView: BonusView = new BonusView(_textureProvider.getBonusTexture(aBonusGO.bonusVO.bulletID));
+            var bonusView: BonusView = new BonusView(_textureProvider.getBonusTexture(aBonusGO.identity.concreteTypeID));
             _miscLayer.addChild(bonusView);
             _gameObjectViews[aBonusGO] = bonusView;
         }
@@ -333,7 +332,6 @@ package game.view
                 view.remove();
                 //TODO: pooling
                 delete _gameObjectViews[aGameObject];
-
             }
             else
             {
@@ -348,35 +346,35 @@ package game.view
             else
                 trace("_MO_", this, "Error: view for removed gameObject not present");
 
-            if (aGameObject is PlayerShipGO)
+            if (aGameObject.identity.gameObjectGroup == GameObjectGroupID.PLAYER_SHIP)
             {
                 screenShake(aHitPointsLost * HP_TO_SCREENSHAKE_RATIO);
             }
         }
 
-        private function aoeDamageTriggeredHandler(aBulletGO: BulletGO): void
+        private function aoeDamageTriggeredHandler(aBulletGO: GameObject, aAoeRadius: Number): void
         {
-            var explosionAnim: ExplosionAnim = new ExplosionAnim(_textureProvider.getExplosionTextures(0), aBulletGO.bulletVO.aoeDistance * 2);
-            explosionAnim.x = aBulletGO.x;
-            explosionAnim.y = aBulletGO.y;
+            var explosionAnim: ExplosionAnim = new ExplosionAnim(_textureProvider.getExplosionTextures(0), aAoeRadius * 2);
+            explosionAnim.x = aBulletGO.transform.x;
+            explosionAnim.y = aBulletGO.transform.y;
             _miscLayer.addChild(explosionAnim);
             screenShake(20);
         }
 
-        private function playerChangeStateHandler(aPlayerShipGO: PlayerShipGO): void
+        private function playerChangeStateHandler(aHealthComponent: IHealthComponent): void
         {
-            var playerView: PlayerShipView = _playerViews[aPlayerShipGO.playerID];
+            var playerView: PlayerShipView = _playerViews[aHealthComponent.gameObject.identity.concreteID];
 
-            switch (aPlayerShipGO.state)
+            switch (aHealthComponent.state)
             {
-                case PlayerShipGO.STATE_ALIVE:
+                case HealthState.ALIVE:
                     playerView.alpha = 1;
                     break;
-                case PlayerShipGO.STATE_SPAWNING:
+                case HealthState.SPAWNING:
                     playerView.alpha = 0.2;
                     break;
-                case PlayerShipGO.STATE_WAITING:
-                case PlayerShipGO.STATE_DEAD:
+                case HealthState.WAITING:
+                case HealthState.DEAD:
                     playerView.alpha = 0;
                     break;
             }

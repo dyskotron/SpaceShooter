@@ -1,15 +1,16 @@
 package game.model.gameObject.def
 {
-    import game.model.gameObject.fsm.ITarget;
-    import game.model.gameObject.fsm.state.FlyThroughState;
-    import game.model.gameObject.fsm.state.GetToPosState;
-    import game.model.gameObject.fsm.state.GetToXposState;
-    import game.model.gameObject.fsm.state.GetToYposState;
-    import game.model.gameObject.fsm.state.KamikazeChaseState;
-    import game.model.gameObject.fsm.state.KamikazeStraightState;
-    import game.model.gameObject.fsm.state.StopState;
-    import game.model.gameObject.fsm.state.WaitState;
-    import game.model.gameObject.fsm.state.WobbleState;
+    import game.model.gameObject.component.fsm.ITarget;
+    import game.model.gameObject.component.fsm.state.FlyThroughState;
+    import game.model.gameObject.component.fsm.state.GetToPosState;
+    import game.model.gameObject.component.fsm.state.GetToXposState;
+    import game.model.gameObject.component.fsm.state.GetToYposState;
+    import game.model.gameObject.component.fsm.state.KamikazeChaseState;
+    import game.model.gameObject.component.fsm.state.KamikazeStraightState;
+    import game.model.gameObject.component.fsm.state.StartShootState;
+    import game.model.gameObject.component.fsm.state.StopState;
+    import game.model.gameObject.component.fsm.state.WaitState;
+    import game.model.gameObject.component.fsm.state.WobbleState;
     import game.model.gameObject.vo.BehaviorVO;
 
     public class BehaviorFactory implements IBehaviorFactory
@@ -18,7 +19,7 @@ package game.model.gameObject.def
         public static const GET_TO_POS: uint = 1;
         public static const GET_TO_X: uint = 2;
         public static const GET_TO_Y: uint = 3;
-        public static const KAMIKAZE_STARIGHT: uint = 4;
+        public static const KAMIKAZE_STRAIGHT: uint = 4;
         public static const KAMIKAZE_CHASE: uint = 5;
         public static const WOBBLE: uint = 6;
 
@@ -34,21 +35,25 @@ package game.model.gameObject.def
             switch (aBehaviorID)
             {
                 case FLY_THROUGH:
+                    behaviourVO.addState(new StartShootState());
                     behaviourVO.addState(new FlyThroughState());
                     break;
                 case GET_TO_POS:
                     behaviourVO.addState(new GetToPosState(aTarget));
+                    behaviourVO.addState(new StartShootState());
                     behaviourVO.addState(new StopState());
                     break;
                 case GET_TO_X:
                     behaviourVO.addState(new GetToXposState(aTarget));
+                    behaviourVO.addState(new StartShootState());
                     behaviourVO.addState(new StopState());
                     break;
                 case GET_TO_Y:
                     behaviourVO.addState(new GetToYposState(aTarget));
+                    behaviourVO.addState(new StartShootState());
                     behaviourVO.addState(new StopState());
                     break;
-                case KAMIKAZE_STARIGHT:
+                case KAMIKAZE_STRAIGHT:
                     behaviourVO.addState(new GetToYposState(aTarget));
                     behaviourVO.addState(new WaitState(1000));
                     behaviourVO.addState(new KamikazeStraightState());

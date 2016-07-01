@@ -20,6 +20,8 @@ package game.model.gameObject.constants
         public static const ROCKET_1: uint = 40;
 
 
-        public static const FREEZE: uint = 4;
+        public static const FREEZE: uint = 50;
+
+
     }
 }

@@ -1,5 +1,6 @@
 package game.model
 {
+    import game.model.gameObject.component.fsm.Target;
     import game.model.gameObject.constants.BonusTypeID;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.constants.ObstacleType;
@@ -7,7 +8,6 @@ package game.model
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
-    import game.model.gameObject.fsm.Target;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
@@ -80,22 +80,32 @@ package game.model
             if (!_levelEnded)
                 throw new Error(LEVEL_NO_END_ERROR);
 
-            //return new LoopedLevelModel(_levelEvents);
-            return new LevelModel(_levelEvents);
+            return new LoopedLevelModel(_levelEvents);
+            //return new LevelModel(_levelEvents);
         }
 
         private function createLevel(): void
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
 
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addBonus();
-            addDelay(3000);
+            addBonus(0);
+            addBonus(0);
+            addBonus(0);
+            addBonus(0);
+            addBonus(0);
+            addBonus(0);
+            addBonus(0);
+            //addDelay(3000);
+            /*
+             var tempDistance: uint = _currentDistance;
+             addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 11);
+             _currentDistance = tempDistance;
+             addWobbleGroup(EnemyType.WOBBLY_3, 15, viewModel.gameWidth / 2);
+             _currentDistance = tempDistance;
+             addWobbleGroup(EnemyType.WOBBLY_2, 15, viewModel.gameWidth / 15 * 4);
+
+             return;
+             */
 
             addFightersRows(600, RANDOM_EACH, RANDOM, 1200);
             addWAitForClear();
@@ -270,7 +280,7 @@ package game.model
                 aX = viewModel.gameWidth / 2;
 
             var enemyVO: EnemyVO = enemyDefs.getEnemyVO(aKamikazeType);
-            var behaviorID: uint = aKamikazeType == EnemyType.KAMIKAZE_1 ? BehaviorFactory.KAMIKAZE_STARIGHT : BehaviorFactory.KAMIKAZE_CHASE;
+            var behaviorID: uint = aKamikazeType == EnemyType.KAMIKAZE_1 ? BehaviorFactory.KAMIKAZE_STRAIGHT : BehaviorFactory.KAMIKAZE_CHASE;
             var behavior: BehaviorVO = behaviorDefs.getBehaviorVO(behaviorID, new Target(0, aDestinationY));
 
             _levelEvents.push(new SpawnEnemyEvent(enemyVO, behavior, _currentDistance, aX, -GameModel.OUTER_BOUNDS));
@@ -529,7 +539,7 @@ package game.model
 
         private static function getRandSpeedRotation(): Number
         {
-            return -0.1 + Math.random() * 0.2;
+            return (-0.1 + Math.random() * 0.2) * Math.PI / 180;
         }
 
         //endregion

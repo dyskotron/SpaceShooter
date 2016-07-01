@@ -1,6 +1,6 @@
 package game.model.gameObject.def
 {
-    import game.model.gameObject.fsm.ITarget;
+    import game.model.gameObject.component.fsm.ITarget;
     import game.model.gameObject.vo.BehaviorVO;
 
     public interface IBehaviorFactory

@@ -1,12 +1,12 @@
 package game.model.gameObject.def
 {
-    import game.model.gameObject.components.ComponentType;
-    import game.model.gameObject.components.generator.BatteryID;
-    import game.model.gameObject.components.generator.BatteryModel;
-    import game.model.gameObject.components.generator.GeneratorID;
-    import game.model.gameObject.components.generator.GeneratorModel;
-    import game.model.gameObject.components.weapon.ComponentModel;
-    import game.model.gameObject.components.weapon.IWeaponDefs;
+    import game.model.gameObject.component.ComponentType;
+    import game.model.gameObject.component.generator.BatteryID;
+    import game.model.gameObject.component.generator.BatteryModel;
+    import game.model.gameObject.component.generator.GeneratorID;
+    import game.model.gameObject.component.generator.GeneratorModel;
+    import game.model.gameObject.component.weapon.ComponentModel;
+    import game.model.gameObject.component.weapon.IWeaponDefs;
     import game.model.playerModel.BuildComponentSlotVO;
 
     public class ComponentDefs implements IComponentDefs

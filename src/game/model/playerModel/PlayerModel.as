@@ -1,9 +1,9 @@
 package game.model.playerModel
 {
-    import game.model.gameObject.components.ComponentType;
-    import game.model.gameObject.components.generator.BatteryID;
-    import game.model.gameObject.components.generator.GeneratorID;
-    import game.model.gameObject.components.weapon.enums.PlayerWeaponID;
+    import game.model.gameObject.component.ComponentType;
+    import game.model.gameObject.component.generator.BatteryID;
+    import game.model.gameObject.component.generator.GeneratorID;
+    import game.model.gameObject.component.weapon.enums.PlayerWeaponID;
     import game.model.gameObject.constants.PlayerShipType;
 
     import org.robotlegs.mvcs.Actor;
@@ -11,6 +11,7 @@ package game.model.playerModel
     public class PlayerModel extends Actor implements IPlayerModel
     {
         private var _shipBuild: PlayerShipBuildVO;
+        private var _score: uint;
 
         public function PlayerModel()
         {
@@ -25,11 +26,23 @@ package game.model.playerModel
             componentSlots.push(new BuildComponentSlotVO(BatteryID.BASIC, ComponentType.BATTERY));
 
             _shipBuild = new PlayerShipBuildVO(PlayerShipType.BASIC_SHOOTER, componentSlots);
+
+            _score = 0;
         }
 
         public function get shipBuild(): PlayerShipBuildVO
         {
             return _shipBuild;
+        }
+
+        public function get score(): uint
+        {
+            return _score;
+        }
+
+        public function addScore(aScore: uint): void
+        {
+            _score += aScore;
         }
     }
 }

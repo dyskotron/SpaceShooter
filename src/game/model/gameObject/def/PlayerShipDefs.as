@@ -1,8 +1,8 @@
 package game.model.gameObject.def
 {
-    import game.model.gameObject.components.ComponentType;
-    import game.model.gameObject.components.weapon.ComponentSlot;
-    import game.model.gameObject.components.weapon.enums.SlotDirection;
+    import game.model.gameObject.component.ComponentType;
+    import game.model.gameObject.component.weapon.ComponentSlot;
+    import game.model.gameObject.component.weapon.enums.SlotDirection;
     import game.model.gameObject.constants.PlayerShipType;
     import game.model.gameObject.vo.PlayerShipVO;
     import game.model.playerModel.PlayerShipBuildVO;
@@ -17,15 +17,18 @@ package game.model.gameObject.def
 
         }
 
-        //todo get players ship data
-        public function getPlayerShip(aShipBuild: PlayerShipBuildVO): PlayerShipVO
+        public function getPlayerShipVO(aShipBuild: PlayerShipBuildVO): PlayerShipVO
         {
+            //get ship from build
             var shipVO: PlayerShipVO = getBaseShip(aShipBuild.shipTypeID);
 
+            //apply build components to given ship
             for (var i: int = 0; i < aShipBuild.componentSlots.length; i++)
             {
                 shipVO.addComponent(i, componentDefs.getComponentModel(aShipBuild.componentSlots[i]));
             }
+            //create gameObject
+
 
             return shipVO;
         }
@@ -46,5 +49,6 @@ package game.model.gameObject.def
 
             return new PlayerShipVO(PlayerShipType.BASIC_SHOOTER, componentSlots, 150, 99, 75);
         }
+
     }
 }

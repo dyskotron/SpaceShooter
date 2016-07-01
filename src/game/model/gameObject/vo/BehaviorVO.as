@@ -1,6 +1,6 @@
 package game.model.gameObject.vo
 {
-    import game.model.gameObject.fsm.IEnemyState;
+    import game.model.gameObject.component.fsm.IEnemyState;
 
     public class BehaviorVO
     {

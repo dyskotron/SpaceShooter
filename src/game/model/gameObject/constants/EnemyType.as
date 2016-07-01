@@ -10,7 +10,8 @@ package game.model.gameObject.constants
         public static const KAMIKAZE_2: uint = 5;
         public static const WOBBLY_1: uint = 6;
         public static const WOBBLY_2: uint = 7;
-        public static const STALKER: uint = 8;
-        public static const UFO: uint = 9;
+        public static const WOBBLY_3: uint = 8;
+        public static const STALKER: uint = 9;
+        public static const UFO: uint = 10;
     }
 }

@@ -52,6 +52,7 @@ package common.model
 
             _enemyTexture[EnemyType.WOBBLY_1] = "enemyGreen4";
             _enemyTexture[EnemyType.WOBBLY_2] = "enemyRed4";
+            _enemyTexture[EnemyType.WOBBLY_3] = "enemyBlue4";
 
             _bonusTexture = new Vector.<String>(3);
             _bonusTexture[BonusTypeID.BONUS_HEALTH] = "pill_red";
@@ -102,7 +103,6 @@ package common.model
             var textures: Vector.<Texture>;
             var texture: Texture;
 
-            //todo graphic for each bullet
             switch (aBulletID)
             {
                 case BulletID.LASER_1:

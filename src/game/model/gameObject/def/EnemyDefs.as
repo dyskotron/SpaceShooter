@@ -2,10 +2,10 @@ package game.model.gameObject.def
 {
     import common.model.TextureProvider;
 
-    import game.model.gameObject.components.ComponentType;
-    import game.model.gameObject.components.weapon.ComponentSlot;
-    import game.model.gameObject.components.weapon.IWeaponDefs;
-    import game.model.gameObject.components.weapon.enums.EnemyWeaponID;
+    import game.model.gameObject.component.ComponentType;
+    import game.model.gameObject.component.weapon.ComponentSlot;
+    import game.model.gameObject.component.weapon.IWeaponDefs;
+    import game.model.gameObject.component.weapon.enums.EnemyWeaponID;
     import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.constants.EnemyType;
     import game.model.gameObject.vo.EnemyVO;
@@ -98,6 +98,14 @@ package game.model.gameObject.def
             width = texture.width * 0.7;
             height = texture.height * 0.7;
             hp = 60;
+            _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weapons, hp, width, height);
+
+            enemyType = EnemyType.WOBBLY_3;
+            speed = 120;
+            weapons = null;
+            width = texture.width * 0.9;
+            height = texture.height * 0.9;
+            hp = 120;
             _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weapons, hp, width, height);
 
         }

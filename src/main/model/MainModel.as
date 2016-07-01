@@ -4,6 +4,8 @@ package main.model
     import flash.utils.Dictionary;
 
     import game.model.GameModel;
+    import game.model.playerModel.IPlayerModel;
+    import game.model.playerModel.PlayerModel;
 
     import org.robotlegs.mvcs.Actor;
 
@@ -11,6 +13,7 @@ package main.model
     {
 
         private var _numPLayers: uint;
+        private var _players: Vector.<IPlayerModel>;
         private var _playerNames: Dictionary;
         private var _playerNamesSO: SharedObject;
 
@@ -39,6 +42,11 @@ package main.model
         public function set numPlayers(value: uint): void
         {
             _numPLayers = value;
+            _players = new Vector.<IPlayerModel>(_numPLayers);
+            for (var i: int = 0; i < _numPLayers; i++)
+            {
+                _players[i] = new PlayerModel();
+            }
         }
 
         public function getPlayerName(aPlayerID: uint): String
@@ -55,5 +63,9 @@ package main.model
         }
 
 
+        public function getPlayerModel(playerID: int): IPlayerModel
+        {
+            return _players[playerID];
+        }
     }
 }
