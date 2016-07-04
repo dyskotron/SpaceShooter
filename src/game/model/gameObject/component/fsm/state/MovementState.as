@@ -9,7 +9,7 @@ package game.model.gameObject.component.fsm.state
         protected var _movementParams: MoveParamsComponent;
         protected var _gameObject: GameObject;
 
-        protected var _currentTime: int = 0;
+        protected var _currentTime: Number = 0;
 
         public function MovementState()
         {
@@ -21,7 +21,7 @@ package game.model.gameObject.component.fsm.state
             _gameObject = aEnemyGO;
         }
 
-        public function update(aDeltaTime: int): uint
+        public function update(aDeltaTime: Number): uint
         {
             _currentTime += aDeltaTime;
             return 0;

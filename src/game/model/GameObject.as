@@ -153,14 +153,14 @@ package game.model
 
         //endregion
 
-        public function update(aDeltaTime: int): void
+        public function update(aDeltaTime: Number): void
         {
             _currentTime += aDeltaTime;
 
             for (var i: int = 0; i < _components.length; i++)
             {
-                if(_components[i].active)
-                _components[i].update(aDeltaTime);
+                if (_components[i].active)
+                    _components[i].update(aDeltaTime);
             }
         }
 

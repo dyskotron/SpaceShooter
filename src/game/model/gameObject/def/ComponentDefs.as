@@ -24,7 +24,7 @@ package game.model.gameObject.def
                     componentModel = weaponDef.getMainWeaponModel(aBuildComponentSlotVO.componentID);
                     break;
                 case ComponentType.SECONDARY_GUN:
-                    componentModel = weaponDef.getSeconaryWeaponModel(aBuildComponentSlotVO.componentID);
+                    componentModel = weaponDef.getSecondaryWeaponModel(aBuildComponentSlotVO.componentID);
                     break;
                 case ComponentType.GENERATOR:
                     componentModel = getGeneratorModel(aBuildComponentSlotVO.componentID);

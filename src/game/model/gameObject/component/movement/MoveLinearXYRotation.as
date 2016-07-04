@@ -24,11 +24,10 @@ package game.model.gameObject.component.movement
             _transform = aGameObject.transform;
         }
 
-        override public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: Number): void
         {
-            //TODO: there should be aDeltaTime / 1000, change values generated in SerialLevelGenerator accordingly
-            _transform.x += _speedX * aDeltaTime / 1000;
-            _transform.y += _speedY * aDeltaTime / 1000;
+            _transform.x += _speedX * aDeltaTime;
+            _transform.y += _speedY * aDeltaTime;
             _transform.rotation += _speedRotation * aDeltaTime;
         }
     }

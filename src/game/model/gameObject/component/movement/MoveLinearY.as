@@ -22,7 +22,7 @@ package game.model.gameObject.component.movement
 
         }
 
-        override public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: Number): void
         {
             _transform.y += _speed * aDeltaTime;
 

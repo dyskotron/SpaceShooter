@@ -25,9 +25,9 @@ package game.controller
 
         private var running: Boolean = false;
 
-        private var currentFrameTime: int;
-        private var previousFrameTime: int;
-        private var deltaTime: int;
+        private var _currentFrameTime: int;
+        private var _previousFrameTime: int;
+        private var _deltaTime: Number;
 
         /**
          * Class which controls core game loop, it dispatches physics and view update signals
@@ -42,7 +42,7 @@ package game.controller
             if (running)
                 return;
 
-            previousFrameTime = getTimer();
+            _previousFrameTime = getTimer();
             viewModel.stage.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
             running = true;
 
@@ -61,23 +61,23 @@ package game.controller
 
         private function enterFrameHandler(event: Event): void
         {
-            currentFrameTime = getTimer();
-            deltaTime = currentFrameTime - previousFrameTime;
-            previousFrameTime = currentFrameTime;
+            _currentFrameTime = getTimer();
+            _deltaTime = (_currentFrameTime - _previousFrameTime) / 1000;
+            _previousFrameTime = _currentFrameTime;
 
-            physicsUpdateSignal.dispatch(int(deltaTime));
-            viewUpdateSignal.dispatch(deltaTime);
+            physicsUpdateSignal.dispatch(_deltaTime);
+            viewUpdateSignal.dispatch(_deltaTime);
         }
 
         /**
-         * Sets previousFrameTime to actual time, otherwise GameLoopDispatcher would generate one loop with huge deltaTime
+         * Sets _previousFrameTime to actual time, otherwise GameLoopDispatcher would generate one loop with huge _deltaTime
          * when deactivated and activated again after some time
          * @param aActivated
          */
         private function appActivateHandler(aActivated: Boolean): void
         {
             if (aActivated)
-                previousFrameTime = getTimer();
+                _previousFrameTime = getTimer();
         }
     }
 }

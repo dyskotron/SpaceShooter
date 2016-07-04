@@ -23,9 +23,9 @@ package game.model.gameObject.component.fsm.state
             _movementParams.speedY = 0;
         }
 
-        override public function update(aDeltaTime: int): uint
+        override public function update(aDeltaTime: Number): uint
         {
-            var maxDelta: Number = _movementParams.speed * aDeltaTime / 1000;
+            var maxDelta: Number = _movementParams.speed * aDeltaTime;
             var delta: Number = MathUtil.clamp(_target.x - _gameObject.transform.x, -maxDelta, maxDelta);
             _gameObject.transform.x += delta;
 

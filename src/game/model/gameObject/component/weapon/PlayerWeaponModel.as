@@ -7,12 +7,12 @@ package game.model.gameObject.component.weapon
     public class PlayerWeaponModel extends WeaponModel
     {
         private var _spawnPointsByPower: Vector.<Vector.<BulletSpawnVO>>;
-        private var _shootIntervalByPower: Vector.<uint>;
+        private var _shootIntervalByPower: Vector.<Number>;
         private var _power: uint;
         private var _energyCost: Number;
 
 
-        public function PlayerWeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aWeaponGroup: uint, aShootInterval: Vector.<uint>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
+        public function PlayerWeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aWeaponGroup: uint, aShootInterval: Vector.<Number>, aSpawnPoints: Vector.<Vector.<BulletSpawnVO>>)
         {
             _spawnPointsByPower = aSpawnPoints;
             _shootIntervalByPower = aShootInterval;

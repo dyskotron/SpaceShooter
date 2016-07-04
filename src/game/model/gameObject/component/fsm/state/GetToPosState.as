@@ -19,9 +19,9 @@ package game.model.gameObject.component.fsm.state
             _target ||= aTarget;
         }
 
-        override public function update(aDeltaTime: int): uint
+        override public function update(aDeltaTime: Number): uint
         {
-            var maxDelta: Number = _movementParams.speed * aDeltaTime / 1000;
+            var maxDelta: Number = _movementParams.speed * aDeltaTime;
             var speedX: Number = _target.x - _gameObject.transform.x;
             var speedY: Number = _target.y - _gameObject.transform.y;
             var distance: Number = Math.sqrt(speedX * speedX + speedY * speedY);

@@ -22,7 +22,7 @@ package game.model.gameObject.component
             _gameObject = aGameObject;
         }
 
-        public function update(aDeltaTime: int): void
+        public function update(aDeltaTime: Number): void
         {
 
         }

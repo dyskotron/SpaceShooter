@@ -43,7 +43,7 @@ package game.model.gameObject.component.fsm
             startState();
         }
 
-        override public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: Number): void
         {
             var result: uint = curentState.update(aDeltaTime);
 

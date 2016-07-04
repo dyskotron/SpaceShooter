@@ -4,7 +4,7 @@ package game.model.gameObject.component.weapon
     {
         function getMainWeaponModel(aWeaponType: uint): WeaponModel;
 
-        function getSeconaryWeaponModel(aWeaponType: uint): WeaponModel;
+        function getSecondaryWeaponModel(aWeaponType: uint): WeaponModel;
 
         function getEnemyWeaponModel(aWeaponID: uint, aShootInterval: uint, bulletType: uint): WeaponModel;
     }

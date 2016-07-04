@@ -12,6 +12,6 @@ package game.model.gameObject.component
 
         function init(aGameObject: GameObject): void
 
-        function update(deltaTime: int): void
+        function update(deltaTime: Number): void
     }
 }

@@ -63,7 +63,7 @@ package game.model.gameObject.component.weapon
                 _shootSignal = new Signal(Vector.<GameObject>);
         }
 
-        override public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: Number): void
         {
             if (_isShooting)
             {

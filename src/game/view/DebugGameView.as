@@ -37,7 +37,7 @@ package game.view
             Mouse.hide();
         }
 
-        public function redraw(aDeltaTime: int): void
+        public function redraw(aDeltaTime: Number): void
         {
             var i: int;
 

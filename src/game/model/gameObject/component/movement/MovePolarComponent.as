@@ -24,10 +24,10 @@ package game.model.gameObject.component.movement
             _transform = aGameObject.transform;
         }
 
-        override public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: Number): void
         {
-            _transform.x += _speedX * aDeltaTime / 1000;
-            _transform.y += _speedY * aDeltaTime / 1000;
+            _transform.x += _speedX * aDeltaTime;
+            _transform.y += _speedY * aDeltaTime;
         }
     }
 }

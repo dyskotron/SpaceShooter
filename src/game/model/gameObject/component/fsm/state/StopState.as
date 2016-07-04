@@ -17,7 +17,7 @@ package game.model.gameObject.component.fsm.state
             _movementParams.speedY = _movementParams.speedX = 0;
         }
 
-        override public function update(aDeltaTime: int): uint
+        override public function update(aDeltaTime: Number): uint
         {
             return FSMComponent.ACTION_NONE;
         }

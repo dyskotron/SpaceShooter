@@ -34,7 +34,7 @@ package game.view
             viewUpdateSignal.remove(viewUpdateHandler);
         }
 
-        private function viewUpdateHandler(aDeltaTime: int): void
+        private function viewUpdateHandler(aDeltaTime: Number): void
         {
             guiView.update();
         }

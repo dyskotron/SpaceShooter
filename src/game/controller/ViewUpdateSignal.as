@@ -6,7 +6,7 @@ package game.controller
     {
         public function ViewUpdateSignal()
         {
-            super(int);
+            super(Number);
         }
     }
 }

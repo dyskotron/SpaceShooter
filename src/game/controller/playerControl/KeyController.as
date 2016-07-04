@@ -166,9 +166,9 @@ package game.controller.playerControl
             }
         }
 
-        private function physicsUpdateHandler(aDeltaTime: int): void
+        private function physicsUpdateHandler(aDeltaTime: Number): void
         {
-            var deltaSeconds: Number = aDeltaTime / 1000;
+            var deltaSeconds: Number = aDeltaTime;
             var deltaX: Number = (int(_keysDown[Keyboard.RIGHT]) - int(_keysDown[Keyboard.LEFT])) * _maxDistancePerSecond * deltaSeconds;
             var deltaY: Number = (int(_keysDown[Keyboard.DOWN]) - int(_keysDown[Keyboard.UP])) * _maxDistancePerSecond * deltaSeconds;
 

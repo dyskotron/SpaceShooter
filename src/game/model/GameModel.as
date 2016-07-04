@@ -403,7 +403,7 @@ package game.model
 
         //region --------------------------------- SIGNAL HANDLERS ---------------------------------
 
-        private function gameLoopSignalHandler(aDeltaTime: int): void
+        private function gameLoopSignalHandler(aDeltaTime: Number): void
         {
             var i: int;
             var iC: int;

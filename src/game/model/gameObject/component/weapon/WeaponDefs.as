@@ -32,7 +32,7 @@ package game.model.gameObject.component.weapon
             var weaponVO: WeaponModel;
 
             var spawnPointsByPower: Vector.<Vector.<BulletSpawnVO>> = new Vector.<Vector.<BulletSpawnVO>>();
-            var shootIntervalByPower: Vector.<uint> = new Vector.<uint>();
+            var shootIntervalByPower: Vector.<Number> = new Vector.<Number>();
 
             var bulletX1: Number = 0;
             var bulletX2: Number = 0;
@@ -55,7 +55,7 @@ package game.model.gameObject.component.weapon
                 case PlayerWeaponID.LASER:
 
                     //common
-                    shootIntervalByPower.push(1000 / 5);
+                    shootIntervalByPower.push(1 / 5);
                     aBulletType = BulletID.LASER_1;
 
 
@@ -180,7 +180,7 @@ package game.model.gameObject.component.weapon
                 //region ========= PLASMA =========
                 case PlayerWeaponID.PLASMA:
                     //common
-                    shootIntervalByPower.push(1000 / 3);
+                    shootIntervalByPower.push(1 / 3);
 
                     bulletX1 = 5;
                     bulletX2 = 18;
@@ -311,7 +311,7 @@ package game.model.gameObject.component.weapon
                         spawnPointsByPower.push(spawnPoints);
 
 
-                        shootIntervalByPower.push(1000 / numShots);
+                        shootIntervalByPower.push(1 / numShots);
                     }
 
                     weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.MAIN_GUN, WeaponType.SEQUENTIAL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
@@ -325,13 +325,13 @@ package game.model.gameObject.component.weapon
             return weaponVO;
         }
 
-        public function getSeconaryWeaponModel(aWeaponID: uint): WeaponModel
+        public function getSecondaryWeaponModel(aWeaponID: uint): WeaponModel
         {
             var spawnPoints: Vector.<BulletSpawnVO> = new Vector.<BulletSpawnVO>();
             var weaponVO: WeaponModel;
 
             var spawnPointsByPower: Vector.<Vector.<BulletSpawnVO>> = new Vector.<Vector.<BulletSpawnVO>>();
-            var shootIntervalByPower: Vector.<uint> = new Vector.<uint>();
+            var shootIntervalByPower: Vector.<Number> = new Vector.<Number>();
 
             var bulletX1: Number = 0;
             var bulletX2: Number = 0;
@@ -347,7 +347,7 @@ package game.model.gameObject.component.weapon
 
             var aBulletType: uint = 0;
 
-            var i: int
+            var i: int;
 
 
             switch (aWeaponID)
@@ -356,7 +356,7 @@ package game.model.gameObject.component.weapon
                 case PlayerWeaponID.LASER:
 
                     //common
-                    shootIntervalByPower.push(1000 / 5);
+                    shootIntervalByPower.push(1 / 5);
 
                     bulletX1 = 4;
                     bulletX2 = 8;
@@ -429,7 +429,7 @@ package game.model.gameObject.component.weapon
                 //region ========= PLASMA =========
                 case PlayerWeaponID.PLASMA:
                     //common
-                    shootIntervalByPower.push(1000 / 3);
+                    shootIntervalByPower.push(1 / 3);
 
                     bulletX1 = 10;
                     bulletX2 = 20;
@@ -531,7 +531,7 @@ package game.model.gameObject.component.weapon
                         spawnPointsByPower.push(spawnPoints);
 
 
-                        shootIntervalByPower.push(1000 / numShots);
+                        shootIntervalByPower.push(1 / numShots);
                     }
 
                     weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SEQUENTIAL, WeaponGroup.NORMAL, shootIntervalByPower, spawnPointsByPower);
@@ -552,7 +552,7 @@ package game.model.gameObject.component.weapon
                         spawnPointsByPower.push(spawnPoints);
 
 
-                        shootIntervalByPower.push(1000 / numShots);
+                        shootIntervalByPower.push(1 / numShots);
                     }
 
                     weaponVO = new PlayerWeaponModel(aWeaponID, ComponentType.SECONDARY_GUN, WeaponType.SINGLE, WeaponGroup.CHARGE, shootIntervalByPower, spawnPointsByPower);

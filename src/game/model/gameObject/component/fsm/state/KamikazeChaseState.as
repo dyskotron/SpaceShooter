@@ -24,13 +24,13 @@ package game.model.gameObject.component.fsm.state
             _gameObject.transform.rotation = Math.atan2(-_movementParams.speedX, _movementParams.speedY);
         }
 
-        override public function update(aDeltaTime: int): uint
+        override public function update(aDeltaTime: Number): uint
         {
-            _gameObject.transform.x += _movementParams.speedX * aDeltaTime / 1000;
-            _gameObject.transform.y += _movementParams.speedY * aDeltaTime / 1000;
+            _gameObject.transform.x += _movementParams.speedX * aDeltaTime;
+            _gameObject.transform.y += _movementParams.speedY * aDeltaTime;
 
-            _movementParams.speedX *= 1 + aDeltaTime / 1000;
-            _movementParams.speedY *= 1 + aDeltaTime / 1000;
+            _movementParams.speedX *= 1 + aDeltaTime;
+            _movementParams.speedY *= 1 + aDeltaTime;
 
             return FSMComponent.ACTION_NONE;
         }

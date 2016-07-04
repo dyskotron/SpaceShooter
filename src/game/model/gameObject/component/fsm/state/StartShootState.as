@@ -19,7 +19,7 @@ package game.model.gameObject.component.fsm.state
 
         }
 
-        public function update(aDeltaTime: int): uint
+        public function update(aDeltaTime: Number): uint
         {
             if (_weaponControlComponent != null)
                 _weaponControlComponent.startShoot();

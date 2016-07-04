@@ -6,7 +6,7 @@ package game.controller
     {
         public function PhysicsUpdateSignal()
         {
-            super(int);
+            super(Number);
         }
 
     }

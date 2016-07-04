@@ -41,7 +41,7 @@ package game.view
             debugGameView.destroy();
         }
 
-        private function gameLoopSignalHandler(aDeltaTime: int): void
+        private function gameLoopSignalHandler(aDeltaTime: Number): void
         {
             debugGameView.redraw(aDeltaTime);
         }

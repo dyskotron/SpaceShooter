@@ -55,12 +55,12 @@ package game.model.gameObject.def
                     break;
                 case KAMIKAZE_STRAIGHT:
                     behaviourVO.addState(new GetToYposState(aTarget));
-                    behaviourVO.addState(new WaitState(1000));
+                    behaviourVO.addState(new WaitState(1));
                     behaviourVO.addState(new KamikazeStraightState());
                     break;
                 case KAMIKAZE_CHASE:
                     behaviourVO.addState(new GetToYposState(aTarget));
-                    behaviourVO.addState(new WaitState(1000));
+                    behaviourVO.addState(new WaitState(1));
                     behaviourVO.addState(new KamikazeChaseState());
                     break;
                 case WOBBLE:

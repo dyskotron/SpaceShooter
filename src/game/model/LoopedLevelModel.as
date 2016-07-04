@@ -30,9 +30,9 @@ package game.model
             return _levelEventSignal;
         }
 
-        public function progress(aDeltaTime: int): void
+        public function progress(aDeltaTime: Number): void
         {
-            _distance += SPEED * aDeltaTime / 1000;
+            _distance += SPEED * aDeltaTime;
 
             var levelEvent: LevelEvent;
             while (_levelEvents.length > _currentEventIndex && _levelEvents[_currentEventIndex].distance < _distance)

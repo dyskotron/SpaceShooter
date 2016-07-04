@@ -38,7 +38,7 @@ package game.model.gameObject.component.control
             _transform.y = controlY = aY;
         }
 
-        override public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: Number): void
         {
             _movementParams.speedX = (controlX - _transform.x) * MOVE_EASING;
             _movementParams.speedY = (controlY - _transform.y) * MOVE_EASING;

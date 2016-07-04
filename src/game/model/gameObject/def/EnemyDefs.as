@@ -37,28 +37,28 @@ package game.model.gameObject.def
 
             enemyType = EnemyType.FIGHTER_1;
             speed = 200;
-            weapons = getWeaponSlots(EnemyWeaponID.LASER, 4000, BulletID.LASER_1);
+            weapons = getWeaponSlots(EnemyWeaponID.LASER, 4, BulletID.LASER_1);
             width = texture.width * 0.6;
             height = texture.height * 0.6;
             hp = 30;
             _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weapons, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_2;
-            weapons = getWeaponSlots(EnemyWeaponID.LASER, 3000, BulletID.LASER_1);
+            weapons = getWeaponSlots(EnemyWeaponID.LASER, 3, BulletID.LASER_1);
             width = texture.width * 0.65;
             height = texture.height * 0.65;
             hp = 50;
             _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weapons, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_3;
-            weapons = getWeaponSlots(EnemyWeaponID.LASER, 2000, BulletID.LASER_1);
+            weapons = getWeaponSlots(EnemyWeaponID.LASER, 2, BulletID.LASER_1);
             width = texture.width * 0.7;
             height = texture.height * 0.7;
             hp = 80;
             _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weapons, hp, width, height);
 
             enemyType = EnemyType.FIGHTER_4;
-            weapons = getWeaponSlots(EnemyWeaponID.LASER, 1200, BulletID.LASER_1);
+            weapons = getWeaponSlots(EnemyWeaponID.LASER, 1.2, BulletID.LASER_1);
             width = texture.width * 0.75;
             height = texture.height * 0.75;
             hp = 100;

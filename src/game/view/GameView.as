@@ -160,7 +160,7 @@ package game.view
             Mouse.show();
         }
 
-        public function redraw(aDeltaTime: int): void
+        public function redraw(aDeltaTime: Number): void
         {
             var i: int;
 
@@ -239,7 +239,7 @@ package game.view
             for (i = 0; i < 4; i++)
             {
                 textCord = _bgTexCords[i];
-                textCord.y -= _bgScrollSpeed * aDeltaTime / 1000;
+                textCord.y -= _bgScrollSpeed * aDeltaTime;
                 _bgImage.setTexCoords(i, textCord);
             }
 

@@ -49,7 +49,7 @@ package game.model.gameObject.component.movement
 
         }
 
-        override public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: Number): void
         {
             //AUTO AIM
             if (_autoAim.mode == AutoAimMode.ON_UPDATE)
@@ -68,7 +68,7 @@ package game.model.gameObject.component.movement
                     if (Math.abs(_angleDelta) < _autoAim.maxTriggerAngle)
                     {
                         //max delta
-                        _maxDelta = _autoAim.maxRotation * aDeltaTime / 1000;
+                        _maxDelta = _autoAim.maxRotation * aDeltaTime;
                         _angle = _angle + MathUtil.clamp(_angleDelta, -_maxDelta, _maxDelta);
                         _movementParams.speedX = _movementParams.speed * Math.sin(_angle);
                         _movementParams.speedY = _movementParams.speed * Math.cos(_angle);
@@ -79,8 +79,8 @@ package game.model.gameObject.component.movement
 
             }
 
-            transform.x += _movementParams.speedX * aDeltaTime / 1000;
-            transform.y += _movementParams.speedY * aDeltaTime / 1000;
+            transform.x += _movementParams.speedX * aDeltaTime;
+            transform.y += _movementParams.speedY * aDeltaTime;
         }
     }
 }

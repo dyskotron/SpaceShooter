@@ -6,6 +6,6 @@ package game.model.gameObject.component.fsm
     {
         function start(aEnemyGO: GameObject, aTarget: ITarget): void
 
-        function update(aDeltaTime: int): uint
+        function update(aDeltaTime: Number): uint
     }
 }

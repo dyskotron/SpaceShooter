@@ -5,10 +5,10 @@ package game.model.gameObject.component.fsm.state
 
     public class WaitState extends MovementState implements IEnemyState
     {
-        private var _delay: int;
-        private var _currentDelay: int;
+        private var _delay: Number;
+        private var _currentDelay: Number;
 
-        public function WaitState(aDelay: int)
+        public function WaitState(aDelay: Number)
         {
             _delay = aDelay;
         }
@@ -21,7 +21,7 @@ package game.model.gameObject.component.fsm.state
             _currentDelay = _delay;
         }
 
-        override public function update(aDeltaTime: int): uint
+        override public function update(aDeltaTime: Number): uint
         {
             _currentDelay -= aDeltaTime;
 

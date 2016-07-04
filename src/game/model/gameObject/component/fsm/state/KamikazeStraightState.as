@@ -18,10 +18,10 @@ package game.model.gameObject.component.fsm.state
             _speed = _movementParams.speed * 1.5;
         }
 
-        override public function update(aDeltaTime: int): uint
+        override public function update(aDeltaTime: Number): uint
         {
             _speed += _movementParams.speed * 0.1;
-            _gameObject.transform.y += _speed * aDeltaTime / 1000;
+            _gameObject.transform.y += _speed * aDeltaTime;
 
             return FSMComponent.ACTION_NONE;
         }

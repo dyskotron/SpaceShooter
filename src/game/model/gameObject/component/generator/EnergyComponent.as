@@ -30,9 +30,9 @@ package game.model.gameObject.component.generator
             _percentLeft = 100;
         }
 
-        override public function update(aDeltaTime: int): void
+        override public function update(aDeltaTime: Number): void
         {
-            recharge(_rechargeSpeed * aDeltaTime / 1000);
+            recharge(_rechargeSpeed * aDeltaTime);
         }
 
         public function get energy(): Number

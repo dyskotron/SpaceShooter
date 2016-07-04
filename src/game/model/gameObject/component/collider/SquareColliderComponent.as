@@ -40,7 +40,7 @@ package game.model.gameObject.component.collider
 
         }
 
-        override public function update(deltaTime: int): void
+        override public function update(deltaTime: Number): void
         {
             _bounds.x = gameObject.transform.x - gameObject.transform.width * 0.5;
             _bounds.y = gameObject.transform.y - gameObject.transform.height * 0.5;

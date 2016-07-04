@@ -52,7 +52,7 @@ package game.view
             gameOverSignal.remove(gameEndSignalHandler);
         }
 
-        private function gameLoopSignalHandler(aDeltaTime: int): void
+        private function gameLoopSignalHandler(aDeltaTime: Number): void
         {
             gameView.redraw(aDeltaTime);
         }

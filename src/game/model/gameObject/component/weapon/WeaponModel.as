@@ -10,7 +10,7 @@ package game.model.gameObject.component.weapon
         protected var _spawnPoints: Vector.<BulletSpawnVO>;
 
         private var _weaponType: uint = 0;
-        protected var _shootInterval: int;
+        protected var _shootInterval: Number;
         private var _weaponGroup: uint;
 
         public function WeaponModel(aComponentID: uint, aComponentType: uint, aWeaponType: uint, aWeaponGroup: uint, aShootInterval: uint, aSpawnPoints: Vector.<BulletSpawnVO>)
@@ -33,7 +33,7 @@ package game.model.gameObject.component.weapon
             return _weaponGroup;
         }
 
-        public function get shootInterval(): int
+        public function get shootInterval(): Number
         {
             return _shootInterval;
         }
