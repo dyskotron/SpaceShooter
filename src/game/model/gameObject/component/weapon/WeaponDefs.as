@@ -352,7 +352,7 @@ package game.model.gameObject.component.weapon
 
             switch (aWeaponID)
             {
-                //region ========= LASER =========
+                 //region ========= LASER =========
                 case PlayerWeaponID.LASER:
 
                     //common

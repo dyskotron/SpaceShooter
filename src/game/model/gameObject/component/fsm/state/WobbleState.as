@@ -8,11 +8,13 @@ package game.model.gameObject.component.fsm.state
     public class WobbleState extends MovementState implements IEnemyState
     {
         private var _startTime: int;
-        private var _startX: Number;
+        private var _oldX: Number = 0;
+        private var _newX: Number = 0;
+        private var _width: Number;
 
-        public function WobbleState()
+        public function WobbleState(aWidth: Number)
         {
-
+            _width = aWidth;
         }
 
         override public function start(aEnemyGO: GameObject, aTarget: ITarget): void
@@ -20,17 +22,21 @@ package game.model.gameObject.component.fsm.state
             super.start(aEnemyGO, aTarget);
 
             _startTime = _currentTime;
-            _startX = aEnemyGO.transform.x;
-
-            _movementParams.speedY = _movementParams.speed;
-            _movementParams.speedX = _movementParams.speed / 2;
         }
 
         override public function update(aDeltaTime: Number): uint
         {
-            super.update(aDeltaTime);
-            _gameObject.transform.y += _movementParams.speedY * aDeltaTime;
-            _gameObject.transform.x = _startX + Math.sin(_startTime - _currentTime) * _movementParams.speedX;
+            //super.update(aDeltaTime);
+
+            //todo: how dare you mess with delta time?!
+            _currentTime += aDeltaTime * _movementParams.speed / 200;
+
+            _gameObject.transform.y += _movementParams.speed * aDeltaTime;
+
+            _newX = Math.sin(_startTime - _currentTime) * _width;
+            _gameObject.transform.x += _newX - _oldX;
+            _oldX = _newX;
+
             return FSMComponent.ACTION_NONE;
         }
     }

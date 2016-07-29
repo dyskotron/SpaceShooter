@@ -11,7 +11,7 @@ package game.model.gameObject.component.movement
 
     import starling.utils.MathUtil;
 
-    public class AutoAimComponent extends Component
+    public class AutoAimComponent extends Component implements IMoveComponent
     {
         private var _target: ITarget;
         private var _targetProvider: ITargetProvider;

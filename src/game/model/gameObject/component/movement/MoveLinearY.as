@@ -4,7 +4,7 @@ package game.model.gameObject.component.movement
     import game.model.gameObject.component.Component;
     import game.model.gameObject.component.transform.TransformComponent;
 
-    public class MoveLinearY extends Component
+    public class MoveLinearY extends Component implements IMoveComponent
     {
         private var _transform: TransformComponent;
         private var _speed: Number;

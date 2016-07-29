@@ -2,8 +2,9 @@ package game.model.gameObject.component.fsm
 {
     import game.model.GameObject;
     import game.model.gameObject.component.Component;
+    import game.model.gameObject.component.movement.IMoveComponent;
 
-    public class FSMComponent extends Component
+    public class FSMComponent extends Component implements IMoveComponent
     {
         public static const ACTION_NONE: uint = 0;
         public static const ACTION_PREV: uint = 1;
@@ -28,6 +29,15 @@ package game.model.gameObject.component.fsm
         public function get curentState(): IEnemyState
         {
             return _curentState;
+        }
+
+        public function restart(): void
+        {
+            if (_states.length == 1)
+                return;
+
+            _stateIndex = 0;
+            startState();
         }
 
         private function startState(): void
@@ -76,6 +86,10 @@ package game.model.gameObject.component.fsm
             }
 
             startState();
+        }
+
+        public function applyEffectProperty(aEffectPropertyID: uint, aValue: Number): void
+        {
         }
     }
 }

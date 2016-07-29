@@ -13,6 +13,8 @@ package game.model
     import game.model.gameObject.component.collider.IOnceColliderComponent;
     import game.model.gameObject.component.control.PlayerControlComponent;
     import game.model.gameObject.component.control.WeaponControlComponent;
+    import game.model.gameObject.component.effect.EffectsContainer;
+    import game.model.gameObject.component.effect.fxComponent.KnockBackEffect;
     import game.model.gameObject.component.fsm.ITarget;
     import game.model.gameObject.component.fsm.ITargetProvider;
     import game.model.gameObject.component.fsm.Target;
@@ -649,6 +651,10 @@ package game.model
                             _gameObjectRemovedSignal.dispatch(enemyGO);
                             mainModel.getPlayerModel(playerBulletGO.identity.ownerID).addScore(enemyGO.healthComponent.maxHP * ENEMY_HP_TO_SCORE_RATIO);
                         }
+                        else
+                        {
+                            EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new KnockBackEffect(0, 30));
+                        }
                     }
                 }
 
@@ -682,7 +688,6 @@ package game.model
                 //_gameObjectRemovedSignal.dispatch(playerBulletGO);
 
             }
-
             //endregion
 
             //region UPDATE ENEMIES

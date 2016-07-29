@@ -4,7 +4,7 @@ package game.model.gameObject.component.movement
     import game.model.gameObject.component.Component;
     import game.model.gameObject.component.transform.TransformComponent;
 
-    public class MovePolarComponent extends Component
+    public class MovePolarComponent extends Component implements IMoveComponent
     {
         private var _transform: TransformComponent;
         private var _speedX: Number;
@@ -28,6 +28,11 @@ package game.model.gameObject.component.movement
         {
             _transform.x += _speedX * aDeltaTime;
             _transform.y += _speedY * aDeltaTime;
+        }
+
+        public function applyEffectProperty(aEffectPropertyID: uint, aValue: Number): void
+        {
+
         }
     }
 }

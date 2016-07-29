@@ -11,6 +11,7 @@ package game.model.gameObject.component.control
     import game.model.gameObject.component.weapon.IWeaponComponent;
     import game.model.gameObject.component.weapon.PlayerWeaponComponent;
     import game.model.gameObject.component.weapon.enums.WeaponGroup;
+    import game.model.gameObject.goDef.GameObjectGroupID;
 
     import org.osflash.signals.Signal;
 
@@ -29,8 +30,6 @@ package game.model.gameObject.component.control
 
         public function WeaponControlComponent(aTargetProvider: ITargetProvider = null)
         {
-            _weapons = new Vector.<IWeaponComponent>();
-            _chargeWeapons = new Vector.<IWeaponComponent>();
             _shootSignal = new Signal(Vector.<GameObject>);
             _targetProvider = aTargetProvider;
         }
@@ -47,9 +46,14 @@ package game.model.gameObject.component.control
 
         override public function init(aGameObject: GameObject): void
         {
+            //TODO: FIXME: its called twice on game start(for playership)
             super.init(aGameObject);
+            if (aGameObject.identity.gameObjectGroup == GameObjectGroupID.PLAYER_SHIP)
+                trace("_MO_", this, "================>INIT");
 
             _transform = gameObject.transform;
+            _weapons = new Vector.<IWeaponComponent>();
+            _chargeWeapons = new Vector.<IWeaponComponent>();
 
             var weaponsComponents: Vector.<IComponent> = getGOComponents(IWeaponComponent);
             var weaponComponent: IWeaponComponent;
@@ -73,14 +77,14 @@ package game.model.gameObject.component.control
             return _isShooting;
         }
 
-        public function startShoot(): void
+        public function startShoot(aNextShotAfter: Number = 0): void
         {
             if (_healthComponent.state != HealthState.ALIVE)
                 return;
 
             for (var i: int = 0; i < _weapons.length; i++)
             {
-                _weapons[i].startShoot();
+                _weapons[i].startShoot(aNextShotAfter);
             }
 
             _isShooting = true;

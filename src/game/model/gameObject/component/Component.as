@@ -1,20 +1,77 @@
 package game.model.gameObject.component
 {
+    import flash.utils.Dictionary;
+
     import game.model.GameObject;
+    import game.model.gameObject.component.effect.property.EffectableProperty;
+    import game.model.gameObject.component.effect.property.EffectablePropertyID;
 
     public class Component implements IComponent
     {
+        protected var _properties: Dictionary;
+
+        private var _timeScale: EffectableProperty;
+
         private var _gameObject: GameObject;
         private var _active: Boolean;
 
-        public function Component(aActive: Boolean = true)
+        private var _lifeTime: Number;
+        private var _maxLifeTime: Number = 0;
+
+        public function Component(aActive: Boolean = true, aMaxLifeTime: Number = 0)
         {
-            active = aActive;
+            _active = aActive;
+
+            _lifeTime = 0;
+
+            _properties ||= new Dictionary();
+
+            _timeScale = new EffectableProperty();
+            _timeScale.origValue = 1;
+            _timeScale.calculate();
+            _properties[EffectablePropertyID.TIME_SCALE] = _timeScale;
+
+            _maxLifeTime = aMaxLifeTime;
+        }
+
+        public function get active(): Boolean
+        {
+            return _active;
+        }
+
+        public function set active(aActive: Boolean): void
+        {
+            _active = aActive;
+        }
+
+        public function get maxLifeTime(): Number
+        {
+            return _maxLifeTime;
+        }
+
+        public function set maxLifeTime(value: Number): void
+        {
+            _maxLifeTime = value;
+        }
+
+        public function get lifeTime(): Number
+        {
+            return _lifeTime;
         }
 
         public function get gameObject(): GameObject
         {
             return _gameObject;
+        }
+
+        public function get timeScale(): Number
+        {
+            return _timeScale.value;
+        }
+
+        public function getProperty(aPropertyID: uint): EffectableProperty
+        {
+            return _properties[aPropertyID];
         }
 
         public function init(aGameObject: GameObject): void
@@ -24,17 +81,17 @@ package game.model.gameObject.component
 
         public function update(aDeltaTime: Number): void
         {
+            _lifeTime += aDeltaTime;
+        }
+
+        public function terminate(): void
+        {
 
         }
 
-        public function get active(): Boolean
+        public function destroy(): void
         {
-            return _active;
-        }
 
-        public function set active(aUpdatable: Boolean): void
-        {
-            _active = aUpdatable;
         }
 
         protected function hasGOComponent(aComponentClass: Class): Boolean

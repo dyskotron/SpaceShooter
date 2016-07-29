@@ -88,6 +88,10 @@ package game.model
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
 
+            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 4);
+            addFightersRows(600, RANDOM_EACH, RANDOM, 1200);
+
+
             addBonus(0);
             addBonus(0);
             addBonus(0);

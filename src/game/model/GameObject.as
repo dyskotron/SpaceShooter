@@ -2,11 +2,12 @@ package game.model
 {
     import game.model.gameObject.GameObjectIdentity;
     import game.model.gameObject.component.IComponent;
+    import game.model.gameObject.component.IContainer;
     import game.model.gameObject.component.collider.IColliderComponent;
     import game.model.gameObject.component.health.IHealthComponent;
     import game.model.gameObject.component.transform.TransformComponent;
 
-    public class GameObject
+    public class GameObject implements IContainer
     {
         private var _currentTime: int = 0;
 
@@ -112,7 +113,7 @@ package game.model
             return components;
         }
 
-        public function addComponent(aComponent: IComponent, aAutoInit: Boolean = false): void
+        public function addComponent(aComponent: IComponent): void
         {
             if (aComponent == null)
                 throw new Error("Component cant be null");
@@ -123,8 +124,7 @@ package game.model
             if (aComponent is IHealthComponent)
                 _healthComponent = IHealthComponent(aComponent);
 
-            if (aAutoInit)
-                aComponent.init(this);
+            aComponent.init(this);
 
             _components.push(aComponent);
         }
@@ -138,6 +138,7 @@ package game.model
 
             for (var i: int = 0; i < aComponents.length; i++)
             {
+                aComponents[i].init(this);
                 _components.push(aComponents[i]);
             }
 
@@ -151,6 +152,16 @@ package game.model
             }
         }
 
+        public function removeComponent(component: IComponent): void
+        {
+            //TODO
+        }
+
+        public function removeComponentAt(index: int): void
+        {
+            //TODO
+        }
+
         //endregion
 
         public function update(aDeltaTime: Number): void
@@ -160,7 +171,9 @@ package game.model
             for (var i: int = 0; i < _components.length; i++)
             {
                 if (_components[i].active)
+                {
                     _components[i].update(aDeltaTime);
+                }
             }
         }
 

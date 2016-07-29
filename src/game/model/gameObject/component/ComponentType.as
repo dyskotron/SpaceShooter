@@ -12,7 +12,7 @@ package game.model.gameObject.component
         //guns
         public static const MAIN_GUN: uint = 0x00001;
         public static const SECONDARY_GUN: uint = 0x0002;
-        public static const CHARGE_GUN: uint = 0x0003;
+        public static const CHARGE_GUN: uint = 0x0004;
 
         //energy
         public static const GENERATOR: uint = 0x00010;

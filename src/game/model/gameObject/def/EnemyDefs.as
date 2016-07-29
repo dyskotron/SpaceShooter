@@ -36,7 +36,7 @@ package game.model.gameObject.def
             texture = aTextureProvider.getEnemyTexture(EnemyType.FIGHTER_1);
 
             enemyType = EnemyType.FIGHTER_1;
-            speed = 200;
+            speed = 100;
             weapons = getWeaponSlots(EnemyWeaponID.LASER, 4, BulletID.LASER_1);
             width = texture.width * 0.6;
             height = texture.height * 0.6;
@@ -68,7 +68,7 @@ package game.model.gameObject.def
             aTextureProvider.getEnemyTexture(EnemyType.KAMIKAZE_1);
 
             enemyType = EnemyType.KAMIKAZE_1;
-            speed = 200;
+            speed = 120;
             weapons = null;
             width = texture.width * 0.4;
             height = texture.height * 0.4;
@@ -86,7 +86,7 @@ package game.model.gameObject.def
             aTextureProvider.getEnemyTexture(EnemyType.WOBBLY_1);
 
             enemyType = EnemyType.WOBBLY_1;
-            speed = 250;
+            speed = 120;
             weapons = null;
             width = texture.width * 0.6;
             height = texture.height * 0.6;
@@ -101,7 +101,7 @@ package game.model.gameObject.def
             _enemyDefByID[enemyType] = new EnemyVO(enemyType, speed, weapons, hp, width, height);
 
             enemyType = EnemyType.WOBBLY_3;
-            speed = 120;
+            speed = 90;
             weapons = null;
             width = texture.width * 0.9;
             height = texture.height * 0.9;

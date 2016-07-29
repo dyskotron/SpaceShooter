@@ -7,6 +7,7 @@ package game.model.gameObject
     import game.model.gameObject.component.collider.SquareColliderComponent;
     import game.model.gameObject.component.control.PlayerControlComponent;
     import game.model.gameObject.component.control.WeaponControlComponent;
+    import game.model.gameObject.component.effect.EffectsContainer;
     import game.model.gameObject.component.fsm.FSMComponent;
     import game.model.gameObject.component.fsm.ITarget;
     import game.model.gameObject.component.fsm.ITargetProvider;
@@ -100,6 +101,7 @@ package game.model.gameObject
             gameObject.addComponent(new HealthComponent(aEnemyVO.initialHP));
             gameObject.addComponent(new SquareColliderComponent());
             gameObject.addComponent(new WeaponControlComponent(aTargetProvider));
+            gameObject.addComponent(new EffectsContainer());
 
             gameObject.initComponents();
 
@@ -173,8 +175,6 @@ package game.model.gameObject
                     {
                         components.push(createWeapon(componentSlot));
                     }
-
-                    //add collider and all other shit
                 }
             }
 

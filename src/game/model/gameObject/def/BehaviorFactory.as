@@ -64,7 +64,7 @@ package game.model.gameObject.def
                     behaviourVO.addState(new KamikazeChaseState());
                     break;
                 case WOBBLE:
-                    behaviourVO.addState(new WobbleState());
+                    behaviourVO.addState(new WobbleState(150));
                     break;
                 default:
                     throw new Error("There is no behavior with ID: " + aBehaviorID)

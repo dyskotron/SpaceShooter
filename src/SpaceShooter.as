@@ -22,12 +22,11 @@ package
 
         /**
          * TODO / IDEAS:
-         * - target dead signal(-> check new target)
-         * - core game loop dispatcher, dispatch deltaTime * 0.001
          *
-         * - disable enemy hits out of screen
-         * - make defs static / just created once where applicable, factories where not
-         * - unify SomethingType and SomethingID
+         * - make WeaponControlComponent WeaponContainer
+         * - common convention for at least some of component / ienemystate / effectcomponent class(namely start / enter / init etc methods)
+         * make ienemystatecomponent? maybe no
+         * - for editor / demo, make a spectator instead of player ship(no collider no control etc)
          * - change target inputs in level generator to normalized 0 - 1 (+ do the same for size for all game objects later?)
          * - add msg / alerts - player based or level based
          * - count size of GameObjects in *Defs from xml, not textures
