@@ -87,8 +87,11 @@ package game.model
         private function createLevel(): void
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
+            //addFightersRow(80, EnemyType.FIGHTER_1, (viewModel.gameHeight * 0.8), 500);
+            addDelay(1000);
+            addMeteorsRain(6000);
 
-            addFightersRow(80, EnemyType.FIGHTER_1, (viewModel.gameHeight * 0.8), 500);
+            addWAitForClear();
 
             return;
 
@@ -532,12 +535,12 @@ package game.model
 
         private static function getRandSpeedX(): Number
         {
-            return -0.05 + Math.random() * 0.10;
+            return -80 + Math.random() * 160;
         }
 
         private static function getRandSpeedY(): Number
         {
-            return 0.1 + Math.random() * 0.15;
+            return 100 + Math.random() * 150;
         }
 
         private static function getRandSpeedRotation(): Number

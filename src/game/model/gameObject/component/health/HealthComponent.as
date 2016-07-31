@@ -1,6 +1,8 @@
 package game.model.gameObject.component.health
 {
     import game.model.gameObject.component.Component;
+    import game.model.gameObject.eventbus.DiedEvent;
+    import game.model.gameObject.eventbus.HitEvent;
 
     import org.osflash.signals.Signal;
 
@@ -43,6 +45,11 @@ package game.model.gameObject.component.health
         public function hit(aDamage: Number): void
         {
             _hp -= aDamage;
+
+            if (hp > 0)
+                gameObject.eventBus.fireEvent(new HitEvent(aDamage, gameObject));
+            else
+                die();
         }
 
         public function addHitPoints(aValue: uint): void
@@ -53,6 +60,11 @@ package game.model.gameObject.component.health
         public function setFullHealth(): void
         {
             _hp = _maxHP;
+        }
+
+        protected function die(): void
+        {
+            gameObject.eventBus.fireEvent(new DiedEvent(gameObject));
         }
     }
 }

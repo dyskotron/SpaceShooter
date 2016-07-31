@@ -6,6 +6,7 @@ package game.model
     import game.model.gameObject.component.collider.IColliderComponent;
     import game.model.gameObject.component.health.IHealthComponent;
     import game.model.gameObject.component.transform.TransformComponent;
+    import game.model.gameObject.eventbus.GameObjectEventBus;
 
     public class GameObject implements IContainer
     {
@@ -18,6 +19,7 @@ package game.model
         private var _components: Vector.<IComponent>;
 
         private var _healthComponent: IHealthComponent;
+        private var _eventBus: GameObjectEventBus;
 
 
         /**
@@ -40,6 +42,8 @@ package game.model
             _transform.x = aX;
             _transform.y = aY;
             addComponent(_transform);
+
+            _eventBus = new GameObjectEventBus();
 
             initComponents();
         }
@@ -69,6 +73,11 @@ package game.model
         public function get currentTime(): int
         {
             return _currentTime;
+        }
+
+        public function get eventBus(): GameObjectEventBus
+        {
+            return _eventBus;
         }
 
         //endregion
@@ -181,6 +190,5 @@ package game.model
         {
 
         }
-
     }
 }

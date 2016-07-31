@@ -17,9 +17,9 @@ package game.model.playerModel
         {
             var componentSlots: Vector.<BuildComponentSlotVO> = new Vector.<BuildComponentSlotVO>;
             componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.ELECTRIC, ComponentType.MAIN_GUN));
-            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.ROCKET_LAUNCHER, ComponentType.SECONDARY_GUN));
-            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.PLASMA, ComponentType.SECONDARY_GUN));
-            componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.PLASMA, ComponentType.SECONDARY_GUN));
+            //componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.ROCKET_LAUNCHER, ComponentType.SECONDARY_GUN));
+            //componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.PLASMA, ComponentType.SECONDARY_GUN));
+            //componentSlots.push(new BuildComponentSlotVO(PlayerWeaponID.PLASMA, ComponentType.SECONDARY_GUN));
             componentSlots.push(new BuildComponentSlotVO(GeneratorID.BASIC, ComponentType.GENERATOR));
             componentSlots.push(new BuildComponentSlotVO(GeneratorID.BASIC, ComponentType.GENERATOR));
             componentSlots.push(new BuildComponentSlotVO(BatteryID.BASIC, ComponentType.BATTERY));

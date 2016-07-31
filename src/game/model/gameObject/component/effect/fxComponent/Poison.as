@@ -11,7 +11,7 @@ package game.model.gameObject.component.effect.fxComponent
         private var _interval: Number;
         private var _singleDamage: Number;
 
-        public function Poison(aDamage: Number, aLength: Number = 5, aInterval: Number = 1): void
+        public function Poison(aDamage: Number, aLength: Number = 20, aInterval: Number = 0.8): void
         {
             _interval = aInterval;
             _singleDamage = aDamage / Math.floor(aLength / aInterval);

@@ -30,6 +30,9 @@ package game.model
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IBulletDefs;
     import game.model.gameObject.def.IPlayerShipDefs;
+    import game.model.gameObject.eventbus.DiedEvent;
+    import game.model.gameObject.eventbus.HitEvent;
+    import game.model.gameObject.goDef.GameObjectGroupID;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.EnemyVO;
     import game.model.gameObject.vo.ObstacleVO;
@@ -542,23 +545,8 @@ package game.model
                             }
                             else
                             {
-                                //mark collision for once colliders
-                                if (playerBulletGO.collider is IOnceColliderComponent)
-                                    IOnceColliderComponent(playerBulletGO.collider).markAsHit(enemyGO.collider);
-
-                                //decrease hp
-                                enemyGO.healthComponent.hit(_bulletDef.getBulletVO(playerBulletGO.identity.concreteTypeID).damage);
                                 removeBullet = _bulletDef.getBulletVO(playerBulletGO.identity.concreteTypeID).mode == BulletMode.ONE_SHOT;
-
-                                _gameObjectHitSignal.dispatch(enemyGO, 0);
-
-                                //remove enemy if dead
-                                if (enemyGO.healthComponent.hp <= 0)
-                                {
-                                    _enemies.splice(iC, 1);
-                                    _gameObjectRemovedSignal.dispatch(enemyGO);
-                                    mainModel.getPlayerModel(playerBulletGO.identity.ownerID).addScore(enemyGO.healthComponent.maxHP * ENEMY_HP_TO_SCORE_RATIO);
-                                }
+                                onHit(enemyGO, playerBulletGO);
                             }
 
                             //remove bullet & stop checking rest of enemies vector
@@ -587,24 +575,18 @@ package game.model
                             }
                             else
                             {
-                                //mark coliision for once colliders
-                                if (playerBulletGO.collider is IOnceColliderComponent)
-                                    IOnceColliderComponent(playerBulletGO.collider).markAsHit(obstacleGO.collider);
-
-                                //decrease hp
-                                obstacleGO.healthComponent.hit(_bulletDef.getBulletVO(playerBulletGO.identity.concreteTypeID).damage);
                                 removeBullet = _bulletDef.getBulletVO(playerBulletGO.identity.concreteTypeID).mode == BulletMode.ONE_SHOT;
 
-                                _gameObjectHitSignal.dispatch(obstacleGO, 0);
-
-                                //remove obstacle if dead
-                                if (obstacleGO.healthComponent.hp <= 0)
-                                {
-                                    healthComponent = HealthComponent(obstacleGO.getComponent(HealthComponent));
-                                    _obstacles.splice(iC, 1);
-                                    _gameObjectRemovedSignal.dispatch(obstacleGO);
-                                    mainModel.getPlayerModel(playerBulletGO.identity.ownerID).addScore(healthComponent.hp * OBSTACLE_HP_TO_SCORE_RATIO);
-                                }
+                                onHit(obstacleGO, playerBulletGO);
+                                /*
+                                 //remove obstacle if dead
+                                 if (obstacleGO.healthComponent.hp <= 0)
+                                 {
+                                 healthComponent = HealthComponent(obstacleGO.getComponent(HealthComponent));
+                                 _obstacles.splice(iC, 1);
+                                 _gameObjectRemovedSignal.dispatch(obstacleGO);
+                                 mainModel.getPlayerModel(playerBulletGO.identity.ownerID).addScore(healthComponent.hp * OBSTACLE_HP_TO_SCORE_RATIO);
+                                 } */
                             }
 
                             //remove bullet & stop checking rest of obstacles vector
@@ -656,7 +638,7 @@ package game.model
                         {
                             //EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new KnockBackEffect(0, 60));
                             EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new StunEffect());
-                            EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new Poison(150));
+                            EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new Poison(200));
                         }
                     }
                 }
@@ -764,6 +746,22 @@ package game.model
 
         }
 
+        private function onHit(aHitted: GameObject, aBullet: GameObject): void
+        {
+            //mark collision for once colliders
+            if (aBullet.collider is IOnceColliderComponent)
+                IOnceColliderComponent(aBullet.collider).markAsHit(aHitted.collider);
+
+            //decrease hp
+            aHitted.healthComponent.hit(_bulletDef.getBulletVO(aBullet.identity.concreteTypeID).damage);
+
+
+            var fxContainer: EffectsContainer = EffectsContainer(aHitted.getComponent(EffectsContainer));
+            if (fxContainer)
+                fxContainer.addComponent(new StunEffect(0.2));
+
+        }
+
         private function levelEventHandler(aLevelEvent: LevelEvent): void
         {
             switch (aLevelEvent.id)
@@ -775,6 +773,8 @@ package game.model
                     enemy.transform.x = enemyEvent.x;
                     enemy.transform.y = enemyEvent.y;
                     enemy.initComponents();
+                    enemy.eventBus.addListener(HitEvent, hitEventHandler);
+                    enemy.eventBus.addListener(DiedEvent, diedEventHandler);
                     var comp: WeaponControlComponent = WeaponControlComponent(enemy.getComponent(WeaponControlComponent));
                     comp.shootSignal.add(enemyShootHandler);
 
@@ -798,6 +798,8 @@ package game.model
                     var obstacle: GameObject = gameObjectFactory.createObstacleGO(obstacleVO, obstacleEvent.speedX, obstacleEvent.speedY, obstacleEvent.rotation);
                     obstacle.transform.x = obstacleEvent.x;
                     obstacle.transform.y = obstacleEvent.y;
+                    obstacle.eventBus.addListener(HitEvent, hitEventHandler);
+                    obstacle.eventBus.addListener(DiedEvent, diedEventHandler);
                     _obstacles.push(obstacle);
                     _obstacleSpawnedSignal.dispatch(obstacle);
                     break;
@@ -809,6 +811,51 @@ package game.model
                 case LevelEvent.ID_END:
                     endGame(true);
                     break;
+            }
+        }
+
+        private function hitEventHandler(aEvent: HitEvent): void
+        {
+            _gameObjectHitSignal.dispatch(aEvent.gameObject, aEvent.damage);
+        }
+
+        private function diedEventHandler(aEvent: DiedEvent): void
+        {
+            var diedObject: GameObject = aEvent.gameObject;
+
+            var gameObjects: Vector.<GameObject>;
+
+            switch (diedObject.identity.gameObjectGroup)
+            {
+                case GameObjectGroupID.ENEMY:
+                    gameObjects = _enemies;
+                    break;
+                case GameObjectGroupID.OBSTACLE:
+                    gameObjects = _obstacles;
+                    break;
+                case GameObjectGroupID.BONUS:
+                    gameObjects = _bonuses;
+                    break;
+                //todo: aoe /player bullets / enemy bullets
+
+            }
+
+            if (!gameObjects)
+                return;
+
+            for (var i: int = 0; i < gameObjects.length; i++)
+            {
+                //remove enemy if dead
+                if (gameObjects[i].healthComponent.hp <= 0)
+                {
+                    gameObjects.splice(i, 1);
+                    _gameObjectRemovedSignal.dispatch(diedObject);
+                    //todo dispatch owner(need to ad owner to hit(method + have owner in effect comps))
+                    //if (playerGameObject.identity.gameObjectGroup == GameObjectGroupID.PLAYER_SHIP)
+                    //{
+                    //mainModel.getPlayerModel(playerBulletGO.identity.ownerID).addScore(enemyGO.healthComponent.maxHP * ENEMY_HP_TO_SCORE_RATIO);
+                    //}
+                }
             }
         }
 
