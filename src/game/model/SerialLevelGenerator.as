@@ -88,9 +88,9 @@ package game.model
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
 
-            addWobbleGroup(EnemyType.WOBBLY_1, 15, viewModel.gameWidth / 15 * 4);
-            addFightersRows(600, RANDOM_EACH, RANDOM, 1200);
+            addFightersRow(80, EnemyType.FIGHTER_1, (viewModel.gameHeight * 0.8), 500);
 
+            return;
 
             addBonus(0);
             addBonus(0);
@@ -359,7 +359,6 @@ package game.model
 
                 if (aTotalHP / aRowCount > MAX_HP_PER_ROW)
                     aRowCount = Math.ceil(aTotalHP / MAX_HP_PER_ROW);
-
             }
 
             aTotalHP = Math.floor(aTotalHP / aRowCount);

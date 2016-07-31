@@ -105,8 +105,8 @@ package game.model.gameObject.component.effect
          */
         private function calculateProperty(aComponentID: uint, aPropertyID: uint): void
         {
-            var replace: Boolean = false;
-            var absolute: Number = 0;
+            //var replace: Boolean = false;
+            var absolute: Number = Number.NaN;
             var additive: Number = 0;
             var multiTotal: Number = 1;
             var multi: Dictionary = new Dictionary();
@@ -121,6 +121,9 @@ package game.model.gameObject.component.effect
                     switch (effect.type)
                     {
                         case EffectTypeID.ABSOLUTE:
+                            if (isNaN(absolute))
+                                absolute = 0;
+
                             absolute += effect.value;
                             break;
                         case EffectTypeID.ADDITIVE:
@@ -143,7 +146,7 @@ package game.model.gameObject.component.effect
 
             //todo: set abs/add/multi min & max for given properties
 
-            property.replaceOrig = replace;
+            property.replaceOrig = !isNaN(absolute);
             property.absolute = absolute;
             property.additive = additive;
             property.multiplicative = multiTotal;

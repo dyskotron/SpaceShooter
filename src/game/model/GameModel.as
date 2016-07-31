@@ -14,7 +14,8 @@ package game.model
     import game.model.gameObject.component.control.PlayerControlComponent;
     import game.model.gameObject.component.control.WeaponControlComponent;
     import game.model.gameObject.component.effect.EffectsContainer;
-    import game.model.gameObject.component.effect.fxComponent.KnockBackEffect;
+    import game.model.gameObject.component.effect.fxComponent.Poison;
+    import game.model.gameObject.component.effect.fxComponent.StunEffect;
     import game.model.gameObject.component.fsm.ITarget;
     import game.model.gameObject.component.fsm.ITargetProvider;
     import game.model.gameObject.component.fsm.Target;
@@ -653,7 +654,9 @@ package game.model
                         }
                         else
                         {
-                            EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new KnockBackEffect(0, 30));
+                            //EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new KnockBackEffect(0, 60));
+                            EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new StunEffect());
+                            EffectsContainer(enemyGO.getComponent(EffectsContainer)).addComponent(new Poison(150));
                         }
                     }
                 }

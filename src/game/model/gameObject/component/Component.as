@@ -13,15 +13,13 @@ package game.model.gameObject.component
         private var _timeScale: EffectableProperty;
 
         private var _gameObject: GameObject;
-        private var _active: Boolean;
+        private var _active: EffectableProperty;
 
         private var _lifeTime: Number;
         private var _maxLifeTime: Number = 0;
 
         public function Component(aActive: Boolean = true, aMaxLifeTime: Number = 0)
         {
-            _active = aActive;
-
             _lifeTime = 0;
 
             _properties ||= new Dictionary();
@@ -31,17 +29,22 @@ package game.model.gameObject.component
             _timeScale.calculate();
             _properties[EffectablePropertyID.TIME_SCALE] = _timeScale;
 
+            _active = new EffectableProperty();
+            _active.origValue = int(aActive);
+            _active.calculate();
+            _properties[EffectablePropertyID.ACTIVE] = _active;
+
             _maxLifeTime = aMaxLifeTime;
         }
 
         public function get active(): Boolean
         {
-            return _active;
+            return _active.value;
         }
 
         public function set active(aActive: Boolean): void
         {
-            _active = aActive;
+            _active.origValue = int(aActive);
         }
 
         public function get maxLifeTime(): Number
