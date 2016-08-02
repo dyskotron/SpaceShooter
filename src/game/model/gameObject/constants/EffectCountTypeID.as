@@ -1,6 +1,6 @@
-package game.model.gameObject.component.effect
+package game.model.gameObject.constants
 {
-    public class EffectTypeID
+    public class EffectCountTypeID
     {
         public static const ABSOLUTE: uint = 0;
         public static const ADDITIVE: uint = 1;

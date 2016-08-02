@@ -6,6 +6,7 @@ package game.model.gameObject.def
     import game.model.gameObject.component.weapon.enums.AutoAimMode;
     import game.model.gameObject.constants.BulletID;
     import game.model.gameObject.constants.BulletMode;
+    import game.model.gameObject.constants.EffectID;
     import game.model.gameObject.vo.AutoAimVO;
     import game.model.gameObject.vo.BulletVO;
 
@@ -32,11 +33,17 @@ package game.model.gameObject.def
             _bulletVos[BulletID.PLASMA_3] = new BulletVO(BulletID.PLASMA_3, BulletMode.EACH_ONCE, null, 15, 6, 4, PLASMA_DMG_TO_COST);
             _bulletVos[BulletID.PLASMA_4] = new BulletVO(BulletID.PLASMA_4, BulletMode.EACH_ONCE, null, 30, 8, 4, PLASMA_DMG_TO_COST);
 
-            _bulletVos[BulletID.ELECTRIC_1] = new BulletVO(BulletID.ELECTRIC_1, BulletMode.ONE_SHOT, null, 10, 4, 4, ELECTRIC_DMG_TO_COST);
-            _bulletVos[BulletID.ELECTRIC_2] = new BulletVO(BulletID.ELECTRIC_2, BulletMode.ONE_SHOT, null, 20, 4, 4, ELECTRIC_DMG_TO_COST);
+
+            var fx: Vector.<uint> = new Vector.<uint>();
+            fx.push(EffectID.KNOCKBACK);
+            fx.push(EffectID.HEAL);
+            fx.push(EffectID.RECHARGE);
+
+            _bulletVos[BulletID.ELECTRIC_1] = new BulletVO(BulletID.ELECTRIC_1, BulletMode.ONE_SHOT, null, 10, 4, 4, ELECTRIC_DMG_TO_COST, 0, fx);
+            _bulletVos[BulletID.ELECTRIC_2] = new BulletVO(BulletID.ELECTRIC_2, BulletMode.ONE_SHOT, null, 20, 4, 4, ELECTRIC_DMG_TO_COST, 0, fx);
 
             var autoAimVO: AutoAimVO = new AutoAimVO(TargetType.EASIEST, AutoAimMode.ON_UPDATE, Math.PI / 4, Math.PI);
-            _bulletVos[BulletID.ROCKET_1] = new BulletVO(BulletID.ROCKET_1, BulletMode.AOE, autoAimVO, 150, 50, 80, AOE_DMG_TO_COST, 200);
+            _bulletVos[BulletID.ROCKET_1] = new BulletVO(BulletID.ROCKET_1, BulletMode.AOE, autoAimVO, 1/*150*/, 50, 80, AOE_DMG_TO_COST, 70);
         }
 
         public function getBulletVO(aBulletType: uint): BulletVO

@@ -146,7 +146,7 @@ package game.view
             }
         }
 
-        private function gameObjectHitHandler(aGameObject: GameObject, aHitPointsLost: uint): void
+        private function gameObjectHitHandler(aGameObject: GameObject, aHitPointsLost: Number): void
         {
 
             /* //todo:show exact point where collision happens

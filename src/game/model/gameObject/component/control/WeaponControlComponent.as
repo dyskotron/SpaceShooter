@@ -11,7 +11,7 @@ package game.model.gameObject.component.control
     import game.model.gameObject.component.weapon.IWeaponComponent;
     import game.model.gameObject.component.weapon.PlayerWeaponComponent;
     import game.model.gameObject.component.weapon.enums.WeaponGroup;
-    import game.model.gameObject.goDef.GameObjectGroupID;
+    import game.model.gameObject.constants.GameObjectGroupID;
 
     import org.osflash.signals.Signal;
 

@@ -27,9 +27,9 @@ package game.model.gameObject
     import game.model.gameObject.component.weapon.PlayerWeaponComponent;
     import game.model.gameObject.component.weapon.WeaponModel;
     import game.model.gameObject.constants.BulletMode;
+    import game.model.gameObject.constants.GameObjectGroupID;
     import game.model.gameObject.def.IComponentDefs;
     import game.model.gameObject.def.IPlayerShipDefs;
-    import game.model.gameObject.goDef.GameObjectGroupID;
     import game.model.gameObject.vo.BehaviorVO;
     import game.model.gameObject.vo.BonusVO;
     import game.model.gameObject.vo.BulletVO;
@@ -82,7 +82,7 @@ package game.model.gameObject
 
         public function createEnemyShipGO(aEnemyVO: EnemyVO, aBehaviorVO: BehaviorVO, aTargetProvider: ITargetProvider, aTarget: ITarget): GameObject
         {
-            var gameObject: GameObject = new GameObject(getIdentity(GameObjectGroupID.ENEMY, aEnemyVO.gameObjectType, _lastEnemyID++), 0, 0, aEnemyVO.width, aEnemyVO.height);
+            var gameObject: GameObject = new GameObject(getIdentity(GameObjectGroupID.ENEMY, aEnemyVO.concreteTypeID, _lastEnemyID++), 0, 0, aEnemyVO.width, aEnemyVO.height);
             var weaponSlot: ComponentSlot;
             if (aEnemyVO.componentSlots)
             {
@@ -110,7 +110,7 @@ package game.model.gameObject
 
         public function createBonusGO(aBonusVO: BonusVO, aSpeedY: Number): GameObject
         {
-            var gameObject: GameObject = new GameObject(getIdentity(GameObjectGroupID.BONUS, aBonusVO.gameObjectType, _lastBonusID++), 0, 0, aBonusVO.width, aBonusVO.height);
+            var gameObject: GameObject = new GameObject(getIdentity(GameObjectGroupID.BONUS, aBonusVO.concreteTypeID, _lastBonusID++), 0, 0, aBonusVO.width, aBonusVO.height);
             gameObject.addComponent(new MoveLinearY(aSpeedY));
             gameObject.addComponent(new SquareColliderComponent());
 
@@ -120,7 +120,7 @@ package game.model.gameObject
 
         public function createObstacleGO(aObstacleVO: ObstacleVO, aSpeedX: Number, aSpeedY: Number, aRotation: Number): GameObject
         {
-            var gameObject: GameObject = new GameObject(getIdentity(GameObjectGroupID.OBSTACLE, aObstacleVO.gameObjectType, _lastObstacleID++), 0, 0, aObstacleVO.width, aObstacleVO.height);
+            var gameObject: GameObject = new GameObject(getIdentity(GameObjectGroupID.OBSTACLE, aObstacleVO.concreteTypeID, _lastObstacleID++), 0, 0, aObstacleVO.width, aObstacleVO.height);
             gameObject.addComponent(new MoveLinearXYRotation(aSpeedX, aSpeedY, aRotation));
             gameObject.addComponent(new HealthComponent(aObstacleVO.initialHP));
             gameObject.addComponent(new SquareColliderComponent());
@@ -129,9 +129,9 @@ package game.model.gameObject
             return gameObject;
         }
 
-        public function createBulletGO(aBulletVO: BulletVO, aOwnerID: int, aSpeed: Number, aAngle: Number, aTargetProvider: ITargetProvider): GameObject
+        public function createBulletGO(aBulletVO: BulletVO, aOwner: GameObjectIdentity, aSpeed: Number, aAngle: Number, aTargetProvider: ITargetProvider): GameObject
         {
-            var gameObject: GameObject = new GameObject(getIdentity(GameObjectGroupID.BULLET, aBulletVO.gameObjectType, _lastBulletID++, aOwnerID), 0, 0, aBulletVO.width, aBulletVO.height);
+            var gameObject: GameObject = new GameObject(getIdentity(GameObjectGroupID.BULLET, aBulletVO.concreteTypeID, _lastBulletID++, aOwner), 0, 0, aBulletVO.width, aBulletVO.height);
 
             gameObject.addComponent(new MoveParamsComponent(aSpeed));
             if (aBulletVO.autoAim)
@@ -189,9 +189,9 @@ package game.model.gameObject
             return playerWeaponComponent;
         }
 
-        private function getIdentity(aGameObjectGroup: uint, aConcreteTypeID: uint, aConcreteID: uint, aOwnerID: int = -1): GameObjectIdentity
+        private function getIdentity(aGameObjectGroup: uint, aConcreteTypeID: uint, aConcreteID: uint, aOwner: GameObjectIdentity = null): GameObjectIdentity
         {
-            return new GameObjectIdentity(_lastGameObjectID++, aGameObjectGroup, aConcreteTypeID, aConcreteID, aOwnerID);
+            return new GameObjectIdentity(_lastGameObjectID++, aGameObjectGroup, aConcreteTypeID, aConcreteID, aOwner);
         }
 
     }

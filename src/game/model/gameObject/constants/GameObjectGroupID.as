@@ -1,4 +1,4 @@
-package game.model.gameObject.goDef
+package game.model.gameObject.constants
 {
     public class GameObjectGroupID
     {

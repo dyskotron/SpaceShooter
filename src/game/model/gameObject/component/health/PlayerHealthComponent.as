@@ -4,7 +4,6 @@ package game.model.gameObject.component.health
 
     import game.model.GameObject;
     import game.model.gameObject.component.control.WeaponControlComponent;
-    import game.model.gameObject.eventbus.DiedEvent;
 
     public class PlayerHealthComponent extends HealthComponent
     {
@@ -41,7 +40,7 @@ package game.model.gameObject.component.health
         }
 
 
-        override protected function die(): void
+        override protected function die(aHitter: GameObject): void
         {
             _lives = Math.max(--_lives, 0);
             _weaponControl.weaponsOnDeath();
@@ -54,7 +53,7 @@ package game.model.gameObject.component.health
             else
             {
                 _state = HealthState.DEAD;
-                gameObject.eventBus.fireEvent(new DiedEvent(gameObject));
+                super.die(aHitter);
             }
             changeStateSignal.dispatch(this);
         }

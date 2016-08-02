@@ -16,15 +16,21 @@ package game.controller
     import game.model.SerialLevelGenerator;
     import game.model.gameObject.GameObjectFactory;
     import game.model.gameObject.IGameObjectFactory;
+    import game.model.gameObject.component.effect.EffectActionProcessor;
+    import game.model.gameObject.component.effect.IEffectActionProcessor;
     import game.model.gameObject.component.weapon.IWeaponDefs;
     import game.model.gameObject.component.weapon.WeaponDefs;
     import game.model.gameObject.def.BehaviorFactory;
     import game.model.gameObject.def.BulletDefs;
     import game.model.gameObject.def.ComponentDefs;
+    import game.model.gameObject.def.EffectDefs;
+    import game.model.gameObject.def.EffectFactory;
     import game.model.gameObject.def.EnemyDefs;
     import game.model.gameObject.def.IBehaviorFactory;
     import game.model.gameObject.def.IBulletDefs;
     import game.model.gameObject.def.IComponentDefs;
+    import game.model.gameObject.def.IEffectDefs;
+    import game.model.gameObject.def.IEffectFactory;
     import game.model.gameObject.def.IEnemyDefs;
     import game.model.gameObject.def.IObstacleDefs;
     import game.model.gameObject.def.IPlayerShipDefs;
@@ -85,8 +91,11 @@ package game.controller
             injector.mapSingletonOf(IPlayerShipDefs, PlayerShipDefs);
             injector.mapSingletonOf(IObstacleDefs, ObstacleDefs);
             injector.mapSingletonOf(IBehaviorFactory, BehaviorFactory);
+            injector.mapSingletonOf(IEffectFactory, EffectFactory);
+            injector.mapSingletonOf(IEffectDefs, EffectDefs);
             injector.mapSingletonOf(IBulletDefs, BulletDefs);
             injector.mapSingletonOf(IWeaponDefs, WeaponDefs);
+            injector.mapSingletonOf(IEffectActionProcessor, EffectActionProcessor);
             injector.mapSingletonOf(IGameObjectFactory, GameObjectFactory);
 
             injector.mapSingleton(TextureProvider);
@@ -138,7 +147,10 @@ package game.controller
             injector.unmap(IPlayerShipDefs);
             injector.unmap(IObstacleDefs);
             injector.unmap(IBehaviorFactory);
+            injector.unmap(IEffectFactory);
+            injector.unmap(IEffectDefs);
             injector.unmap(IBulletDefs);
+            injector.unmap(IEffectActionProcessor);
             injector.unmap(IWeaponDefs);
 
             injector.unmap(TextureProvider);

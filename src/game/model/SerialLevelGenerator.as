@@ -87,13 +87,16 @@ package game.model
         private function createLevel(): void
         {
             screenCenter = new Target(viewModel.stageWidth / 2, viewModel.stageHeight / 2);
-            //addFightersRow(80, EnemyType.FIGHTER_1, (viewModel.gameHeight * 0.8), 500);
-            addDelay(1000);
-            addMeteorsRain(6000);
+            if (false)
+            {
+                //addFightersRow(80, EnemyType.FIGHTER_1, (viewModel.gameHeight * 0.8), 500);
+                addDelay(1000);
+                addMeteorsRain(6000);
 
-            addWAitForClear();
+                addWAitForClear();
 
-            return;
+                return;
+            }
 
             addBonus(0);
             addBonus(0);

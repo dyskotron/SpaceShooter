@@ -7,14 +7,16 @@ package game.model.gameObject.vo
         private var _autoAim: AutoAimVO;
         private var _aoeRadius: Number;
         private var _dmgToCost: Number;
+        private var _onHitEffects: Vector.<uint>;
 
-        public function BulletVO(aTypeID: uint, aMode: uint, aAutoAim: AutoAimVO, aDamage: int, aWidth: Number, aHeight: Number, aDmgToCost: Number = 1, aAoeRadius: Number = 0)
+        public function BulletVO(aTypeID: uint, aMode: uint, aAutoAim: AutoAimVO, aDamage: int, aWidth: Number, aHeight: Number, aDmgToCost: Number = 1, aAoeRadius: Number = 0, aOnHitAffixes: Vector.<uint> = null)
         {
             _damage = aDamage;
             _autoAim = aAutoAim;
             _mode = aMode;
             _dmgToCost = aDmgToCost;
             _aoeRadius = aAoeRadius;
+            _onHitEffects = aOnHitAffixes;
             super(aTypeID, aWidth, aHeight);
         }
 
@@ -43,5 +45,9 @@ package game.model.gameObject.vo
             return _aoeRadius;
         }
 
+        public function get onHitEffects(): Vector.<uint>
+        {
+            return _onHitEffects;
+        }
     }
 }

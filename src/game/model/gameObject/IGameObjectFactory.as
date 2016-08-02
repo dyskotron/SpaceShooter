@@ -20,6 +20,6 @@ package game.model.gameObject
 
         function createObstacleGO(aObstacleVO: ObstacleVO, aSpeedX: Number, aSpeedY: Number, aRotation: Number): GameObject;
 
-        function createBulletGO(aBulletVO: BulletVO, aOwnerID: int, aSpeed: Number, aAngle: Number, aTargetProvider: ITargetProvider): GameObject;
+        function createBulletGO(aBulletVO: BulletVO, aOwner: GameObjectIdentity, aSpeed: Number, aAngle: Number, aTargetProvider: ITargetProvider): GameObject;
     }
 }

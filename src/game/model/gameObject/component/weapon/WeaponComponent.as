@@ -98,7 +98,7 @@ package game.model.gameObject.component.weapon
             {
                 case WeaponType.SINGLE:
                     spawnPoint = _weaponModel.spawnPoints[0];
-                    bullet = _gameObjectFactory.createBulletGO(spawnPoint.bulletVO, gameObject.identity.concreteID, spawnPoint.speed, spawnPoint.angle, _targetProvider);
+                    bullet = _gameObjectFactory.createBulletGO(spawnPoint.bulletVO, gameObject.identity, spawnPoint.speed, spawnPoint.angle, _targetProvider);
                     bullet.transform.x = aX + spawnPoint.x;
                     bullet.transform.y = aY + spawnPoint.y;
                     bullets.push(bullet);
@@ -108,7 +108,7 @@ package game.model.gameObject.component.weapon
                     for (var i: int = 0; i < _weaponModel.spawnPoints.length; i++)
                     {
                         spawnPoint = _weaponModel.spawnPoints[i];
-                        bullet = _gameObjectFactory.createBulletGO(spawnPoint.bulletVO, gameObject.identity.concreteID, spawnPoint.speed, spawnPoint.angle, _targetProvider);
+                        bullet = _gameObjectFactory.createBulletGO(spawnPoint.bulletVO, gameObject.identity, spawnPoint.speed, spawnPoint.angle, _targetProvider);
                         bullet.transform.x = aX + spawnPoint.x;
                         bullet.transform.y = aY + spawnPoint.y;
                         bullets.push(bullet);
@@ -118,7 +118,7 @@ package game.model.gameObject.component.weapon
                 case WeaponType.SEQUENTIAL:
                     _spawnPointIndex = (_spawnPointIndex + 1) % _weaponModel.spawnPoints.length;
                     spawnPoint = _weaponModel.spawnPoints[_spawnPointIndex];
-                    bullet = _gameObjectFactory.createBulletGO(spawnPoint.bulletVO, gameObject.identity.concreteID, spawnPoint.speed, spawnPoint.angle, _targetProvider);
+                    bullet = _gameObjectFactory.createBulletGO(spawnPoint.bulletVO, gameObject.identity, spawnPoint.speed, spawnPoint.angle, _targetProvider);
                     bullet.transform.x = aX + spawnPoint.x;
                     bullet.transform.y = aY + spawnPoint.y;
                     bullets.push(bullet);

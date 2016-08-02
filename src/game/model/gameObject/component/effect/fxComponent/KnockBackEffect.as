@@ -3,18 +3,15 @@ package game.model.gameObject.component.effect.fxComponent
     import game.model.GameObject;
     import game.model.gameObject.component.Component;
     import game.model.gameObject.component.effect.ComponentTypeID;
-    import game.model.gameObject.component.effect.EffectTypeID;
     import game.model.gameObject.component.effect.EffectsContainer;
-    import game.model.gameObject.component.effect.PropertyEffectVO;
     import game.model.gameObject.component.effect.property.EffectablePropertyID;
+    import game.model.gameObject.component.effect.property.PropertyEffectVO;
     import game.model.gameObject.component.fsm.FSMComponent;
     import game.model.gameObject.component.transform.TransformComponent;
+    import game.model.gameObject.constants.EffectCountTypeID;
 
     public class KnockBackEffect extends Component
     {
-        private const KNOCK_LENGTH: Number = 0.3;
-        private const WAIT_LENGTH: Number = 0;
-
         private var _transform: TransformComponent;
         private var _speedX: Number;
         private var _speedY: Number;
@@ -23,13 +20,15 @@ package game.model.gameObject.component.effect.fxComponent
         private var _lastPosX: Number = 0;
         private var _lastPosY: Number = 0;
         private var _propertyEffectID: uint;
+        private var _length: Number;
 
-        public function KnockBackEffect(aInitSpeedX: Number, aInitSpeedY: Number): void
+        public function KnockBackEffect(aLength: Number, aInitSpeedX: Number, aInitSpeedY: Number): void
         {
+            _length = aLength;
             _speedX = aInitSpeedX;
             _speedY = aInitSpeedY;
 
-            super(true, KNOCK_LENGTH + WAIT_LENGTH);
+            super(true, aLength);
         }
 
         override public function init(aGameObject: GameObject): void
@@ -45,7 +44,7 @@ package game.model.gameObject.component.effect.fxComponent
             var disableMoveEffect: PropertyEffectVO = new PropertyEffectVO();
             disableMoveEffect.componentID = ComponentTypeID.MOVE;
             disableMoveEffect.propertyID = EffectablePropertyID.ACTIVE;
-            disableMoveEffect.type = EffectTypeID.ABSOLUTE;
+            disableMoveEffect.type = EffectCountTypeID.ABSOLUTE;
             disableMoveEffect.value = 0;
 
             _propertyEffectID = _fxContainer.addPropertyEffect(disableMoveEffect);
@@ -55,20 +54,19 @@ package game.model.gameObject.component.effect.fxComponent
         {
             super.update(aDeltaTime);
 
-            if (lifeTime < KNOCK_LENGTH)
+            if (lifeTime < _length)
             {
-                var ratio: Number = (KNOCK_LENGTH - lifeTime) / KNOCK_LENGTH;
+                var ratio: Number = (_length - lifeTime) / _length;
 
                 var newX: Number = _speedX * (1 - (Math.pow(ratio, 4)));
                 var newY: Number = _speedY * (1 - (Math.pow(ratio, 4)));
 
-                _transform.x -= newX - _lastPosX;
-                _transform.y -= newY - _lastPosY;
+                _transform.x += newX - _lastPosX;
+                _transform.y += newY - _lastPosY;
 
                 _lastPosX = newX;
                 _lastPosY = newY;
             }
-
         }
 
 

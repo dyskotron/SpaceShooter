@@ -2,7 +2,7 @@ package game.model.gameObject.vo
 {
     public class GameObjectVO
     {
-        private var _gameObjectType: uint;
+        private var _concreteTypeID: uint;
 
         private var _width: Number;
         private var _height: Number;
@@ -16,14 +16,14 @@ package game.model.gameObject.vo
          */
         public function GameObjectVO(aGameObjectType: uint, aWidth: Number, aHeight: Number)
         {
-            _gameObjectType = aGameObjectType;
+            _concreteTypeID = aGameObjectType;
             _width = aWidth;
             _height = aHeight;
         }
 
-        public function get gameObjectType(): uint
+        public function get concreteTypeID(): uint
         {
-            return _gameObjectType;
+            return _concreteTypeID;
         }
 
         public function get width(): Number

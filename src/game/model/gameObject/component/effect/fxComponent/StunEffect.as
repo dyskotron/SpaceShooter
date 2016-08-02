@@ -3,10 +3,10 @@ package game.model.gameObject.component.effect.fxComponent
     import game.model.GameObject;
     import game.model.gameObject.component.Component;
     import game.model.gameObject.component.effect.ComponentTypeID;
-    import game.model.gameObject.component.effect.EffectTypeID;
     import game.model.gameObject.component.effect.EffectsContainer;
-    import game.model.gameObject.component.effect.PropertyEffectVO;
     import game.model.gameObject.component.effect.property.EffectablePropertyID;
+    import game.model.gameObject.component.effect.property.PropertyEffectVO;
+    import game.model.gameObject.constants.EffectCountTypeID;
 
     public class StunEffect extends Component
     {
@@ -29,13 +29,13 @@ package game.model.gameObject.component.effect.fxComponent
             var disableMoveEffect: PropertyEffectVO = new PropertyEffectVO();
             disableMoveEffect.componentID = ComponentTypeID.MOVE;
             disableMoveEffect.propertyID = EffectablePropertyID.ACTIVE;
-            disableMoveEffect.type = EffectTypeID.ABSOLUTE;
+            disableMoveEffect.type = EffectCountTypeID.ABSOLUTE;
             disableMoveEffect.value = 0;
 
             var disableWeaponsEffect: PropertyEffectVO = new PropertyEffectVO();
             disableWeaponsEffect.componentID = ComponentTypeID.WEAPON_CONTROL;
             disableWeaponsEffect.propertyID = EffectablePropertyID.ACTIVE;
-            disableWeaponsEffect.type = EffectTypeID.ABSOLUTE;
+            disableWeaponsEffect.type = EffectCountTypeID.ABSOLUTE;
             disableWeaponsEffect.value = 0;
 
             _moveEffectID = _fxContainer.addPropertyEffect(disableMoveEffect);

@@ -11,7 +11,7 @@ package game.view
     import game.model.IGameModel;
     import game.model.gameObject.component.health.HealthState;
     import game.model.gameObject.component.health.IHealthComponent;
-    import game.model.gameObject.goDef.GameObjectGroupID;
+    import game.model.gameObject.constants.GameObjectGroupID;
     import game.view.gameObjectViews.BonusView;
     import game.view.gameObjectViews.BulletView;
     import game.view.gameObjectViews.EnemyShipView;
@@ -339,7 +339,7 @@ package game.view
             }
         }
 
-        private function gameObjectHitHandler(aGameObject: GameObject, aHitPointsLost: uint): void
+        private function gameObjectHitHandler(aGameObject: GameObject, aHitPointsLost: Number): void
         {
             if (_gameObjectViews[aGameObject])
                 IGameObjectView(_gameObjectViews[aGameObject]).hitAnim();

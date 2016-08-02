@@ -1,8 +1,9 @@
 package game.model.gameObject.component.health
 {
+    import game.model.GameObject;
     import game.model.gameObject.component.Component;
-    import game.model.gameObject.eventbus.DiedEvent;
-    import game.model.gameObject.eventbus.HitEvent;
+    import game.model.gameObject.eventbus.events.DiedEvent;
+    import game.model.gameObject.eventbus.events.HitEvent;
 
     import org.osflash.signals.Signal;
 
@@ -42,14 +43,14 @@ package game.model.gameObject.component.health
             return _state;
         }
 
-        public function hit(aDamage: Number): void
+        public function hit(aDamage: Number, aHitter: GameObject): void
         {
             _hp -= aDamage;
 
-            if (hp > 0)
-                gameObject.eventBus.fireEvent(new HitEvent(aDamage, gameObject));
-            else
-                die();
+            gameObject.eventBus.fireEvent(new HitEvent(aDamage, aHitter, gameObject));
+
+            if (hp <= 0)
+                die(aHitter);
         }
 
         public function addHitPoints(aValue: uint): void
@@ -62,9 +63,9 @@ package game.model.gameObject.component.health
             _hp = _maxHP;
         }
 
-        protected function die(): void
+        protected function die(aHitter: GameObject): void
         {
-            gameObject.eventBus.fireEvent(new DiedEvent(gameObject));
+            gameObject.eventBus.fireEvent(new DiedEvent(aHitter, gameObject));
         }
     }
 }

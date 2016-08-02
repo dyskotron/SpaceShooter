@@ -2,10 +2,11 @@ package game.model.gameObject.component.control
 {
     import game.model.GameObject;
     import game.model.gameObject.component.Component;
+    import game.model.gameObject.component.movement.IMoveComponent;
     import game.model.gameObject.component.movement.MoveParamsComponent;
     import game.model.gameObject.component.transform.TransformComponent;
 
-    public class PlayerControlComponent extends Component
+    public class PlayerControlComponent extends Component implements IMoveComponent
     {
         public static const MOVE_EASING: Number = 0.4;
 

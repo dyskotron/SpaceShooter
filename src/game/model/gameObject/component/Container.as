@@ -24,7 +24,7 @@ package game.model.gameObject.component
                 if (_components[i].active)
                 {
                     _components[i].update(aDeltaTime);
-                    if (_components[i].maxLifeTime > 0)
+                    if (_components[i].maxLifeTime >= 0)
                     {
                         if (_components[i].lifeTime > _components[i].maxLifeTime)
                             removeComponentAt(i);

@@ -22,6 +22,10 @@ package game.model.gameObject.component.movement
         {
             super.init(aGameObject);
             _transform = aGameObject.transform;
+
+            var moveComp: MoveParamsComponent = MoveParamsComponent(aGameObject.getComponent(MoveParamsComponent));
+            moveComp.speedX = _speedX;
+            moveComp.speedY = _speedY;
         }
 
         override public function update(aDeltaTime: Number): void
@@ -30,9 +34,5 @@ package game.model.gameObject.component.movement
             _transform.y += _speedY * aDeltaTime;
         }
 
-        public function applyEffectProperty(aEffectPropertyID: uint, aValue: Number): void
-        {
-
-        }
     }
 }

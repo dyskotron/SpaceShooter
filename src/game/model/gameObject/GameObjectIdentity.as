@@ -8,22 +8,23 @@ package game.model.gameObject
         //group specific values
         private var _concreteTypeID: uint;
         private var _concreteID: uint;
-        private var _ownerID: int;
+        private var _owner: GameObjectIdentity;
 
         /**
          *
          * @param aGameObjectID
-         * @param aGameObjectGroup - e.g. enemy, bullet, obstacle, player ship @see game.model.gameObject.goDef.GameObjectGroupID
-         * @param aConcreteTypeID
-         * @param aConcreteID
+         * @param aGameObjectGroup - e.g. enemy, bullet, obstacle, player ship @see game.model.gameObject.constants.GameObjectGroupID
+         * @param aConcreteTypeID - enemyType, BulletType...
+         * @param aConcreteID - enemyID, bulletID etc..
+         * @param aOwner - owner identity
          */
-        public function GameObjectIdentity(aGameObjectID: uint, aGameObjectGroup: uint, aConcreteTypeID: uint, aConcreteID: uint, aOwnerID: int = -1)
+        public function GameObjectIdentity(aGameObjectID: uint, aGameObjectGroup: uint, aConcreteTypeID: uint, aConcreteID: uint, aOwner: GameObjectIdentity = null)
         {
             _gameObjectID = aGameObjectID;
             _gameObjectGroup = aGameObjectGroup;
             _concreteTypeID = aConcreteTypeID;
             _concreteID = aConcreteID;
-            _ownerID = aOwnerID;
+            _owner = aOwner;
         }
 
         public function get gameObjectID(): uint
@@ -46,9 +47,9 @@ package game.model.gameObject
             return _concreteID;
         }
 
-        public function get ownerID(): int
+        public function get owner(): GameObjectIdentity
         {
-            return _ownerID;
+            return _owner;
         }
     }
 }

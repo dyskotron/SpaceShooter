@@ -1,4 +1,4 @@
-package game.model.gameObject.component.effect
+package game.model.gameObject.component.effect.property
 {
     public class PropertyEffectVO
     {
@@ -10,6 +10,6 @@ package game.model.gameObject.component.effect
 
         public var type: uint;
         public var value: Number;
-        public var multiGroup: uint
+        public var multiGroup: uint = MultiplicativeGroupID.COMMON;
     }
 }

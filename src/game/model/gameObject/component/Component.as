@@ -18,7 +18,7 @@ package game.model.gameObject.component
         private var _lifeTime: Number;
         private var _maxLifeTime: Number = 0;
 
-        public function Component(aActive: Boolean = true, aMaxLifeTime: Number = 0)
+        public function Component(aActive: Boolean = true, aMaxLifeTime: Number = -1)
         {
             _lifeTime = 0;
 
@@ -50,11 +50,6 @@ package game.model.gameObject.component
         public function get maxLifeTime(): Number
         {
             return _maxLifeTime;
-        }
-
-        public function set maxLifeTime(value: Number): void
-        {
-            _maxLifeTime = value;
         }
 
         public function get lifeTime(): Number

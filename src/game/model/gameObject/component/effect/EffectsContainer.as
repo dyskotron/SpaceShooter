@@ -7,11 +7,13 @@ package game.model.gameObject.component.effect
     import game.model.gameObject.component.IComponent;
     import game.model.gameObject.component.control.WeaponControlComponent;
     import game.model.gameObject.component.effect.property.EffectableProperty;
+    import game.model.gameObject.component.effect.property.PropertyEffectVO;
     import game.model.gameObject.component.fsm.FSMComponent;
     import game.model.gameObject.component.generator.IGeneratorComponent;
     import game.model.gameObject.component.health.HealthComponent;
     import game.model.gameObject.component.movement.IMoveComponent;
     import game.model.gameObject.component.movement.MoveParamsComponent;
+    import game.model.gameObject.constants.EffectCountTypeID;
 
     public class EffectsContainer extends Container
     {
@@ -120,16 +122,16 @@ package game.model.gameObject.component.effect
                 {
                     switch (effect.type)
                     {
-                        case EffectTypeID.ABSOLUTE:
+                        case EffectCountTypeID.ABSOLUTE:
                             if (isNaN(absolute))
                                 absolute = 0;
 
                             absolute += effect.value;
                             break;
-                        case EffectTypeID.ADDITIVE:
+                        case EffectCountTypeID.ADDITIVE:
                             additive += effect.value;
                             break;
-                        case EffectTypeID.MULTIPLICATIVE:
+                        case EffectCountTypeID.MULTIPLICATIVE:
                             multi[effect.multiGroup] ||= 0;
                             multi[effect.multiGroup] += effect.value;
                             break;

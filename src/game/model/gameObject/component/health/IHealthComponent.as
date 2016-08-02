@@ -1,5 +1,6 @@
 package game.model.gameObject.component.health
 {
+    import game.model.GameObject;
     import game.model.gameObject.component.IComponent;
 
     import org.osflash.signals.Signal;
@@ -14,7 +15,7 @@ package game.model.gameObject.component.health
 
         function get state(): uint;
 
-        function hit(aDamage: Number): void;
+        function hit(aDamage: Number, aHitter: GameObject): void;
 
         function addHitPoints(aValue: uint): void;
 

@@ -19,7 +19,7 @@ package game.model.gameObject.def
         private var _enemyDefByID: Vector.<EnemyVO>;
         private var _weaponDefs: IWeaponDefs;
 
-        public function EnemyDefs(aTextureProvider: TextureProvider, aWeaponDefs: IWeaponDefs)
+        public function EnemyDefs(aTextureProvider: TextureProvider, aWeaponDefs: IWeaponDefs): void
         {
             _enemyDefByID = new Vector.<EnemyVO>;
             _weaponDefs = aWeaponDefs;

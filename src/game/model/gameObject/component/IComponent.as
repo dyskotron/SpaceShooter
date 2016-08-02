@@ -11,8 +11,6 @@ package game.model.gameObject.component
 
         function get maxLifeTime(): Number;
 
-        function set maxLifeTime(value: Number): void;
-
         function get lifeTime(): Number;
 
         function get gameObject(): GameObject;
