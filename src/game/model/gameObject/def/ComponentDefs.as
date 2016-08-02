@@ -48,7 +48,7 @@ package game.model.gameObject.def
             switch (aGeneratorID)
             {
                 case GeneratorID.BASIC:
-                    generatorModel = new GeneratorModel(0, 50/*0*/);
+                    generatorModel = new GeneratorModel(0, 500);
                     break;
                 default:
                     throw new Error("No generator for generator ID: " + aGeneratorID);

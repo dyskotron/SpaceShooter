@@ -246,7 +246,7 @@ package game.model
             _bonusSpawnedSignal = new Signal(GameObject);
 
             _gameObjectRemovedSignal = new Signal(GameObject);
-            _gameObjectHitSignal = new Signal(GameObject, int);
+            _gameObjectHitSignal = new Signal(GameObject, Number);
             _aoeDamageTriggeredSignal = new Signal(GameObject, Number);
 
             _players = new Vector.<GameObject>();

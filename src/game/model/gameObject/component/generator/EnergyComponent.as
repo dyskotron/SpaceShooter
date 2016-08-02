@@ -8,6 +8,8 @@
 package game.model.gameObject.component.generator
 {
     import game.model.gameObject.component.Component;
+    import game.model.gameObject.eventbus.events.FullRechargeEvent;
+    import game.model.gameObject.eventbus.events.LowEnergyEvent;
 
     public class EnergyComponent extends Component implements IGeneratorComponent
     {
@@ -16,6 +18,8 @@ package game.model.gameObject.component.generator
         private var _isFull: Boolean;
         private var _rechargeSpeed: Number;
         private var _percentLeft: int;
+        private var _fullSent: Boolean;
+        private var _lowSent: Boolean;
 
         /**
          * Maintain battery, energy consumption and recharging
@@ -55,6 +59,27 @@ package game.model.gameObject.component.generator
             _energy = Math.min(_energy + aEnergyDelta, _capacity);
             _isFull = (_capacity == _energy);
             _percentLeft = _energy / _capacity * 100;
+
+            if (_isFull && !_fullSent)
+            {
+                gameObject.eventBus.fireEvent(new FullRechargeEvent(gameObject));
+                _fullSent = true
+            }
+            else if (_fullSent && _percentLeft < 70)
+            {
+                _fullSent = false
+            }
+
+
+            if (_percentLeft < 30 && !_lowSent)
+            {
+                gameObject.eventBus.fireEvent(new LowEnergyEvent(gameObject));
+                _lowSent = true;
+            }
+            else if (_lowSent && _percentLeft > 50)
+            {
+                _lowSent = false;
+            }
         }
 
 
